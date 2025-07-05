@@ -1,0 +1,13 @@
+[gd_scene load_steps=2 format=3 uid="uid://cq0u8u1qie88t"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_s1kue"]
+size = Vector2(12, 4)
+
+[node name="CharacterBody" type="CharacterBody2D"]
+motion_mode = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 6)
+shape = SubResource("RectangleShape2D_s1kue")
+
+[node name="ComponentContainer" type="Node2D" parent="."]

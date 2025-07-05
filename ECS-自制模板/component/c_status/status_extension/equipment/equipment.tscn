@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://bwirxc82f24gv"]
+
+[ext_resource type="Script" uid="uid://ocyn0w1ijph5" path="res://component/c_status/status_extension/equipment/equipment.gd" id="1_55h5q"]
+
+[node name="Equipment" type="Node"]
+script = ExtResource("1_55h5q")

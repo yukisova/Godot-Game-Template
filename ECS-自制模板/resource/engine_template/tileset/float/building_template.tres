@@ -1,0 +1,9 @@
+[gd_resource type="TileSet" load_steps=3 format=3 uid="uid://b1lcsss36fdnj"]
+
+[ext_resource type="PackedScene" uid="uid://diap7h4qoqktw" path="res://resource/node_template/map/map_building/house.tscn" id="1_hppfr"]
+
+[sub_resource type="TileSetScenesCollectionSource" id="TileSetScenesCollectionSource_c5hpe"]
+scenes/1/scene = ExtResource("1_hppfr")
+
+[resource]
+sources/0 = SubResource("TileSetScenesCollectionSource_c5hpe")

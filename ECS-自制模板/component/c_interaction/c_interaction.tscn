@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://dbswip03t13sy"]
+
+[ext_resource type="Script" uid="uid://c8ftf4u5vh624" path="res://component/c_interaction/c_interaction.gd" id="1_841k7"]
+[ext_resource type="Script" uid="uid://fgi743wkf2cv" path="res://component/c_interaction/interaction/interaction.gd" id="2_81ewc"]
+
+[node name="CInteractable" type="Node2D" node_paths=PackedStringArray("interaction")]
+script = ExtResource("1_841k7")
+interaction = NodePath("Interaction")
+
+[node name="Interaction" type="Node" parent="."]
+script = ExtResource("2_81ewc")

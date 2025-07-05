@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://ckpm0e5gyk2eg"]
+
+[ext_resource type="Script" uid="uid://rs1xl4f55wtm" path="res://component/c_statemachine/c_pda.gd" id="1_o8mc8"]
+
+[node name="CPda" type="Node"]
+script = ExtResource("1_o8mc8")

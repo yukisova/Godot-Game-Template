@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://cm1y3qybnsk5w"]
+
+[ext_resource type="Script" uid="uid://bct52x2anl5i4" path="res://component/c_animation/c_animation_ez.gd" id="1_25bdr"]
+
+[node name="CAnimationEz" type="Node2D" node_paths=PackedStringArray("base_sprite")]
+script = ExtResource("1_25bdr")
+base_sprite = NodePath("AnimatedSprite2D")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]

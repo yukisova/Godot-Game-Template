@@ -1,0 +1,142 @@
+[gd_scene load_steps=29 format=3 uid="uid://d3ftt4uffdmg"]
+
+[ext_resource type="Script" uid="uid://gyxs2dln7pe5" path="res://scene/launcher/main/main.gd" id="1_q1qfm"]
+[ext_resource type="Script" uid="uid://oxc1ddac5cl1" path="res://system/s_playerStatic.gd" id="2_kl8po"]
+[ext_resource type="Script" uid="uid://djmqutjbs4cik" path="res://system/s_loadAndSave.gd" id="2_tckwy"]
+[ext_resource type="PackedScene" uid="uid://uw8bd88eic3m" path="res://entity/i_entity/people/player.tscn" id="3_dopuj"]
+[ext_resource type="Script" uid="uid://c4svioxa2i4qy" path="res://system/s_globalConfig.gd" id="4_t1c6b"]
+[ext_resource type="Script" uid="uid://bcjeockhvtxky" path="res://system/s_gameState.gd" id="5_y2kq3"]
+[ext_resource type="Script" uid="uid://dx4ya6cmb2f0q" path="res://system/s_mapData.gd" id="6_0skje"]
+[ext_resource type="Script" uid="uid://b5ywitjyd2ccg" path="res://component/c_statemachine/state/hfsm/state_machine.gd" id="6_xsbh8"]
+[ext_resource type="Script" uid="uid://dl3k6gt6akppx" path="res://component/c_statemachine/state/hfsm/game_state/game_state_start.gd" id="7_c20pv"]
+[ext_resource type="Script" uid="uid://c84h4bwfj007x" path="res://component/c_statemachine/hfsm_transition_state.gd" id="7_fhuum"]
+[ext_resource type="Script" uid="uid://m61v157kx164" path="res://system/s_objectPool.gd" id="8_del3f"]
+[ext_resource type="Script" uid="uid://d07bul8fnqiu7" path="res://component/c_statemachine/state/hfsm/game_state/game_state_transition.gd" id="8_fhuum"]
+[ext_resource type="Script" uid="uid://p143vwhudqhs" path="res://component/c_statemachine/state/hfsm/state_machine/gaming_csm.gd" id="9_0nftw"]
+[ext_resource type="Script" uid="uid://dcrr4ixsmsp40" path="res://component/c_statemachine/state/hfsm/game_state/gaming_pause.gd" id="10_jxj6m"]
+[ext_resource type="Script" uid="uid://dbmyewjmvf2v0" path="res://component/c_statemachine/state/hfsm/game_state/gaming_normal.gd" id="11_0nftw"]
+[ext_resource type="Script" uid="uid://pihnviy45w5k" path="res://component/c_statemachine/state/hfsm/game_state/gaming_cutscene.gd" id="14_cywl0"]
+[ext_resource type="Script" uid="uid://cbgg5ol6cvsyt" path="res://system/s_uiSpawner.gd" id="17_g7dw2"]
+[ext_resource type="PackedScene" uid="uid://dtbox62ysxhqs" path="res://ui/ui/main_ui/ui_main.tscn" id="18_rx460"]
+[ext_resource type="Script" uid="uid://uw7krvcpxvjv" path="res://system/s_audioMaster.gd" id="19_m0llm"]
+
+[sub_resource type="Resource" id="Resource_2jj3g"]
+script = ExtResource("7_fhuum")
+from_state = NodePath("GameStateStart")
+to_state = NodePath("GameStateTransition")
+metadata/_custom_type_script = "uid://c84h4bwfj007x"
+
+[sub_resource type="Resource" id="Resource_k4tt7"]
+script = ExtResource("7_fhuum")
+from_state = NodePath("GameStateTransition")
+to_state = NodePath("GamingCsm")
+metadata/_custom_type_script = "uid://c84h4bwfj007x"
+
+[sub_resource type="Resource" id="Resource_nbf62"]
+script = ExtResource("7_fhuum")
+from_state = NodePath("GamingCsm")
+to_state = NodePath("GameStateStart")
+metadata/_custom_type_script = "uid://c84h4bwfj007x"
+
+[sub_resource type="Resource" id="Resource_7tt1a"]
+script = ExtResource("7_fhuum")
+keyword = &"N2P"
+from_state = NodePath("Normal")
+to_state = NodePath("Pause")
+metadata/_custom_type_script = "uid://c84h4bwfj007x"
+
+[sub_resource type="Resource" id="Resource_xkao4"]
+script = ExtResource("7_fhuum")
+keyword = &"P2N"
+from_state = NodePath("Pause")
+to_state = NodePath("Normal")
+metadata/_custom_type_script = "uid://c84h4bwfj007x"
+
+[sub_resource type="Resource" id="Resource_ju24p"]
+script = ExtResource("7_fhuum")
+keyword = &"N2C"
+from_state = NodePath("Normal")
+to_state = NodePath("Cutscene")
+metadata/_custom_type_script = "uid://c84h4bwfj007x"
+
+[sub_resource type="Resource" id="Resource_ipoem"]
+script = ExtResource("7_fhuum")
+keyword = &"P2C"
+from_state = NodePath("Pause")
+to_state = NodePath("Cutscene")
+metadata/_custom_type_script = "uid://c84h4bwfj007x"
+
+[sub_resource type="Resource" id="Resource_p81hg"]
+script = ExtResource("7_fhuum")
+keyword = &"C2P"
+from_state = NodePath("Cutscene")
+to_state = NodePath("Pause")
+metadata/_custom_type_script = "uid://c84h4bwfj007x"
+
+[sub_resource type="Resource" id="Resource_miuwa"]
+script = ExtResource("7_fhuum")
+keyword = &"C2N"
+from_state = NodePath("Cutscene")
+to_state = NodePath("Normal")
+metadata/_custom_type_script = "uid://c84h4bwfj007x"
+
+[node name="Main" type="Node"]
+script = ExtResource("1_q1qfm")
+
+[node name="System" type="Node" parent="."]
+
+[node name="S_LoadAndSave" type="Node" parent="System"]
+script = ExtResource("2_tckwy")
+
+[node name="S_PlayerStatic" type="Node" parent="System"]
+script = ExtResource("2_kl8po")
+player_scene = ExtResource("3_dopuj")
+
+[node name="S_GlobalConfig" type="Node" parent="System"]
+script = ExtResource("4_t1c6b")
+
+[node name="S_Gamestate" type="Node" parent="System" node_paths=PackedStringArray("state_machine")]
+script = ExtResource("5_y2kq3")
+state_machine = NodePath("GameHsm")
+
+[node name="GameHsm" type="Node" parent="System/S_Gamestate"]
+script = ExtResource("6_xsbh8")
+transition_list = Array[ExtResource("7_fhuum")]([SubResource("Resource_2jj3g"), SubResource("Resource_k4tt7"), SubResource("Resource_nbf62")])
+init_state = NodePath("GameStateStart")
+
+[node name="GameStateStart" type="Node" parent="System/S_Gamestate/GameHsm"]
+script = ExtResource("7_c20pv")
+
+[node name="GameStateTransition" type="Node" parent="System/S_Gamestate/GameHsm"]
+script = ExtResource("8_fhuum")
+
+[node name="GamingCsm" type="Node" parent="System/S_Gamestate/GameHsm"]
+script = ExtResource("9_0nftw")
+transition_list = Array[ExtResource("7_fhuum")]([SubResource("Resource_7tt1a"), SubResource("Resource_xkao4"), SubResource("Resource_ju24p"), SubResource("Resource_ipoem"), SubResource("Resource_p81hg"), SubResource("Resource_miuwa")])
+init_state = NodePath("Normal")
+
+[node name="Normal" type="Node" parent="System/S_Gamestate/GameHsm/GamingCsm"]
+script = ExtResource("11_0nftw")
+
+[node name="Pause" type="Node" parent="System/S_Gamestate/GameHsm/GamingCsm"]
+script = ExtResource("10_jxj6m")
+
+[node name="Cutscene" type="Node" parent="System/S_Gamestate/GameHsm/GamingCsm"]
+script = ExtResource("14_cywl0")
+
+[node name="S_Mapdata" type="Node" parent="System"]
+script = ExtResource("6_0skje")
+
+[node name="S_ObjectPool" type="Node" parent="System"]
+script = ExtResource("8_del3f")
+
+[node name="S_UiSpawner" type="Node" parent="System"]
+script = ExtResource("17_g7dw2")
+main_menu_scene = ExtResource("18_rx460")
+
+[node name="S_AudioMaster" type="Node" parent="System"]
+script = ExtResource("19_m0llm")
+
+[node name="GameView" type="Node" parent="."]
+
+[node name="UiView" type="Node" parent="."]

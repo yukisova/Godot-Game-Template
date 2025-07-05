@@ -1,0 +1,49 @@
+[gd_scene load_steps=10 format=3 uid="uid://dg4w8uj1xg4mb"]
+
+[ext_resource type="PackedScene" uid="uid://6jpwo3n27sj2" path="res://entity/entity.tscn" id="1_bfbdn"]
+[ext_resource type="PackedScene" uid="uid://clag216bqfuni" path="res://entity/entity_template/static_body.tscn" id="2_tscja"]
+[ext_resource type="SpriteFrames" uid="uid://juk64jqqoe7u" path="res://resource/engine_template/sprite/animated_sprite/door_frame.tres" id="3_hamwh"]
+[ext_resource type="PackedScene" uid="uid://cm1y3qybnsk5w" path="res://component/c_animation/c_animation_ez.tscn" id="3_k8mo1"]
+[ext_resource type="PackedScene" uid="uid://dbswip03t13sy" path="res://component/c_interaction/c_interaction.tscn" id="4_n0v2i"]
+[ext_resource type="Script" uid="uid://bhqscuure4fnf" path="res://component/c_interaction/interaction/interaction_door.gd" id="5_k8mo1"]
+[ext_resource type="PackedScene" uid="uid://ba0rkvhqqo45k" path="res://component/c_interaction/interact_collision/interact_area.tscn" id="6_6h5n8"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ejaj8"]
+size = Vector2(16, 16)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_6h5n8"]
+size = Vector2(16, 32)
+
+[node name="Door" node_paths=PackedStringArray("main_control", "component_container") instance=ExtResource("1_bfbdn")]
+main_control = NodePath(".")
+component_container = NodePath("StaticBody/ComponentContainer")
+
+[node name="StaticBody" parent="." index="0" instance=ExtResource("2_tscja")]
+
+[node name="CollisionShape2D" parent="StaticBody" index="0"]
+shape = SubResource("RectangleShape2D_ejaj8")
+
+[node name="CAnimationEz" parent="StaticBody/ComponentContainer" index="0" instance=ExtResource("3_k8mo1")]
+
+[node name="AnimatedSprite2D" parent="StaticBody/ComponentContainer/CAnimationEz" index="0"]
+sprite_frames = ExtResource("3_hamwh")
+autoplay = "default"
+
+[node name="CInteractable" parent="StaticBody/ComponentContainer" index="1" node_paths=PackedStringArray("interact_object") instance=ExtResource("4_n0v2i")]
+interact_object = NodePath("InteractArea")
+
+[node name="InteractArea" parent="StaticBody/ComponentContainer/CInteractable" index="0" node_paths=PackedStringArray("c_interaction") instance=ExtResource("6_6h5n8")]
+c_interaction = NodePath("..")
+
+[node name="CollisionShape2D" parent="StaticBody/ComponentContainer/CInteractable/InteractArea" index="0"]
+shape = SubResource("RectangleShape2D_6h5n8")
+
+[node name="Interaction" parent="StaticBody/ComponentContainer/CInteractable" index="1" node_paths=PackedStringArray("c_animation_ez", "collision_shape")]
+script = ExtResource("5_k8mo1")
+c_animation_ez = NodePath("../../CAnimationEz")
+collision_shape = NodePath("../../../CollisionShape2D")
+
+[editable path="StaticBody"]
+[editable path="StaticBody/ComponentContainer/CAnimationEz"]
+[editable path="StaticBody/ComponentContainer/CInteractable"]
+[editable path="StaticBody/ComponentContainer/CInteractable/InteractArea"]

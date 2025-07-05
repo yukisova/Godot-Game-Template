@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://dvrvdiy0pquiq"]
+
+[ext_resource type="Script" uid="uid://be308fs16nq0e" path="res://component/c_move/c_move.gd" id="1_0lsqe"]
+
+[node name="CMove" type="Node"]
+script = ExtResource("1_0lsqe")

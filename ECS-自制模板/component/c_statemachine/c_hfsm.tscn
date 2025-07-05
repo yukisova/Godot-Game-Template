@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://ca1hb1m2dinl2"]
+
+[ext_resource type="Script" uid="uid://cbu2gcdkcjssj" path="res://component/c_statemachine/c_hfsm.gd" id="1_ylpjt"]
+[ext_resource type="Script" uid="uid://b5ywitjyd2ccg" path="res://component/c_statemachine/state/hfsm/state_machine.gd" id="2_rgy8i"]
+
+[node name="CHfsm" type="Node" node_paths=PackedStringArray("root_state_machine")]
+script = ExtResource("1_ylpjt")
+root_state_machine = NodePath("RootStateMachine")
+
+[node name="RootStateMachine" type="Node" parent="."]
+script = ExtResource("2_rgy8i")

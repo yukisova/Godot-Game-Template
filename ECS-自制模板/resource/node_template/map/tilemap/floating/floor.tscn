@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://cue3bxc6g1wr2"]
+
+[ext_resource type="Script" uid="uid://chsepy00jqabx" path="res://resource/node_template/map/tilemap/floating/floor.gd" id="1_4xcv5"]
+
+[node name="Floor" type="TileMapLayer"]
+z_index = -1
+script = ExtResource("1_4xcv5")

@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://6dpqakv78nkp"]
+
+[ext_resource type="Script" uid="uid://cdnd3coaj1drm" path="res://resource/node_template/map/level.gd" id="1_o3xit"]
+
+[node name="Level" type="Node2D"]
+script = ExtResource("1_o3xit")
+
+[node name="Room" type="Node2D" parent="."]

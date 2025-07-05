@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://cdpylv3jboio0"]
+
+[ext_resource type="Script" uid="uid://b07jqjidxkkag" path="res://resource/node_template/map/tilemap/floating/map_entity.gd" id="1_iills"]
+
+[node name="MapEntity" type="TileMapLayer"]
+y_sort_enabled = true
+script = ExtResource("1_iills")

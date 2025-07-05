@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://dikbae8amv32i"]
+
+[ext_resource type="Script" uid="uid://dkgbh6muyhhe5" path="res://resource/node_template/map/tilemap/floating/sora_tilemap.gd" id="1_4tg6m"]
+
+[node name="WallFactor" type="TileMapLayer"]
+script = ExtResource("1_4tg6m")
+metadata/_custom_type_script = "uid://dkgbh6muyhhe5"

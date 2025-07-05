@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://bbsufo6xrxj5i"]
+
+[ext_resource type="Script" uid="uid://hb3peh8dstcm" path="res://resource/node_template/map/tilemap/floating/map_factor.gd" id="1_es2o0"]
+
+[node name="MapFactor" type="TileMapLayer"]
+y_sort_enabled = true
+script = ExtResource("1_es2o0")
+metadata/_custom_type_script = "uid://dkgbh6muyhhe5"

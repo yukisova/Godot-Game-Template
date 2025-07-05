@@ -1,0 +1,10 @@
+[gd_scene load_steps=4 format=3 uid="uid://bbjp7uh4lqym8"]
+
+[ext_resource type="Script" uid="uid://dodxcq6qs5ub8" path="res://scene/launcher/launcher.gd" id="1_kwtkc"]
+[ext_resource type="PackedScene" uid="uid://1j5asx7xfyvr" path="res://scene/launcher/main/main.tscn" id="2_56mk0"]
+[ext_resource type="PackedScene" uid="uid://d3ftt4uffdmg" path="res://scene/launcher/test/test.tscn" id="3_66xai"]
+
+[node name="Launcher" type="Node"]
+script = ExtResource("1_kwtkc")
+main_game = ExtResource("2_56mk0")
+test_game = ExtResource("3_66xai")

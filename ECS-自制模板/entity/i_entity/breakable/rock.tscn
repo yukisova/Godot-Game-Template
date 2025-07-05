@@ -1,0 +1,72 @@
+[gd_scene load_steps=15 format=3 uid="uid://cfwaccvkkh3vn"]
+
+[ext_resource type="PackedScene" uid="uid://6jpwo3n27sj2" path="res://entity/entity.tscn" id="1_cjmv7"]
+[ext_resource type="PackedScene" uid="uid://clag216bqfuni" path="res://entity/entity_template/static_body.tscn" id="2_io352"]
+[ext_resource type="PackedScene" uid="uid://b3vbfhugiqyva" path="res://component/c_action/c_action.tscn" id="3_lhkk3"]
+[ext_resource type="Script" uid="uid://clng5k8r8io4y" path="res://component/c_action/action/drop_down.gd" id="4_wdvta"]
+[ext_resource type="PackedScene" uid="uid://caj56l0yail7q" path="res://component/c_status/c_status.tscn" id="6_xo5lh"]
+[ext_resource type="PackedScene" uid="uid://bvjy63fua1sx2" path="res://component/c_animation/c_animation.tscn" id="7_y6qo5"]
+[ext_resource type="Shader" uid="uid://blix38smvkgm2" path="res://resource/shader/tree_shader.gdshader" id="8_vfkwi"]
+[ext_resource type="Texture2D" uid="uid://qlxmuwy68pfs" path="res://asset/tile_set/factor_tile/Basic_Grass_Biom_things.png" id="9_fekki"]
+[ext_resource type="PackedScene" uid="uid://cps21xspaovit" path="res://component/c_collision/c_collision.tscn" id="10_djwtr"]
+[ext_resource type="PackedScene" uid="uid://c7exwr5mml1ux" path="res://component/c_collision/collision/hurtbox.tscn" id="11_nmw31"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_qxlhv"]
+size = Vector2(11, 7)
+
+[sub_resource type="Resource" id="Resource_o4742"]
+metadata/__load_path__ = "res://entity/i_entity/stone.tscn"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_1v304"]
+resource_local_to_scene = true
+shader = ExtResource("8_vfkwi")
+shader_parameter/shake_intensity = 0.0
+shader_parameter/shake_speed = 20.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_w5r14"]
+size = Vector2(8, 15)
+
+[node name="Rock" node_paths=PackedStringArray("main_control", "component_container") instance=ExtResource("1_cjmv7")]
+main_control = NodePath(".")
+component_container = NodePath("StaticBody/ComponentContainer")
+
+[node name="StaticBody" parent="." index="0" groups=["breakable"] instance=ExtResource("2_io352")]
+
+[node name="CollisionShape2D" parent="StaticBody" index="0"]
+position = Vector2(0.5, 1.5)
+shape = SubResource("RectangleShape2D_qxlhv")
+
+[node name="CAction" parent="StaticBody/ComponentContainer" index="0" instance=ExtResource("3_lhkk3")]
+
+[node name="DropDown" type="Node" parent="StaticBody/ComponentContainer/CAction" index="0" node_paths=PackedStringArray("c_status")]
+script = ExtResource("4_wdvta")
+drop_item = SubResource("Resource_o4742")
+c_status = NodePath("../../CStatus")
+
+[node name="CStatus" parent="StaticBody/ComponentContainer" index="1" instance=ExtResource("6_xo5lh")]
+basic_info = Dictionary[int, float]({
+0: 5.0
+})
+
+[node name="CAnimation" parent="StaticBody/ComponentContainer" index="2" instance=ExtResource("7_y6qo5")]
+
+[node name="BaseSprite" parent="StaticBody/ComponentContainer/CAnimation" index="0"]
+material = SubResource("ShaderMaterial_1v304")
+texture = ExtResource("9_fekki")
+region_enabled = true
+region_rect = Rect2(128, 16, 16, 16)
+
+[node name="CCollision" parent="StaticBody/ComponentContainer" index="3" instance=ExtResource("10_djwtr")]
+position = Vector2(0, -7)
+
+[node name="Hurtbox" parent="StaticBody/ComponentContainer/CCollision" index="0" node_paths=PackedStringArray("c_status") instance=ExtResource("11_nmw31")]
+hitbox_type = PackedStringArray("tilling")
+c_status = NodePath("../../CStatus")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody/ComponentContainer/CCollision/Hurtbox" index="0"]
+position = Vector2(0, 6.5)
+shape = SubResource("RectangleShape2D_w5r14")
+debug_color = Color(0.8793389, 0.23659776, 0.61657095, 0.41960785)
+
+[editable path="StaticBody"]
+[editable path="StaticBody/ComponentContainer/CAnimation"]
