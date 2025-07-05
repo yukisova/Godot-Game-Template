@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=3 uid="uid://bo5de2ow6bqjo"]
+
+[ext_resource type="Script" uid="uid://cbeh872p4mmyj" path="res://component/c_camera/c_camera.gd" id="1_m1e4a"]
+
+[node name="CCamera" type="Node2D" node_paths=PackedStringArray("camera")]
+script = ExtResource("1_m1e4a")
+camera = NodePath("Camera2D")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+limit_smoothed = true
+position_smoothing_enabled = true

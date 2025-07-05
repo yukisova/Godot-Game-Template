@@ -1,0 +1,12 @@
+[gd_scene load_steps=2 format=3 uid="uid://bvjy63fua1sx2"]
+
+[ext_resource type="Script" uid="uid://b0iv2nyxfgb87" path="res://component/c_animation/c_animation.gd" id="1_y6p4x"]
+
+[node name="CAnimation" type="Node2D" node_paths=PackedStringArray("base_sprite", "animation")]
+script = ExtResource("1_y6p4x")
+base_sprite = NodePath("BaseSprite")
+animation = NodePath("Animation")
+
+[node name="BaseSprite" type="Sprite2D" parent="."]
+
+[node name="Animation" type="AnimationPlayer" parent="."]

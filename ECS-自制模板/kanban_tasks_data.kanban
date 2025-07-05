@@ -1,0 +1,124 @@
+{
+	"categories": [
+		{
+			"uuid": "c78c7d53-12cd-4ef8-8ef7-0f68d675ba1a",
+			"title": "Task",
+			"color": "70bafa"
+		},
+		{
+			"uuid": "e3cd452d-a75e-40bc-97b3-a7d78c29d40f",
+			"title": "Think",
+			"color": "094cc7"
+		}
+	],
+	"stages": [
+		{
+			"uuid": "eeee1522-ac5a-41f1-8ede-014b54231f02",
+			"title": "Todo",
+			"tasks": [
+				"cfaf266d-6e0d-4d86-8b76-ba36709c2327",
+				"ea5d3772-a956-43b4-b635-22860106ca8e"
+			]
+		},
+		{
+			"uuid": "31ae34de-c661-4e46-a361-c1297d43704b",
+			"title": "Doing",
+			"tasks": [
+				"8c5fa5c5-c874-47a3-b7f6-ec315e800f40",
+				"0f45f5ab-b1f2-42da-a36b-ed596d9c1327",
+				"c35794f6-24e5-497f-b01a-dbd8aa9d9196"
+			]
+		},
+		{
+			"uuid": "9ff9bbb5-3736-4663-8148-b5dcac0be5f2",
+			"title": "Done",
+			"tasks": []
+		}
+	],
+	"tasks": [
+		{
+			"uuid": "0f45f5ab-b1f2-42da-a36b-ed596d9c1327",
+			"title": "设计游戏的主菜单",
+			"description": "主菜单的逻辑目前暂时分为 继续游戏，开始游戏，加载游戏，游戏设置，退出游戏",
+			"category": "c78c7d53-12cd-4ef8-8ef7-0f68d675ba1a",
+			"steps": [
+				{
+					"details": "可以复用的携带信息的按钮",
+					"done": true
+				},
+				{
+					"details": "可以复用的实现跳转Ui的按钮",
+					"done": false
+				},
+				{
+					"details": "自动扫描游戏的缓存，决定是否显示继续游戏",
+					"done": false
+				}
+			]
+		},
+		{
+			"uuid": "8c5fa5c5-c874-47a3-b7f6-ec315e800f40",
+			"title": "设计游戏的存档系统",
+			"description": "目前的所有游戏都只是测试性质，为此需要迈出关键的一步：制作存档系统。",
+			"category": "c78c7d53-12cd-4ef8-8ef7-0f68d675ba1a",
+			"steps": [
+				{
+					"details": "区分出了配置系统和游戏存档",
+					"done": true
+				},
+				{
+					"details": "将游戏设置信息与游戏设置界面进行对接",
+					"done": true
+				},
+				{
+					"details": "设置音频系统的设置，但这就不得不联系到音频系统，这是完全陌生的方向",
+					"done": false
+				}
+			]
+		},
+		{
+			"uuid": "cfaf266d-6e0d-4d86-8b76-ba36709c2327",
+			"title": "设计游戏的下推状态机",
+			"description": "",
+			"category": "e3cd452d-a75e-40bc-97b3-a7d78c29d40f",
+			"steps": []
+		},
+		{
+			"uuid": "c35794f6-24e5-497f-b01a-dbd8aa9d9196",
+			"title": "设计游戏主菜单的游戏设置界面",
+			"description": "主菜单的游戏设置部分关联到游戏的最终呈现效果，分为：",
+			"category": "c78c7d53-12cd-4ef8-8ef7-0f68d675ba1a",
+			"steps": [
+				{
+					"details": "设置显示方式：全屏，窗口，无边框",
+					"done": false
+				}
+			]
+		},
+		{
+			"uuid": "ea5d3772-a956-43b4-b635-22860106ca8e",
+			"title": "设计玩家的菜单交互功能",
+			"description": "",
+			"category": "c78c7d53-12cd-4ef8-8ef7-0f68d675ba1a",
+			"steps": [
+				{
+					"details": "根据状态机的情况进行玩家输入的检测，目前想到的好方法就是将玩家所对应的Input与状态机进行对接\n",
+					"done": false
+				}
+			]
+		}
+	],
+	"layout": {
+		"columns": [
+			[
+				"eeee1522-ac5a-41f1-8ede-014b54231f02"
+			],
+			[
+				"31ae34de-c661-4e46-a361-c1297d43704b"
+			],
+			[
+				"9ff9bbb5-3736-4663-8148-b5dcac0be5f2"
+			]
+		]
+	}
+}

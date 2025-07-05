@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://6jpwo3n27sj2"]
+
+[ext_resource type="Script" uid="uid://dynalt8cbibwh" path="res://entity/entity.gd" id="1_qqirw"]
+
+[node name="Entity" type="Node2D"]
+y_sort_enabled = true
+script = ExtResource("1_qqirw")

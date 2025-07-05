@@ -1,0 +1,113 @@
+[gd_scene load_steps=22 format=3 uid="uid://uw8bd88eic3m"]
+
+[ext_resource type="PackedScene" uid="uid://6jpwo3n27sj2" path="res://entity/entity.tscn" id="1_awelv"]
+[ext_resource type="PackedScene" uid="uid://cq0u8u1qie88t" path="res://entity/entity_template/character_body.tscn" id="2_ht461"]
+[ext_resource type="PackedScene" uid="uid://bo5de2ow6bqjo" path="res://component/c_camera/c_camera.tscn" id="3_ros7j"]
+[ext_resource type="PackedScene" uid="uid://cm1y3qybnsk5w" path="res://component/c_animation/c_animation_ez.tscn" id="4_rwlgo"]
+[ext_resource type="PackedScene" uid="uid://dvrvdiy0pquiq" path="res://component/c_move/c_move.tscn" id="5_6e8t4"]
+[ext_resource type="SpriteFrames" uid="uid://cb2ighg7hr4uk" path="res://resource/engine_template/sprite/animated_sprite/player_frame.tres" id="5_kjqvh"]
+[ext_resource type="PackedScene" uid="uid://caj56l0yail7q" path="res://component/c_status/c_status.tscn" id="6_kjqvh"]
+[ext_resource type="PackedScene" uid="uid://bwirxc82f24gv" path="res://component/c_status/status_extension/equipment/equipment.tscn" id="7_t0g7p"]
+[ext_resource type="PackedScene" uid="uid://ca1hb1m2dinl2" path="res://component/c_statemachine/c_hfsm.tscn" id="8_s3qtg"]
+[ext_resource type="Script" uid="uid://dh0lerokskmi3" path="res://component/c_statemachine/state/hfsm/state/player/state_idle.gd" id="9_njcm2"]
+[ext_resource type="Script" uid="uid://c84h4bwfj007x" path="res://component/c_statemachine/hfsm_transition_state.gd" id="9_rwlgo"]
+[ext_resource type="Script" uid="uid://bsspef4eb5bx1" path="res://component/c_statemachine/state/hfsm/state/player/state_move.gd" id="10_bxktu"]
+[ext_resource type="Script" uid="uid://caum0vdmqrfd4" path="res://component/c_statemachine/state/hfsm/state/player/state_using.gd" id="11_pyta6"]
+[ext_resource type="PackedScene" uid="uid://cps21xspaovit" path="res://component/c_collision/c_collision.tscn" id="14_t0g7p"]
+[ext_resource type="PackedScene" uid="uid://dgykredd3ey6r" path="res://component/c_collision/collision/hitbox.tscn" id="15_s3qtg"]
+[ext_resource type="PackedScene" uid="uid://lu3gu1tfxdey" path="res://component/c_input/c_input.tscn" id="16_bu1qv"]
+
+[sub_resource type="Resource" id="Resource_6e8t4"]
+script = ExtResource("9_rwlgo")
+from_state = NodePath("idle")
+to_state = NodePath("move")
+metadata/_custom_type_script = "uid://c84h4bwfj007x"
+
+[sub_resource type="Resource" id="Resource_kjqvh"]
+script = ExtResource("9_rwlgo")
+from_state = NodePath("move")
+to_state = NodePath("idle")
+metadata/_custom_type_script = "uid://c84h4bwfj007x"
+
+[sub_resource type="Resource" id="Resource_t0g7p"]
+script = ExtResource("9_rwlgo")
+keyword = &"using"
+from_state = NodePath("idle")
+to_state = NodePath("using")
+metadata/_custom_type_script = "uid://c84h4bwfj007x"
+
+[sub_resource type="Resource" id="Resource_s3qtg"]
+script = ExtResource("9_rwlgo")
+from_state = NodePath("using")
+to_state = NodePath("idle")
+metadata/_custom_type_script = "uid://c84h4bwfj007x"
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_bu1qv"]
+radius = 3.0
+
+[node name="Player" node_paths=PackedStringArray("main_control", "component_container") instance=ExtResource("1_awelv")]
+main_control = NodePath("CharacterBody")
+component_container = NodePath("CharacterBody/ComponentContainer")
+
+[node name="CharacterBody" parent="." index="0" groups=["player"] instance=ExtResource("2_ht461")]
+y_sort_enabled = true
+
+[node name="CCamera" parent="CharacterBody/ComponentContainer" index="0" instance=ExtResource("3_ros7j")]
+
+[node name="CAnimationEz" parent="CharacterBody/ComponentContainer" index="1" instance=ExtResource("4_rwlgo")]
+
+[node name="AnimatedSprite2D" parent="CharacterBody/ComponentContainer/CAnimationEz" index="0"]
+sprite_frames = ExtResource("5_kjqvh")
+autoplay = "default"
+
+[node name="CMove" parent="CharacterBody/ComponentContainer" index="2" instance=ExtResource("5_6e8t4")]
+move_speed = 500.0
+
+[node name="CStatus" parent="CharacterBody/ComponentContainer" index="3" instance=ExtResource("6_kjqvh")]
+basic_info = Dictionary[int, float]({
+0: 100.0,
+200: 1.0
+})
+
+[node name="Equipment" parent="CharacterBody/ComponentContainer/CStatus" index="0" instance=ExtResource("7_t0g7p")]
+
+[node name="CHfsm" parent="CharacterBody/ComponentContainer" index="4" instance=ExtResource("8_s3qtg")]
+
+[node name="RootStateMachine" parent="CharacterBody/ComponentContainer/CHfsm" index="0"]
+transition_list = Array[ExtResource("9_rwlgo")]([SubResource("Resource_6e8t4"), SubResource("Resource_kjqvh"), SubResource("Resource_t0g7p"), SubResource("Resource_s3qtg")])
+init_state = NodePath("idle")
+
+[node name="idle" type="Node" parent="CharacterBody/ComponentContainer/CHfsm/RootStateMachine" index="0" node_paths=PackedStringArray("c_move", "c_animation_ez", "test_c_input")]
+script = ExtResource("9_njcm2")
+c_move = NodePath("../../../CMove")
+c_animation_ez = NodePath("../../../CAnimationEz")
+test_c_input = NodePath("../../../CInput")
+
+[node name="move" type="Node" parent="CharacterBody/ComponentContainer/CHfsm/RootStateMachine" index="1" node_paths=PackedStringArray("c_move", "c_animation_ez")]
+script = ExtResource("10_bxktu")
+c_move = NodePath("../../../CMove")
+c_animation_ez = NodePath("../../../CAnimationEz")
+
+[node name="using" type="Node" parent="CharacterBody/ComponentContainer/CHfsm/RootStateMachine" index="2" node_paths=PackedStringArray("c_status", "c_move", "c_animation_ez", "hitbox")]
+script = ExtResource("11_pyta6")
+c_status = NodePath("../../../CStatus")
+c_move = NodePath("../../../CMove")
+c_animation_ez = NodePath("../../../CAnimationEz")
+hitbox = NodePath("../../../CCollision/Hitbox")
+metadata/_custom_type_script = "uid://ccqx0ki11sww8"
+
+[node name="CCollision" parent="CharacterBody/ComponentContainer" index="5" instance=ExtResource("14_t0g7p")]
+
+[node name="Hitbox" parent="CharacterBody/ComponentContainer/CCollision" index="0" node_paths=PackedStringArray("equipment", "status") instance=ExtResource("15_s3qtg")]
+equipment = NodePath("../../CStatus/Equipment")
+status = NodePath("../../CStatus")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody/ComponentContainer/CCollision/Hitbox" index="0"]
+shape = SubResource("CircleShape2D_bu1qv")
+debug_color = Color(0.6880525, 0.33171237, 0.93363196, 0.41960785)
+
+[node name="CInput" parent="CharacterBody/ComponentContainer" index="6" instance=ExtResource("16_bu1qv")]
+
+[editable path="CharacterBody"]
+[editable path="CharacterBody/ComponentContainer/CAnimationEz"]
+[editable path="CharacterBody/ComponentContainer/CHfsm"]

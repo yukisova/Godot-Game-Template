@@ -1,0 +1,8 @@
+[gd_scene load_steps=3 format=3 uid="uid://dgm6pk0akfk2l"]
+
+[ext_resource type="Script" uid="uid://bgy8figi7qvv5" path="res://resource/node_template/projectile/projectile_a/projectile_a.gd" id="1_1uha7"]
+[ext_resource type="PackedScene" uid="uid://b4tyvngn1ya2p" path="res://resource/node_template/projectile/projectile.tscn" id="1_lt8pa"]
+
+[node name="ProjectileA" node_paths=PackedStringArray("hitbox") instance=ExtResource("1_lt8pa")]
+script = ExtResource("1_1uha7")
+hitbox = NodePath("Area2D")

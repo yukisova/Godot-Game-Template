@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://ba0rkvhqqo45k"]
+
+[ext_resource type="Script" uid="uid://cmso0822r58gu" path="res://component/c_interaction/interact_collision/interact_area.gd" id="1_ay0q4"]
+
+[node name="InteractArea" type="Area2D"]
+collision_layer = 4
+script = ExtResource("1_ay0q4")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]

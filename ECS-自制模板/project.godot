@@ -1,0 +1,57 @@
+; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
+
+config_version=5
+
+[application]
+
+config/name="组件游戏的模板"
+config/tags=PackedStringArray("sora_kit")
+run/main_scene="uid://qvegob1cp74r"
+config/features=PackedStringArray("4.5", "Forward Plus")
+boot_splash/show_image=false
+config/icon="res://icon.svg"
+
+[audio]
+
+buses/default_bus_layout="uid://dipqogdumys7a"
+
+[display]
+
+window/size/viewport_width=640
+window/size/viewport_height=360
+window/size/window_width_override=1920
+window/size/window_height_override=1080
+window/stretch/mode="canvas_items"
+
+[dotnet]
+
+project/assembly_name="农场游戏"
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/Todo_Manager/plugin.cfg", "res://addons/kanban_tasks/plugin.cfg")
+
+[global_group]
+
+player=""
+people=""
+breakable=""
+
+[layer_names]
+
+2d_physics/layer_3="interactable"
+2d_physics/layer_4="hitbox"
+2d_physics/layer_5="hurtbox"
+
+[rendering]
+
+textures/canvas_textures/default_texture_filter=0
+environment/defaults/default_clear_color=Color(0, 0, 0, 1)
+2d/snap/snap_2d_transforms_to_pixel=true
+2d/snap/snap_2d_vertices_to_pixel=true

@@ -1,0 +1,64 @@
+[gd_scene load_steps=13 format=3 uid="uid://rvva8386bilx"]
+
+[ext_resource type="PackedScene" uid="uid://6jpwo3n27sj2" path="res://entity/entity.tscn" id="1_ci0p5"]
+[ext_resource type="PackedScene" uid="uid://cq0u8u1qie88t" path="res://entity/entity_template/character_body.tscn" id="2_hrp2c"]
+[ext_resource type="PackedScene" uid="uid://cm1y3qybnsk5w" path="res://component/c_animation/c_animation_ez.tscn" id="3_8i3t2"]
+[ext_resource type="SpriteFrames" uid="uid://dnqvx3y72cpag" path="res://resource/engine_template/sprite/animated_sprite/chicken_frame.tres" id="4_wx4jv"]
+[ext_resource type="PackedScene" uid="uid://ca1hb1m2dinl2" path="res://component/c_statemachine/c_hfsm.tscn" id="5_bnnsr"]
+[ext_resource type="Script" uid="uid://c84h4bwfj007x" path="res://component/c_statemachine/hfsm_transition_state.gd" id="6_8i3t2"]
+[ext_resource type="Script" uid="uid://ckdw2djt171b4" path="res://component/c_statemachine/state/hfsm/state/state_idle_chicken.gd" id="6_7542s"]
+[ext_resource type="Script" uid="uid://dwxnof0x75rhj" path="res://component/c_statemachine/state/hfsm/state/state_walk_chicken.gd" id="7_hrp2c"]
+[ext_resource type="PackedScene" uid="uid://dvrvdiy0pquiq" path="res://component/c_move/c_move.tscn" id="9_wx4jv"]
+[ext_resource type="PackedScene" uid="uid://cl2k6r335pke0" path="res://component/c_navigation/c_navigation.tscn" id="10_bnnsr"]
+
+[sub_resource type="Resource" id="Resource_wx4jv"]
+script = ExtResource("6_8i3t2")
+from_state = NodePath("Idle")
+to_state = NodePath("Walk")
+metadata/_custom_type_script = "uid://c84h4bwfj007x"
+
+[sub_resource type="Resource" id="Resource_bnnsr"]
+script = ExtResource("6_8i3t2")
+from_state = NodePath("Walk")
+to_state = NodePath("Idle")
+metadata/_custom_type_script = "uid://c84h4bwfj007x"
+
+[node name="Chicken" node_paths=PackedStringArray("main_control", "component_container") instance=ExtResource("1_ci0p5")]
+main_control = NodePath("CharacterBody")
+component_container = NodePath("CharacterBody/ComponentContainer")
+
+[node name="CharacterBody" parent="." index="0" groups=["people"] instance=ExtResource("2_hrp2c")]
+
+[node name="CAnimationEz" parent="CharacterBody/ComponentContainer" index="0" instance=ExtResource("3_8i3t2")]
+
+[node name="AnimatedSprite2D" parent="CharacterBody/ComponentContainer/CAnimationEz" index="0"]
+sprite_frames = ExtResource("4_wx4jv")
+animation = &"walk"
+autoplay = "idle"
+frame_progress = 0.14865811
+
+[node name="CHfsm" parent="CharacterBody/ComponentContainer" index="1" instance=ExtResource("5_bnnsr")]
+
+[node name="RootStateMachine" parent="CharacterBody/ComponentContainer/CHfsm" index="0"]
+transition_list = Array[ExtResource("6_8i3t2")]([SubResource("Resource_wx4jv"), SubResource("Resource_bnnsr")])
+init_state = NodePath("Idle")
+
+[node name="Idle" type="Node" parent="CharacterBody/ComponentContainer/CHfsm/RootStateMachine" index="0" node_paths=PackedStringArray("animated_sprite", "c_move")]
+script = ExtResource("6_7542s")
+animated_sprite = NodePath("../../../CAnimationEz/AnimatedSprite2D")
+c_move = NodePath("../../../CMove")
+
+[node name="Walk" type="Node" parent="CharacterBody/ComponentContainer/CHfsm/RootStateMachine" index="1" node_paths=PackedStringArray("animated_sprite", "c_move", "c_navigation")]
+script = ExtResource("7_hrp2c")
+animated_sprite = NodePath("../../../CAnimationEz/AnimatedSprite2D")
+c_move = NodePath("../../../CMove")
+c_navigation = NodePath("../../../CNavigation")
+walk_speed_range = Vector2(10, 15)
+
+[node name="CMove" parent="CharacterBody/ComponentContainer" index="2" instance=ExtResource("9_wx4jv")]
+
+[node name="CNavigation" parent="CharacterBody/ComponentContainer" index="3" instance=ExtResource("10_bnnsr")]
+
+[editable path="CharacterBody"]
+[editable path="CharacterBody/ComponentContainer/CAnimationEz"]
+[editable path="CharacterBody/ComponentContainer/CHfsm"]

@@ -1,0 +1,30 @@
+[gd_scene load_steps=7 format=3 uid="uid://fwemrk2m5mib"]
+
+[ext_resource type="PackedScene" uid="uid://6jpwo3n27sj2" path="res://entity/entity.tscn" id="1_1hrd0"]
+[ext_resource type="PackedScene" uid="uid://bc4cqx2abvb8t" path="res://entity/entity_template/area.tscn" id="2_l207v"]
+[ext_resource type="PackedScene" uid="uid://dbswip03t13sy" path="res://component/c_interaction/c_interaction.tscn" id="3_ecvqa"]
+[ext_resource type="Script" uid="uid://dyicjmjyi8vve" path="res://component/c_interaction/interaction/interaction_collect.gd" id="4_6hsck"]
+[ext_resource type="PackedScene" uid="uid://bvjy63fua1sx2" path="res://component/c_animation/c_animation.tscn" id="4_x0cwe"]
+[ext_resource type="Texture2D" uid="uid://qlxmuwy68pfs" path="res://asset/tile_set/factor_tile/Basic_Grass_Biom_things.png" id="5_6hsck"]
+
+[node name="Wood" node_paths=PackedStringArray("main_control", "component_container") instance=ExtResource("1_1hrd0")]
+main_control = NodePath(".")
+component_container = NodePath("Area/ComponentContainer")
+
+[node name="Area" parent="." index="0" instance=ExtResource("2_l207v")]
+
+[node name="CInteractable" parent="Area/ComponentContainer" index="0" instance=ExtResource("3_ecvqa")]
+
+[node name="Interaction" parent="Area/ComponentContainer/CInteractable" index="0"]
+script = ExtResource("4_6hsck")
+
+[node name="CAnimation" parent="Area/ComponentContainer" index="1" instance=ExtResource("4_x0cwe")]
+
+[node name="BaseSprite" parent="Area/ComponentContainer/CAnimation" index="0"]
+texture = ExtResource("5_6hsck")
+region_enabled = true
+region_rect = Rect2(80, 32, 16, 16)
+
+[editable path="Area"]
+[editable path="Area/ComponentContainer/CInteractable"]
+[editable path="Area/ComponentContainer/CAnimation"]

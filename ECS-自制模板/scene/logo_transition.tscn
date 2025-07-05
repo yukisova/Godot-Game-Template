@@ -1,0 +1,52 @@
+[gd_scene load_steps=5 format=3 uid="uid://qvegob1cp74r"]
+
+[ext_resource type="Script" uid="uid://ctwjorvlikp2k" path="res://scene/logo_transition.gd" id="1_qncnp"]
+[ext_resource type="Texture2D" uid="uid://2uiavsvvf387" path="res://asset/other/godot ICON.png" id="2_6gc8d"]
+[ext_resource type="PackedScene" uid="uid://bbjp7uh4lqym8" path="res://scene/launcher/launcher.tscn" id="2_cir35"]
+[ext_resource type="Texture2D" uid="uid://dsf31wp70qvtx" path="res://asset/other/YUKISOVA.png" id="3_cir35"]
+
+[node name="LogoTransition" type="Control" node_paths=PackedStringArray("display_logos")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_qncnp")
+stay_duration = 0.5
+display_logos = [NodePath("Control/GodotLogoPixel"), NodePath("Control/YukisovaIndieStudio")]
+real_launcher = ExtResource("2_cir35")
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="GodotLogoPixel" type="TextureRect" parent="Control"]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 1
+anchors_preset = 13
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -180.0
+offset_right = 180.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_6gc8d")
+expand_mode = 3
+
+[node name="YukisovaIndieStudio" type="TextureRect" parent="Control"]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 1
+anchors_preset = 13
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("3_cir35")
+expand_mode = 2
