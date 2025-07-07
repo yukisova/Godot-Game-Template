@@ -6,6 +6,5 @@ signal unspawned
 func unspawn():
 	unspawned.emit(self)
 
-
 func _focus_listen():
 	pass

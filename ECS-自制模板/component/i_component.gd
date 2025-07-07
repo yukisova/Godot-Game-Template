@@ -31,6 +31,7 @@ var component_type: ComponentType:
 			)
 	get:
 		return component_type
+var component_context: Dictionary = {}
 
 ##
 func _initialize(_owner: Entity):
@@ -65,6 +66,12 @@ func _trigger_update():
 	if Engine.is_editor_hint():
 		return
 
+func _try_control(_controller: IComponent):
+	pass
+
+func get_controller() -> IComponent :
+	var input = component_owner.list_base_components.get(ComponentName.c_input)
+	return input
 
 func _exit_tree() -> void:
 	return

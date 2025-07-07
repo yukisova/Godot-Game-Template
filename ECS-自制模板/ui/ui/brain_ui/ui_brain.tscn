@@ -1,0 +1,38 @@
+[gd_scene load_steps=3 format=3 uid="uid://55la10tbk38m"]
+
+[ext_resource type="Script" uid="uid://d1m41gty21bic" path="res://ui/ui/brain_ui/ui_brain.gd" id="1_hlga1"]
+[ext_resource type="Theme" uid="uid://cbvflgkah1pwb" path="res://resource/engine_template/basic_theme.tres" id="2_k2y7x"]
+
+[node name="UiBrain" type="CanvasLayer"]
+script = ExtResource("1_hlga1")
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("2_k2y7x")
+
+[node name="TabContainer" type="TabContainer" parent="Control"]
+custom_minimum_size = Vector2(960, 540)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_top = -15.5
+offset_bottom = 15.5
+grow_horizontal = 2
+grow_vertical = 2
+current_tab = 0
+
+[node name="MarginContainer" type="MarginContainer" parent="Control/TabContainer"]
+layout_mode = 2
+metadata/_tab_index = 0
+
+[node name="GridContainer" type="GridContainer" parent="Control/TabContainer/MarginContainer"]
+layout_mode = 2
+columns = 5

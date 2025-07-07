@@ -8,22 +8,13 @@ signal transition_finished
 
 const DefaultKeyword : StringName = "EVENT_FINISHED"
 
-var parent_to_self: NodePath 
-
-#@export var enable_value_inject: bool:
-	#set(v):
-		#notify_property_list_changed()
-		#enable_value_inject = v
-#@export var inject_values: Array 
-#
-#func _validate_property(property: Dictionary) -> void:
-	#if enable_value_inject:
-		#if property.name == "inject_values":
-			#property.usage = PROPERTY_USAGE_NO_EDITOR
-
+var parent_to_self: NodePath
+var state_owner: Entity
+@export var state_controllers: Array[StateController]
 
 func _enter_tree() -> void:
 	parent_to_self = get_parent().get_path_to(self)
+	state_owner = owner as Entity
 
 func _enter():
 	pass

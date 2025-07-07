@@ -1,3 +1,4 @@
+class_name S_GameState
 extends ISystem
 
 signal gamedata_loaded

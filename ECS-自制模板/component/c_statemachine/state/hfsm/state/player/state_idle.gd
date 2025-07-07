@@ -15,6 +15,7 @@ func _update(_delta: float) -> void:
 	var vector = c_move.get("move_vector") as Vector2
 	if (!vector.is_zero_approx()):
 		state_transition.emit(parent_to_self)
+
 	if (Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT)):
 		state_transition.emit(parent_to_self, &"using")
 
