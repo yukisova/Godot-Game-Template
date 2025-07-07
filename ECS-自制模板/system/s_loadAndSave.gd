@@ -1,4 +1,5 @@
 ## 存档系统， 
+class_name S_LoadAndSave
 extends ISystem
 
 ## 游戏保存

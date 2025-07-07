@@ -20,4 +20,5 @@ func _on_player_located(target_level: Level, target_position:Vector2):
 		player_static = player_scene.instantiate()
 		target_level.add_child(player_static)
 	player_static.main_control.global_position = target_position
+
 	player_located_finished.emit()

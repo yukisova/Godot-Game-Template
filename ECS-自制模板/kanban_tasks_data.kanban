@@ -17,7 +17,8 @@
 			"title": "Todo",
 			"tasks": [
 				"cfaf266d-6e0d-4d86-8b76-ba36709c2327",
-				"ea5d3772-a956-43b4-b635-22860106ca8e"
+				"ea5d3772-a956-43b4-b635-22860106ca8e",
+				"fee74a4f-2090-4991-874c-7fdd56fcb4bc"
 			]
 		},
 		{
@@ -106,6 +107,13 @@
 					"done": false
 				}
 			]
+		},
+		{
+			"uuid": "fee74a4f-2090-4991-874c-7fdd56fcb4bc",
+			"title": "New task",
+			"description": "",
+			"category": "c78c7d53-12cd-4ef8-8ef7-0f68d675ba1a",
+			"steps": []
 		}
 	],
 	"layout": {

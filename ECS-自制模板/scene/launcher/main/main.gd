@@ -4,14 +4,14 @@ extends Node
 
 signal system_register_completed
 
-static var s_player_static: ISystem
-static var s_game_state: ISystem
-static var s_load_and_save: ISystem
+static var s_player_static: S_PlayerStatic
+static var s_game_state: S_GameState
+static var s_load_and_save: S_LoadAndSave
 static var s_object_pool: ISystem
-static var s_ui_spawner: ISystem
-static var s_map_data: ISystem
-static var s_global_config: ISystem
-static var s_audio_master: ISystem
+static var s_ui_spawner: S_UiSpawner
+static var s_map_data: S_Mapdata
+static var s_global_config: S_GlobalConfig
+static var s_audio_master: S_AudioMaster
 
 @export var game_view: Node
 @export var ui_view: Node

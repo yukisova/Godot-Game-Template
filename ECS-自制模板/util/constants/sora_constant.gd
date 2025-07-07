@@ -33,6 +33,12 @@ const BASIC_SETTING: Dictionary = {
 }
 
 enum {
-	FullScreen,
+	FullScreen = 0,
 	Windowed
+}
+
+enum InputType{
+	Pressed = 0,
+	Released,
+	JustPressed,
 }

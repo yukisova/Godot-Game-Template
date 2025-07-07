@@ -1,3 +1,4 @@
+class_name S_UiSpawner
 extends ISystem
 
 @export var main_menu_scene: PackedScene

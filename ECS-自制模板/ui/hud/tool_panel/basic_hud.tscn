@@ -21,7 +21,7 @@ load_path = "res://.godot/imported/Basic_tools_and_meterials.png-a7dbb80de506109
 atlas = SubResource("CompressedTexture2D_6he1t")
 region = Rect2(0, 0, 16, 16)
 
-[node name="ToolPanelHud" type="CanvasLayer"]
+[node name="BasicHud" type="CanvasLayer"]
 
 [node name="Control" type="Control" parent="."]
 layout_mode = 3

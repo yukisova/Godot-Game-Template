@@ -1,4 +1,4 @@
-## 
+## 控制组件，拥有该组件，目标可以被移动
 @tool
 class_name C_Input
 extends IComponent
@@ -9,6 +9,11 @@ extends IComponent
 @export var brain_ui: PackedScene
 ## 游戏的设置，游戏的退出等游戏外相关的设置菜单
 @export var pause_ui: PackedScene
+## 是否是主控制器
+@export var is_main_controller: bool = false:
+	set(v):
+		is_main_controller = v
+		notify_property_list_changed()
 
 enum ControlMode{ just_pressed = 0, pressed, just_release }
 
@@ -18,10 +23,10 @@ func _enter_tree() -> void:
 func _initialize(_owner: Entity):
 	super._initialize(_owner)
 
-func _update(_delta: float):
-	if component_body.is_in_group("player"):
-		if Main.s_game_state.state_machine._get_leaf_state() is GamingStateNormal:
-			_ui_trigger()
+func _validate_property(property: Dictionary) -> void:
+	if !is_main_controller:
+		if property.name == "brain_ui" or property.name == "pause_ui":
+			property.usage = PROPERTY_USAGE_NO_EDITOR
 
 func validate_control(key_string: StringName, control_mode: ControlMode = ControlMode.just_pressed) -> bool:
 	if (S_GlobalConfig.is_initialized):
