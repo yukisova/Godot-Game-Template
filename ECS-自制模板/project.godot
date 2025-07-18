@@ -15,17 +15,27 @@ config/tags=PackedStringArray("sora_kit")
 run/main_scene="uid://qvegob1cp74r"
 config/features=PackedStringArray("4.5", "Forward Plus")
 boot_splash/show_image=false
+boot_splash/image="uid://dsf31wp70qvtx"
 config/icon="res://icon.svg"
 
 [audio]
 
 buses/default_bus_layout="uid://dipqogdumys7a"
 
+[autoload]
+
+DialogueManager="*res://addons/dialogue_manager/dialogue_manager.gd"
+
+[dialogue_manager]
+
+runtime/balloon_path="res://ui/ui/ui_dialogue/ui_dialogue.tscn"
+
 [display]
 
 window/size/window_width_override=1920
 window/size/window_height_override=1080
 window/stretch/mode="canvas_items"
+mouse_cursor/custom_image="uid://dsf31wp70qvtx"
 
 [dotnet]
 
@@ -33,7 +43,7 @@ project/assembly_name="农场游戏"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/Todo_Manager/plugin.cfg", "res://addons/kanban_tasks/plugin.cfg")
+enabled=PackedStringArray("res://addons/Todo_Manager/plugin.cfg", "res://addons/dialogue_manager/plugin.cfg", "res://addons/kanban_tasks/plugin.cfg")
 
 [global_group]
 
@@ -41,11 +51,19 @@ player=""
 people=""
 breakable=""
 
+[internationalization]
+
+locale/translations_pot_files=PackedStringArray("res://resource/plugins_info/dialogue/test_dialogue.dialogue")
+
 [layer_names]
 
 2d_physics/layer_3="interactable"
 2d_physics/layer_4="hitbox"
 2d_physics/layer_5="hurtbox"
+
+[physics]
+
+2d/physics_engine="Rapier2D"
 
 [rendering]
 

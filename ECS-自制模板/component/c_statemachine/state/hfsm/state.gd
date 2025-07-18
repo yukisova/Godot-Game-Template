@@ -1,5 +1,5 @@
 @tool
-abstract class_name State
+@abstract class_name State
 extends Node
 
 signal state_transition(from: NodePath, _keyword: StringName)

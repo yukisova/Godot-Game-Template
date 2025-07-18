@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://p0flabao728j"]
+
+[ext_resource type="Script" uid="uid://c4svioxa2i4qy" path="res://system/s_global_config.gd" id="1_ar6db"]
+
+[node name="S_GlobalConfig" type="Node"]
+script = ExtResource("1_ar6db")
+use_default_config = true

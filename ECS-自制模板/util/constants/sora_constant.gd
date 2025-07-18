@@ -25,16 +25,24 @@ const BASIC_SETTING: Dictionary = {
 		"pause_game": KEY_P
 	},
 	"display": {
-		"mode": Windowed,
+		"window": WINDOWED,
+		"definition": HD,
 	},
 	"audio": {
-		"master": 50
+		"master": 50,
+		"bgm": 50,
+		"sfx": 50
 	}
 }
 
 enum {
-	FullScreen = 0,
-	Windowed
+	WINDOWED = 0,
+	FULLSCREEN
+	
+}
+enum {
+	HD = 0,
+	SHD
 }
 
 enum InputType{

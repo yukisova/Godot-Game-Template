@@ -1,0 +1,8 @@
+[gd_scene load_steps=3 format=3 uid="uid://xoia87xmkq7i"]
+
+[ext_resource type="Script" uid="uid://cbgg5ol6cvsyt" path="res://system/s_ui_spawner.gd" id="1_exl2p"]
+[ext_resource type="PackedScene" uid="uid://dtbox62ysxhqs" path="res://ui/ui/ui_main/ui_main.tscn" id="2_tmbi1"]
+
+[node name="S_UiSpawner" type="Node"]
+script = ExtResource("1_exl2p")
+main_menu_scene = ExtResource("2_tmbi1")

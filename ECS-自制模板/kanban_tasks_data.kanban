@@ -49,7 +49,7 @@
 				},
 				{
 					"details": "可以复用的实现跳转Ui的按钮",
-					"done": false
+					"done": true
 				},
 				{
 					"details": "自动扫描游戏的缓存，决定是否显示继续游戏",
@@ -73,7 +73,7 @@
 				},
 				{
 					"details": "设置音频系统的设置，但这就不得不联系到音频系统，这是完全陌生的方向",
-					"done": false
+					"done": true
 				}
 			]
 		},
@@ -110,8 +110,15 @@
 		},
 		{
 			"uuid": "fee74a4f-2090-4991-874c-7fdd56fcb4bc",
-			"title": "New task",
+			"title": "类生化危机四的复杂背包系统",
 			"description": "",
+			"category": "c78c7d53-12cd-4ef8-8ef7-0f68d675ba1a",
+			"steps": []
+		},
+		{
+			"uuid": "ee71e292-fa46-4adb-93f2-251824588f4a",
+			"title": "设计音频系统",
+			"description": "目前考虑，背景音乐统一使用ogg格式，而音效统一使用wav格式",
 			"category": "c78c7d53-12cd-4ef8-8ef7-0f68d675ba1a",
 			"steps": []
 		}

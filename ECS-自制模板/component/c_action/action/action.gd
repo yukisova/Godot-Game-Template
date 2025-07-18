@@ -1,4 +1,4 @@
-abstract class_name Action
+@abstract class_name Action
 extends Node
 
 var c_action: IComponent

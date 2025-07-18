@@ -1,4 +1,4 @@
-abstract class_name Buff
+@abstract class_name Buff
 extends RefCounted
 
 signal buff_overed(buff: Buff)
