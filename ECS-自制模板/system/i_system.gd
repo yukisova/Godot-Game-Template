@@ -1,4 +1,4 @@
-abstract class_name ISystem
+@abstract class_name ISystem
 extends Node
 
 func _setup(): ## 系统初始化

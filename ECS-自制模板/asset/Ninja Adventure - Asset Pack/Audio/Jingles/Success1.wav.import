@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://b0alq5u2teqit"
+path="res://.godot/imported/Success1.wav-6b1c88daa4843fe3606e07012032811d.sample"
+
+[deps]
+
+source_file="res://asset/Ninja Adventure - Asset Pack/Audio/Jingles/Success1.wav"
+dest_files=["res://.godot/imported/Success1.wav-6b1c88daa4843fe3606e07012032811d.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

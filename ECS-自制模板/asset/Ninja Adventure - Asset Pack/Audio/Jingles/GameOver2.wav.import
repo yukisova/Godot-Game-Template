@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://bb2hu6n5n27na"
+path="res://.godot/imported/GameOver2.wav-6d86c66323db58a5510bc864dd2fec90.sample"
+
+[deps]
+
+source_file="res://asset/Ninja Adventure - Asset Pack/Audio/Jingles/GameOver2.wav"
+dest_files=["res://.godot/imported/GameOver2.wav-6d86c66323db58a5510bc864dd2fec90.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

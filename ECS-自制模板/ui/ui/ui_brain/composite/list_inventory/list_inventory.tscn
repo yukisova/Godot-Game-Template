@@ -1,0 +1,76 @@
+[gd_scene load_steps=2 format=3 uid="uid://bem2ntk27v0wb"]
+
+[ext_resource type="Texture2D" uid="uid://2uiavsvvf387" path="res://asset/other/godot ICON.png" id="1_x8gon"]
+
+[node name="ListInventory" type="MarginContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_tab_index = 1
+
+[node name="HSplitContainer" type="HSplitContainer" parent="."]
+layout_mode = 2
+collapsed = true
+dragging_enabled = false
+drag_area_margin_begin = 21
+
+[node name="ScrollContainer" type="ScrollContainer" parent="HSplitContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HSplitContainer/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Button" type="Button" parent="HSplitContainer/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 0
+text = "测试用物品"
+alignment = 0
+
+[node name="Label" type="Label" parent="HSplitContainer/ScrollContainer/VBoxContainer/Button"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -14.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "数量，允许叠放且大于1时显示"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="VSplitContainer" type="VSplitContainer" parent="HSplitContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="HSplitContainer/VSplitContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HSplitContainer/VSplitContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="HSplitContainer/VSplitContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "物品图像"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="HSplitContainer/VSplitContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+texture = ExtResource("1_x8gon")
+expand_mode = 2
+stretch_mode = 5
+
+[node name="MarginContainer2" type="MarginContainer" parent="HSplitContainer/VSplitContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Label" type="Label" parent="HSplitContainer/VSplitContainer/MarginContainer2"]
+layout_mode = 2
+size_flags_vertical = 0
+text = "物品的描述"

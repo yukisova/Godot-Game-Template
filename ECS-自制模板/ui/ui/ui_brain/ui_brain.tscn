@@ -1,0 +1,107 @@
+[gd_scene load_steps=5 format=3 uid="uid://55la10tbk38m"]
+
+[ext_resource type="Script" uid="uid://d1m41gty21bic" path="res://ui/ui/ui_brain/ui_brain.gd" id="1_hlga1"]
+[ext_resource type="Theme" uid="uid://cbvflgkah1pwb" path="res://resource/engine_template/basic_theme.tres" id="2_k2y7x"]
+[ext_resource type="PackedScene" uid="uid://cpk52kr8l0lyn" path="res://ui/ui/ui_brain/composite/grid_inventory/grid_inventory.tscn" id="3_g7ipl"]
+[ext_resource type="Texture2D" uid="uid://2uiavsvvf387" path="res://asset/other/godot ICON.png" id="4_j5kx2"]
+
+[node name="UiBrain" type="CanvasLayer"]
+script = ExtResource("1_hlga1")
+is_testing = true
+test_num = 10
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("2_k2y7x")
+
+[node name="TabContainer" type="TabContainer" parent="Control"]
+custom_minimum_size = Vector2(960, 540)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_top = -15.5
+offset_bottom = 15.5
+grow_horizontal = 2
+grow_vertical = 2
+current_tab = 1
+
+[node name="GridInventory" parent="Control/TabContainer" instance=ExtResource("3_g7ipl")]
+visible = false
+layout_mode = 2
+
+[node name="ListInventory" type="MarginContainer" parent="Control/TabContainer"]
+layout_mode = 2
+metadata/_tab_index = 1
+
+[node name="HSplitContainer" type="HSplitContainer" parent="Control/TabContainer/ListInventory"]
+layout_mode = 2
+collapsed = true
+dragging_enabled = false
+drag_area_margin_begin = 21
+
+[node name="ScrollContainer" type="ScrollContainer" parent="Control/TabContainer/ListInventory/HSplitContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/TabContainer/ListInventory/HSplitContainer/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Button" type="Button" parent="Control/TabContainer/ListInventory/HSplitContainer/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 0
+text = "测试用物品"
+alignment = 0
+
+[node name="Label" type="Label" parent="Control/TabContainer/ListInventory/HSplitContainer/ScrollContainer/VBoxContainer/Button"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -14.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "数量，允许叠放且大于1时显示"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="VSplitContainer" type="VSplitContainer" parent="Control/TabContainer/ListInventory/HSplitContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="Control/TabContainer/ListInventory/HSplitContainer/VSplitContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/TabContainer/ListInventory/HSplitContainer/VSplitContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Control/TabContainer/ListInventory/HSplitContainer/VSplitContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "物品图像"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="Control/TabContainer/ListInventory/HSplitContainer/VSplitContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+texture = ExtResource("4_j5kx2")
+expand_mode = 2
+stretch_mode = 5
+
+[node name="MarginContainer2" type="MarginContainer" parent="Control/TabContainer/ListInventory/HSplitContainer/VSplitContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Label" type="Label" parent="Control/TabContainer/ListInventory/HSplitContainer/VSplitContainer/MarginContainer2"]
+layout_mode = 2
+size_flags_vertical = 0
+text = "物品的描述"

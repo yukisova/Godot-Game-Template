@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://kyak8b72la5n"]
+
+[ext_resource type="Script" uid="uid://uw7krvcpxvjv" path="res://system/s_audio_master.gd" id="1_hugyk"]
+
+[node name="S_AudioMaster" type="Node"]
+script = ExtResource("1_hugyk")

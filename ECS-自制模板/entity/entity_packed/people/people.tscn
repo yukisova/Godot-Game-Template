@@ -1,0 +1,28 @@
+[gd_scene load_steps=7 format=3 uid="uid://bw2vpp6rpqqxg"]
+
+[ext_resource type="PackedScene" uid="uid://6jpwo3n27sj2" path="res://entity/entity.tscn" id="1_336jg"]
+[ext_resource type="PackedScene" uid="uid://cq0u8u1qie88t" path="res://entity/entity_template/character_body.tscn" id="2_bpv64"]
+[ext_resource type="PackedScene" uid="uid://dbswip03t13sy" path="res://component/c_interaction/c_interaction.tscn" id="3_ima75"]
+[ext_resource type="Script" uid="uid://djglhr34yxc4x" path="res://component/c_interaction/interaction/interact_dialogue.gd" id="4_uye1c"]
+[ext_resource type="PackedScene" uid="uid://ba0rkvhqqo45k" path="res://component/c_interaction/interact_collision/interact_area.tscn" id="4_vhvyo"]
+[ext_resource type="PackedScene" uid="uid://cm1y3qybnsk5w" path="res://component/c_animation/c_animation_ez.tscn" id="5_vhvyo"]
+
+[node name="People" instance=ExtResource("1_336jg")]
+
+[node name="CharacterBody" parent="." index="0" instance=ExtResource("2_bpv64")]
+
+[node name="CInteractable" parent="CharacterBody/ComponentContainer" index="0" node_paths=PackedStringArray("interact_object") instance=ExtResource("3_ima75")]
+interact_object = NodePath("InteractArea")
+
+[node name="InteractArea" parent="CharacterBody/ComponentContainer/CInteractable" index="0" node_paths=PackedStringArray("c_interaction") instance=ExtResource("4_vhvyo")]
+c_interaction = NodePath("..")
+
+[node name="Interaction" parent="CharacterBody/ComponentContainer/CInteractable" index="1"]
+script = ExtResource("4_uye1c")
+dialogue = null
+dialogue_label = ""
+
+[node name="CAnimationEz" parent="CharacterBody/ComponentContainer" index="1" instance=ExtResource("5_vhvyo")]
+
+[editable path="CharacterBody"]
+[editable path="CharacterBody/ComponentContainer/CInteractable"]

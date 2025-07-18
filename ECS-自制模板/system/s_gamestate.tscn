@@ -1,0 +1,100 @@
+[gd_scene load_steps=19 format=3 uid="uid://b5of68t8q5n2o"]
+
+[ext_resource type="Script" uid="uid://bcjeockhvtxky" path="res://system/s_game_state.gd" id="1_4844y"]
+[ext_resource type="Script" uid="uid://b5ywitjyd2ccg" path="res://component/c_statemachine/state/hfsm/state_machine.gd" id="2_28npr"]
+[ext_resource type="Script" uid="uid://c84h4bwfj007x" path="res://component/c_statemachine/hfsm_transition_state.gd" id="3_jsyjs"]
+[ext_resource type="Script" uid="uid://dl3k6gt6akppx" path="res://component/c_statemachine/state/hfsm/game_state/game_state_start.gd" id="4_oeafh"]
+[ext_resource type="Script" uid="uid://d07bul8fnqiu7" path="res://component/c_statemachine/state/hfsm/game_state/game_state_transition.gd" id="5_7jpjm"]
+[ext_resource type="Script" uid="uid://p143vwhudqhs" path="res://component/c_statemachine/state/hfsm/state_machine/gaming_csm.gd" id="6_dvuio"]
+[ext_resource type="Script" uid="uid://dbmyewjmvf2v0" path="res://component/c_statemachine/state/hfsm/game_state/gaming_normal.gd" id="7_tmtbb"]
+[ext_resource type="Script" uid="uid://dcrr4ixsmsp40" path="res://component/c_statemachine/state/hfsm/game_state/gaming_pause.gd" id="8_0ri4y"]
+[ext_resource type="Script" uid="uid://pihnviy45w5k" path="res://component/c_statemachine/state/hfsm/game_state/gaming_cutscene.gd" id="9_hsibq"]
+
+[sub_resource type="Resource" id="Resource_2jj3g"]
+script = ExtResource("3_jsyjs")
+from_state = NodePath("GameStateStart")
+to_state = NodePath("GameStateTransition")
+metadata/_custom_type_script = "uid://c84h4bwfj007x"
+
+[sub_resource type="Resource" id="Resource_k4tt7"]
+script = ExtResource("3_jsyjs")
+from_state = NodePath("GameStateTransition")
+to_state = NodePath("GamingCsm")
+metadata/_custom_type_script = "uid://c84h4bwfj007x"
+
+[sub_resource type="Resource" id="Resource_nbf62"]
+script = ExtResource("3_jsyjs")
+from_state = NodePath("GamingCsm")
+to_state = NodePath("GameStateStart")
+metadata/_custom_type_script = "uid://c84h4bwfj007x"
+
+[sub_resource type="Resource" id="Resource_7tt1a"]
+script = ExtResource("3_jsyjs")
+keyword = &"N2P"
+from_state = NodePath("Normal")
+to_state = NodePath("Pause")
+metadata/_custom_type_script = "uid://c84h4bwfj007x"
+
+[sub_resource type="Resource" id="Resource_xkao4"]
+script = ExtResource("3_jsyjs")
+keyword = &"P2N"
+from_state = NodePath("Pause")
+to_state = NodePath("Normal")
+metadata/_custom_type_script = "uid://c84h4bwfj007x"
+
+[sub_resource type="Resource" id="Resource_ju24p"]
+script = ExtResource("3_jsyjs")
+keyword = &"N2C"
+from_state = NodePath("Normal")
+to_state = NodePath("Cutscene")
+metadata/_custom_type_script = "uid://c84h4bwfj007x"
+
+[sub_resource type="Resource" id="Resource_ipoem"]
+script = ExtResource("3_jsyjs")
+keyword = &"P2C"
+from_state = NodePath("Pause")
+to_state = NodePath("Cutscene")
+metadata/_custom_type_script = "uid://c84h4bwfj007x"
+
+[sub_resource type="Resource" id="Resource_p81hg"]
+script = ExtResource("3_jsyjs")
+keyword = &"C2P"
+from_state = NodePath("Cutscene")
+to_state = NodePath("Pause")
+metadata/_custom_type_script = "uid://c84h4bwfj007x"
+
+[sub_resource type="Resource" id="Resource_miuwa"]
+script = ExtResource("3_jsyjs")
+keyword = &"C2N"
+from_state = NodePath("Cutscene")
+to_state = NodePath("Normal")
+metadata/_custom_type_script = "uid://c84h4bwfj007x"
+
+[node name="S_Gamestate" type="Node" node_paths=PackedStringArray("state_machine")]
+script = ExtResource("1_4844y")
+state_machine = NodePath("GameHsm")
+
+[node name="GameHsm" type="Node" parent="."]
+script = ExtResource("2_28npr")
+transition_list = Array[ExtResource("3_jsyjs")]([SubResource("Resource_2jj3g"), SubResource("Resource_k4tt7"), SubResource("Resource_nbf62")])
+init_state = NodePath("GameStateStart")
+
+[node name="GameStateStart" type="Node" parent="GameHsm"]
+script = ExtResource("4_oeafh")
+
+[node name="GameStateTransition" type="Node" parent="GameHsm"]
+script = ExtResource("5_7jpjm")
+
+[node name="GamingCsm" type="Node" parent="GameHsm"]
+script = ExtResource("6_dvuio")
+transition_list = Array[ExtResource("3_jsyjs")]([SubResource("Resource_7tt1a"), SubResource("Resource_xkao4"), SubResource("Resource_ju24p"), SubResource("Resource_ipoem"), SubResource("Resource_p81hg"), SubResource("Resource_miuwa")])
+init_state = NodePath("Normal")
+
+[node name="Normal" type="Node" parent="GameHsm/GamingCsm"]
+script = ExtResource("7_tmtbb")
+
+[node name="Pause" type="Node" parent="GameHsm/GamingCsm"]
+script = ExtResource("8_0ri4y")
+
+[node name="Cutscene" type="Node" parent="GameHsm/GamingCsm"]
+script = ExtResource("9_hsibq")

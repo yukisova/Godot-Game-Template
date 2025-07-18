@@ -1,0 +1,78 @@
+[gd_scene load_steps=8 format=3 uid="uid://dtbox62ysxhqs"]
+
+[ext_resource type="Script" uid="uid://fqkh2lkuaxp4" path="res://ui/ui/ui_main/ui_main.gd" id="1_8moro"]
+[ext_resource type="Theme" uid="uid://cbvflgkah1pwb" path="res://resource/engine_template/basic_theme.tres" id="2_1q3r7"]
+[ext_resource type="AudioStream" uid="uid://bd6b0bxtcjomo" path="res://asset/Ninja Adventure - Asset Pack/Audio/Musics/1 - Adventure Begin.ogg" id="2_bbnxr"]
+[ext_resource type="Script" uid="uid://b77vti74tgrbe" path="res://ui/ui_template/func_button.gd" id="3_3ko51"]
+[ext_resource type="PackedScene" uid="uid://deqpse4x3iw5m" path="res://scene/static_map/test_map_a.tscn" id="4_3mqp5"]
+[ext_resource type="Script" uid="uid://22228lam2w6p" path="res://ui/ui_template/link_button.gd" id="5_63x8v"]
+[ext_resource type="PackedScene" uid="uid://ckmbalibndnve" path="res://ui/ui_template/canvas/setting_panel/setting_panel.tscn" id="6_8k5ru"]
+
+[node name="UiMain" type="CanvasLayer" node_paths=PackedStringArray("continue_game_button", "start_game_button", "load_game_button", "game_setting_button", "quit_game_button")]
+script = ExtResource("1_8moro")
+bgm = ExtResource("2_bbnxr")
+continue_game_button = NodePath("Control/MarginContainer/VBoxContainer/ContinueGame")
+start_game_button = NodePath("Control/MarginContainer/VBoxContainer/StartGame")
+load_game_button = NodePath("Control/MarginContainer/VBoxContainer/LoadGame")
+game_setting_button = NodePath("Control/MarginContainer/VBoxContainer/GameSetting")
+quit_game_button = NodePath("Control/MarginContainer/VBoxContainer/QuitGame")
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("2_1q3r7")
+
+[node name="TextureRect" type="TextureRect" parent="Control"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="MarginContainer" type="MarginContainer" parent="Control"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -72.0
+offset_top = -33.5
+offset_bottom = 33.5
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_constants/margin_right = 100
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/MarginContainer"]
+layout_mode = 2
+
+[node name="ContinueGame" type="Button" parent="Control/MarginContainer/VBoxContainer"]
+visible = false
+layout_mode = 2
+text = "继续游戏"
+script = ExtResource("3_3ko51")
+
+[node name="StartGame" type="Button" parent="Control/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "开始游戏"
+script = ExtResource("3_3ko51")
+args = [ExtResource("4_3mqp5")]
+
+[node name="LoadGame" type="Button" parent="Control/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "加载游戏"
+script = ExtResource("3_3ko51")
+
+[node name="GameSetting" type="Button" parent="Control/MarginContainer/VBoxContainer" node_paths=PackedStringArray("g_scene_parent")]
+layout_mode = 2
+text = "游戏设置"
+script = ExtResource("5_63x8v")
+generator_scene = ExtResource("6_8k5ru")
+g_scene_parent = NodePath("../../../..")
+
+[node name="QuitGame" type="Button" parent="Control/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "退出游戏"
+script = ExtResource("3_3ko51")

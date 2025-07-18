@@ -1,2 +1,2 @@
-abstract class_name IHud
+@abstract class_name IHud
 extends CanvasLayer

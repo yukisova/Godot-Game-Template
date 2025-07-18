@@ -1,5 +1,5 @@
 ## 组件基类, 分为插件组件和固定组件
-abstract class_name IComponent
+@abstract class_name IComponent
 extends Node
 
 enum ComponentType { BASE = 0, INTERFACE = 1 }

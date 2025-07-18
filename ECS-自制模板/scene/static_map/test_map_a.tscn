@@ -9,7 +9,7 @@
 [ext_resource type="TileSet" uid="uid://b1lcsss36fdnj" path="res://resource/engine_template/tileset/float/building_template.tres" id="6_p04dp"]
 [ext_resource type="PackedScene" uid="uid://cdpylv3jboio0" path="res://resource/node_template/map/tilemap/floating/map_entity.tscn" id="7_4u1xk"]
 [ext_resource type="TileSet" uid="uid://dapow0uht3sa" path="res://resource/engine_template/tileset/float/entity_template.tres" id="8_t220m"]
-[ext_resource type="PackedScene" uid="uid://rvva8386bilx" path="res://entity/i_entity/people/chicken.tscn" id="10_t220m"]
+[ext_resource type="PackedScene" uid="uid://rvva8386bilx" path="res://entity/entity_packed/people/chicken.tscn" id="10_t220m"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_t220m"]
 vertices = PackedVector2Array(404.35938, 152.02344, 532.1328, 137.92188, 485.2578, 234.96094, 251.85938, 272.78125, 278.9922, 147.29688)
