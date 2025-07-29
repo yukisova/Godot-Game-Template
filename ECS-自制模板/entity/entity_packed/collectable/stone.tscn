@@ -2,9 +2,9 @@
 
 [ext_resource type="PackedScene" uid="uid://6jpwo3n27sj2" path="res://entity/entity.tscn" id="1_1o2iu"]
 [ext_resource type="PackedScene" uid="uid://bc4cqx2abvb8t" path="res://entity/entity_template/area.tscn" id="2_6g1ri"]
-[ext_resource type="PackedScene" uid="uid://dbswip03t13sy" path="res://component/c_interaction/c_interaction.tscn" id="3_srr5g"]
+[ext_resource type="PackedScene" uid="uid://dbswip03t13sy" path="res://component/c_interaction/c_interactable.tscn" id="3_srr5g"]
 [ext_resource type="Script" uid="uid://dyicjmjyi8vve" path="res://component/c_interaction/interaction/interaction_collect.gd" id="4_y21uy"]
-[ext_resource type="PackedScene" uid="uid://bvjy63fua1sx2" path="res://component/c_animation/c_animation.tscn" id="5_14px3"]
+[ext_resource type="PackedScene" uid="uid://bvjy63fua1sx2" path="res://component/c_texture/c_texture.tscn" id="5_14px3"]
 [ext_resource type="Texture2D" uid="uid://qlxmuwy68pfs" path="res://asset/tile_set/factor_tile/Basic_Grass_Biom_things.png" id="6_vcxue"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1o2iu"]

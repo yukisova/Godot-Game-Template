@@ -1,37 +1,9 @@
-[gd_scene load_steps=10 format=3 uid="uid://1j5asx7xfyvr"]
+[gd_scene load_steps=2 format=3 uid="uid://1j5asx7xfyvr"]
 
 [ext_resource type="Script" uid="uid://gyxs2dln7pe5" path="res://scene/launcher/main/main.gd" id="1_v0l8b"]
-[ext_resource type="PackedScene" uid="uid://c8pd55hr8usrv" path="res://system/s_load_and_save.tscn" id="2_uooac"]
-[ext_resource type="PackedScene" uid="uid://cf8npyqdqk0ke" path="res://system/s_player_static.tscn" id="3_uwd1g"]
-[ext_resource type="PackedScene" uid="uid://p0flabao728j" path="res://system/s_global_config.tscn" id="4_jo78i"]
-[ext_resource type="PackedScene" uid="uid://b5of68t8q5n2o" path="res://system/s_gamestate.tscn" id="5_i5pys"]
-[ext_resource type="PackedScene" uid="uid://b4tv256al2r1d" path="res://system/s_mapdata.tscn" id="6_uuym5"]
-[ext_resource type="PackedScene" uid="uid://d1n0aboj375ah" path="res://system/s_object_pool.tscn" id="7_2em3b"]
-[ext_resource type="PackedScene" uid="uid://xoia87xmkq7i" path="res://system/s_ui_spawner.tscn" id="8_7hheb"]
-[ext_resource type="PackedScene" uid="uid://kyak8b72la5n" path="res://system/s_audio_master.tscn" id="9_oexjo"]
 
-[node name="Main" type="Node" node_paths=PackedStringArray("game_view", "ui_view")]
+[node name="Main" type="Node"]
 script = ExtResource("1_v0l8b")
-game_view = NodePath("GameView")
-ui_view = NodePath("UiView")
-
-[node name="System" type="Node" parent="."]
-
-[node name="S_LoadAndSave" parent="System" instance=ExtResource("2_uooac")]
-
-[node name="S_PlayerStatic" parent="System" instance=ExtResource("3_uwd1g")]
-
-[node name="S_GlobalConfig" parent="System" instance=ExtResource("4_jo78i")]
-
-[node name="S_Gamestate" parent="System" instance=ExtResource("5_i5pys")]
-
-[node name="S_Mapdata" parent="System" instance=ExtResource("6_uuym5")]
-
-[node name="S_ObjectPool" parent="System" instance=ExtResource("7_2em3b")]
-
-[node name="S_UiSpawner" parent="System" instance=ExtResource("8_7hheb")]
-
-[node name="S_AudioMaster" parent="System" instance=ExtResource("9_oexjo")]
 
 [node name="GameView" type="Node" parent="."]
 

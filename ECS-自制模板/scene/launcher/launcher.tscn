@@ -6,5 +6,6 @@
 
 [node name="Launcher" type="Node"]
 script = ExtResource("1_kwtkc")
+mode = 1
 main_game = ExtResource("2_56mk0")
 test_game = ExtResource("3_66xai")

@@ -1,3 +1,5 @@
+##@editing:	Sora
+##@describe:	玩家启动时的游戏Logo的
 extends Control
 
 @export var fade_duration:float = 0.5
@@ -7,6 +9,7 @@ extends Control
 @export var interuptable:bool = true
 
 func _enter_tree() -> void:
+	RenderingServer.set_default_clear_color(Color.BLACK)
 	for i in display_logos: 
 		i.modulate.a = 0.0
 

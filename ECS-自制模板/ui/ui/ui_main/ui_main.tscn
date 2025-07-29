@@ -1,16 +1,14 @@
-[gd_scene load_steps=8 format=3 uid="uid://dtbox62ysxhqs"]
+[gd_scene load_steps=7 format=3 uid="uid://dtbox62ysxhqs"]
 
 [ext_resource type="Script" uid="uid://fqkh2lkuaxp4" path="res://ui/ui/ui_main/ui_main.gd" id="1_8moro"]
-[ext_resource type="Theme" uid="uid://cbvflgkah1pwb" path="res://resource/engine_template/basic_theme.tres" id="2_1q3r7"]
-[ext_resource type="AudioStream" uid="uid://bd6b0bxtcjomo" path="res://asset/Ninja Adventure - Asset Pack/Audio/Musics/1 - Adventure Begin.ogg" id="2_bbnxr"]
-[ext_resource type="Script" uid="uid://b77vti74tgrbe" path="res://ui/ui_template/func_button.gd" id="3_3ko51"]
-[ext_resource type="PackedScene" uid="uid://deqpse4x3iw5m" path="res://scene/static_map/test_map_a.tscn" id="4_3mqp5"]
-[ext_resource type="Script" uid="uid://22228lam2w6p" path="res://ui/ui_template/link_button.gd" id="5_63x8v"]
-[ext_resource type="PackedScene" uid="uid://ckmbalibndnve" path="res://ui/ui_template/canvas/setting_panel/setting_panel.tscn" id="6_8k5ru"]
+[ext_resource type="Theme" uid="uid://cbvflgkah1pwb" path="res://resource/resource_template/basic_theme.tres" id="2_1q3r7"]
+[ext_resource type="Script" uid="uid://b77vti74tgrbe" path="res://ui/ui_composite/func_button.gd" id="3_3ko51"]
+[ext_resource type="PackedScene" uid="uid://b3jw5cwybn4cn" path="res://scene/static_map/m_未知的地底_10.tscn" id="4_mqo0q"]
+[ext_resource type="Script" uid="uid://22228lam2w6p" path="res://ui/ui_composite/link_button.gd" id="5_63x8v"]
+[ext_resource type="PackedScene" uid="uid://ckmbalibndnve" path="res://ui/ui_composite/canvas/setting_panel/setting_panel.tscn" id="6_8k5ru"]
 
 [node name="UiMain" type="CanvasLayer" node_paths=PackedStringArray("continue_game_button", "start_game_button", "load_game_button", "game_setting_button", "quit_game_button")]
 script = ExtResource("1_8moro")
-bgm = ExtResource("2_bbnxr")
 continue_game_button = NodePath("Control/MarginContainer/VBoxContainer/ContinueGame")
 start_game_button = NodePath("Control/MarginContainer/VBoxContainer/StartGame")
 load_game_button = NodePath("Control/MarginContainer/VBoxContainer/LoadGame")
@@ -58,7 +56,7 @@ script = ExtResource("3_3ko51")
 layout_mode = 2
 text = "开始游戏"
 script = ExtResource("3_3ko51")
-args = [ExtResource("4_3mqp5")]
+args = [ExtResource("4_mqo0q")]
 
 [node name="LoadGame" type="Button" parent="Control/MarginContainer/VBoxContainer"]
 layout_mode = 2

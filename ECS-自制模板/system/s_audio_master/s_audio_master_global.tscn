@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://rj0hog5dqd8x"]
+
+[ext_resource type="Script" uid="uid://w4dlx8dj1yv2" path="res://system/s_audio_master/s_audio_master_global.gd" id="1_tkj4c"]
+
+[node name="S_AudioMaster" type="Node"]
+script = ExtResource("1_tkj4c")

@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://j25og7xhdbdk"]
+
+[ext_resource type="Script" uid="uid://j368uws7cwin" path="res://component/c_texture/packed_texture/packed_sprite.gd" id="1_fnfo6"]
+
+[node name="PackedSprite" type="Node2D"]
+script = ExtResource("1_fnfo6")

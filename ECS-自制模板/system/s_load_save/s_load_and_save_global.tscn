@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://b68fm1cipbvf5"]
+
+[ext_resource type="Script" uid="uid://dx6ujfgf1uaec" path="res://system/s_load_save/s_load_and_save_global.gd" id="1_3naj5"]
+
+[node name="S_LoadAndSave" type="Node"]
+script = ExtResource("1_3naj5")

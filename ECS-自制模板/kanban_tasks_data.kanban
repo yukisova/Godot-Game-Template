@@ -16,24 +16,34 @@
 			"uuid": "eeee1522-ac5a-41f1-8ede-014b54231f02",
 			"title": "Todo",
 			"tasks": [
-				"cfaf266d-6e0d-4d86-8b76-ba36709c2327",
-				"ea5d3772-a956-43b4-b635-22860106ca8e",
-				"fee74a4f-2090-4991-874c-7fdd56fcb4bc"
+				"36e8aaa4-1a2f-4e54-880c-33c0beb68f5d",
+				"5b4eb1d1-e4b3-40d9-92e4-fa10f4f4b324"
 			]
 		},
 		{
 			"uuid": "31ae34de-c661-4e46-a361-c1297d43704b",
 			"title": "Doing",
 			"tasks": [
-				"8c5fa5c5-c874-47a3-b7f6-ec315e800f40",
-				"0f45f5ab-b1f2-42da-a36b-ed596d9c1327",
-				"c35794f6-24e5-497f-b01a-dbd8aa9d9196"
+				"7648058b-30bf-41b2-87b4-433002fd8a00",
+				"37860484-34dd-4fb9-a668-a0b783da511f"
 			]
 		},
 		{
 			"uuid": "9ff9bbb5-3736-4663-8148-b5dcac0be5f2",
 			"title": "Done",
-			"tasks": []
+			"tasks": [
+				"3b41bf9d-3272-41f5-8b05-3dccc44716d1"
+			]
+		},
+		{
+			"uuid": "0b6f42c5-6a14-4f92-bb45-1a01d25a59c2",
+			"title": "UnDone",
+			"tasks": [
+				"c35794f6-24e5-497f-b01a-dbd8aa9d9196",
+				"8c5fa5c5-c874-47a3-b7f6-ec315e800f40",
+				"0f45f5ab-b1f2-42da-a36b-ed596d9c1327",
+				"ea5d3772-a956-43b4-b635-22860106ca8e"
+			]
 		}
 	],
 	"tasks": [
@@ -78,13 +88,6 @@
 			]
 		},
 		{
-			"uuid": "cfaf266d-6e0d-4d86-8b76-ba36709c2327",
-			"title": "设计游戏的下推状态机",
-			"description": "",
-			"category": "e3cd452d-a75e-40bc-97b3-a7d78c29d40f",
-			"steps": []
-		},
-		{
 			"uuid": "c35794f6-24e5-497f-b01a-dbd8aa9d9196",
 			"title": "设计游戏主菜单的游戏设置界面",
 			"description": "主菜单的游戏设置部分关联到游戏的最终呈现效果，分为：",
@@ -92,28 +95,25 @@
 			"steps": [
 				{
 					"details": "设置显示方式：全屏，窗口，无边框",
+					"done": true
+				},
+				{
+					"details": "设置保存方式",
 					"done": false
 				}
 			]
 		},
 		{
 			"uuid": "ea5d3772-a956-43b4-b635-22860106ca8e",
-			"title": "设计玩家的菜单交互功能",
+			"title": "设计玩家的按键交互功能",
 			"description": "",
 			"category": "c78c7d53-12cd-4ef8-8ef7-0f68d675ba1a",
 			"steps": [
 				{
 					"details": "根据状态机的情况进行玩家输入的检测，目前想到的好方法就是将玩家所对应的Input与状态机进行对接\n",
-					"done": false
+					"done": true
 				}
 			]
-		},
-		{
-			"uuid": "fee74a4f-2090-4991-874c-7fdd56fcb4bc",
-			"title": "类生化危机四的复杂背包系统",
-			"description": "",
-			"category": "c78c7d53-12cd-4ef8-8ef7-0f68d675ba1a",
-			"steps": []
 		},
 		{
 			"uuid": "ee71e292-fa46-4adb-93f2-251824588f4a",
@@ -121,6 +121,88 @@
 			"description": "目前考虑，背景音乐统一使用ogg格式，而音效统一使用wav格式",
 			"category": "c78c7d53-12cd-4ef8-8ef7-0f68d675ba1a",
 			"steps": []
+		},
+		{
+			"uuid": "3b41bf9d-3272-41f5-8b05-3dccc44716d1",
+			"title": "设计玩家的交互系统",
+			"description": "理想的交互系统应当有如下分类\n1. 玩家，NPC共用\n2. 玩家主动交互（对话）与被动交互（陷阱）两种\n3. 交互方式丰富",
+			"category": "c78c7d53-12cd-4ef8-8ef7-0f68d675ba1a",
+			"steps": [
+				{
+					"details": "完善主动交互的框架：玩家进入范围后，摁下交互键，触发交互",
+					"done": true
+				},
+				{
+					"details": "完善被动交互的框架：玩家进入范围后，自动触发，目前只想到Area2D",
+					"done": true
+				}
+			]
+		},
+		{
+			"uuid": "36e8aaa4-1a2f-4e54-880c-33c0beb68f5d",
+			"title": "设计主角-索拉",
+			"description": "苏醒于漆黑的地下，不知名字的神秘少年/少女，在指引下拿到了一个外观奇特的法杖，要从地底回到地面",
+			"category": "c78c7d53-12cd-4ef8-8ef7-0f68d675ba1a",
+			"steps": [
+				{
+					"details": "美工: 索拉的外观与基础的动作模组(为了方便，使用两方向)",
+					"done": false
+				},
+				{
+					"details": "性能: 使用鼠标进行瞄准",
+					"done": false
+				}
+			]
+		},
+		{
+			"uuid": "7648058b-30bf-41b2-87b4-433002fd8a00",
+			"title": "设计基础的过场剧情",
+			"description": "",
+			"category": "c78c7d53-12cd-4ef8-8ef7-0f68d675ba1a",
+			"steps": [
+				{
+					"details": "过场剧情不包括分支选项，因此可以简单一些",
+					"done": false
+				}
+			]
+		},
+		{
+			"uuid": "5b4eb1d1-e4b3-40d9-92e4-fa10f4f4b324",
+			"title": "设计交互对话",
+			"description": "使用的是DialogueManager，因此要想办法让DialogueManager可以兼容当前框架的需求",
+			"category": "c78c7d53-12cd-4ef8-8ef7-0f68d675ba1a",
+			"steps": []
+		},
+		{
+			"uuid": "95868473-75c1-4d95-b025-c5865da1d685",
+			"title": "状态机的升级",
+			"description": "将状态机分为两种，一种是专门实现需要多个状态来回切换的多层有限状态机HFSM，适用于确定游戏状态机与玩家状态机。一种是可以基于栈的结构实现进入突发状态的下推式状态机PDA，可以用于菜单UI逐层交互与敌人AI临时进入，效果类似行为树，目前正在考虑两者的合并，但暂时不得要领，好在现在的功能基本完成，通常使用没有大的问题。",
+			"category": "c78c7d53-12cd-4ef8-8ef7-0f68d675ba1a",
+			"steps": []
+		},
+		{
+			"uuid": "37860484-34dd-4fb9-a668-a0b783da511f",
+			"title": "小目标-28-29",
+			"description": "完善敌人的逻辑,\n\n",
+			"category": "c78c7d53-12cd-4ef8-8ef7-0f68d675ba1a",
+			"steps": [
+				{
+					"details": "1. 修改buff系统为扩展状态——c_status修改",
+					"done": true
+				},
+				{
+					"details": "2. 修改texture系统的纹理展现形式——c_texture修改",
+					"done": true
+				},
+				{
+					"details": "3. 设计实体自身的指示用UI c_composite",
+					"done": true
+				},
+				{
+					"details": "4. pda状态机单独代替hfsm的效果并不好，可能是理解方面出现了问题，最好完善一下",
+					"done": true
+				}
+			]
 		}
 	],
 	"layout": {
@@ -133,6 +215,9 @@
 			],
 			[
 				"9ff9bbb5-3736-4663-8148-b5dcac0be5f2"
+			],
+			[
+				"0b6f42c5-6a14-4f92-bb45-1a01d25a59c2"
 			]
 		]
 	}

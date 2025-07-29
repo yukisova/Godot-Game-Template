@@ -10,8 +10,8 @@ config_version=5
 
 [application]
 
-config/name="组件游戏的模板"
-config/tags=PackedStringArray("sora_kit")
+config/name="史莱姆法师"
+config/tags=PackedStringArray("gmtk_2025")
 run/main_scene="uid://qvegob1cp74r"
 config/features=PackedStringArray("4.5", "Forward Plus")
 boot_splash/show_image=false
@@ -25,6 +25,15 @@ buses/default_bus_layout="uid://dipqogdumys7a"
 [autoload]
 
 DialogueManager="*res://addons/dialogue_manager/dialogue_manager.gd"
+SAudioMaster="*res://system/s_audio_master/s_audio_master_global.tscn"
+SGameState="*res://system/s_game_state/s_game_state_global.tscn"
+SLoadAndSave="*res://system/s_load_save/s_load_and_save_global.tscn"
+SMapData="*res://system/s_map_data/s_map_data_global.tscn"
+SPlayerStatic="*res://system/s_player_static/s_player_static_global.tscn"
+SSignalBus="*res://system/s_signal_bus/s_signal_bus_global.tscn"
+SUiSpawner="*res://system/s_ui_spawner/s_ui_spawner_global.tscn"
+SGlobalConfig="*res://system/s_global_config/s_global_config_global.tscn"
+SObjectPool="*res://system/s_object_pool/s_object_pool_global.tscn"
 
 [dialogue_manager]
 
@@ -53,7 +62,7 @@ breakable=""
 
 [internationalization]
 
-locale/translations_pot_files=PackedStringArray("res://resource/plugins_info/dialogue/test_dialogue.dialogue")
+locale/translations_pot_files=PackedStringArray("res://resource/plugins_resource/dialogue/test_dialogue.dialogue")
 
 [layer_names]
 
@@ -68,6 +77,5 @@ locale/translations_pot_files=PackedStringArray("res://resource/plugins_info/dia
 [rendering]
 
 textures/canvas_textures/default_texture_filter=0
-environment/defaults/default_clear_color=Color(0, 0, 0, 1)
 2d/snap/snap_2d_transforms_to_pixel=true
 2d/snap/snap_2d_vertices_to_pixel=true

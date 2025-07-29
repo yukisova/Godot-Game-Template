@@ -1,27 +1,10 @@
-[gd_scene load_steps=8 format=3 uid="uid://7bn4a56gypuj"]
+[gd_scene load_steps=3 format=3 uid="uid://7bn4a56gypuj"]
 
-[ext_resource type="Theme" uid="uid://cbvflgkah1pwb" path="res://resource/engine_template/basic_theme.tres" id="1_xoayu"]
-[ext_resource type="Texture2D" uid="uid://cpfrbkb4bdvjq" path="res://asset/tile_set/factor_tile/Basic_tools_and_meterials.png" id="2_jyl45"]
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_6he1t"]
-atlas = ExtResource("2_jyl45")
-region = Rect2(16, 0, 16, 16)
-
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_jyl45"]
-load_path = "res://.godot/imported/Basic_tools_and_meterials.png-a7dbb80de50610960d50edc7332c0f3c.ctex"
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_5vq50"]
-atlas = SubResource("CompressedTexture2D_jyl45")
-region = Rect2(32, 0, 16, 16)
-
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_6he1t"]
-load_path = "res://.godot/imported/Basic_tools_and_meterials.png-a7dbb80de50610960d50edc7332c0f3c.ctex"
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_g6ibr"]
-atlas = SubResource("CompressedTexture2D_6he1t")
-region = Rect2(0, 0, 16, 16)
+[ext_resource type="Script" uid="uid://c8pkw2hs14qni" path="res://ui/hud/tool_panel/basic_hud.gd" id="1_m0gie"]
+[ext_resource type="Theme" uid="uid://cbvflgkah1pwb" path="res://resource/resource_template/basic_theme.tres" id="1_xoayu"]
 
 [node name="BasicHud" type="CanvasLayer"]
+script = ExtResource("1_m0gie")
 
 [node name="Control" type="Control" parent="."]
 layout_mode = 3
@@ -32,47 +15,63 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("1_xoayu")
 
-[node name="MarginContainer" type="MarginContainer" parent="Control"]
+[node name="StatusPanel" type="MarginContainer" parent="Control"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 1
+offset_right = 20.0
+offset_bottom = 20.0
+scale = Vector2(2, 2)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/StatusPanel"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Control/StatusPanel/VBoxContainer"]
+layout_mode = 2
+text = "生命"
+vertical_alignment = 1
+
+[node name="ProgressBar" type="ProgressBar" parent="Control/StatusPanel/VBoxContainer/Label"]
 layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -65.0
-offset_top = -70.0
-offset_right = 65.0
+offset_left = -90.0
+offset_top = -4.0
+offset_right = 90.0
 grow_horizontal = 2
 grow_vertical = 0
+value = 19.0
+show_percentage = false
 
-[node name="PanelContainer" type="PanelContainer" parent="Control/MarginContainer"]
+[node name="Label2" type="Label" parent="Control/StatusPanel/VBoxContainer"]
 layout_mode = 2
-theme_type_variation = &"DarkWoodPanel"
+text = "魔力"
 
-[node name="MarginContainer" type="MarginContainer" parent="Control/MarginContainer/PanelContainer"]
-layout_mode = 2
-theme_override_constants/margin_left = 4
-theme_override_constants/margin_top = 4
-theme_override_constants/margin_right = 4
-theme_override_constants/margin_bottom = 4
+[node name="ProgressBar2" type="ProgressBar" parent="Control/StatusPanel/VBoxContainer/Label2"]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -4.0
+grow_horizontal = 2
+grow_vertical = 0
+show_percentage = false
 
-[node name="HBoxContainer" type="HBoxContainer" parent="Control/MarginContainer/PanelContainer/MarginContainer"]
+[node name="Label3" type="Label" parent="Control/StatusPanel/VBoxContainer"]
 layout_mode = 2
+text = "耐力"
+vertical_alignment = 1
 
-[node name="ToolSelectChopping" type="Button" parent="Control/MarginContainer/PanelContainer/MarginContainer/HBoxContainer"]
-custom_minimum_size = Vector2(26, 26)
-layout_mode = 2
-theme_type_variation = &"ToolButton"
-icon = SubResource("AtlasTexture_6he1t")
-
-[node name="ToolSelectTilling" type="Button" parent="Control/MarginContainer/PanelContainer/MarginContainer/HBoxContainer"]
-custom_minimum_size = Vector2(26, 26)
-layout_mode = 2
-theme_type_variation = &"ToolButton"
-icon = SubResource("AtlasTexture_5vq50")
-
-[node name="ToolSelectWatering" type="Button" parent="Control/MarginContainer/PanelContainer/MarginContainer/HBoxContainer"]
-custom_minimum_size = Vector2(26, 26)
-layout_mode = 2
-theme_type_variation = &"ToolButton"
-icon = SubResource("AtlasTexture_g6ibr")
+[node name="ProgressBar3" type="ProgressBar" parent="Control/StatusPanel/VBoxContainer/Label3"]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -4.0
+grow_horizontal = 2
+grow_vertical = 0
+show_percentage = false

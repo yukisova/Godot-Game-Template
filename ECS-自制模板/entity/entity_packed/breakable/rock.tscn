@@ -5,11 +5,11 @@
 [ext_resource type="PackedScene" uid="uid://b3vbfhugiqyva" path="res://component/c_action/c_action.tscn" id="3_lhkk3"]
 [ext_resource type="Script" uid="uid://clng5k8r8io4y" path="res://component/c_action/action/drop_down.gd" id="4_wdvta"]
 [ext_resource type="PackedScene" uid="uid://caj56l0yail7q" path="res://component/c_status/c_status.tscn" id="6_xo5lh"]
-[ext_resource type="PackedScene" uid="uid://bvjy63fua1sx2" path="res://component/c_animation/c_animation.tscn" id="7_y6qo5"]
+[ext_resource type="PackedScene" uid="uid://bvjy63fua1sx2" path="res://component/c_texture/c_texture.tscn" id="7_y6qo5"]
 [ext_resource type="Shader" uid="uid://blix38smvkgm2" path="res://resource/shader/tree_shader.gdshader" id="8_vfkwi"]
 [ext_resource type="Texture2D" uid="uid://qlxmuwy68pfs" path="res://asset/tile_set/factor_tile/Basic_Grass_Biom_things.png" id="9_fekki"]
 [ext_resource type="PackedScene" uid="uid://cps21xspaovit" path="res://component/c_collision/c_collision.tscn" id="10_djwtr"]
-[ext_resource type="PackedScene" uid="uid://c7exwr5mml1ux" path="res://component/c_collision/collision/hurtbox.tscn" id="11_nmw31"]
+[ext_resource type="PackedScene" uid="uid://c7exwr5mml1ux" path="res://component/c_collision/box_collision/hurtbox/hurtbox.tscn" id="11_nmw31"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_qxlhv"]
 size = Vector2(11, 7)

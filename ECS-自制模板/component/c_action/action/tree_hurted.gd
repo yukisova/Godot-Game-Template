@@ -1,3 +1,5 @@
+##@editing:	Sora
+##@describe:	用于树Entity的，受伤之后的枝叶抖动效果，使用Shader实现
 extends Action
 
 @export var c_animation: IComponent

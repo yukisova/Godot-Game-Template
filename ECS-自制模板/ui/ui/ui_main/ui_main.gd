@@ -1,4 +1,5 @@
-## 游戏的主菜单，包含自动加载的开场动画，与游戏的所有选项，以后肯定会经常用到，因此现在先开始
+##@editing:	Sora
+##@describe:	游戏的主菜单，包含自动加载的开场动画，与游戏的所有选项，以后肯定会经常用到，因此现在先开始
 extends IUi
 
 @export var bgm: AudioStream
@@ -12,7 +13,7 @@ extends IUi
 
 func _ready() -> void:
 	## 播放主菜单音乐
-	Main.s_audio_master.play_music(bgm)
+	SAudioMaster.play_music(bgm)
 	
 	## 淡入主菜单
 	var control = get_child(0) as Control
@@ -27,27 +28,25 @@ func _ready() -> void:
 		#
 	#)
 	start_game_button.pressed.connect(Callable(func(_args):
-		var game_state_machine = Main.s_game_state.state_machine as StateMachine 
-		var s_mapdata = Main.s_map_data as S_Mapdata
+		var game_state_machine = SGameState.state_machine as StateMachineHfsm 
 		
 		var current_state = game_state_machine._get_active_state()
 		if current_state is GameStartState:
 			current_state.update_trigger = true
-			s_mapdata.map_info_registered.emit(_args[0] as PackedScene)
-			Main.s_audio_master.play_music(null)
+			SMapData.map_info_registered.emit(_args[0] as PackedScene)
+			SAudioMaster.play_music(null)
 			unspawn()
 		else:
 			push_error("当前出现问题: 主菜单场景状态机错误！当前状态名:%s"%[current_state.name])).bind(start_game_button.args)
 	)
 	## TODO 游戏存档模块：加载游戏逻辑还有待进步
 	load_game_button.pressed.connect(Callable(func(_args):
-		var game_state_machine = Main.s_game_state.state_machine as StateMachine 
-		var s_load_and_save = Main.s_load_and_save
+		var game_state_machine = SGameState.state_machine
 		
 		var current_state = game_state_machine._get_active_state()
 		if current_state is GameStartState:
 			#current_state.update_trigger = true
-			s_load_and_save.emit_signal("loading_started")
+			SLoadAndSave.loading_started.emit()
 			#unspawn()
 		else:
 			push_error("当前出现问题: 主菜单场景状态机错误！当前状态名:%s"%[current_state.name])).bind(load_game_button.args)

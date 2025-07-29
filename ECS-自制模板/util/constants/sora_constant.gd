@@ -1,14 +1,16 @@
+##@editing:	Sora
+##@describe:	静态的常量调用类
 class_name SoraConstant
 extends RefCounted
 
 const BASIC_CELL_SIZE:int = 8 ## 单位格子的大小
 
 enum StatusEnum{
-	Health = 0,
+	Health = 0, ## 血量
+	Magic, ## 魔力
+	Fitness, ## 耐力
 	
-	Sleep = 100,
-	
-	AttackPoint = 200,
+	AttackPoint = 100,
 	DefendPoint,
 } ## 状态枚举
 
@@ -20,8 +22,9 @@ const BASIC_SETTING: Dictionary = {
 		"move_r": KEY_D,
 		"move_u": KEY_W,
 		"move_d": KEY_S,
+		"interact": KEY_SPACE,
 		"test_saving": KEY_O,
-		"brain_trigger": KEY_TAB,
+		"brain_trigger": KEY_I,
 		"pause_game": KEY_P
 	},
 	"display": {
@@ -35,6 +38,7 @@ const BASIC_SETTING: Dictionary = {
 	}
 }
 
+#region 设置信息枚举变量
 enum {
 	WINDOWED = 0,
 	FULLSCREEN
@@ -44,6 +48,7 @@ enum {
 	HD = 0,
 	SHD
 }
+#endregion
 
 enum InputType{
 	Pressed = 0,

@@ -1,0 +1,34 @@
+[gd_scene load_steps=8 format=3 uid="uid://n4p12hxn4c4n"]
+
+[ext_resource type="PackedScene" uid="uid://6jpwo3n27sj2" path="res://entity/entity.tscn" id="1_hdxy7"]
+[ext_resource type="PackedScene" uid="uid://cq0u8u1qie88t" path="res://entity/entity_template/character_body.tscn" id="2_xyu1e"]
+[ext_resource type="PackedScene" uid="uid://bvjy63fua1sx2" path="res://component/c_texture/c_texture.tscn" id="3_vpm3q"]
+[ext_resource type="PackedScene" uid="uid://dvrvdiy0pquiq" path="res://component/c_movement/c_movement.tscn" id="4_0o871"]
+[ext_resource type="Script" uid="uid://cn6q2f0x31g2l" path="res://component/c_movement/move_strategy/striangth.gd" id="5_xyu1e"]
+
+[sub_resource type="Gradient" id="Gradient_xyfaq"]
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_53bj0"]
+gradient = SubResource("Gradient_xyfaq")
+
+[node name="Projectile" node_paths=PackedStringArray("main_control", "component_container") instance=ExtResource("1_hdxy7")]
+main_control = NodePath("CharacterBody")
+component_container = NodePath("CharacterBody/ComponentContainer")
+
+[node name="CharacterBody" parent="." index="0" instance=ExtResource("2_xyu1e")]
+
+[node name="CTexture" parent="CharacterBody/ComponentContainer" index="0" instance=ExtResource("3_vpm3q")]
+texture_path = NodePath("Sprite2D")
+
+[node name="Sprite2D" type="Sprite2D" parent="CharacterBody/ComponentContainer/CTexture" index="0"]
+texture = SubResource("GradientTexture2D_53bj0")
+
+[node name="CMovement" parent="CharacterBody/ComponentContainer" index="1" node_paths=PackedStringArray("move_strategy") instance=ExtResource("4_0o871")]
+move_strategy = NodePath("Straight")
+
+[node name="Straight" type="Node" parent="CharacterBody/ComponentContainer/CMovement" index="0" node_paths=PackedStringArray("blackboard")]
+script = ExtResource("5_xyu1e")
+blackboard = NodePath("../..")
+
+[editable path="CharacterBody"]
+[editable path="CharacterBody/ComponentContainer/CTexture"]

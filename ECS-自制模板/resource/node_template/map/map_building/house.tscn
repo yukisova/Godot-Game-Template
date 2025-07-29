@@ -1,7 +1,7 @@
 [gd_scene load_steps=6 format=4 uid="uid://diap7h4qoqktw"]
 
 [ext_resource type="PackedScene" uid="uid://cue3bxc6g1wr2" path="res://resource/node_template/map/tilemap/floating/floor.tscn" id="1_m5l55"]
-[ext_resource type="TileSet" uid="uid://claf7ny4rcbup" path="res://resource/engine_template/tileset/float/building_tile_set.tres" id="1_rp7q8"]
+[ext_resource type="TileSet" uid="uid://claf7ny4rcbup" path="res://resource/resource_template/tileset/float/building_tile_set.tres" id="1_rp7q8"]
 [ext_resource type="PackedScene" uid="uid://bbsufo6xrxj5i" path="res://resource/node_template/map/tilemap/floating/map_factor.tscn" id="3_k13mr"]
 [ext_resource type="PackedScene" uid="uid://dikbae8amv32i" path="res://resource/node_template/map/tilemap/floating/wall_factor.tscn" id="4_k13mr"]
 [ext_resource type="PackedScene" uid="uid://tufppmw8gluy" path="res://resource/node_template/map/tilemap/floating/wall.tscn" id="4_nqodw"]

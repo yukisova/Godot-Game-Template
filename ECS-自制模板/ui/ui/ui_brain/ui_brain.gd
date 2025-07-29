@@ -1,3 +1,5 @@
+##@editing:	Sora
+##@describe:	人物状态界面UI
 extends IUi
 
 @export_subgroup("测试用")
@@ -15,6 +17,7 @@ var inventory_matrix: Array[Array]
 
 
 func _ready() -> void:
+	
 	if is_testing:
 		_initilize_info({
 			"inventory": inventory,

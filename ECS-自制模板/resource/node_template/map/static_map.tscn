@@ -2,8 +2,11 @@
 
 [ext_resource type="Script" uid="uid://btod27rj3wlyo" path="res://resource/node_template/map/static_map.gd" id="1_fy625"]
 
-[node name="StaticMap" type="Node" node_paths=PackedStringArray("levels")]
+[node name="StaticMap" type="Node" node_paths=PackedStringArray("levels", "autoload_cutscene")]
 script = ExtResource("1_fy625")
 levels = NodePath("Levels")
+autoload_cutscene = NodePath("AutoLoadCutscene")
 
 [node name="Levels" type="Node2D" parent="."]
+
+[node name="AutoLoadCutscene" type="Node" parent="."]

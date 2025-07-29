@@ -1,3 +1,5 @@
+##@editing:	Sora
+##@describe:	Dialogue的Ui,基于DialogueManager的SampleBalloon
 class_name UiDialogue
 extends IUi
 ## A basic dialogue balloon for use with Dialogue Manager.

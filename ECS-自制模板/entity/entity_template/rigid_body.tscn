@@ -1,3 +1,8 @@
-[gd_scene format=3 uid="uid://d3ncq3jmju001"]
+[gd_scene load_steps=2 format=3 uid="uid://d3ncq3jmju001"]
+
+[ext_resource type="Script" uid="uid://bwhicf8x7ibxm" path="res://component/container_blackboard.gd" id="1_o004t"]
 
 [node name="RigidBody" type="RigidBody2D"]
+
+[node name="ComponentContainer" type="Node2D" parent="."]
+script = ExtResource("1_o004t")

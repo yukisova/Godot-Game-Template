@@ -1,4 +1,5 @@
-## 背包系统，可以进行选择
+##@editing:	Sora
+##@describe:	背包系统扩展
 extends StatusExtension
 
 @export var inventory_array: Array[Item] ## 当前背包所包含的物品

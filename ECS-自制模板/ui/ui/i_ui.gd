@@ -1,3 +1,5 @@
+##@editing:	Sora
+##@describe:	Ui
 @abstract class_name IUi
 extends CanvasLayer
 

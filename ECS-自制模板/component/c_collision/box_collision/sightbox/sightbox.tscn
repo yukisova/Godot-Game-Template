@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=3 uid="uid://7mixsvyk4krp"]
+
+[ext_resource type="Script" uid="uid://dv2hokmyuu03y" path="res://component/c_collision/box_collision/sightbox/sightbox.gd" id="1_8vqma"]
+
+[node name="Sightbox" type="Node2D" node_paths=PackedStringArray("area_box")]
+script = ExtResource("1_8vqma")
+area_box = NodePath("Sprite2D/Area2D")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+
+[node name="Area2D" type="Area2D" parent="Sprite2D"]
