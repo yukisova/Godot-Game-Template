@@ -1,0 +1,407 @@
+[gd_scene load_steps=48 format=3 uid="uid://2knob287omci"]
+
+[ext_resource type="PackedScene" uid="uid://dx8lfcn7h43ea" path="res://resource/node_template/map/static_map.tscn" id="1_3ieme"]
+[ext_resource type="PackedScene" uid="uid://6dpqakv78nkp" path="res://resource/node_template/map/level.tscn" id="2_bwxf7"]
+[ext_resource type="PackedScene" uid="uid://d0x40ltb8cncp" path="res://entity/entity_packed/static/furniture.tscn" id="3_e0440"]
+[ext_resource type="Texture2D" uid="uid://b877s0662gsaa" path="res://resource/resource_template/sprite/atlas_texture/家具_客厅_a.tres" id="4_c1i5w"]
+[ext_resource type="Texture2D" uid="uid://cjeyfk6mro340" path="res://asset/tile_set/polygon_tile/客厅/家具_客厅.png" id="5_2pdso"]
+[ext_resource type="Texture2D" uid="uid://bnmn08xoct45k" path="res://asset/tile_set/1E54356DCFE5D13BB6A8210AF73E00BB.png" id="5_y0rxa"]
+[ext_resource type="PackedScene" uid="uid://de3o6pll5kxdx" path="res://resource/node_template/map/player_spawn.tscn" id="6_y0rxa"]
+[ext_resource type="PackedScene" uid="uid://bbnna2mfww3if" path="res://resource/node_template/map/tilemap/floating/polygon_tile.tscn" id="7_ohv2x"]
+[ext_resource type="Texture2D" uid="uid://xqqaudauuyut" path="res://asset/tile_set/polygon_tile/客厅/客厅.png" id="8_rrnws"]
+[ext_resource type="PackedScene" uid="uid://c62q8c0uk4qec" path="res://entity/entity_packed/area/interact_point.tscn" id="9_issu6"]
+[ext_resource type="PackedScene" uid="uid://dbswip03t13sy" path="res://component/c_interaction/c_interactable.tscn" id="10_kworf"]
+[ext_resource type="Script" uid="uid://ccu2saj6ovslc" path="res://component/c_interaction/interaction_record.gd" id="11_6pg38"]
+[ext_resource type="Script" uid="uid://bd68nk7t7petg" path="res://component/c_interaction/interaction/initiative_interaction/interaction_transport.gd" id="12_vwk1g"]
+[ext_resource type="PackedScene" uid="uid://cps21xspaovit" path="res://component/c_collision/c_collision.tscn" id="13_u5ox1"]
+[ext_resource type="Script" uid="uid://dqxey3deyxpb4" path="res://component/c_collision/box_collision/interaction_box/interact_box.gd" id="14_877v3"]
+[ext_resource type="Texture2D" uid="uid://ky1ac1iad64f" path="res://asset/tile_set/polygon_tile/钟表屋/钟表屋_家具.png" id="15_ihd1r"]
+[ext_resource type="Texture2D" uid="uid://cxbq0lwe5k5bj" path="res://asset/tile_set/polygon_tile/钟表屋/钟表屋_齿轮.png" id="16_l1yyl"]
+[ext_resource type="Texture2D" uid="uid://2b1ix052kf46" path="res://asset/tile_set/polygon_tile/钟表屋/钟表屋.png" id="17_voxu5"]
+[ext_resource type="Texture2D" uid="uid://bc4wt2rjblicd" path="res://asset/tile_set/polygon_tile/妈妈的卧室/妈妈的卧室_家具a.png" id="18_1hxk3"]
+[ext_resource type="Texture2D" uid="uid://d3qiwn8p4cvqr" path="res://asset/tile_set/polygon_tile/妈妈的卧室/妈妈的卧室_家具b.png" id="19_a5kvy"]
+[ext_resource type="Texture2D" uid="uid://15sp261h1pkh" path="res://asset/tile_set/polygon_tile/妈妈的卧室/妈妈的卧室.png" id="20_4iwh7"]
+[ext_resource type="Texture2D" uid="uid://cpofq5dolpcqf" path="res://asset/tile_set/DA85FB9045D5AC3A3DD9B879D5080462.png" id="20_ohv2x"]
+[ext_resource type="Script" uid="uid://dmt6bwi1q78e4" path="res://cutscene/cu_000_游戏开场.gd" id="21_bwxf7"]
+[ext_resource type="PackedScene" uid="uid://shdn4eldwjpu" path="res://ui/ui/ui_dialogue/ui_dialogue.tscn" id="22_e0440"]
+[ext_resource type="Resource" uid="uid://dc1i7o7tqqs7j" path="res://resource/plugins_resource/dialogue/act_1.dialogue" id="23_c1i5w"]
+[ext_resource type="PackedScene" uid="uid://dpfb12rjn2q8l" path="res://entity/entity_packed/item/packed/螺丝刀.tscn" id="26_6pg38"]
+[ext_resource type="PackedScene" uid="uid://d2ajelwouch80" path="res://entity/entity_packed/item/packed/盐.tscn" id="27_vwk1g"]
+[ext_resource type="PackedScene" uid="uid://b2flwkegjj5qv" path="res://entity/entity_packed/item/packed/甜醋.tscn" id="28_u5ox1"]
+[ext_resource type="PackedScene" uid="uid://cr52hx4c8bnl2" path="res://entity/entity_packed/item/packed/剪刀.tscn" id="29_877v3"]
+[ext_resource type="PackedScene" uid="uid://bwvoi623a0647" path="res://entity/entity_packed/item/packed/风车.tscn" id="30_ihd1r"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rrnws"]
+atlas = ExtResource("5_y0rxa")
+region = Rect2(2067, 715, 255, 311)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_j75lj"]
+atlas = ExtResource("5_2pdso")
+region = Rect2(1642, 1285, 580, 376)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ntglp"]
+atlas = ExtResource("5_2pdso")
+region = Rect2(2551, 974, 778, 774)
+
+[sub_resource type="Resource" id="Resource_dob8m"]
+script = ExtResource("11_6pg38")
+enable_body_entered = true
+interaction = NodePath("InteractionTransport")
+interact_box = NodePath("../CCollision/InteractBox")
+metadata/_custom_type_script = "uid://ccu2saj6ovslc"
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_7j7hh"]
+size = Vector2(300, 20)
+
+[sub_resource type="Resource" id="Resource_c1i5w"]
+script = ExtResource("11_6pg38")
+enable_body_entered = true
+interaction = NodePath("InteractionTransport")
+interact_box = NodePath("../CCollision/InteractBox")
+metadata/_custom_type_script = "uid://ccu2saj6ovslc"
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_xqb5k"]
+size = Vector2(337, 20)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ipywc"]
+atlas = ExtResource("15_ihd1r")
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qw0uq"]
+atlas = ExtResource("16_l1yyl")
+region = Rect2(1039, 729, 543, 186)
+
+[sub_resource type="Resource" id="Resource_2pdso"]
+script = ExtResource("11_6pg38")
+enable_body_entered = true
+interaction = NodePath("InteractionTransport")
+interact_box = NodePath("../CCollision/InteractBox")
+metadata/_custom_type_script = "uid://ccu2saj6ovslc"
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_xenr2"]
+size = Vector2(350, 20)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_crlot"]
+atlas = ExtResource("18_1hxk3")
+region = Rect2(380, 509, 576, 1438)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7vgy7"]
+atlas = ExtResource("18_1hxk3")
+region = Rect2(2646, 1093, 1002, 983)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_issu6"]
+atlas = ExtResource("20_ohv2x")
+region = Rect2(2646, 1093, 1002, 983)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_v2wgo"]
+atlas = ExtResource("19_a5kvy")
+region = Rect2(3013, 1898, 827, 262)
+
+[sub_resource type="Resource" id="Resource_y0rxa"]
+script = ExtResource("11_6pg38")
+enable_body_entered = true
+interaction = NodePath("InteractionTransport")
+interact_box = NodePath("../CCollision/InteractBox")
+metadata/_custom_type_script = "uid://ccu2saj6ovslc"
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_uyl0u"]
+size = Vector2(200, 20)
+
+[node name="正式场景" node_paths=PackedStringArray("player_spawn") instance=ExtResource("1_3ieme")]
+player_spawn = NodePath("Levels/客厅/PlayerSpawn")
+
+[node name="客厅" parent="Levels" index="0" instance=ExtResource("2_bwxf7")]
+visible = false
+
+[node name="餐桌" parent="Levels/客厅" index="0" instance=ExtResource("3_e0440")]
+position = Vector2(14, 296)
+
+[node name="ComponentContainer" parent="Levels/客厅/餐桌/StaticBody" index="0"]
+y_sort_enabled = true
+
+[node name="CTexture" parent="Levels/客厅/餐桌/StaticBody/ComponentContainer" index="0"]
+y_sort_enabled = true
+
+[node name="Sprite2D" parent="Levels/客厅/餐桌/StaticBody/ComponentContainer/CTexture" index="0"]
+y_sort_enabled = true
+texture = ExtResource("4_c1i5w")
+offset = Vector2(0, -200)
+
+[node name="CollisionPolygon2D2" type="CollisionPolygon2D" parent="Levels/客厅/餐桌/StaticBody" index="1"]
+position = Vector2(-25, -300)
+polygon = PackedVector2Array(-385, 262, -238, 270, -242, 300, -213, 313, -69, 320, -64, 397, 68, 394, 74, 321, 230, 317, 229, 275, 408, 266, 397, 175, 234, 169, 234, 146, -235, 146, -239, 169, -348, 168)
+
+[node name="玛格丽特吃饭" type="Sprite2D" parent="Levels/客厅" index="1"]
+z_index = 1
+position = Vector2(275, 0)
+texture = SubResource("AtlasTexture_rrnws")
+
+[node name="茶几" parent="Levels/客厅" index="2" instance=ExtResource("3_e0440")]
+position = Vector2(29, 615)
+
+[node name="ComponentContainer" parent="Levels/客厅/茶几/StaticBody" index="0"]
+y_sort_enabled = true
+
+[node name="CTexture" parent="Levels/客厅/茶几/StaticBody/ComponentContainer" index="0"]
+y_sort_enabled = true
+
+[node name="Sprite2D" parent="Levels/客厅/茶几/StaticBody/ComponentContainer/CTexture" index="0"]
+y_sort_enabled = true
+position = Vector2(-27, -1)
+texture = SubResource("AtlasTexture_j75lj")
+offset = Vector2(10, -14)
+
+[node name="CollisionPolygon2D2" type="CollisionPolygon2D" parent="Levels/客厅/茶几/StaticBody" index="1"]
+position = Vector2(0, -100)
+polygon = PackedVector2Array(-282, 272, -280, 98, 226, 95, 230, 270)
+
+[node name="沙发" parent="Levels/客厅" index="3" instance=ExtResource("3_e0440")]
+position = Vector2(923, 428)
+
+[node name="ComponentContainer" parent="Levels/客厅/沙发/StaticBody" index="0"]
+y_sort_enabled = true
+
+[node name="CTexture" parent="Levels/客厅/沙发/StaticBody/ComponentContainer" index="0"]
+y_sort_enabled = true
+
+[node name="Sprite2D" parent="Levels/客厅/沙发/StaticBody/ComponentContainer/CTexture" index="0"]
+y_sort_enabled = true
+position = Vector2(3, 45)
+texture = SubResource("AtlasTexture_ntglp")
+offset = Vector2(93, 3)
+
+[node name="CollisionPolygon2D3" type="CollisionPolygon2D" parent="Levels/客厅/沙发/StaticBody" index="1"]
+position = Vector2(0, -39)
+polygon = PackedVector2Array(-291, 44, -112, 483, 410, 489, 132, 38)
+
+[node name="PlayerSpawn" parent="Levels/客厅" index="4" instance=ExtResource("6_y0rxa")]
+position = Vector2(-585, 17)
+
+[node name="CameraLimit" parent="Levels/客厅" index="5"]
+offset_left = -1925.0
+offset_top = -868.0
+offset_right = 1927.0
+offset_bottom = 871.0
+
+[node name="PolygonTile" parent="Levels/客厅" index="6" instance=ExtResource("7_ohv2x")]
+z_index = -1
+y_sort_enabled = false
+texture = ExtResource("8_rrnws")
+
+[node name="TerrainPolygon" parent="Levels/客厅/PolygonTile" index="0"]
+visible = false
+polygon = PackedVector2Array(-672, -150, -702, -97, -800, -91, -1399, 872, 1336, 859, 754, -148, 712, -150, 701, -95, 342, -88, 312, -155, -654, -150)
+
+[node name="客厅_传送_钟表屋" parent="Levels/客厅" index="8" instance=ExtResource("9_issu6")]
+position = Vector2(4, -149)
+init_data_variant = Dictionary[String, Variant]({
+"transported_position": Vector2(0, -68)
+})
+
+[node name="CInteractable" parent="Levels/客厅/客厅_传送_钟表屋" index="0" instance=ExtResource("10_kworf")]
+interactions_resources = Array[ExtResource("11_6pg38")]([SubResource("Resource_dob8m")])
+
+[node name="InteractionTransport" type="Node" parent="Levels/客厅/客厅_传送_钟表屋/CInteractable" index="0" node_paths=PackedStringArray("target_level", "target_point")]
+script = ExtResource("12_vwk1g")
+target_level = NodePath("../../../../钟表屋")
+target_point = NodePath("../../../../钟表屋/钟表屋_传送_客厅")
+
+[node name="CCollision" parent="Levels/客厅/客厅_传送_钟表屋" index="2" instance=ExtResource("13_u5ox1")]
+
+[node name="InteractBox" type="Area2D" parent="Levels/客厅/客厅_传送_钟表屋/CCollision" index="0"]
+script = ExtResource("14_877v3")
+metadata/_custom_type_script = "uid://dqxey3deyxpb4"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Levels/客厅/客厅_传送_钟表屋/CCollision/InteractBox" index="0"]
+shape = SubResource("RectangleShape2D_7j7hh")
+
+[node name="客厅_传送_卧室" parent="Levels/客厅" index="9" instance=ExtResource("9_issu6")]
+position = Vector2(-1247, 640)
+init_data_variant = Dictionary[String, Variant]({
+"transported_position": Vector2(-1150, 662)
+})
+
+[node name="CInteractable" parent="Levels/客厅/客厅_传送_卧室" index="0" instance=ExtResource("10_kworf")]
+interactions_resources = Array[ExtResource("11_6pg38")]([SubResource("Resource_c1i5w")])
+
+[node name="InteractionTransport" type="Node" parent="Levels/客厅/客厅_传送_卧室/CInteractable" index="0" node_paths=PackedStringArray("target_level", "target_point")]
+script = ExtResource("12_vwk1g")
+target_level = NodePath("../../../../卧室")
+target_point = NodePath("../../../../卧室/卧室_传送_客厅")
+
+[node name="CCollision" parent="Levels/客厅/客厅_传送_卧室" index="2" instance=ExtResource("13_u5ox1")]
+
+[node name="InteractBox" type="Area2D" parent="Levels/客厅/客厅_传送_卧室/CCollision" index="0"]
+script = ExtResource("14_877v3")
+metadata/_custom_type_script = "uid://dqxey3deyxpb4"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Levels/客厅/客厅_传送_卧室/CCollision/InteractBox" index="0"]
+rotation = 2.1293018
+shape = SubResource("RectangleShape2D_xqb5k")
+
+[node name="钟表屋" parent="Levels" index="1" instance=ExtResource("2_bwxf7")]
+
+[node name="钟表工作台" parent="Levels/钟表屋" index="0" instance=ExtResource("3_e0440")]
+position = Vector2(0, 261)
+
+[node name="Sprite2D" parent="Levels/钟表屋/钟表工作台/StaticBody/ComponentContainer/CTexture" index="0"]
+texture = SubResource("AtlasTexture_ipywc")
+offset = Vector2(0, -260)
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Levels/钟表屋/钟表工作台/StaticBody" index="1"]
+polygon = PackedVector2Array(-292, 4, 298, 3, 332, 251, -326, 255)
+
+[node name="工作台上的钟表齿轮" parent="Levels/钟表屋" index="1" instance=ExtResource("3_e0440")]
+position = Vector2(98, 62)
+
+[node name="Sprite2D" parent="Levels/钟表屋/工作台上的钟表齿轮/StaticBody/ComponentContainer/CTexture" index="0"]
+position = Vector2(-103, 2)
+texture = SubResource("AtlasTexture_qw0uq")
+
+[node name="CameraLimit" parent="Levels/钟表屋" index="2"]
+offset_left = -1348.0
+offset_top = -759.0
+offset_right = 1347.0
+offset_bottom = 760.0
+
+[node name="PolygonTile" parent="Levels/钟表屋" index="4" instance=ExtResource("7_ohv2x")]
+texture = ExtResource("17_voxu5")
+
+[node name="TerrainPolygon" parent="Levels/钟表屋/PolygonTile" index="0"]
+visible = false
+polygon = PackedVector2Array(-655, 84, -1146, 755, 1068, 756, 605, 47, -346, 28, -373, 79)
+
+[node name="钟表屋_传送_客厅" parent="Levels/钟表屋" index="5" instance=ExtResource("9_issu6")]
+position = Vector2(0, 750)
+init_data_variant = Dictionary[String, Variant]({
+"transported_position": Vector2(0, 730)
+})
+
+[node name="CInteractable" parent="Levels/钟表屋/钟表屋_传送_客厅" index="0" instance=ExtResource("10_kworf")]
+interactions_resources = Array[ExtResource("11_6pg38")]([SubResource("Resource_2pdso")])
+
+[node name="InteractionTransport" type="Node" parent="Levels/钟表屋/钟表屋_传送_客厅/CInteractable" index="0" node_paths=PackedStringArray("target_level", "target_point")]
+script = ExtResource("12_vwk1g")
+target_level = NodePath("../../../../客厅")
+target_point = NodePath("../../../../客厅/客厅_传送_钟表屋")
+
+[node name="CCollision" parent="Levels/钟表屋/钟表屋_传送_客厅" index="2" instance=ExtResource("13_u5ox1")]
+
+[node name="InteractBox" type="Area2D" parent="Levels/钟表屋/钟表屋_传送_客厅/CCollision" index="0"]
+script = ExtResource("14_877v3")
+metadata/_custom_type_script = "uid://dqxey3deyxpb4"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Levels/钟表屋/钟表屋_传送_客厅/CCollision/InteractBox" index="0"]
+shape = SubResource("RectangleShape2D_xenr2")
+
+[node name="卧室" parent="Levels" index="2" instance=ExtResource("2_bwxf7")]
+
+[node name="左侧橱柜" parent="Levels/卧室" index="0" instance=ExtResource("3_e0440")]
+position = Vector2(-1254, 148)
+
+[node name="Sprite2D" parent="Levels/卧室/左侧橱柜/StaticBody/ComponentContainer/CTexture" index="0"]
+texture = SubResource("AtlasTexture_crlot")
+
+[node name="玛格丽特的床" parent="Levels/卧室" index="1" instance=ExtResource("3_e0440")]
+position = Vector2(1228, 504)
+
+[node name="Sprite2D" parent="Levels/卧室/玛格丽特的床/StaticBody/ComponentContainer/CTexture" index="0"]
+texture = SubResource("AtlasTexture_7vgy7")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Levels/卧室/玛格丽特的床/StaticBody" index="1"]
+polygon = PackedVector2Array(-477, -12, 50, -12, 524, 415, -153, 476)
+
+[node name="睡醒的玛格" type="Sprite2D" parent="Levels/卧室" index="2"]
+position = Vector2(1227, 504)
+texture = SubResource("AtlasTexture_issu6")
+
+[node name="黛拉的床" parent="Levels/卧室" index="3" instance=ExtResource("3_e0440")]
+position = Vector2(1507, 948)
+
+[node name="Sprite2D" parent="Levels/卧室/黛拉的床/StaticBody/ComponentContainer/CTexture" index="0"]
+texture = SubResource("AtlasTexture_v2wgo")
+
+[node name="CameraLimit" parent="Levels/卧室" index="4"]
+offset_left = -1925.0
+offset_top = -1080.0
+offset_right = 1913.0
+offset_bottom = 1071.0
+
+[node name="PolygonTile" parent="Levels/卧室" index="6" instance=ExtResource("7_ohv2x")]
+texture = ExtResource("20_4iwh7")
+
+[node name="TerrainPolygon" parent="Levels/卧室/PolygonTile" index="0"]
+visible = false
+polygon = PackedVector2Array(-9, 294, -512, 290, -615, 400, -798, 398, -994, 552, -981, 625, -1219, 834, -1440, 823, -1490, 935, -1616, 1028, -1772, 997, -1896, 1088, 1918, 1092, 1091, 327, 624, 354, 613, 406, -2, 417)
+
+[node name="卧室_传送_客厅" parent="Levels/卧室" index="7" instance=ExtResource("9_issu6")]
+position = Vector2(-874, 461)
+init_data_variant = Dictionary[String, Variant]({
+"transported_position": Vector2i(-700, 470)
+})
+
+[node name="CInteractable" parent="Levels/卧室/卧室_传送_客厅" index="0" instance=ExtResource("10_kworf")]
+interactions_resources = Array[ExtResource("11_6pg38")]([SubResource("Resource_y0rxa")])
+
+[node name="InteractionTransport" type="Node" parent="Levels/卧室/卧室_传送_客厅/CInteractable" index="0" node_paths=PackedStringArray("target_level", "target_point")]
+script = ExtResource("12_vwk1g")
+target_level = NodePath("../../../../客厅")
+target_point = NodePath("../../../../客厅/客厅_传送_卧室")
+
+[node name="CCollision" parent="Levels/卧室/卧室_传送_客厅" index="2" instance=ExtResource("13_u5ox1")]
+
+[node name="InteractBox" type="Area2D" parent="Levels/卧室/卧室_传送_客厅/CCollision" index="0"]
+script = ExtResource("14_877v3")
+metadata/_custom_type_script = "uid://dqxey3deyxpb4"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Levels/卧室/卧室_传送_客厅/CCollision/InteractBox" index="0"]
+position = Vector2(0, 5)
+rotation = -0.6981317
+shape = SubResource("RectangleShape2D_uyl0u")
+
+[node name="螺丝刀" parent="Levels/卧室" index="8" instance=ExtResource("26_6pg38")]
+position = Vector2(-617, 26)
+
+[node name="盐" parent="Levels/卧室" index="9" instance=ExtResource("27_vwk1g")]
+position = Vector2(-704, 55)
+
+[node name="甜醋" parent="Levels/卧室" index="10" instance=ExtResource("28_u5ox1")]
+position = Vector2(-615, 74)
+
+[node name="剪刀" parent="Levels/卧室" index="11" instance=ExtResource("29_877v3")]
+position = Vector2(-550, 52)
+
+[node name="风车" parent="Levels/卧室" index="12" instance=ExtResource("30_ihd1r")]
+position = Vector2(-502, 24)
+
+[node name="第一幕_游戏开场" type="Node" parent="AutoLoadCutscene" index="0"]
+script = ExtResource("21_bwxf7")
+ui_dialogue_packed_scene = ExtResource("22_e0440")
+ui_dialogue_resource = ExtResource("23_c1i5w")
+ui_dialogue_label = Array[String](["cutscene_早上醒来", "cutscene_早餐时间"])
+dict = {
+"玛格丽特吃饭": NodePath("../../Levels/客厅/玛格丽特吃饭"),
+"玛格丽特睡觉": NodePath("../../Levels/卧室/睡醒的玛格")
+}
+
+[editable path="Levels/客厅"]
+[editable path="Levels/客厅/餐桌"]
+[editable path="Levels/客厅/餐桌/StaticBody"]
+[editable path="Levels/客厅/茶几"]
+[editable path="Levels/客厅/茶几/StaticBody"]
+[editable path="Levels/客厅/沙发"]
+[editable path="Levels/客厅/沙发/StaticBody"]
+[editable path="Levels/客厅/PolygonTile"]
+[editable path="Levels/钟表屋"]
+[editable path="Levels/钟表屋/钟表工作台"]
+[editable path="Levels/钟表屋/钟表工作台/StaticBody"]
+[editable path="Levels/钟表屋/工作台上的钟表齿轮"]
+[editable path="Levels/钟表屋/工作台上的钟表齿轮/StaticBody"]
+[editable path="Levels/钟表屋/PolygonTile"]
+[editable path="Levels/卧室"]
+[editable path="Levels/卧室/左侧橱柜"]
+[editable path="Levels/卧室/左侧橱柜/StaticBody"]
+[editable path="Levels/卧室/玛格丽特的床"]
+[editable path="Levels/卧室/玛格丽特的床/StaticBody"]
+[editable path="Levels/卧室/黛拉的床"]
+[editable path="Levels/卧室/黛拉的床/StaticBody"]
+[editable path="Levels/卧室/PolygonTile"]

@@ -1,0 +1,26 @@
+[gd_scene load_steps=5 format=3 uid="uid://dpfb12rjn2q8l"]
+
+[ext_resource type="PackedScene" uid="uid://dscmhxfisahgx" path="res://entity/entity_packed/item/item_entity.tscn" id="1_xhb80"]
+[ext_resource type="Texture2D" uid="uid://dnt0f5f50c0pp" path="res://asset/sprite_set/螺丝刀.png" id="2_0gebx"]
+[ext_resource type="Script" uid="uid://0y58wickfubb" path="res://resource/custom_resource/item/item.gd" id="3_sjhuu"]
+
+[sub_resource type="Resource" id="Resource_icrgw"]
+script = ExtResource("3_sjhuu")
+item_nick_name = "sticker"
+item_name = "螺丝刀"
+item_description = "妈妈经常用的红色螺丝刀，底部有个小空间存放一堆可替换的头，她只用这一个小工具就能拆开所有的钟表。"
+item_texture = ExtResource("2_0gebx")
+metadata/_custom_type_script = "uid://0y58wickfubb"
+
+[node name="螺丝刀" instance=ExtResource("1_xhb80")]
+
+[node name="InteractionCollect" parent="StaticBody/ComponentContainer/CInteractable" index="0"]
+binding_item = SubResource("Resource_icrgw")
+
+[node name="CTexture" parent="StaticBody/ComponentContainer" index="2"]
+texture_path = NodePath("Sprite2D")
+
+[node name="Sprite2D" type="Sprite2D" parent="StaticBody/ComponentContainer/CTexture" index="0"]
+texture = ExtResource("2_0gebx")
+
+[editable path="StaticBody"]

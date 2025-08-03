@@ -1,0 +1,139 @@
+{
+	"categories": [
+		{
+			"uuid": "c78c7d53-12cd-4ef8-8ef7-0f68d675ba1a",
+			"title": "Task",
+			"color": "70bafa"
+		},
+		{
+			"uuid": "e3cd452d-a75e-40bc-97b3-a7d78c29d40f",
+			"title": "Think",
+			"color": "094cc7"
+		}
+	],
+	"stages": [
+		{
+			"uuid": "eeee1522-ac5a-41f1-8ede-014b54231f02",
+			"title": "Todo",
+			"tasks": []
+		},
+		{
+			"uuid": "31ae34de-c661-4e46-a361-c1297d43704b",
+			"title": "Doing",
+			"tasks": []
+		},
+		{
+			"uuid": "9ff9bbb5-3736-4663-8148-b5dcac0be5f2",
+			"title": "Done",
+			"tasks": [
+				"45909323-166f-46da-84d4-28118804e021",
+				"22224e51-43ab-4855-81ad-454d2430dde4",
+				"95d02c9b-db71-457d-b812-28e1439a6783",
+				"d8393eef-0a5e-4bdc-9af9-7c7b2c4e6c83",
+				"a9533bad-1d20-4cfc-93d8-5a8c3de80acb"
+			]
+		},
+		{
+			"uuid": "0b6f42c5-6a14-4f92-bb45-1a01d25a59c2",
+			"title": "UnDone",
+			"tasks": []
+		}
+	],
+	"tasks": [
+		{
+			"uuid": "ea5d3772-a956-43b4-b635-22860106ca8e",
+			"title": "设计玩家的按键交互功能",
+			"description": "",
+			"category": "c78c7d53-12cd-4ef8-8ef7-0f68d675ba1a",
+			"steps": [
+				{
+					"details": "根据状态机的情况进行玩家输入的检测，目前想到的好方法就是将玩家所对应的Input与状态机进行对接\n",
+					"done": true
+				}
+			]
+		},
+		{
+			"uuid": "ee71e292-fa46-4adb-93f2-251824588f4a",
+			"title": "设计音频系统",
+			"description": "目前考虑，背景音乐统一使用ogg格式，而音效统一使用wav格式",
+			"category": "c78c7d53-12cd-4ef8-8ef7-0f68d675ba1a",
+			"steps": []
+		},
+		{
+			"uuid": "95868473-75c1-4d95-b025-c5865da1d685",
+			"title": "状态机的升级",
+			"description": "将状态机分为两种，一种是专门实现需要多个状态来回切换的多层有限状态机HFSM，适用于确定游戏状态机与玩家状态机。一种是可以基于栈的结构实现进入突发状态的下推式状态机PDA，可以用于菜单UI逐层交互与敌人AI临时进入，效果类似行为树，目前正在考虑两者的合并，但暂时不得要领，好在现在的功能基本完成，通常使用没有大的问题。",
+			"category": "c78c7d53-12cd-4ef8-8ef7-0f68d675ba1a",
+			"steps": []
+		},
+		{
+			"uuid": "45909323-166f-46da-84d4-28118804e021",
+			"title": "多语言设置",
+			"description": "",
+			"category": "c78c7d53-12cd-4ef8-8ef7-0f68d675ba1a",
+			"steps": []
+		},
+		{
+			"uuid": "a9533bad-1d20-4cfc-93d8-5a8c3de80acb",
+			"title": "可以交互的Hud",
+			"description": "背包，以及最后可以被破坏的钟表UI\n",
+			"category": "c78c7d53-12cd-4ef8-8ef7-0f68d675ba1a",
+			"steps": []
+		},
+		{
+			"uuid": "95d02c9b-db71-457d-b812-28e1439a6783",
+			"title": "时间板系统",
+			"description": "时间一到，自动触发某个行为逻辑，并前往目标位置",
+			"category": "c78c7d53-12cd-4ef8-8ef7-0f68d675ba1a",
+			"steps": []
+		},
+		{
+			"uuid": "22224e51-43ab-4855-81ad-454d2430dde4",
+			"title": "时间系统",
+			"description": "是游戏当中的一个重要的全局数据，但并不适合初始化加载",
+			"category": "c78c7d53-12cd-4ef8-8ef7-0f68d675ba1a",
+			"steps": [
+				{
+					"details": "设计只在游戏运行时才会正常运行的子系统sub_s",
+					"done": false
+				}
+			]
+		},
+		{
+			"uuid": "d8393eef-0a5e-4bdc-9af9-7c7b2c4e6c83",
+			"title": "可以放进目前的背包的物品",
+			"description": "",
+			"category": "c78c7d53-12cd-4ef8-8ef7-0f68d675ba1a",
+			"steps": [
+				{
+					"details": "seek会触发观察时对话，需要设计对应的文本。",
+					"done": false
+				},
+				{
+					"details": "靠近时使用按键进行交互可以将可以捡起的物品捡起放入背包。",
+					"done": false
+				},
+				{
+					"details": "最简单的合成系统(两个物品合并，等于合成)",
+					"done": false
+				}
+			]
+		}
+	],
+	"layout": {
+		"columns": [
+			[
+				"eeee1522-ac5a-41f1-8ede-014b54231f02"
+			],
+			[
+				"31ae34de-c661-4e46-a361-c1297d43704b"
+			],
+			[
+				"9ff9bbb5-3736-4663-8148-b5dcac0be5f2"
+			],
+			[
+				"0b6f42c5-6a14-4f92-bb45-1a01d25a59c2"
+			]
+		]
+	}
+}

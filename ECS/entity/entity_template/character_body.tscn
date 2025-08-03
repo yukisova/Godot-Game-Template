@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://cq0u8u1qie88t"]
+
+[ext_resource type="Script" uid="uid://bwhicf8x7ibxm" path="res://component/container_blackboard.gd" id="1_62rgr"]
+
+[node name="CharacterBody" type="CharacterBody2D"]
+motion_mode = 1
+
+[node name="ComponentContainer" type="Node2D" parent="."]
+script = ExtResource("1_62rgr")

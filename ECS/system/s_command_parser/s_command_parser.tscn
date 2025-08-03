@@ -1,0 +1,33 @@
+[gd_scene load_steps=2 format=3 uid="uid://dogpwc7sq23wf"]
+
+[ext_resource type="Script" uid="uid://dsudak33c55es" path="res://system/s_command_parser/s_command_parser.gd" id="1_1cfn7"]
+
+[node name="S_CommandParser" type="Node" node_paths=PackedStringArray("command_parser_canvas", "command_parser_editor")]
+script = ExtResource("1_1cfn7")
+command_parser_canvas = NodePath("CanvasLayer")
+command_parser_editor = NodePath("CanvasLayer/Control/MarginContainer/TextEdit")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Control" type="Control" parent="CanvasLayer"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/Control"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 50.0
+grow_horizontal = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+
+[node name="TextEdit" type="TextEdit" parent="CanvasLayer/Control/MarginContainer"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+theme_override_font_sizes/font_size = 32

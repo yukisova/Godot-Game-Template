@@ -1,0 +1,58 @@
+[gd_resource type="SpriteFrames" load_steps=8 format=3 uid="uid://dnqvx3y72cpag"]
+
+[ext_resource type="Texture2D" uid="uid://b827cql4erdug" path="res://asset/char_set/Free Chicken Sprites.png" id="1_127bi"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wd7xw"]
+atlas = ExtResource("1_127bi")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gaoak"]
+atlas = ExtResource("1_127bi")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_o58ht"]
+atlas = ExtResource("1_127bi")
+region = Rect2(0, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nkl8l"]
+atlas = ExtResource("1_127bi")
+region = Rect2(16, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_auoes"]
+atlas = ExtResource("1_127bi")
+region = Rect2(32, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_h06cs"]
+atlas = ExtResource("1_127bi")
+region = Rect2(48, 16, 16, 16)
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wd7xw")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gaoak")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 2.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_o58ht")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nkl8l")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_auoes")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_h06cs")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 3.0
+}]

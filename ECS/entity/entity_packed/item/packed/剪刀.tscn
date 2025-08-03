@@ -1,0 +1,26 @@
+[gd_scene load_steps=5 format=3 uid="uid://cr52hx4c8bnl2"]
+
+[ext_resource type="PackedScene" uid="uid://dscmhxfisahgx" path="res://entity/entity_packed/item/item_entity.tscn" id="1_quwld"]
+[ext_resource type="Texture2D" uid="uid://cied1gnnbogyv" path="res://asset/sprite_set/剪刀.png" id="2_f570u"]
+[ext_resource type="Script" uid="uid://0y58wickfubb" path="res://resource/custom_resource/item/item.gd" id="3_rxkp1"]
+
+[sub_resource type="Resource" id="Resource_rxkp1"]
+script = ExtResource("3_rxkp1")
+item_nick_name = "scissors"
+item_name = "剪刀"
+item_description = "妈妈的用来工作的剪刀，但并没用多久就遗落在了某个角落，因此被找到的时候刀刃依旧很锋利。"
+item_texture = ExtResource("2_f570u")
+metadata/_custom_type_script = "uid://0y58wickfubb"
+
+[node name="剪刀" instance=ExtResource("1_quwld")]
+
+[node name="InteractionCollect" parent="StaticBody/ComponentContainer/CInteractable" index="0"]
+binding_item = SubResource("Resource_rxkp1")
+
+[node name="InteractionDialogue" parent="StaticBody/ComponentContainer/CInteractable" index="1"]
+test_dialogue_label = &"scissors"
+
+[node name="Sprite2D" type="Sprite2D" parent="StaticBody/ComponentContainer/CTexture" index="0"]
+texture = ExtResource("2_f570u")
+
+[editable path="StaticBody"]

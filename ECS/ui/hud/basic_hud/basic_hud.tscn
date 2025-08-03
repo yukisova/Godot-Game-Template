@@ -1,0 +1,142 @@
+[gd_scene load_steps=6 format=3 uid="uid://7bn4a56gypuj"]
+
+[ext_resource type="Script" uid="uid://c8pkw2hs14qni" path="res://ui/hud/basic_hud/basic_hud.gd" id="1_m0gie"]
+[ext_resource type="Shader" uid="uid://dh7nyq424iyhg" path="res://resource/shader/测试用圆形Shader.gdshader" id="2_nrqnx"]
+[ext_resource type="PackedScene" uid="uid://cbbuvqh1j86x0" path="res://ui/ui_composite/dragable_obj/item_in_bag/dragable_item.tscn" id="3_m0gie"]
+[ext_resource type="Script" uid="uid://chg08yn3wtvta" path="res://ui/ui_composite/dragable_obj/drag_slot.gd" id="4_ceok6"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_m0gie"]
+shader = ExtResource("2_nrqnx")
+
+[node name="BasicHud" type="CanvasLayer" node_paths=PackedStringArray("hour_pointer", "minute_pointer", "bag_button", "bag_slot_container", "bag_slot_prototype", "bag_dragable_item_prototype")]
+script = ExtResource("1_m0gie")
+hour_pointer = NodePath("TheCircleTimer/MarginContainer/ColorRect/Node2D/HourPointer")
+minute_pointer = NodePath("TheCircleTimer/MarginContainer/ColorRect/Node2D/MinutePointer")
+bag_button = NodePath("Control/MarginContainer/Button")
+bag_slot_container = NodePath("BagPanelControl/HBoxContainer")
+bag_slot_prototype = NodePath("Control3/BagSlotPrototype")
+bag_dragable_item_prototype = NodePath("Control3/DragableItemPrototype")
+
+[node name="TheCircleTimer" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="TheCircleTimer"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -32.0
+offset_bottom = 32.0
+grow_horizontal = 0
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+
+[node name="PanelContainer" type="PanelContainer" parent="TheCircleTimer/MarginContainer"]
+visible = false
+custom_minimum_size = Vector2(160, 80)
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="TheCircleTimer/MarginContainer/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_right = 8
+
+[node name="VBoxContainer" type="VBoxContainer" parent="TheCircleTimer/MarginContainer/PanelContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="TheCircleTimer/MarginContainer/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "当前的时间:"
+
+[node name="TimerInfo" type="Label" parent="TheCircleTimer/MarginContainer/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "00: 00"
+
+[node name="ColorRect" type="ColorRect" parent="TheCircleTimer/MarginContainer"]
+material = SubResource("ShaderMaterial_m0gie")
+custom_minimum_size = Vector2(160, 160)
+layout_mode = 2
+
+[node name="Node2D" type="Node2D" parent="TheCircleTimer/MarginContainer/ColorRect"]
+position = Vector2(82, 81)
+
+[node name="MinutePointer" type="Line2D" parent="TheCircleTimer/MarginContainer/ColorRect/Node2D"]
+points = PackedVector2Array(0, 0, 0, -75)
+width = 8.0
+default_color = Color(1, 0.4, 1, 1)
+
+[node name="HourPointer" type="Line2D" parent="TheCircleTimer/MarginContainer/ColorRect/Node2D"]
+points = PackedVector2Array(0, 0, 0, -50)
+width = 12.0
+default_color = Color(0.2392157, 0.4, 0.3529412, 1)
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 16.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="Control"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+
+[node name="Button" type="Button" parent="Control/MarginContainer"]
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 2
+toggle_mode = true
+
+[node name="BagPanelControl" type="Control" parent="."]
+clip_contents = true
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 125.0
+offset_right = 125.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="BagPanelControl"]
+clip_contents = true
+layout_mode = 0
+offset_top = 16.0
+offset_bottom = 16.0
+alignment = 2
+
+[node name="Control3" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="DragableItemPrototype" parent="Control3" instance=ExtResource("3_m0gie")]
+visible = false
+layout_mode = 0
+offset_left = 125.0
+offset_right = 225.0
+offset_bottom = 100.0
+
+[node name="BagSlotPrototype" type="PanelContainer" parent="Control3"]
+visible = false
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 0
+offset_left = 125.0
+offset_right = 225.0
+offset_bottom = 100.0
+script = ExtResource("4_ceok6")

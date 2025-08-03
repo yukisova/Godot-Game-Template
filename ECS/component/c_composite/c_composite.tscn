@@ -1,0 +1,40 @@
+[gd_scene load_steps=2 format=3 uid="uid://b3iwroux8bvuw"]
+
+[ext_resource type="Script" uid="uid://c7ti32ru5ghhb" path="res://component/c_composite/c_composite.gd" id="1_f0qht"]
+
+[node name="CComposite" type="Node2D"]
+script = ExtResource("1_f0qht")
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -4.0
+offset_top = -20.0
+offset_right = 36.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 0
+scale = Vector2(0.2, 0.2)
+
+[node name="PanelContainer" type="PanelContainer" parent="Control"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -50.0
+offset_top = -40.0
+offset_right = 50.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="Label" type="Label" parent="Control/PanelContainer"]
+layout_mode = 2
+text = "我操"
+horizontal_alignment = 1

@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://dbswip03t13sy"]
+
+[ext_resource type="Script" uid="uid://c8ftf4u5vh624" path="res://component/c_interaction/c_interactable.gd" id="1_pr3jr"]
+
+[node name="CInteractable" type="Node2D"]
+script = ExtResource("1_pr3jr")

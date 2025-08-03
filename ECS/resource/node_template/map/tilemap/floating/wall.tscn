@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://tufppmw8gluy"]
+
+[ext_resource type="Script" uid="uid://bubbu24xheujn" path="res://resource/node_template/map/tilemap/floating/wall.gd" id="1_mbo4b"]
+
+[node name="Wall" type="TileMapLayer"]
+y_sort_enabled = true
+script = ExtResource("1_mbo4b")

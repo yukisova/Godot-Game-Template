@@ -1,0 +1,26 @@
+[gd_scene load_steps=5 format=3 uid="uid://b2flwkegjj5qv"]
+
+[ext_resource type="PackedScene" uid="uid://dscmhxfisahgx" path="res://entity/entity_packed/item/item_entity.tscn" id="1_522pb"]
+[ext_resource type="Script" uid="uid://0y58wickfubb" path="res://resource/custom_resource/item/item.gd" id="2_ht53v"]
+[ext_resource type="Texture2D" uid="uid://c3d5x2n1mhj20" path="res://asset/sprite_set/醋.png" id="2_pkmpa"]
+
+[sub_resource type="Resource" id="Resource_pkmpa"]
+script = ExtResource("2_ht53v")
+item_nick_name = "vinegar"
+item_name = "甜醋"
+item_description = "空口喝就已经很好喝了的甜醋，但妈妈坚称它只能当作调料，可是甜醋和盐混合的味道，非常奇怪……"
+item_texture = ExtResource("2_pkmpa")
+metadata/_custom_type_script = "uid://0y58wickfubb"
+
+[node name="甜醋" instance=ExtResource("1_522pb")]
+
+[node name="InteractionCollect" parent="StaticBody/ComponentContainer/CInteractable" index="0"]
+binding_item = SubResource("Resource_pkmpa")
+
+[node name="InteractionDialogue" parent="StaticBody/ComponentContainer/CInteractable" index="1"]
+test_dialogue_label = &"vinegar"
+
+[node name="Sprite2D" type="Sprite2D" parent="StaticBody/ComponentContainer/CTexture" index="0"]
+texture = ExtResource("2_pkmpa")
+
+[editable path="StaticBody"]

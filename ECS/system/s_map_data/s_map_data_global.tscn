@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://k6512vw8k7gq"]
+
+[ext_resource type="Script" uid="uid://ccqeadcaxdrnx" path="res://system/s_map_data/s_map_data_global.gd" id="1_rlwrn"]
+
+[node name="S_Mapdata" type="Node"]
+script = ExtResource("1_rlwrn")

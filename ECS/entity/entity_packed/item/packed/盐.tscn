@@ -1,0 +1,30 @@
+[gd_scene load_steps=6 format=3 uid="uid://d2ajelwouch80"]
+
+[ext_resource type="PackedScene" uid="uid://dscmhxfisahgx" path="res://entity/entity_packed/item/item_entity.tscn" id="1_w20sd"]
+[ext_resource type="Texture2D" uid="uid://bn51qxvbvsacb" path="res://asset/sprite_set/盐.png" id="2_26tgs"]
+[ext_resource type="Script" uid="uid://ccu2saj6ovslc" path="res://component/c_interaction/interaction_record.gd" id="2_bfk3r"]
+[ext_resource type="Script" uid="uid://0y58wickfubb" path="res://resource/custom_resource/item/item.gd" id="3_bfk3r"]
+
+[sub_resource type="Resource" id="Resource_lg4fm"]
+script = ExtResource("3_bfk3r")
+item_nick_name = "salt"
+item_name = "盐"
+item_description = "用来调味的盐，妈妈做菜只放它和甜醋，妈妈的虽然钟表设计能力虽然非常厉害，但是在做菜这方面却非常……"
+item_texture = ExtResource("2_26tgs")
+metadata/_custom_type_script = "uid://0y58wickfubb"
+
+[node name="盐" instance=ExtResource("1_w20sd")]
+
+[node name="CInteractable" parent="StaticBody/ComponentContainer" index="1"]
+interactions_resources = Array[ExtResource("2_bfk3r")]([null])
+
+[node name="InteractionCollect" parent="StaticBody/ComponentContainer/CInteractable" index="0"]
+binding_item = SubResource("Resource_lg4fm")
+
+[node name="CTexture" parent="StaticBody/ComponentContainer" index="2"]
+texture_path = NodePath("Sprite2D")
+
+[node name="Sprite2D" type="Sprite2D" parent="StaticBody/ComponentContainer/CTexture" index="0"]
+texture = ExtResource("2_26tgs")
+
+[editable path="StaticBody"]

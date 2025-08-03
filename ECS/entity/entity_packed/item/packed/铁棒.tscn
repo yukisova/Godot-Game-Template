@@ -1,0 +1,23 @@
+[gd_scene load_steps=5 format=3 uid="uid://cra8fuyu7wofb"]
+
+[ext_resource type="PackedScene" uid="uid://dscmhxfisahgx" path="res://entity/entity_packed/item/item_entity.tscn" id="1_ei4xf"]
+[ext_resource type="Texture2D" uid="uid://b12t8ulwheyvr" path="res://asset/sprite_set/铁棒.png" id="2_i4762"]
+[ext_resource type="Script" uid="uid://0y58wickfubb" path="res://resource/custom_resource/item/item.gd" id="3_0yn66"]
+
+[sub_resource type="Resource" id="Resource_vgogu"]
+script = ExtResource("3_0yn66")
+item_nick_name = "metal"
+item_name = "铁棒"
+item_description = "除锈之后的风车的铁棒，非常坚固，可以用来砸核桃等硬物，也可以用来当杠杆。"
+item_texture = ExtResource("2_i4762")
+metadata/_custom_type_script = "uid://0y58wickfubb"
+
+[node name="铁棒" instance=ExtResource("1_ei4xf")]
+
+[node name="InteractionCollect" parent="StaticBody/ComponentContainer/CInteractable" index="0"]
+binding_item = SubResource("Resource_vgogu")
+
+[node name="Sprite2D" type="Sprite2D" parent="StaticBody/ComponentContainer/CTexture" index="0"]
+texture = ExtResource("2_i4762")
+
+[editable path="StaticBody"]

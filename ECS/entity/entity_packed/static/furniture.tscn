@@ -1,0 +1,17 @@
+[gd_scene load_steps=4 format=3 uid="uid://d0x40ltb8cncp"]
+
+[ext_resource type="PackedScene" uid="uid://6jpwo3n27sj2" path="res://entity/entity.tscn" id="1_he0fn"]
+[ext_resource type="PackedScene" uid="uid://clag216bqfuni" path="res://entity/entity_template/static_body.tscn" id="2_cs7ew"]
+[ext_resource type="PackedScene" uid="uid://bvjy63fua1sx2" path="res://component/c_texture/c_texture.tscn" id="3_x6ryo"]
+
+[node name="Furniture" node_paths=PackedStringArray("main_control", "component_container") instance=ExtResource("1_he0fn")]
+main_control = NodePath("StaticBody")
+component_container = NodePath("StaticBody/ComponentContainer")
+
+[node name="StaticBody" parent="." index="0" instance=ExtResource("2_cs7ew")]
+
+[node name="CTexture" parent="StaticBody/ComponentContainer" index="0" instance=ExtResource("3_x6ryo")]
+
+[node name="Sprite2D" type="Sprite2D" parent="StaticBody/ComponentContainer/CTexture" index="0"]
+
+[editable path="StaticBody"]
