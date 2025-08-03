@@ -1,12 +1,10 @@
-[gd_scene load_steps=29 format=3 uid="uid://chcm2vu8h6bs1"]
+[gd_scene load_steps=25 format=3 uid="uid://chcm2vu8h6bs1"]
 
 [ext_resource type="PackedScene" uid="uid://6jpwo3n27sj2" path="res://entity/entity.tscn" id="1_wwb3p"]
 [ext_resource type="PackedScene" uid="uid://cq0u8u1qie88t" path="res://entity/entity_template/character_body.tscn" id="2_074rv"]
 [ext_resource type="PackedScene" uid="uid://bo5de2ow6bqjo" path="res://component/c_camera/c_camera.tscn" id="3_xcrqq"]
 [ext_resource type="Script" uid="uid://b1kgwv70jiajt" path="res://component/c_camera/follow_strategy/cfs_mouse_follow.gd" id="4_vx1gj"]
 [ext_resource type="PackedScene" uid="uid://bvjy63fua1sx2" path="res://component/c_texture/c_texture.tscn" id="5_3b607"]
-[ext_resource type="Texture2D" uid="uid://0w6wgvsbuudt" path="res://asset/char_set/player/玛格丽特-Sheet.png" id="6_psmhe"]
-[ext_resource type="AnimationLibrary" uid="uid://dw4hkf7kemkff" path="res://resource/resource_template/animation_frame/people_action.tres" id="7_6j23n"]
 [ext_resource type="PackedScene" uid="uid://dvrvdiy0pquiq" path="res://component/c_movement/c_movement.tscn" id="7_lci37"]
 [ext_resource type="Script" uid="uid://dwt0prmf31a5" path="res://component/c_movement/move_strategy/vector_move.gd" id="8_cdt1j"]
 [ext_resource type="PackedScene" uid="uid://caj56l0yail7q" path="res://component/c_status/c_status.tscn" id="9_4t03t"]
@@ -23,26 +21,6 @@
 [ext_resource type="Script" uid="uid://dc4xbso7xmwvo" path="res://component/c_input_reactor/reactor_extension/e_player/mouse_focus.gd" id="19_ai50r"]
 [ext_resource type="PackedScene" uid="uid://b3vbfhugiqyva" path="res://component/c_action/c_action.tscn" id="19_ocpjo"]
 [ext_resource type="Script" uid="uid://b12rb4ncy2q57" path="res://component/c_input_reactor/reactor_extension/e_player/seek_confirm.gd" id="19_pvpin"]
-
-[sub_resource type="Animation" id="Animation_8b2nt"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:frame_coords")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [Vector2i(0, 0)]
-}
-
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_tar2w"]
-_data = {
-&"RESET": SubResource("Animation_8b2nt")
-}
 
 [sub_resource type="Resource" id="Resource_whce7"]
 script = ExtResource("14_e1v5r")
@@ -75,21 +53,7 @@ script = ExtResource("4_vx1gj")
 smoothing = null
 
 [node name="CTexture" parent="CharacterBody/ComponentContainer" index="1" node_paths=PackedStringArray("animation_player") instance=ExtResource("5_3b607")]
-texture_path = NodePath("Sprite2D")
-animation_player = NodePath("AnimationPlayer")
-
-[node name="Sprite2D" type="Sprite2D" parent="CharacterBody/ComponentContainer/CTexture" index="0"]
-y_sort_enabled = true
-position = Vector2(0, -199)
-texture = ExtResource("6_psmhe")
-hframes = 4
-vframes = 4
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="CharacterBody/ComponentContainer/CTexture" index="1"]
-libraries = {
-&"": SubResource("AnimationLibrary_tar2w"),
-&"people_action": ExtResource("7_6j23n")
-}
+animation_player = NodePath("")
 
 [node name="CMovement" parent="CharacterBody/ComponentContainer" index="2" node_paths=PackedStringArray("move_strategy") instance=ExtResource("7_lci37")]
 move_strategy = NodePath("VectorMove")

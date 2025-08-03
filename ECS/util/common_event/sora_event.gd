@@ -1,5 +1,6 @@
 ##@editing:	Sora
 ##@describe:	静态方法工具类
+
 class_name SoraEvent
 extends Node
 
