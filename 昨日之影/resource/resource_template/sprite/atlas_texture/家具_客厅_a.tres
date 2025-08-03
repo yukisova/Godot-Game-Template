@@ -1,7 +1,0 @@
-[gd_resource type="AtlasTexture" load_steps=2 format=3 uid="uid://b877s0662gsaa"]
-
-[ext_resource type="Texture2D" uid="uid://cjeyfk6mro340" path="res://asset/tile_set/polygon_tile/客厅/家具_客厅.png" id="1_cov1g"]
-
-[resource]
-atlas = ExtResource("1_cov1g")
-region = Rect2(1473, 668, 922, 606)

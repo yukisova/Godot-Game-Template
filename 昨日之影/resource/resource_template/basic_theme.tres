@@ -1,7 +1,0 @@
-[gd_resource type="Theme" format=3 uid="uid://cbvflgkah1pwb"]
-
-[resource]
-Button/font_sizes/font_size = 32
-DescribeLabel/base_type = &"Label"
-Label/font_sizes/font_size = 32
-TabContainer/font_sizes/font_size = 32

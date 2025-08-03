@@ -1,4 +1,0 @@
-[gd_scene format=3 uid="uid://dikbae8amv32i"]
-
-[node name="WallFactor" type="TileMapLayer"]
-metadata/_custom_type_script = "uid://dkgbh6muyhhe5"
