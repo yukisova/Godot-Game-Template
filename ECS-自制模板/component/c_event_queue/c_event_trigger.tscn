@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://bquf41erw1xpe"]
+
+[ext_resource type="Script" uid="uid://dtpehrdsys482" path="res://component/c_event_queue/c_event_trigger.gd" id="1_kk7xh"]
+
+[node name="CEventTrigger" type="Node2D"]
+script = ExtResource("1_kk7xh")

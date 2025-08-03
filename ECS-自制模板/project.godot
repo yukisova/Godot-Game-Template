@@ -10,7 +10,7 @@ config_version=5
 
 [application]
 
-config/name="史莱姆法师"
+config/name="昨日之影"
 config/tags=PackedStringArray("gmtk_2025")
 run/main_scene="uid://qvegob1cp74r"
 config/features=PackedStringArray("4.5", "Forward Plus")
@@ -29,15 +29,18 @@ SAudioMaster="*res://system/s_audio_master/s_audio_master_global.tscn"
 SGameState="*res://system/s_game_state/s_game_state_global.tscn"
 SLoadAndSave="*res://system/s_load_save/s_load_and_save_global.tscn"
 SMapData="*res://system/s_map_data/s_map_data_global.tscn"
-SPlayerStatic="*res://system/s_player_static/s_player_static_global.tscn"
+SMainController="*res://system/s_main_controller/s_main_controller_global.tscn"
 SSignalBus="*res://system/s_signal_bus/s_signal_bus_global.tscn"
 SUiSpawner="*res://system/s_ui_spawner/s_ui_spawner_global.tscn"
 SGlobalConfig="*res://system/s_global_config/s_global_config_global.tscn"
 SObjectPool="*res://system/s_object_pool/s_object_pool_global.tscn"
+SCommandParser="*res://system/s_command_parser/s_command_parser.tscn"
+SSubSystemManager="*res://system/s_sub_system_manager/s_sub_system_manager.tscn"
 
 [dialogue_manager]
 
 runtime/balloon_path="res://ui/ui/ui_dialogue/ui_dialogue.tscn"
+editor/translations/default_csv_locale="zh"
 
 [display]
 
@@ -48,7 +51,7 @@ mouse_cursor/custom_image="uid://dsf31wp70qvtx"
 
 [dotnet]
 
-project/assembly_name="农场游戏"
+project/assembly_name="昨日之影"
 
 [editor_plugins]
 
@@ -62,7 +65,8 @@ breakable=""
 
 [internationalization]
 
-locale/translations_pot_files=PackedStringArray("res://resource/plugins_resource/dialogue/test_dialogue.dialogue")
+locale/translations=PackedStringArray("res://resource/translation/Translation.en.translation", "res://resource/translation/Translation.es.translation", "res://resource/translation/Translation.ja.translation", "res://resource/translation/Translation.zh_CN.translation", "res://resource/translation/act_1.en.translation", "res://resource/translation/act_1.zh.translation")
+locale/translations_pot_files=PackedStringArray("res://resource/plugins_resource/dialogue/item_seek_dialogue.dialogue", "res://resource/plugins_resource/dialogue/act_1.dialogue", "res://resource/plugins_resource/dialogue/test_dialogue.dialogue")
 
 [layer_names]
 

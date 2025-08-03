@@ -1,5 +1,5 @@
-##@editing:	Sora
-##@describe:	直线飞行: 适用于CharacterBody
+## @editing: Sora [br]
+## @describe: 直线飞行: 适用于CharacterBody
 extends MoveStrategy
 
 var direction: Vector2

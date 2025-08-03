@@ -1,5 +1,5 @@
-##@editing:	Sora
-##@describe:纹理组件,标明实体所使用的纹理
+## @editing: Sora [br]
+## @describe: 纹理组件,标明实体所使用的纹理
 @tool
 class_name C_Texture
 extends IComponent

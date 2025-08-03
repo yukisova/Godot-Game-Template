@@ -1,9 +1,9 @@
-##@editing:	Sora
-##@describe:	游戏的进行状态，该状态下
-##			1. 运行游戏逻辑，玩家可以进行移动
-##			2. 显示玩家的hud
-##			退出条件：
-##			1. 暂停信号
+## @editing: Sora [br]
+## @describe: 游戏的进行状态，该状态下 [br]
+##			1. 运行游戏逻辑，玩家可以进行移动 [br]
+##			2. 显示玩家的hud [br]
+##			退出条件： [br]
+##			1. 暂停信号 [br]
 ##			2. 进入过场剧情
 @tool
 class_name GamingStateNormal

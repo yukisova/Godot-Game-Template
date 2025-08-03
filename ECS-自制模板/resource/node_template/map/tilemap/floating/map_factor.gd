@@ -1,3 +1,3 @@
-##@editing:	Sora
-##@describe:	地图的装饰要素TilemapLayer
+## @editing: Sora [br]
+## @describe: 地图的装饰要素TilemapLayer
 extends SoraTilemap

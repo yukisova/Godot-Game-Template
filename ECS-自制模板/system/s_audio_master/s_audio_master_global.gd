@@ -33,6 +33,10 @@ func _setup():
 		add_child(sfx_player)
 		sfx_players.append(sfx_player)
 
+## 重置状态: 关闭音乐
+func _resetup():
+	play_music(null)
+
 func play_music_fade_in(_audio_player: AudioStreamPlayer):
 	_audio_player.play()
 	var tween: Tween = create_tween()

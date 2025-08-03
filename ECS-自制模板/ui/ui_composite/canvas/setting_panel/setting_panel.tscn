@@ -1,88 +1,89 @@
-[gd_scene load_steps=3 format=3 uid="uid://ckmbalibndnve"]
+[gd_scene load_steps=6 format=3 uid="uid://ckmbalibndnve"]
 
+[ext_resource type="Theme" uid="uid://cbvflgkah1pwb" path="res://resource/resource_template/basic_theme.tres" id="1_gsna7"]
 [ext_resource type="Script" uid="uid://cnbl0806w3oj7" path="res://ui/ui_composite/canvas/setting_panel/setting_panel.gd" id="1_uhrsv"]
 [ext_resource type="Script" uid="uid://b77vti74tgrbe" path="res://ui/ui_composite/func_button.gd" id="2_vsn45"]
 
-[node name="SettingPanel" type="Control" node_paths=PackedStringArray("keymap_container", "display_setting", "audio_setting", "audio_setting_master", "audio_setting_sfx", "audio_setting_bgm", "display_setting_window", "display_setting_definition", "confirm", "reset")]
+[sub_resource type="ButtonGroup" id="ButtonGroup_gsna7"]
+
+[sub_resource type="ButtonGroup" id="ButtonGroup_bqiu1"]
+
+[node name="SettingPanel" type="Control" node_paths=PackedStringArray("keymap_container", "display_setting", "audio_setting", "audio_setting_master", "audio_setting_sfx", "audio_setting_bgm", "window_windowed", "window_fullscreen", "translation_english", "translation_chinese", "confirm", "reset")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("1_gsna7")
 script = ExtResource("1_uhrsv")
-keymap_container = NodePath("PanelContainer/MarginContainer/VBoxContainer/TabContainer/按键/MarginContainer/ScrollContainer/VBoxContainer2/KeymapContainer")
-display_setting = NodePath("PanelContainer/MarginContainer/VBoxContainer/TabContainer/显示/MarginContainer/ScrollContainer/VBoxContainer/DisplayContainer")
-audio_setting = NodePath("PanelContainer/MarginContainer/VBoxContainer/TabContainer/声音/MarginContainer/ScrollContainer/VBoxContainer/AudioContainer")
-audio_setting_master = NodePath("PanelContainer/MarginContainer/VBoxContainer/TabContainer/声音/MarginContainer/ScrollContainer/VBoxContainer/AudioContainer/HBoxContainer/AudioSettingMaster")
-audio_setting_sfx = NodePath("PanelContainer/MarginContainer/VBoxContainer/TabContainer/声音/MarginContainer/ScrollContainer/VBoxContainer/AudioContainer/HBoxContainer2/AudioSettingSfx")
-audio_setting_bgm = NodePath("PanelContainer/MarginContainer/VBoxContainer/TabContainer/声音/MarginContainer/ScrollContainer/VBoxContainer/AudioContainer/HBoxContainer3/AudioSettingBgm")
-display_setting_window = NodePath("PanelContainer/MarginContainer/VBoxContainer/TabContainer/显示/MarginContainer/ScrollContainer/VBoxContainer/DisplayContainer/HBoxContainer/DisplaySettingWindow")
-display_setting_definition = NodePath("PanelContainer/MarginContainer/VBoxContainer/TabContainer/显示/MarginContainer/ScrollContainer/VBoxContainer/DisplayContainer/HBoxContainer2/DisplaySettingDefinition")
-confirm = NodePath("PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/ConfirmButton")
-reset = NodePath("PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/ResetButton")
+keymap_container = NodePath("MarginContainer/VBoxContainer/TabContainer/按键/MarginContainer/ScrollContainer/VBoxContainer2/KeymapContainer")
+display_setting = NodePath("MarginContainer/VBoxContainer/TabContainer/显示/MarginContainer/ScrollContainer/VBoxContainer/DisplayContainer")
+audio_setting = NodePath("MarginContainer/VBoxContainer/TabContainer/声音/MarginContainer/ScrollContainer/VBoxContainer/AudioContainer")
+audio_setting_master = NodePath("MarginContainer/VBoxContainer/TabContainer/声音/MarginContainer/ScrollContainer/VBoxContainer/AudioContainer/HBoxContainer/AudioSettingMaster")
+audio_setting_sfx = NodePath("MarginContainer/VBoxContainer/TabContainer/声音/MarginContainer/ScrollContainer/VBoxContainer/AudioContainer/HBoxContainer2/AudioSettingSfx")
+audio_setting_bgm = NodePath("MarginContainer/VBoxContainer/TabContainer/声音/MarginContainer/ScrollContainer/VBoxContainer/AudioContainer/HBoxContainer3/AudioSettingBgm")
+window_windowed = NodePath("MarginContainer/VBoxContainer/TabContainer/显示/MarginContainer/ScrollContainer/VBoxContainer/DisplayContainer/HBoxContainer/HBoxContainer/WindowWindowed")
+window_fullscreen = NodePath("MarginContainer/VBoxContainer/TabContainer/显示/MarginContainer/ScrollContainer/VBoxContainer/DisplayContainer/HBoxContainer/HBoxContainer/WindowFullScreen")
+translation_english = NodePath("MarginContainer/VBoxContainer/TabContainer/显示/MarginContainer/ScrollContainer/VBoxContainer/DisplayContainer/HBoxContainer3/HBoxContainer/TranslationEnglish")
+translation_chinese = NodePath("MarginContainer/VBoxContainer/TabContainer/显示/MarginContainer/ScrollContainer/VBoxContainer/DisplayContainer/HBoxContainer3/HBoxContainer/TranslationChinese")
+confirm = NodePath("MarginContainer/VBoxContainer/HBoxContainer/ConfirmButton")
+reset = NodePath("MarginContainer/VBoxContainer/HBoxContainer/ResetButton")
 
-[node name="PanelContainer" type="PanelContainer" parent="."]
-self_modulate = Color(1, 1, 1, 0)
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="MarginContainer" type="MarginContainer" parent="PanelContainer"]
-layout_mode = 2
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 0
+offset_right = 1152.0
+offset_bottom = 648.0
 size_flags_vertical = 3
 theme_override_constants/margin_left = 8
 theme_override_constants/margin_top = 8
 theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 8
 
-[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
 layout_mode = 2
 
-[node name="TabContainer" type="TabContainer" parent="PanelContainer/MarginContainer/VBoxContainer"]
+[node name="TabContainer" type="TabContainer" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
-current_tab = 0
+current_tab = 1
 
-[node name="声音" type="PanelContainer" parent="PanelContainer/MarginContainer/VBoxContainer/TabContainer"]
+[node name="声音" type="PanelContainer" parent="MarginContainer/VBoxContainer/TabContainer"]
+visible = false
 layout_mode = 2
 metadata/_tab_index = 0
 
-[node name="MarginContainer" type="MarginContainer" parent="PanelContainer/MarginContainer/VBoxContainer/TabContainer/声音"]
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/TabContainer/声音"]
 layout_mode = 2
 theme_override_constants/margin_left = 8
 theme_override_constants/margin_top = 8
 theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 8
 
-[node name="ScrollContainer" type="ScrollContainer" parent="PanelContainer/MarginContainer/VBoxContainer/TabContainer/声音/MarginContainer"]
+[node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer/VBoxContainer/TabContainer/声音/MarginContainer"]
 layout_mode = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer/TabContainer/声音/MarginContainer/ScrollContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/TabContainer/声音/MarginContainer/ScrollContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Label" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/TabContainer/声音/MarginContainer/ScrollContainer/VBoxContainer"]
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/TabContainer/声音/MarginContainer/ScrollContainer/VBoxContainer"]
 layout_mode = 2
 text = "音频设置"
 horizontal_alignment = 1
 
-[node name="AudioContainer" type="VBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer/TabContainer/声音/MarginContainer/ScrollContainer/VBoxContainer"]
+[node name="AudioContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/TabContainer/声音/MarginContainer/ScrollContainer/VBoxContainer"]
 layout_mode = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer/TabContainer/声音/MarginContainer/ScrollContainer/VBoxContainer/AudioContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/TabContainer/声音/MarginContainer/ScrollContainer/VBoxContainer/AudioContainer"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/TabContainer/声音/MarginContainer/ScrollContainer/VBoxContainer/AudioContainer/HBoxContainer"]
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/TabContainer/声音/MarginContainer/ScrollContainer/VBoxContainer/AudioContainer/HBoxContainer"]
+custom_minimum_size = Vector2(140, 0)
 layout_mode = 2
-size_flags_horizontal = 3
 text = "主音量"
-horizontal_alignment = 2
 
-[node name="AudioSettingMaster" type="HSlider" parent="PanelContainer/MarginContainer/VBoxContainer/TabContainer/声音/MarginContainer/ScrollContainer/VBoxContainer/AudioContainer/HBoxContainer"]
+[node name="AudioSettingMaster" type="HSlider" parent="MarginContainer/VBoxContainer/TabContainer/声音/MarginContainer/ScrollContainer/VBoxContainer/AudioContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 1
@@ -90,16 +91,15 @@ max_value = 2.0
 step = 0.10000000000582077
 ticks_position = 2
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer/TabContainer/声音/MarginContainer/ScrollContainer/VBoxContainer/AudioContainer"]
+[node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/VBoxContainer/TabContainer/声音/MarginContainer/ScrollContainer/VBoxContainer/AudioContainer"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/TabContainer/声音/MarginContainer/ScrollContainer/VBoxContainer/AudioContainer/HBoxContainer2"]
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/TabContainer/声音/MarginContainer/ScrollContainer/VBoxContainer/AudioContainer/HBoxContainer2"]
+custom_minimum_size = Vector2(140, 0)
 layout_mode = 2
-size_flags_horizontal = 3
 text = "音效音量"
-horizontal_alignment = 2
 
-[node name="AudioSettingSfx" type="HSlider" parent="PanelContainer/MarginContainer/VBoxContainer/TabContainer/声音/MarginContainer/ScrollContainer/VBoxContainer/AudioContainer/HBoxContainer2"]
+[node name="AudioSettingSfx" type="HSlider" parent="MarginContainer/VBoxContainer/TabContainer/声音/MarginContainer/ScrollContainer/VBoxContainer/AudioContainer/HBoxContainer2"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 1
@@ -107,16 +107,15 @@ max_value = 2.0
 step = 0.10000000000582077
 ticks_position = 2
 
-[node name="HBoxContainer3" type="HBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer/TabContainer/声音/MarginContainer/ScrollContainer/VBoxContainer/AudioContainer"]
+[node name="HBoxContainer3" type="HBoxContainer" parent="MarginContainer/VBoxContainer/TabContainer/声音/MarginContainer/ScrollContainer/VBoxContainer/AudioContainer"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/TabContainer/声音/MarginContainer/ScrollContainer/VBoxContainer/AudioContainer/HBoxContainer3"]
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/TabContainer/声音/MarginContainer/ScrollContainer/VBoxContainer/AudioContainer/HBoxContainer3"]
+custom_minimum_size = Vector2(140, 0)
 layout_mode = 2
-size_flags_horizontal = 3
 text = "背景音量"
-horizontal_alignment = 2
 
-[node name="AudioSettingBgm" type="HSlider" parent="PanelContainer/MarginContainer/VBoxContainer/TabContainer/声音/MarginContainer/ScrollContainer/VBoxContainer/AudioContainer/HBoxContainer3"]
+[node name="AudioSettingBgm" type="HSlider" parent="MarginContainer/VBoxContainer/TabContainer/声音/MarginContainer/ScrollContainer/VBoxContainer/AudioContainer/HBoxContainer3"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 1
@@ -124,99 +123,125 @@ max_value = 2.0
 step = 0.10000000000582077
 ticks_position = 2
 
-[node name="显示" type="PanelContainer" parent="PanelContainer/MarginContainer/VBoxContainer/TabContainer"]
-visible = false
+[node name="显示" type="PanelContainer" parent="MarginContainer/VBoxContainer/TabContainer"]
 layout_mode = 2
 metadata/_tab_index = 1
 
-[node name="MarginContainer" type="MarginContainer" parent="PanelContainer/MarginContainer/VBoxContainer/TabContainer/显示"]
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/TabContainer/显示"]
 layout_mode = 2
 theme_override_constants/margin_left = 8
 theme_override_constants/margin_top = 8
 theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 8
 
-[node name="ScrollContainer" type="ScrollContainer" parent="PanelContainer/MarginContainer/VBoxContainer/TabContainer/显示/MarginContainer"]
+[node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer/VBoxContainer/TabContainer/显示/MarginContainer"]
 layout_mode = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer/TabContainer/显示/MarginContainer/ScrollContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/TabContainer/显示/MarginContainer/ScrollContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Label" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/TabContainer/显示/MarginContainer/ScrollContainer/VBoxContainer"]
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/TabContainer/显示/MarginContainer/ScrollContainer/VBoxContainer"]
 layout_mode = 2
 text = "显示设置"
 horizontal_alignment = 1
 
-[node name="DisplayContainer" type="VBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer/TabContainer/显示/MarginContainer/ScrollContainer/VBoxContainer"]
+[node name="DisplayContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/TabContainer/显示/MarginContainer/ScrollContainer/VBoxContainer"]
 layout_mode = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer/TabContainer/显示/MarginContainer/ScrollContainer/VBoxContainer/DisplayContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/TabContainer/显示/MarginContainer/ScrollContainer/VBoxContainer/DisplayContainer"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/TabContainer/显示/MarginContainer/ScrollContainer/VBoxContainer/DisplayContainer/HBoxContainer"]
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/TabContainer/显示/MarginContainer/ScrollContainer/VBoxContainer/DisplayContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "显示方式"
 vertical_alignment = 1
 
-[node name="DisplaySettingWindow" type="MenuButton" parent="PanelContainer/MarginContainer/VBoxContainer/TabContainer/显示/MarginContainer/ScrollContainer/VBoxContainer/DisplayContainer/HBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/TabContainer/显示/MarginContainer/ScrollContainer/VBoxContainer/DisplayContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
-text = "默认显示当前的显示方式，在选好后会发生改变"
-item_count = 2
-popup/item_0/text = "窗口"
-popup/item_0/id = 0
-popup/item_1/text = "全屏"
-popup/item_1/id = 1
+alignment = 1
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer/TabContainer/显示/MarginContainer/ScrollContainer/VBoxContainer/DisplayContainer"]
+[node name="WindowWindowed" type="Button" parent="MarginContainer/VBoxContainer/TabContainer/显示/MarginContainer/ScrollContainer/VBoxContainer/DisplayContainer/HBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+toggle_mode = true
+button_group = SubResource("ButtonGroup_gsna7")
+text = "Windowed"
+
+[node name="WindowFullScreen" type="Button" parent="MarginContainer/VBoxContainer/TabContainer/显示/MarginContainer/ScrollContainer/VBoxContainer/DisplayContainer/HBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+toggle_mode = true
+button_group = SubResource("ButtonGroup_gsna7")
+text = "Fullscreen"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/VBoxContainer/TabContainer/显示/MarginContainer/ScrollContainer/VBoxContainer/DisplayContainer"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/TabContainer/显示/MarginContainer/ScrollContainer/VBoxContainer/DisplayContainer/HBoxContainer2"]
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/TabContainer/显示/MarginContainer/ScrollContainer/VBoxContainer/DisplayContainer/HBoxContainer2"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "显示分辨率"
 vertical_alignment = 1
 
-[node name="DisplaySettingDefinition" type="MenuButton" parent="PanelContainer/MarginContainer/VBoxContainer/TabContainer/显示/MarginContainer/ScrollContainer/VBoxContainer/DisplayContainer/HBoxContainer2"]
+[node name="HBoxContainer3" type="HBoxContainer" parent="MarginContainer/VBoxContainer/TabContainer/显示/MarginContainer/ScrollContainer/VBoxContainer/DisplayContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/TabContainer/显示/MarginContainer/ScrollContainer/VBoxContainer/DisplayContainer/HBoxContainer3"]
 layout_mode = 2
 size_flags_horizontal = 3
-text = "默认显示当前的分辨率，选好后会发生改变"
-item_count = 2
-popup/item_0/text = "1280*720"
-popup/item_0/id = 0
-popup/item_1/text = "1920*1080"
-popup/item_1/id = 1
+text = "语言"
+vertical_alignment = 1
 
-[node name="按键" type="PanelContainer" parent="PanelContainer/MarginContainer/VBoxContainer/TabContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/TabContainer/显示/MarginContainer/ScrollContainer/VBoxContainer/DisplayContainer/HBoxContainer3"]
+layout_mode = 2
+size_flags_horizontal = 3
+alignment = 1
+
+[node name="TranslationEnglish" type="Button" parent="MarginContainer/VBoxContainer/TabContainer/显示/MarginContainer/ScrollContainer/VBoxContainer/DisplayContainer/HBoxContainer3/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+toggle_mode = true
+button_group = SubResource("ButtonGroup_bqiu1")
+text = "English"
+
+[node name="TranslationChinese" type="Button" parent="MarginContainer/VBoxContainer/TabContainer/显示/MarginContainer/ScrollContainer/VBoxContainer/DisplayContainer/HBoxContainer3/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+toggle_mode = true
+button_group = SubResource("ButtonGroup_bqiu1")
+text = "简体中文"
+
+[node name="按键" type="PanelContainer" parent="MarginContainer/VBoxContainer/TabContainer"]
 visible = false
 layout_mode = 2
 metadata/_tab_index = 2
 
-[node name="MarginContainer" type="MarginContainer" parent="PanelContainer/MarginContainer/VBoxContainer/TabContainer/按键"]
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/TabContainer/按键"]
 layout_mode = 2
 theme_override_constants/margin_left = 8
 theme_override_constants/margin_top = 8
 theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 8
 
-[node name="ScrollContainer" type="ScrollContainer" parent="PanelContainer/MarginContainer/VBoxContainer/TabContainer/按键/MarginContainer"]
+[node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer/VBoxContainer/TabContainer/按键/MarginContainer"]
 layout_mode = 2
 
-[node name="VBoxContainer2" type="VBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer/TabContainer/按键/MarginContainer/ScrollContainer"]
+[node name="VBoxContainer2" type="VBoxContainer" parent="MarginContainer/VBoxContainer/TabContainer/按键/MarginContainer/ScrollContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Label" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/TabContainer/按键/MarginContainer/ScrollContainer/VBoxContainer2"]
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/TabContainer/按键/MarginContainer/ScrollContainer/VBoxContainer2"]
 layout_mode = 2
 text = "主要操作设置"
 horizontal_alignment = 1
 
-[node name="KeymapContainer" type="VBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer/TabContainer/按键/MarginContainer/ScrollContainer/VBoxContainer2"]
+[node name="KeymapContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/TabContainer/按键/MarginContainer/ScrollContainer/VBoxContainer2"]
 layout_mode = 2
 
-[node name="KeymapInfo" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer/TabContainer/按键/MarginContainer/ScrollContainer/VBoxContainer2/KeymapContainer"]
+[node name="KeymapInfo" type="Button" parent="MarginContainer/VBoxContainer/TabContainer/按键/MarginContainer/ScrollContainer/VBoxContainer2/KeymapContainer"]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
@@ -224,7 +249,7 @@ toggle_mode = true
 text = "键位名"
 alignment = 0
 
-[node name="Label" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/TabContainer/按键/MarginContainer/ScrollContainer/VBoxContainer2/KeymapContainer/KeymapInfo"]
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/TabContainer/按键/MarginContainer/ScrollContainer/VBoxContainer2/KeymapContainer/KeymapInfo"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -240,16 +265,16 @@ grow_vertical = 2
 text = "对应键位"
 horizontal_alignment = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
 alignment = 2
 
-[node name="ConfirmButton" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="ConfirmButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 text = "确定"
 script = ExtResource("2_vsn45")
 
-[node name="ResetButton" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="ResetButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 text = "重置"
 script = ExtResource("2_vsn45")

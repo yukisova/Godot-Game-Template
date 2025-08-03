@@ -1,5 +1,5 @@
-##@editing:	Sora
-##@describe:	玩家启动时的游戏Logo的
+## @editing: Sora [br]
+## @describe: 玩家启动时的游戏Logo
 extends Control
 
 @export var fade_duration:float = 0.5

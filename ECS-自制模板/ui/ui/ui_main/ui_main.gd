@@ -55,7 +55,7 @@ func _ready() -> void:
 	game_setting_button.pressed.connect(func():
 		game_setting_button._execute()
 		get_child(0).hide()
-		game_setting_button.linkage_target.connect("window_closed", func():
+		game_setting_button.linkage_target.window_closed.connect(func():
 			get_child(0).show()
 			game_setting_button.linkage_target.queue_free()
 		)

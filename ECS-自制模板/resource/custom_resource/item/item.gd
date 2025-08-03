@@ -1,12 +1,15 @@
-##@editing:	Sora
-##@describe:	物品的基类
-@abstract class_name Item
+## @editing: Sora [br]
+## @describe: 物品的基类
+class_name Item
 extends Resource
 
-var item_name: String
-var item_description: String
-var item_texture: Texture2D
+@export var item_nick_name: String
+@export var item_name: String
+@export_multiline var item_description: String
+@export var item_texture: Texture2D
 var item_tilesize: Vector2i = Vector2i(1,1) ## 物品的Tile大小，
 
-@abstract func _check()
-@abstract func _use()
+func _check():
+	pass
+func _use():
+	pass

@@ -1,5 +1,5 @@
-##@editing:	Sora
-##@describe:	导航组件, 基于此实现针对敌人与友方单位的寻路
+## @editing: Sora [br]
+## @describe: 导航组件, 基于此实现针对敌人与友方单位的寻路
 @tool
 class_name C_Navigation
 extends IComponent

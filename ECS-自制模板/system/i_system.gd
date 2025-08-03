@@ -1,3 +1,5 @@
+## @editing: Sora [br]
+## @describe: ECS中S系统的基类
 @abstract class_name ISystem
 extends Node
 

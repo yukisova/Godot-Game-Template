@@ -3,10 +3,10 @@
 @abstract class_name IUi
 extends CanvasLayer
 
-signal unspawned
+signal _unspawned
 
 func unspawn():
-	unspawned.emit(self)
+	_unspawned.emit(self)
 
 ## 信息初始化
 func _initilize_info(_context: Dictionary):

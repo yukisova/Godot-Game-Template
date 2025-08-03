@@ -21,6 +21,7 @@ tile_set = ExtResource("1_rp7q8")
 y_sort_enabled = true
 tile_map_data = PackedByteArray("AAACAPX/BQAFAAMAAAADAPX/BQAGAAMAAAA=")
 tile_set = ExtResource("1_rp7q8")
+script = null
 
 [node name="MapFactor" parent="." instance=ExtResource("3_k13mr")]
 tile_map_data = PackedByteArray("AAD7//f/BQABAAEAAAD7//z/BQACAAMAAAD+//b/BQADAAIAAAABAP7/BQADAAUAAAADAPf/BQADAAMAAAAEAPf/BQADAAMAAAAFAPf/BQADAAMAAAAIAPf/BQADAAAAAAAJAPj/BQAEAAEAAAAJAPn/BQADAAAAAAAJAPz/BQAEAAEAAAA=")

@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://2x6xqipjlwry"]
+[gd_scene load_steps=18 format=3 uid="uid://2x6xqipjlwry"]
 
 [ext_resource type="Script" uid="uid://pbe14mqip01v" path="res://system/s_game_state/s_game_state_global.gd" id="1_t4e6g"]
 [ext_resource type="Script" uid="uid://b5ywitjyd2ccg" path="res://component/c_state/state/hfsm/state_machine_h.gd" id="2_i5g57"]
@@ -9,6 +9,7 @@
 [ext_resource type="Script" uid="uid://dbmyewjmvf2v0" path="res://component/c_state/state/hfsm/game_state/gaming_normal.gd" id="7_qp31e"]
 [ext_resource type="Script" uid="uid://dcrr4ixsmsp40" path="res://component/c_state/state/hfsm/game_state/gaming_pause.gd" id="8_lnw6v"]
 [ext_resource type="Script" uid="uid://pihnviy45w5k" path="res://component/c_state/state/hfsm/game_state/gaming_cutscene.gd" id="9_y2rt6"]
+[ext_resource type="Script" uid="uid://cjd3dnt4njxmp" path="res://component/c_state/state/hfsm/game_state/gaming_loading.gd" id="10_i5g57"]
 
 [sub_resource type="Resource" id="Resource_i5g57"]
 script = ExtResource("4_t4e6g")
@@ -22,12 +23,27 @@ metadata/_custom_type_script = "uid://cpdkw72ahtbjj"
 
 [sub_resource type="Resource" id="Resource_6q7b1"]
 script = ExtResource("4_t4e6g")
-to_state = NodePath("../GameStateTransition")
+to_state = NodePath("../GameStateStart")
 metadata/_custom_type_script = "uid://cpdkw72ahtbjj"
 
 [sub_resource type="Resource" id="Resource_8gfhu"]
 script = ExtResource("4_t4e6g")
+to_state = NodePath("../Cutscene")
+metadata/_custom_type_script = "uid://cpdkw72ahtbjj"
+
+[sub_resource type="Resource" id="Resource_t4e6g"]
+script = ExtResource("4_t4e6g")
 to_state = NodePath("../Pause")
+metadata/_custom_type_script = "uid://cpdkw72ahtbjj"
+
+[sub_resource type="Resource" id="Resource_6f08a"]
+script = ExtResource("4_t4e6g")
+to_state = NodePath("../Normal")
+metadata/_custom_type_script = "uid://cpdkw72ahtbjj"
+
+[sub_resource type="Resource" id="Resource_qp31e"]
+script = ExtResource("4_t4e6g")
+to_state = NodePath("../Normal")
 metadata/_custom_type_script = "uid://cpdkw72ahtbjj"
 
 [node name="S_Gamestate" type="Node" node_paths=PackedStringArray("state_machine")]
@@ -60,11 +76,21 @@ hfsm_state_transition = Dictionary[StringName, ExtResource("4_t4e6g")]({
 [node name="Normal" type="Node" parent="GameHsm/GamingCsm"]
 script = ExtResource("7_qp31e")
 hfsm_state_transition = Dictionary[StringName, ExtResource("4_t4e6g")]({
-&"": SubResource("Resource_8gfhu")
+&"cutscene": SubResource("Resource_8gfhu"),
+&"pause": SubResource("Resource_t4e6g")
 })
 
 [node name="Pause" type="Node" parent="GameHsm/GamingCsm"]
 script = ExtResource("8_lnw6v")
+hfsm_state_transition = Dictionary[StringName, ExtResource("4_t4e6g")]({
+&"": SubResource("Resource_6f08a")
+})
 
 [node name="Cutscene" type="Node" parent="GameHsm/GamingCsm"]
 script = ExtResource("9_y2rt6")
+hfsm_state_transition = Dictionary[StringName, ExtResource("4_t4e6g")]({
+&"": SubResource("Resource_qp31e")
+})
+
+[node name="Loading" type="Node" parent="GameHsm/GamingCsm"]
+script = ExtResource("10_i5g57")

@@ -1,9 +1,15 @@
-[gd_scene load_steps=2 format=3 uid="uid://dyxr8eofrj3pw"]
+[gd_scene load_steps=5 format=3 uid="uid://dyxr8eofrj3pw"]
 
 [ext_resource type="Script" uid="uid://ras5n0uokri5" path="res://ui/ui/ui_pause/ui_pause.gd" id="1_bnqym"]
+[ext_resource type="Theme" uid="uid://cbvflgkah1pwb" path="res://resource/resource_template/basic_theme.tres" id="2_6mkpu"]
+[ext_resource type="Script" uid="uid://22228lam2w6p" path="res://ui/ui_composite/link_button.gd" id="3_uf1wk"]
+[ext_resource type="PackedScene" uid="uid://ckmbalibndnve" path="res://ui/ui_composite/canvas/setting_panel/setting_panel.tscn" id="4_xqg6c"]
 
-[node name="UiPause" type="CanvasLayer"]
+[node name="UiPause" type="CanvasLayer" node_paths=PackedStringArray("control_game_retry", "control_game_setting", "control_return_menu")]
 script = ExtResource("1_bnqym")
+control_game_retry = NodePath("Control/PanelContainer/MarginContainer/VBoxContainer/GameRetry")
+control_game_setting = NodePath("Control/PanelContainer/MarginContainer/VBoxContainer/GameSetting")
+control_return_menu = NodePath("Control/PanelContainer/MarginContainer/VBoxContainer/ReturnMenu")
 
 [node name="Control" type="Control" parent="."]
 layout_mode = 3
@@ -12,3 +18,36 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("2_6mkpu")
+
+[node name="PanelContainer" type="PanelContainer" parent="Control"]
+layout_mode = 0
+offset_left = 723.0
+offset_top = 168.0
+offset_right = 962.0
+offset_bottom = 367.0
+
+[node name="MarginContainer" type="MarginContainer" parent="Control/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/PanelContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="GameRetry" type="Button" parent="Control/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "GameRetry"
+
+[node name="GameSetting" type="Button" parent="Control/PanelContainer/MarginContainer/VBoxContainer" node_paths=PackedStringArray("g_scene_parent")]
+layout_mode = 2
+text = "GameSetting"
+script = ExtResource("3_uf1wk")
+generator_scene = ExtResource("4_xqg6c")
+g_scene_parent = NodePath("../../../../..")
+
+[node name="ReturnMenu" type="Button" parent="Control/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "ReturnMenu"

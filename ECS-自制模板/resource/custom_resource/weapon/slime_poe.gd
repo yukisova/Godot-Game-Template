@@ -1,5 +1,5 @@
-##@editing:	Sora
-##@describe:	FIXME 史莱姆法杖 没想好具体的实现方式
+## @editing: Sora [br]
+## @describe: FIXME 史莱姆法杖 没想好具体的实现方式
 extends Resource
 
 enum Mode{

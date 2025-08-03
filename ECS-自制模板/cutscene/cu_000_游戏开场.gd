@@ -1,30 +1,39 @@
-##@editing:	Sora
-##@describe:	测试用, 游戏入场的脚本, 基于Tween节点
+## @editing: Sora [br]
+## @describe: 测试用, 游戏入场的脚本, 基于Tween节点
 extends Cutscene
 
+@export_group("对话信息", "ui_dialogue_")
+@export var ui_dialogue_packed_scene: PackedScene
+@export var ui_dialogue_resource: DialogueResource
+@export var ui_dialogue_label: Array[String]
+
 ## 在进入GamingNormal状态时自动调用
-func _start(_context: Dictionary):
-	#if cutscene_dependencies_check(["洞穴滤镜"], _context):
-		#return
-	#
-	#过场1_玩家苏醒(_context)
+func _start():
+	过场1_玩家苏醒()
 	pass
 
 ## 入场之后，先要进行基础故事开场的说明
-func 过场1_玩家苏醒(_context: Dictionary):
-	## 镜头一，询问玩家控制信息
-	## 1. 视角缩小，
-	var player = SPlayerStatic.player_static
-	var c_camera = player.list_base_components[IComponent.ComponentName.c_camera] as C_Camera
-	c_camera.camera.zoom = Vector2(5,5) ## 对视野进行缩小
+func 过场1_玩家苏醒():
+	var transition_hud = SUiSpawner.current_hud.get(&"transition") as IHud ## 过渡ui
+	SUiSpawner._hide_hud([&"transition"])
+	transition_hud.black_rect.modulate = Color()
 	
-	## 2. 黑色场景_需要使用滤镜之类
-	var canvas_modulate = _context["洞穴滤镜"] as CanvasModulate
-	canvas_modulate.color = Color(0.1,0.1,0.1)
+	var dialogue = SUiSpawner._spawn_ui(ui_dialogue_packed_scene)
+	DialogueManager._start_balloon(dialogue, ui_dialogue_resource, ui_dialogue_label[0], [get_node(dict["玛格丽特睡觉"]) as Sprite2D, transition_hud])
 	
-	## 3. 出现对话框，样式需要慢慢调整，但是效果可以正常
-	## 喂, 醒一醒，再不醒你就没命了！
-	## 这里被外来者攻陷了，让你有意识已经是长老他们所能做到的极限了
-	## 我是……可恶，来不及了，现在先不能管这么多了！先确认一下你的状况吧
-	## 
 	
+	await DialogueManager.dialogue_ended
+	await transition_hud.fade_in()
+	
+	SUiSpawner._hide_hud([&""])
+	
+	await get_tree().create_timer(30).timeout
+	## 这里开始进行早餐
+	dialogue = SUiSpawner._spawn_ui(ui_dialogue_packed_scene)
+	SUiSpawner._hide_hud([&"transition"])
+	
+	
+	transition_hud.black_rect.modulate = Color()
+	DialogueManager._start_balloon(dialogue, ui_dialogue_resource, ui_dialogue_label[1], [get_node(dict["玛格丽特吃饭"]) as Sprite2D])
+	await DialogueManager.dialogue_ended
+	await transition_hud.fade_in()

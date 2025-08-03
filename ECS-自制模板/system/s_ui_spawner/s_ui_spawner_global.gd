@@ -13,6 +13,11 @@ func _setup():
 		current_hud[key] = hud as IHud
 		current_hud[key].hide()
 
+func _resetup():
+	for hud in current_hud.values():
+		hud.hide()
+	
+
 func _spawn_ui(scene: PackedScene, context: Dictionary = {}) -> IUi:
 	if scene == null:
 		return null
@@ -22,7 +27,7 @@ func _spawn_ui(scene: PackedScene, context: Dictionary = {}) -> IUi:
 			current_ui.queue_free()
 		current_ui = canvas
 		Main.ui_view.add_child(current_ui)
-		current_ui.unspawned.connect(_unspawn_ui)
+		current_ui._unspawned.connect(_unspawn_ui)
 		canvas._initilize_info(context)
 		
 		var current_game_state = SGameState.state_machine._get_leaf_state()
@@ -34,7 +39,7 @@ func _spawn_ui(scene: PackedScene, context: Dictionary = {}) -> IUi:
 		canvas.queue_free()
 		return null
 
-func _hide_hud(except_hud_name: Array[StringName]):
+func _hide_hud(except_hud_name: Array):
 	for hud_name in current_hud.keys():
 		if except_hud_name.has(hud_name):
 			current_hud[hud_name].show()

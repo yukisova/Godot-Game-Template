@@ -19,8 +19,8 @@ enum LinkMode {
 
 @export var link_control: Control
 
-## 最终所要联系的目标
-var linkage_target: Node = null
+## 在creation模式下最终所要联系的目标
+var linkage_target: CreationCanvas = null
 
 
 ## 外部触发之后所要执行的逻辑

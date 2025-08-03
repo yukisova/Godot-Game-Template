@@ -1,8 +1,7 @@
-##@editing:	Sora
-##@describe:	Dialogue的Ui,基于DialogueManager的SampleBalloon
+## @editing: Sora
+## @describe: Dialogue的Ui,基于DialogueManager的SampleBalloon
 class_name UiDialogue
 extends IUi
-## A basic dialogue balloon for use with Dialogue Manager.
 
 ## The action to use for advancing the dialogue
 @export var next_action: StringName = &"ui_accept"
@@ -34,8 +33,9 @@ var dialogue_line: DialogueLine:
 			dialogue_line = value
 			apply_dialogue_line()
 		else:
-			# The dialogue has finished so close the balloon
-			queue_free()
+			## 此处文件结束, 为了匹配目标的
+			# queue_free()
+			unspawn()
 	get:
 		return dialogue_line
 
@@ -65,7 +65,7 @@ func _ready() -> void:
 
 	mutation_cooldown.timeout.connect(_on_mutation_cooldown_timeout)
 	add_child(mutation_cooldown)
-
+	
 
 func _unhandled_input(_event: InputEvent) -> void:
 	# Only the balloon is allowed to handle input while it's showing
@@ -84,6 +84,12 @@ func _notification(what: int) -> void:
 
 ## Start some dialogue
 func start(dialogue_resource: DialogueResource, title: String, extra_game_states: Array = []) -> void:
+	## HACK 个人写的修改部分, 旨在将该节点放入ui_view中
+	if Main.ui_view != null:
+		reparent(Main.ui_view)
+	#else:
+		#reparent(get_tree().current_scene)
+	
 	temporary_game_states = [self] + extra_game_states
 	is_waiting_for_input = false
 	resource = dialogue_resource

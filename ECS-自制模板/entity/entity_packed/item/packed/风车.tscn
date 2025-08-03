@@ -1,0 +1,22 @@
+[gd_scene load_steps=5 format=3 uid="uid://bwvoi623a0647"]
+
+[ext_resource type="PackedScene" uid="uid://dscmhxfisahgx" path="res://entity/entity_packed/item/item_entity.tscn" id="1_tfyhy"]
+[ext_resource type="Script" uid="uid://0y58wickfubb" path="res://resource/custom_resource/item/item.gd" id="2_wvots"]
+[ext_resource type="Texture2D" uid="uid://c6dsymkblndok" path="res://asset/sprite_set/风车.png" id="3_wvots"]
+
+[sub_resource type="Resource" id="Resource_cx6y1"]
+script = ExtResource("2_wvots")
+item_nick_name = "wind"
+item_name = "风车"
+item_description = "是之前黛西做的一个小风车，虽然风车依旧很容易呼呼转响，但是因为铁棒生锈，她已经失去了兴趣，但铁棒看起来好像还算紧固"
+metadata/_custom_type_script = "uid://0y58wickfubb"
+
+[node name="风车" instance=ExtResource("1_tfyhy")]
+
+[node name="InteractionCollect" parent="StaticBody/ComponentContainer/CInteractable" index="0"]
+binding_item = SubResource("Resource_cx6y1")
+
+[node name="Sprite2D" type="Sprite2D" parent="StaticBody/ComponentContainer/CTexture" index="0"]
+texture = ExtResource("3_wvots")
+
+[editable path="StaticBody"]

@@ -1,5 +1,5 @@
-##@editing:	Sora
-##@describe:	移动组件, 让实体根据指定的移动策略实现向量移动功能，或是沿指定的轨迹进行飞行
+## @editing: Sora [br]
+## @describe: 移动组件, 让实体根据指定的移动策略实现向量移动功能，或是沿指定的轨迹进行飞行
 @tool
 class_name C_Movement
 extends IComponent

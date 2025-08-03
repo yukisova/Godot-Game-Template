@@ -1,0 +1,26 @@
+[gd_scene load_steps=5 format=3 uid="uid://6m07hmkxujb6"]
+
+[ext_resource type="PackedScene" uid="uid://dscmhxfisahgx" path="res://entity/entity_packed/item/item_entity.tscn" id="1_l6dky"]
+[ext_resource type="Texture2D" uid="uid://byyx75niso2lh" path="res://asset/sprite_set/除锈剂.png" id="2_21ldv"]
+[ext_resource type="Script" uid="uid://0y58wickfubb" path="res://resource/custom_resource/item/item.gd" id="2_31cms"]
+
+[sub_resource type="Resource" id="Resource_ma2q3"]
+script = ExtResource("2_31cms")
+item_nick_name = "rusty_cleaner"
+item_name = "除锈剂"
+item_description = "使用盐和甜醋混合而成的液体，妈妈经常做，一半用来除锈，一半用来另外做咸酸酱……天哪，一想到能将铁锈都除去的调味品被妈妈当作独家的调味料，我就无法理解。"
+item_texture = ExtResource("2_21ldv")
+metadata/_custom_type_script = "uid://0y58wickfubb"
+
+[node name="除锈剂" instance=ExtResource("1_l6dky")]
+
+[node name="InteractionCollect" parent="StaticBody/ComponentContainer/CInteractable" index="0"]
+binding_item = SubResource("Resource_ma2q3")
+
+[node name="CTexture" parent="StaticBody/ComponentContainer" index="2"]
+texture_path = NodePath("Sprite2D")
+
+[node name="Sprite2D" type="Sprite2D" parent="StaticBody/ComponentContainer/CTexture" index="0"]
+texture = ExtResource("2_21ldv")
+
+[editable path="StaticBody"]

@@ -1,25 +1,26 @@
 ##@editing:	Sora
 ##@describe:	设置界面(子canvas)
-extends Control
+extends CreationCanvas
 
-signal window_closed
-
-
-@export_subgroup("容器")
+@export_group("容器")
 @export var keymap_container: VBoxContainer
 @export var display_setting: VBoxContainer
 @export var audio_setting: VBoxContainer
 
-@export_subgroup("控件_音频")
+@export_group("控件_音频")
 @export var audio_setting_master: HSlider
 @export var audio_setting_sfx: HSlider
 @export var audio_setting_bgm: HSlider
 
-@export_subgroup("控件_显示")
-@export var display_setting_window: MenuButton
-@export var display_setting_definition: MenuButton
+@export_group("控件_显示")
+@export_subgroup("窗口","window_")
+@export var window_windowed: Button
+@export var window_fullscreen: Button
+@export_subgroup("多语言","translation_")
+@export var translation_english: Button
+@export var translation_chinese: Button
 
-@export_subgroup("控件_保存")
+@export_group("控件_保存")
 @export var confirm: FuncButton
 @export var reset: FuncButton
 
@@ -85,28 +86,21 @@ func __init_audio():
 func __init_display():
 	var display = current_config["display"]
 	
-	var popup_window = display_setting_window.get_popup()
-	display_setting_window.text = __window_setting_id_to_string(display["window"])
-	popup_window.id_pressed.connect(func(id):
-		match id:
-			SoraConstant.WINDOWED:
-				DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
-			SoraConstant.FULLSCREEN:
-				DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
-		display_setting_window.text = __window_setting_id_to_string(id)
+
+	window_windowed.pressed.connect(func():
+		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
 		)
-		
-	var popup_definition = display_setting_definition.get_popup()
-	display_setting_definition.text = __definition_setting_id_to_string(display["definition"])
-	popup_definition.id_pressed.connect(func(id):
-		match id:
-			SoraConstant.HD:
-				pass
-			SoraConstant.SHD:
-				pass
-		display_setting_definition.text = __definition_setting_id_to_string(id)
+	window_fullscreen.pressed.connect(func():
+		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
+	)
+	
+	translation_english.pressed.connect(func():
+		TranslationServer.set_locale("en")
 		)
-		
+	translation_chinese.pressed.connect(func():
+		TranslationServer.set_locale("zh_CN"))
+
+
 func __window_setting_id_to_string(display_window):
 	match display_window:
 		SoraConstant.WINDOWED:

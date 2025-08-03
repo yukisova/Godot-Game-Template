@@ -1,12 +1,12 @@
-##@editing:	Sora
-##@describe:	基于Hfsm的状态机类，本身也属于一个状态，基于此实现多层有限状态机
+## @editing: Sora [br]
+## @describe: 基于Hfsm的状态机类，本身也属于一个状态，基于此实现多层有限状态机
 @tool
 class_name StateMachineHfsm
 extends StateHfsm
 
 signal state_transition_finished
 
-@export_node_path() var init_state: NodePath:
+@export_node_path("StateHfsm") var init_state: NodePath:
 	set(value):
 		if value.is_empty():
 			init_state = NodePath()
@@ -16,7 +16,11 @@ signal state_transition_finished
 		if value.get_name_count() != 1:
 			push_error("目标节点必须是直接子节点！")
 			return
-			
+		
+		if Engine.is_editor_hint():
+			if value == self.get_path_to(self):
+				push_error("尝试将自身作为初始化节点！")
+				return
 		init_state = value
 	get:
 		
@@ -53,6 +57,10 @@ func _on_state_transition(to_state: StateHfsm):
 func _enter():
 	current_state = get_node(init_state)
 	current_state._enter()
+
+func _exit():
+	current_state._exit()
+	current_state = null
 
 func _fixed_update(delta: float) -> void:
 	current_state._f_u(delta)

@@ -1,0 +1,15 @@
+[gd_scene load_steps=2 format=3 uid="uid://mx521by2gurk"]
+
+[ext_resource type="Script" uid="uid://ch6yb6ouwri5s" path="res://ui/hud/transition_hud/transition_hud.gd" id="1_ct5r4"]
+
+[node name="TransitionHud" type="CanvasLayer" node_paths=PackedStringArray("black_rect")]
+script = ExtResource("1_ct5r4")
+black_rect = NodePath("ColorRect")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)

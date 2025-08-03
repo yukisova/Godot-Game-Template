@@ -1,12 +1,14 @@
-[gd_scene load_steps=4 format=3 uid="uid://dwngxugx7dmav"]
+[gd_scene load_steps=5 format=3 uid="uid://dwngxugx7dmav"]
 
 [ext_resource type="Script" uid="uid://c2sd1paa8daua" path="res://system/s_ui_spawner/s_ui_spawner_global.gd" id="1_gywde"]
 [ext_resource type="PackedScene" uid="uid://dtbox62ysxhqs" path="res://ui/ui/ui_main/ui_main.tscn" id="2_djtn5"]
-[ext_resource type="PackedScene" uid="uid://7bn4a56gypuj" path="res://ui/hud/tool_panel/basic_hud.tscn" id="3_m3ao3"]
+[ext_resource type="PackedScene" uid="uid://7bn4a56gypuj" path="res://ui/hud/basic_hud/basic_hud.tscn" id="3_m3ao3"]
+[ext_resource type="PackedScene" uid="uid://mx521by2gurk" path="res://ui/hud/transition_hud/transition_hud.tscn" id="4_djtn5"]
 
 [node name="S_UiSpawner" type="Node"]
 script = ExtResource("1_gywde")
 main_menu_scene = ExtResource("2_djtn5")
 all_hud = Dictionary[StringName, PackedScene]({
-&"": ExtResource("3_m3ao3")
+&"": ExtResource("3_m3ao3"),
+&"transition": ExtResource("4_djtn5")
 })

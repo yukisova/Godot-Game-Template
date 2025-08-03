@@ -14,7 +14,6 @@ enum StatusEnum{
 	DefendPoint,
 } ## 状态枚举
 
-enum ToolMode { Axe, Splash, Hoe }
 
 const BASIC_SETTING: Dictionary = {
 	"keymap": {

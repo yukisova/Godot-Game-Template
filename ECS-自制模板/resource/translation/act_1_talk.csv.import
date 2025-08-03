@@ -1,0 +1,17 @@
+[remap]
+
+importer="csv_translation"
+type="Translation"
+uid="uid://circiakip8hjd"
+
+[deps]
+
+files=["res://resource/translation/act_1_talk.zh.translation", "res://resource/translation/act_1_talk.en.translation"]
+
+source_file="res://resource/translation/act_1_talk.csv"
+dest_files=["res://resource/translation/act_1_talk.zh.translation", "res://resource/translation/act_1_talk.en.translation"]
+
+[params]
+
+compress=true
+delimiter=0

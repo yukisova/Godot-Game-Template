@@ -1,18 +1,19 @@
-##@editing:	Sora
-##@describe:	实体的状态组件，可以使用status_extension类进行扩展,
-##			分为三种主要状态
-##			1. StatusInfo: 如血量, 魔力这些需要时刻监控的经常发生变化的信息，并有对应的临界值与临界值触发信号
+## @editing: Sora [br]
+## @describe: 实体的状态组件，可以使用status_extension类进行扩展, [br]
+##			分为两种主要状态 [br]
+##			1. StatusInfo: 如血量, 魔力这些需要时刻监控的经常发生变化的信息，并有对应的临界值与临界值触发信号 [br]
 ##			2. NumInfo: 如攻击力, 这些会影响玩家的战斗体验的数值信息, 不会经常发生改变, 只作为装饰器的量
 @tool
 class_name C_Status
 extends IComponent
 
+## StatusInfo见底
 signal status_overred(type: SoraConstant.StatusEnum)
 
-
-@export_subgroup("初始状态")
+## 初始的状态信息, 没有被明确记录的初始状态默认为零
 @export var basic_info: Dictionary[SoraConstant.StatusEnum, float]
 
+## 状态信息, 
 class StatusInfo:
 	signal status_overed(status_enum: SoraConstant.StatusEnum)
 	signal status_changed(status: StatusInfo)
@@ -38,6 +39,7 @@ class StatusInfo:
 		max_value = _max_value
 		value = _value
 
+## 数值信息
 class NumInfo:
 	var status_enum: SoraConstant.StatusEnum
 	var value: int
@@ -48,17 +50,19 @@ class NumInfo:
 var status_list: Dictionary[SoraConstant.StatusEnum, StatusInfo] = {} ## 血量，耐力等需要频繁变动的状态信息
 var numinfo_list: Dictionary[SoraConstant.StatusEnum, NumInfo] = {} ## 攻击力，防御力等基础数值信息
 
-var status_extension: Dictionary[String, StatusExtension] = {} ## 
+var status_extension: Dictionary[StatusExtension.ExtensionType, StatusExtension] = {} ## 扩展状态, 如buff之类
 
 func _enter_tree() -> void:
 	component_name = ComponentName.c_status
 
+## 初始化: 记录扩展状态与基础状态信息
 func _initialize(_owner: Entity):
 	super._initialize(_owner)
 	
 	for extension in get_children():
 		if extension is StatusExtension:
-			status_extension[extension.name] = extension
+			status_extension[extension.extention_type] = extension
+			extension._initialize()
 	
 	for key in basic_info.keys():
 		var info = basic_info[key]

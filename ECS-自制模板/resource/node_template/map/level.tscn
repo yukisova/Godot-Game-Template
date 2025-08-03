@@ -2,7 +2,14 @@
 
 [ext_resource type="Script" uid="uid://cdnd3coaj1drm" path="res://resource/node_template/map/level.gd" id="1_o3xit"]
 
-[node name="Level" type="Node2D"]
+[node name="Level" type="Node2D" node_paths=PackedStringArray("camera_limit", "room")]
+y_sort_enabled = true
 script = ExtResource("1_o3xit")
+camera_limit = NodePath("CameraLimit")
+room = NodePath("Room")
+
+[node name="CameraLimit" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
 
 [node name="Room" type="Node2D" parent="."]

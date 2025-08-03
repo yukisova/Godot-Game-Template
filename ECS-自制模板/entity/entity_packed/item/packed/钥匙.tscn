@@ -1,0 +1,26 @@
+[gd_scene load_steps=5 format=3 uid="uid://tf26e3bgsmfl"]
+
+[ext_resource type="PackedScene" uid="uid://dscmhxfisahgx" path="res://entity/entity_packed/item/item_entity.tscn" id="1_ng2a3"]
+[ext_resource type="Texture2D" uid="uid://cowve2qq2xxij" path="res://asset/sprite_set/钥匙.png" id="2_elulv"]
+[ext_resource type="Script" uid="uid://0y58wickfubb" path="res://resource/custom_resource/item/item.gd" id="3_hce4n"]
+
+[sub_resource type="Resource" id="Resource_x1gh0"]
+script = ExtResource("3_hce4n")
+item_nick_name = "key"
+item_name = "钥匙"
+item_description = "是妈妈的钟表房的钥匙，妈妈是小镇远近闻名的钟表匠，据说由她亲手校准的钟无论是稳定性和声音都高级得像是有魔法一般"
+item_texture = ExtResource("2_elulv")
+metadata/_custom_type_script = "uid://0y58wickfubb"
+
+[node name="钥匙" instance=ExtResource("1_ng2a3")]
+
+[node name="InteractionCollect" parent="StaticBody/ComponentContainer/CInteractable" index="0"]
+binding_item = SubResource("Resource_x1gh0")
+
+[node name="CTexture" parent="StaticBody/ComponentContainer" index="2"]
+texture_path = NodePath("Sprite2D")
+
+[node name="Sprite2D" type="Sprite2D" parent="StaticBody/ComponentContainer/CTexture" index="0"]
+texture = ExtResource("2_elulv")
+
+[editable path="StaticBody"]

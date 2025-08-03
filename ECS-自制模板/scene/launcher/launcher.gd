@@ -1,5 +1,5 @@
-##@editing:	Sora
-##@describe:	启动器类，在其中设定游戏的主进程,
+## @editing: Sora [br]
+## @describe: 启动器类，在其中设定游戏的主进程, 
 @tool
 class_name Launcher
 extends Node

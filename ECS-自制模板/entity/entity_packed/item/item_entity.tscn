@@ -1,0 +1,57 @@
+[gd_scene load_steps=15 format=3 uid="uid://dscmhxfisahgx"]
+
+[ext_resource type="PackedScene" uid="uid://6jpwo3n27sj2" path="res://entity/entity.tscn" id="1_ovid2"]
+[ext_resource type="PackedScene" uid="uid://clag216bqfuni" path="res://entity/entity_template/static_body.tscn" id="2_5lvvb"]
+[ext_resource type="PackedScene" uid="uid://dbswip03t13sy" path="res://component/c_interaction/c_interactable.tscn" id="3_pctqn"]
+[ext_resource type="PackedScene" uid="uid://cps21xspaovit" path="res://component/c_collision/c_collision.tscn" id="3_y74kw"]
+[ext_resource type="PackedScene" uid="uid://chj3kl8gl43h" path="res://component/c_collision/box_collision/interaction_box/interact_box.tscn" id="4_0gkch"]
+[ext_resource type="Script" uid="uid://ccu2saj6ovslc" path="res://component/c_interaction/interaction_record.gd" id="6_blg8y"]
+[ext_resource type="Script" uid="uid://dyicjmjyi8vve" path="res://component/c_interaction/interaction/passive_interaction/interaction_collect.gd" id="7_wk3yo"]
+[ext_resource type="Script" uid="uid://djglhr34yxc4x" path="res://component/c_interaction/interaction/initiative_interaction/interaction_dialogue.gd" id="8_envnn"]
+[ext_resource type="PackedScene" uid="uid://bvjy63fua1sx2" path="res://component/c_texture/c_texture.tscn" id="8_uy3m0"]
+[ext_resource type="PackedScene" uid="uid://shdn4eldwjpu" path="res://ui/ui/ui_dialogue/ui_dialogue.tscn" id="9_5udr1"]
+[ext_resource type="Resource" uid="uid://c41bsi05w3krw" path="res://resource/plugins_resource/dialogue/item_seek_dialogue.dialogue" id="10_hqe2j"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hqe2j"]
+size = Vector2(80, 80)
+
+[sub_resource type="Resource" id="Resource_3ualf"]
+script = ExtResource("6_blg8y")
+enable_body_entered = true
+interaction = NodePath("InteractionCollect")
+interact_box = NodePath("../CCollision/InteractionBox")
+metadata/_custom_type_script = "uid://ccu2saj6ovslc"
+
+[sub_resource type="Resource" id="Resource_hqe2j"]
+script = ExtResource("6_blg8y")
+interaction = NodePath("InteractionDialogue")
+interact_box = NodePath("../CCollision/InteractionBox")
+metadata/_custom_type_script = "uid://ccu2saj6ovslc"
+
+[node name="ItemEntity" node_paths=PackedStringArray("main_control", "component_container") instance=ExtResource("1_ovid2")]
+main_control = NodePath("StaticBody")
+component_container = NodePath("StaticBody/ComponentContainer")
+
+[node name="StaticBody" parent="." index="0" instance=ExtResource("2_5lvvb")]
+
+[node name="CCollision" parent="StaticBody/ComponentContainer" index="0" instance=ExtResource("3_y74kw")]
+
+[node name="InteractionBox" parent="StaticBody/ComponentContainer/CCollision" index="0" instance=ExtResource("4_0gkch")]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody/ComponentContainer/CCollision/InteractionBox" index="0"]
+shape = SubResource("RectangleShape2D_hqe2j")
+
+[node name="CInteractable" parent="StaticBody/ComponentContainer" index="1" instance=ExtResource("3_pctqn")]
+interactions_resources = Array[ExtResource("6_blg8y")]([SubResource("Resource_3ualf"), SubResource("Resource_hqe2j")])
+
+[node name="InteractionCollect" type="Node" parent="StaticBody/ComponentContainer/CInteractable" index="0"]
+script = ExtResource("7_wk3yo")
+
+[node name="InteractionDialogue" type="Node" parent="StaticBody/ComponentContainer/CInteractable" index="1"]
+script = ExtResource("8_envnn")
+test_dialogue_ui = ExtResource("9_5udr1")
+test_dialogue = ExtResource("10_hqe2j")
+
+[node name="CTexture" parent="StaticBody/ComponentContainer" index="2" instance=ExtResource("8_uy3m0")]
+
+[editable path="StaticBody"]
