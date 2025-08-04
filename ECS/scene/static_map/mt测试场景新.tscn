@@ -1,0 +1,5 @@
+[gd_scene load_steps=2 format=3 uid="uid://cba4jiyw20u5r"]
+
+[ext_resource type="PackedScene" uid="uid://dx8lfcn7h43ea" path="res://resource/node_template/map/static_map.tscn" id="1_xqjdq"]
+
+[node name="mt测试场景新" instance=ExtResource("1_xqjdq")]

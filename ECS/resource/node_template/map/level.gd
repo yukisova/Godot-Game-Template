@@ -6,8 +6,8 @@ extends Node2D
 signal level_fully_loaded ## 当前层级的所有TilemapLayer加载完毕后发出
 signal level_entity_fully_initialize ## 判断当前层级的实体是否初始化完毕
 
-@export var camera_limit: Control
-@export var room: Node2D
+@export var camera_limit: Control ## 用于限制玩家在该层级的相机的，包含尺寸信息的控件
+@export var room: Node2D ## 房间的碰撞体信息，
 
 ## 当前层中, 瓦片Tilemap的数目
 var layers_count = 0

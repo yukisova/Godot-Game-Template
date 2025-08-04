@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="ECS"
-config/tags=PackedStringArray("gmtk_2025")
+config/tags=PackedStringArray("ecs_template")
 run/main_scene="uid://qvegob1cp74r"
 config/features=PackedStringArray("4.5", "Forward Plus")
 boot_splash/show_image=false

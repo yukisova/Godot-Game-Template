@@ -1,10 +1,11 @@
-[gd_scene load_steps=25 format=3 uid="uid://chcm2vu8h6bs1"]
+[gd_scene load_steps=26 format=3 uid="uid://chcm2vu8h6bs1"]
 
 [ext_resource type="PackedScene" uid="uid://6jpwo3n27sj2" path="res://entity/entity.tscn" id="1_wwb3p"]
 [ext_resource type="PackedScene" uid="uid://cq0u8u1qie88t" path="res://entity/entity_template/character_body.tscn" id="2_074rv"]
 [ext_resource type="PackedScene" uid="uid://bo5de2ow6bqjo" path="res://component/c_camera/c_camera.tscn" id="3_xcrqq"]
 [ext_resource type="Script" uid="uid://b1kgwv70jiajt" path="res://component/c_camera/follow_strategy/cfs_mouse_follow.gd" id="4_vx1gj"]
 [ext_resource type="PackedScene" uid="uid://bvjy63fua1sx2" path="res://component/c_texture/c_texture.tscn" id="5_3b607"]
+[ext_resource type="Texture2D" uid="uid://uyc1xepl4vif" path="res://asset/char_set/测试用char_1.png" id="6_psmhe"]
 [ext_resource type="PackedScene" uid="uid://dvrvdiy0pquiq" path="res://component/c_movement/c_movement.tscn" id="7_lci37"]
 [ext_resource type="Script" uid="uid://dwt0prmf31a5" path="res://component/c_movement/move_strategy/vector_move.gd" id="8_cdt1j"]
 [ext_resource type="PackedScene" uid="uid://caj56l0yail7q" path="res://component/c_status/c_status.tscn" id="9_4t03t"]
@@ -33,7 +34,7 @@ to_state = NodePath("../Idle")
 metadata/_custom_type_script = "uid://cpdkw72ahtbjj"
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_qcfhx"]
-size = Vector2(180, 40)
+size = Vector2(32, 10)
 
 [node name="EPlayer" node_paths=PackedStringArray("main_control", "component_container") instance=ExtResource("1_wwb3p")]
 main_control = NodePath("CharacterBody")
@@ -52,8 +53,10 @@ zoom = Vector2(0.5, 0.5)
 script = ExtResource("4_vx1gj")
 smoothing = null
 
-[node name="CTexture" parent="CharacterBody/ComponentContainer" index="1" node_paths=PackedStringArray("animation_player") instance=ExtResource("5_3b607")]
-animation_player = NodePath("")
+[node name="CTexture" parent="CharacterBody/ComponentContainer" index="1" instance=ExtResource("5_3b607")]
+
+[node name="Sprite2D" type="Sprite2D" parent="CharacterBody/ComponentContainer/CTexture" index="0"]
+texture = ExtResource("6_psmhe")
 
 [node name="CMovement" parent="CharacterBody/ComponentContainer" index="2" node_paths=PackedStringArray("move_strategy") instance=ExtResource("7_lci37")]
 move_strategy = NodePath("VectorMove")
@@ -117,7 +120,7 @@ mouse_focus = [NodePath("../../CCollision/SeekBox")]
 [node name="CAction" parent="CharacterBody/ComponentContainer" index="7" instance=ExtResource("19_ocpjo")]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody" index="1"]
-position = Vector2(6, -12)
+position = Vector2(0, 16)
 shape = SubResource("RectangleShape2D_qcfhx")
 
 [editable path="CharacterBody"]

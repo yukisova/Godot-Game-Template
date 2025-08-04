@@ -12,14 +12,14 @@ func _enter():
 	
 	var animation: AnimationPlayer = c_texture.animation_player
 
-	if vector.is_equal_approx(Vector2.LEFT):
-		animation.play("people_action/idle_l")
-	elif vector.is_equal_approx(Vector2.RIGHT):
-		animation.play("people_action/idle_r")
-	elif vector.is_equal_approx(Vector2.UP):
-		animation.play("people_action/idle_u")
-	elif vector.is_equal_approx(Vector2.DOWN):
-		animation.play("people_action/idle_d")
+	#if vector.is_equal_approx(Vector2.LEFT):
+		#animation.play("people_action/idle_l")
+	#elif vector.is_equal_approx(Vector2.RIGHT):
+		#animation.play("people_action/idle_r")
+	#elif vector.is_equal_approx(Vector2.UP):
+		#animation.play("people_action/idle_u")
+	#elif vector.is_equal_approx(Vector2.DOWN):
+		#animation.play("people_action/idle_d")
 
 func _update(_delta: float) -> void:
 	super._update(_delta)

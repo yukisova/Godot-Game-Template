@@ -1,3 +1,4 @@
+## @describe: 物品融合系统
 class_name SSItemFusion
 extends SubSystem
 
