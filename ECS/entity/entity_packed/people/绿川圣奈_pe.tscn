@@ -1,0 +1,22 @@
+[gd_scene load_steps=4 format=3 uid="uid://cur1e6dfde4tl"]
+
+[ext_resource type="PackedScene" uid="uid://b8yjmlfn04hqu" path="res://entity/entity_packed/people/i_people.tscn" id="1_7ct1a"]
+[ext_resource type="Texture2D" uid="uid://uyc1xepl4vif" path="res://asset/char_set/测试用char_1.png" id="2_3xnhd"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_7ct1a"]
+size = Vector2(32, 10)
+
+[node name="绿川圣奈Pe" instance=ExtResource("1_7ct1a")]
+
+[node name="CTexture" parent="CharacterBody/ComponentContainer" index="0"]
+texture_path = NodePath("Sprite2D")
+
+[node name="Sprite2D" type="Sprite2D" parent="CharacterBody/ComponentContainer/CTexture" index="0"]
+modulate = Color(1, 0, 0, 1)
+texture = ExtResource("2_3xnhd")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody" index="1"]
+position = Vector2(0, 16)
+shape = SubResource("RectangleShape2D_7ct1a")
+
+[editable path="CharacterBody"]

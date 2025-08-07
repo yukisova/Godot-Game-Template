@@ -1,14 +1,77 @@
-[gd_scene load_steps=5 format=3 uid="uid://55la10tbk38m"]
+[gd_scene load_steps=14 format=3 uid="uid://55la10tbk38m"]
 
 [ext_resource type="Script" uid="uid://d1m41gty21bic" path="res://ui/ui/ui_brain/ui_brain.gd" id="1_hlga1"]
-[ext_resource type="Theme" uid="uid://cbvflgkah1pwb" path="res://resource/resource_template/basic_theme.tres" id="2_k2y7x"]
-[ext_resource type="PackedScene" uid="uid://cpk52kr8l0lyn" path="res://ui/ui/ui_brain/composite/grid_inventory/grid_inventory.tscn" id="3_g7ipl"]
+[ext_resource type="Script" uid="uid://0y58wickfubb" path="res://resource/custom_resource/item/item.gd" id="2_j5kx2"]
+[ext_resource type="PackedScene" uid="uid://caymvq0vt1vus" path="res://ui/ui/ui_brain/composite/grid_inventory/grid_inventory.tscn" id="3_g7ipl"]
 [ext_resource type="Texture2D" uid="uid://2uiavsvvf387" path="res://asset/other/godot ICON.png" id="4_j5kx2"]
 
-[node name="UiBrain" type="CanvasLayer"]
+[sub_resource type="Gradient" id="Gradient_j5kx2"]
+interpolation_mode = 1
+offsets = PackedFloat32Array(0.61378205, 0.61858976)
+colors = PackedColorArray(0, 0, 0, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_4wouh"]
+gradient = SubResource("Gradient_j5kx2")
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+metadata/_snap_enabled = true
+
+[sub_resource type="Resource" id="Resource_4wouh"]
+script = ExtResource("2_j5kx2")
+item_nick_name = "black"
+item_name = "黑圈"
+item_description = "测试用"
+item_texture = SubResource("GradientTexture2D_4wouh")
+metadata/_custom_type_script = "uid://0y58wickfubb"
+
+[sub_resource type="Gradient" id="Gradient_4wouh"]
+interpolation_mode = 1
+offsets = PackedFloat32Array(0.61858976, 0.63621795)
+colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_dnknc"]
+gradient = SubResource("Gradient_4wouh")
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+metadata/_snap_enabled = true
+
+[sub_resource type="Resource" id="Resource_j5kx2"]
+script = ExtResource("2_j5kx2")
+item_nick_name = "white"
+item_name = "白圈"
+item_description = "测试用的白"
+item_texture = SubResource("GradientTexture2D_dnknc")
+item_tilesize = Vector2i(1, 2)
+metadata/_custom_type_script = "uid://0y58wickfubb"
+
+[sub_resource type="Gradient" id="Gradient_dnknc"]
+interpolation_mode = 1
+offsets = PackedFloat32Array(0.61858976, 0.63621795)
+colors = PackedColorArray(1, 0, 0, 1, 0, 0, 0, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_rhkkt"]
+gradient = SubResource("Gradient_dnknc")
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+metadata/_snap_enabled = true
+
+[sub_resource type="Resource" id="Resource_wk11c"]
+script = ExtResource("2_j5kx2")
+item_nick_name = "red"
+item_name = "红圈"
+item_description = "测试用的红"
+item_texture = SubResource("GradientTexture2D_rhkkt")
+item_tilesize = Vector2i(2, 2)
+metadata/_custom_type_script = "uid://0y58wickfubb"
+
+[node name="UiBrain" type="CanvasLayer" node_paths=PackedStringArray("grid_inventory", "focus_item_image", "focus_item_name", "focus_item_describe")]
 script = ExtResource("1_hlga1")
 is_testing = true
-test_num = 10
+inventory = Array[ExtResource("2_j5kx2")]([SubResource("Resource_4wouh"), SubResource("Resource_j5kx2"), SubResource("Resource_wk11c")])
+grid_inventory = NodePath("Control/TabContainer/MarginContainer/HSplitContainer/ScrollContainer/GridInventory")
+focus_item_image = [NodePath("Control/TabContainer/MarginContainer/HSplitContainer/VSplitContainer/MarginContainer/VBoxContainer/TextureRect"), NodePath("Control/TabContainer/ListInventory/HSplitContainer/VSplitContainer/MarginContainer/VBoxContainer/TextureRect")]
+focus_item_name = [NodePath("Control/TabContainer/MarginContainer/HSplitContainer/VSplitContainer/VBoxContainer/Label"), NodePath("Control/TabContainer/ListInventory/HSplitContainer/VSplitContainer/VBoxContainer/Label")]
+focus_item_describe = [NodePath("Control/TabContainer/MarginContainer/HSplitContainer/VSplitContainer/VBoxContainer/RichTextLabel"), NodePath("Control/TabContainer/ListInventory/HSplitContainer/VSplitContainer/VBoxContainer/RichTextLabel")]
 
 [node name="Control" type="Control" parent="."]
 layout_mode = 3
@@ -17,25 +80,76 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme = ExtResource("2_k2y7x")
 
 [node name="TabContainer" type="TabContainer" parent="Control"]
 custom_minimum_size = Vector2(960, 540)
 layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_top = -15.5
-offset_bottom = 15.5
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 current_tab = 1
 
-[node name="GridInventory" parent="Control/TabContainer" instance=ExtResource("3_g7ipl")]
+[node name="MarginContainer" type="MarginContainer" parent="Control/TabContainer"]
 visible = false
 layout_mode = 2
+metadata/_tab_index = 0
+
+[node name="HSplitContainer" type="HSplitContainer" parent="Control/TabContainer/MarginContainer"]
+layout_mode = 2
+collapsed = true
+dragging_enabled = false
+drag_area_margin_begin = 21
+
+[node name="ScrollContainer" type="ScrollContainer" parent="Control/TabContainer/MarginContainer/HSplitContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+vertical_scroll_mode = 3
+
+[node name="GridInventory" parent="Control/TabContainer/MarginContainer/HSplitContainer/ScrollContainer" instance=ExtResource("3_g7ipl")]
+layout_mode = 2
+grid_num = 40
+col_num = 8
+
+[node name="VSplitContainer" type="VSplitContainer" parent="Control/TabContainer/MarginContainer/HSplitContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="Control/TabContainer/MarginContainer/HSplitContainer/VSplitContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/TabContainer/MarginContainer/HSplitContainer/VSplitContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Control/TabContainer/MarginContainer/HSplitContainer/VSplitContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "物品图像"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="Control/TabContainer/MarginContainer/HSplitContainer/VSplitContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+texture = ExtResource("4_j5kx2")
+expand_mode = 2
+stretch_mode = 5
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/TabContainer/MarginContainer/HSplitContainer/VSplitContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Label" type="Label" parent="Control/TabContainer/MarginContainer/HSplitContainer/VSplitContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 0
+text = "物品的描述"
+
+[node name="RichTextLabel" type="RichTextLabel" parent="Control/TabContainer/MarginContainer/HSplitContainer/VSplitContainer/VBoxContainer"]
+layout_mode = 2
+bbcode_enabled = true
+text = "[color=red]你好啊我的朋友[/color]"
+fit_content = true
 
 [node name="ListInventory" type="MarginContainer" parent="Control/TabContainer"]
 layout_mode = 2
@@ -51,19 +165,25 @@ drag_area_margin_begin = 21
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Control/TabContainer/ListInventory/HSplitContainer/ScrollContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="Control/TabContainer/ListInventory/HSplitContainer/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_right = 8
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/TabContainer/ListInventory/HSplitContainer/ScrollContainer/MarginContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Button" type="Button" parent="Control/TabContainer/ListInventory/HSplitContainer/ScrollContainer/VBoxContainer"]
+[node name="Button" type="Button" parent="Control/TabContainer/ListInventory/HSplitContainer/ScrollContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 0
 text = "测试用物品"
 alignment = 0
 
-[node name="Label" type="Label" parent="Control/TabContainer/ListInventory/HSplitContainer/ScrollContainer/VBoxContainer/Button"]
+[node name="Label" type="Label" parent="Control/TabContainer/ListInventory/HSplitContainer/ScrollContainer/MarginContainer/VBoxContainer/Button"]
 layout_mode = 1
-anchors_preset = 15
+anchors_preset = -1
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_right = -14.0
@@ -97,11 +217,17 @@ texture = ExtResource("4_j5kx2")
 expand_mode = 2
 stretch_mode = 5
 
-[node name="MarginContainer2" type="MarginContainer" parent="Control/TabContainer/ListInventory/HSplitContainer/VSplitContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/TabContainer/ListInventory/HSplitContainer/VSplitContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="Label" type="Label" parent="Control/TabContainer/ListInventory/HSplitContainer/VSplitContainer/MarginContainer2"]
+[node name="Label" type="Label" parent="Control/TabContainer/ListInventory/HSplitContainer/VSplitContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 0
 text = "物品的描述"
+
+[node name="RichTextLabel" type="RichTextLabel" parent="Control/TabContainer/ListInventory/HSplitContainer/VSplitContainer/VBoxContainer"]
+layout_mode = 2
+bbcode_enabled = true
+text = "[color=red]你好啊我的朋友[/color]"
+fit_content = true

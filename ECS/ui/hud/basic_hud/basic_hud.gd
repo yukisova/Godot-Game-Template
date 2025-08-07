@@ -18,6 +18,7 @@ var inventory_in_player: InventoryExtension
 
 
 func _initialize():
+	return 
 	var timeloop = SSubSystemManager.sub_systems[&"time_loop"] as SSTimeLoop
 	timeloop.time_updated.connect(func(v: int):
 		rotate_pointer(v)

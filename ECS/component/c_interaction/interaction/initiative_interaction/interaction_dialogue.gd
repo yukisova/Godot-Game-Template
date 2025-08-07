@@ -6,9 +6,9 @@ extends PassiveInteraction
 @export var test_dialogue: DialogueResource
 @export var test_dialogue_label: StringName
 
-func _on_interact_activated(_target_entity: Entity, _component: IComponent):
+func _on_interact_activated(_target_entity: Entity):
 	var dialogue = SUiSpawner._spawn_ui(test_dialogue_ui)
 	DialogueManager._start_balloon(dialogue, test_dialogue, test_dialogue_label, [])
 	
-func _on_interact_deactivated(_component: IComponent):
+func _on_interact_deactivated():
 	pass

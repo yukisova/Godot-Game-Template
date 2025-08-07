@@ -1,0 +1,22 @@
+[gd_scene load_steps=4 format=3 uid="uid://cvl4a2oc006pj"]
+
+[ext_resource type="PackedScene" uid="uid://b8yjmlfn04hqu" path="res://entity/entity_packed/people/i_people.tscn" id="1_gelah"]
+[ext_resource type="Texture2D" uid="uid://uyc1xepl4vif" path="res://asset/char_set/测试用char_1.png" id="2_n8sv6"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_n8sv6"]
+size = Vector2(32, 10)
+
+[node name="翁蛾健治" instance=ExtResource("1_gelah")]
+
+[node name="CTexture" parent="CharacterBody/ComponentContainer" index="0"]
+texture_path = NodePath("Sprite2D")
+
+[node name="Sprite2D" type="Sprite2D" parent="CharacterBody/ComponentContainer/CTexture" index="0"]
+modulate = Color(1, 1, 0, 1)
+texture = ExtResource("2_n8sv6")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody" index="1"]
+position = Vector2(0, 16)
+shape = SubResource("RectangleShape2D_n8sv6")
+
+[editable path="CharacterBody"]

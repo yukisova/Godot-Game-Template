@@ -15,7 +15,7 @@ func _update(_delta: float) -> void:
 	if (vector.is_zero_approx()):
 		state_transition.emit(get_transition_state())
 	
-	var animation: AnimationPlayer = c_texture.animation_player
+	#var animation: AnimationPlayer = c_texture.animation_player
 	#if Input.is_action_pressed("move_l"):
 		#animation.play("people_action/walk_l")
 	#elif Input.is_action_pressed("move_r"):
@@ -27,4 +27,5 @@ func _update(_delta: float) -> void:
 		
 
 func _exit():
-	c_texture.animation_player.stop()
+	pass
+	#c_texture.animation_player.stop()

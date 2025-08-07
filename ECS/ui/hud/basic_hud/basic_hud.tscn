@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://c8pkw2hs14qni" path="res://ui/hud/basic_hud/basic_hud.gd" id="1_m0gie"]
 [ext_resource type="Shader" uid="uid://dh7nyq424iyhg" path="res://resource/shader/测试用圆形Shader.gdshader" id="2_nrqnx"]
-[ext_resource type="PackedScene" uid="uid://cbbuvqh1j86x0" path="res://ui/ui_composite/dragable_obj/item_in_bag/dragable_item.tscn" id="3_m0gie"]
+[ext_resource type="Script" uid="uid://d0fiy8es3usr6" path="res://ui/ui/ui_brain/composite/grid_inventory/dragable_item.gd" id="3_j82c2"]
 [ext_resource type="Script" uid="uid://chg08yn3wtvta" path="res://ui/ui_composite/dragable_obj/drag_slot.gd" id="4_ceok6"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_m0gie"]
@@ -27,7 +27,7 @@ grow_vertical = 2
 
 [node name="MarginContainer" type="MarginContainer" parent="TheCircleTimer"]
 layout_mode = 1
-anchors_preset = 1
+anchors_preset = -1
 anchor_left = 1.0
 anchor_right = 1.0
 offset_left = -32.0
@@ -80,7 +80,6 @@ default_color = Color(0.2392157, 0.4, 0.3529412, 1)
 
 [node name="Control" type="Control" parent="."]
 layout_mode = 3
-anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 16.0
@@ -104,7 +103,6 @@ toggle_mode = true
 [node name="BagPanelControl" type="Control" parent="."]
 clip_contents = true
 layout_mode = 3
-anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 125.0
@@ -121,16 +119,16 @@ alignment = 2
 
 [node name="Control3" type="Control" parent="."]
 layout_mode = 3
-anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
 
-[node name="DragableItemPrototype" parent="Control3" instance=ExtResource("3_m0gie")]
+[node name="DragableItemPrototype" type="TextureRect" parent="Control3"]
 visible = false
 layout_mode = 0
 offset_left = 125.0
 offset_right = 225.0
 offset_bottom = 100.0
+script = ExtResource("3_j82c2")
 
 [node name="BagSlotPrototype" type="PanelContainer" parent="Control3"]
 visible = false

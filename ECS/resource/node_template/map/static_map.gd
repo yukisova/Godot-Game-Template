@@ -18,7 +18,7 @@ signal filter_changed(point: float)
 @export var autoload_cutscene: Node ## 自动加载的过场事件
 @export var map_filter: CanvasModulate ## 地图滤镜
 @export var filter_gradient: GradientTexture1D ## 滤镜的渐变效 果
-
+@export var cutscene_enable: bool = true
 
 ## 用于统计用的层级数
 var level_count: int = 0
@@ -26,7 +26,7 @@ var level_loaded_count :int = 0
 var level_initialized_count : int = 0
 
 ## _ready: 当游戏数据完全加载完毕后（发出game_data_loaded_compelete信号），如果存在过场剧情逻辑, 则立刻执行
-func _ready() -> void:
+func _enter_tree() -> void:
 	if Engine.is_editor_hint():
 		return
 	
@@ -38,8 +38,13 @@ func _ready() -> void:
 			level.level_entity_fully_initialize.connect(_on_level_entity_fully_loaded)
 			level_count += 1
 	
-	for cutscene in autoload_cutscene.get_children():
-		SSignalBus.game_data_loaded_compelete.connect(cutscene._start)
+	if cutscene_enable:
+		for cutscene in autoload_cutscene.get_children():
+			SSignalBus.game_loop_start.connect(cutscene._start)
+	else:
+		SSignalBus.game_loop_start.connect(func():
+			SUiSpawner._get_hud("transition").fade_in()
+		)
 
 ## 所有楼层的信息全部完成加载后发出
 func _on_level_fully_loaded():

@@ -1,4 +1,4 @@
-## SORA @editing: Sora [br]
+## @editing: Sora [br]
 ## @describe: 存档系统， 同时可以保存游戏运行时的全局共享数据，效果类似黑板
 extends ISystem
 
@@ -9,16 +9,22 @@ signal loading_started
 ## 游戏加载
 signal loading_refreshed(data: Dictionary)
 
+## 黑板操作信号
+signal blackboard_inserted(key: StringName, value: Variant)
+signal blackboard_cleaned(key: StringName)
+
+## 默认的保存文件名
 const SAVE_PATH := "user://data.sav"
 
-## 游戏运行时的缓存信息，存放着当前的任务(方便全局共享，相当于一个黑板)
+## FIXME 位于存档系统中的全局黑板 游戏运行时的缓存信息(方便全局共享，相当于一个黑板)
 var gaming_data_cache: Dictionary = {}
 
-
 func _enter_tree() -> void:
-	
 	saving_started.connect(_data_saving)
 	loading_started.connect(_data_loading)
+	
+	blackboard_inserted.connect(_on_blackboard_insert)
+	blackboard_cleaned.connect(_on_blackboard_clean)
 
 func _resetup():
 	gaming_data_cache.clear()
@@ -47,3 +53,19 @@ func _data_loading():
 	result.merge(result, true)
 	print("目前的存档文件内容为: ",data)
 	loading_refreshed.emit.call_deferred(result)
+
+## TODO 黑板相关
+#region :黑板操作: 黑板本身分为两种, 严格限制接收值类型，与不严格的类型
+## 插入黑板数据: 要求1. 数据插入后需要出现回声Echo，便于分辨杂项
+func _on_blackboard_insert(key: StringName, value: Variant):
+	if key == &"": return ## 不允许空
+	pass
+
+func _on_blackboard_clean(key: StringName):
+	if key == &"": return ## 不允许空
+	pass
+
+## 查找数据
+func blackboard_data_search():
+	pass
+#endregion

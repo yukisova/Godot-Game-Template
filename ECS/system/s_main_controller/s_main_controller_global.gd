@@ -11,7 +11,7 @@ signal player_located(target_level: Level, target_position: Vector2)
 var player_static: Entity
 
 func _setup():
-	Input.set_mouse_mode(Input.MOUSE_MODE_CONFINED)
+	#Input.set_mouse_mode(Input.MOUSE_MODE_CONFINED)
 	
 	player_located.connect(_on_player_located)
 

@@ -1,8 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://cbbuvqh1j86x0"]
-
-[ext_resource type="Script" uid="uid://d0fiy8es3usr6" path="res://ui/ui_composite/dragable_obj/item_in_bag/dragable_item.gd" id="1_28de3"]
-
-[node name="DragableItem" type="TextureRect"]
-offset_right = 64.0
-offset_bottom = 64.0
-script = ExtResource("1_28de3")

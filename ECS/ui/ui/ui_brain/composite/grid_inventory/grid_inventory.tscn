@@ -1,21 +1,61 @@
-[gd_scene format=3 uid="uid://cpk52kr8l0lyn"]
+[gd_scene load_steps=4 format=3 uid="uid://caymvq0vt1vus"]
 
-[node name="GridInventory" type="MarginContainer"]
+[ext_resource type="Script" uid="uid://dfj6sy7r7tbyd" path="res://ui/ui/ui_brain/composite/grid_inventory/grid_inventory.gd" id="1_h1t4r"]
+[ext_resource type="Script" uid="uid://cdy2xucttgl1k" path="res://ui/ui/ui_brain/composite/grid_inventory/grid_inventory_slot.gd" id="2_flkpl"]
+[ext_resource type="Script" uid="uid://d0fiy8es3usr6" path="res://ui/ui/ui_brain/composite/grid_inventory/dragable_item.gd" id="3_t5n40"]
+
+[node name="GridInventory" type="MarginContainer" node_paths=PackedStringArray("panel_prototype")]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-metadata/_tab_index = 0
+size_flags_horizontal = 0
+size_flags_vertical = 6
+script = ExtResource("1_h1t4r")
+panel_prototype = NodePath("PrototypeList/GridInventorySlotPrototype")
 
 [node name="GridContainer" type="GridContainer" parent="."]
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
-columns = 10
+theme_override_constants/h_separation = 0
+theme_override_constants/v_separation = 0
 
-[node name="GridPanelPrototype" type="PanelContainer" parent="GridContainer"]
-custom_minimum_size = Vector2(64, 64)
+[node name="ItemControl" type="Control" parent="."]
 layout_mode = 2
+
+[node name="Pointer" type="Control" parent="."]
+layout_mode = 2
+
+[node name="PrototypeList" type="Control" parent="."]
+visible = false
+layout_mode = 2
+
+[node name="GridInventorySlotPrototype" type="PanelContainer" parent="PrototypeList"]
+visible = false
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 0
+offset_left = 544.0
+offset_top = 292.0
+offset_right = 608.0
+offset_bottom = 356.0
 size_flags_horizontal = 4
 size_flags_vertical = 4
+script = ExtResource("2_flkpl")
+
+[node name="DragableItemPrototype" type="TextureRect" parent="PrototypeList"]
+visible = false
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+stretch_mode = 5
+script = ExtResource("3_t5n40")
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 2
+
+[node name="HoverEffect" type="TextureRect" parent="Control"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0

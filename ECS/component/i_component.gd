@@ -7,6 +7,7 @@ enum ComponentType { ## 组件的状态
 	BASE = 0, ## 基础组件，在实体编辑时固定的基础性组件
 	INTERFACE ## 接口组件, 直接挂载在诸如地图一类的实体子场景下，或通过代码动态挂载在目标实体下。主要面向可能会根据地图信息, 角色行为而需要灵活设置信息的场景
 }
+
 enum ComponentName {
 	c_action = 0, ## 见[C_Action]
 	c_texture, ## 见[C_Texture]
@@ -18,9 +19,13 @@ enum ComponentName {
 	c_state, ## 见[C_State]
 	c_status, ## 见[C_Status]
 	c_navigation, ## 见[C_Navigation]
-	c_composite, ## 见[C_Composite]
+	c_balloon, ## 见[C_Balloon]
 	c_event_trigger, ## 见[C_EventTrigger]
+	c_ray ## 见[C_Ray]
 }
+
+## TODO 
+@export var initialize_from: String ## 在初始化的时候如果需要在外部自定义初始化的值，所在ContainerBlackboard中获取的
 
 var component_owner: Entity ## 组件的拥有者, 即实体
 var component_body: CollisionObject2D ## 实体的主碰撞体
@@ -44,11 +49,6 @@ func _initialize(_owner: Entity):
 	component_owner = _owner
 	component_body = component_owner.body
 
-func _late_initialize(_owner: Entity):
-	if Engine.is_editor_hint():
-		return
-	component_owner = _owner
-	component_body = component_owner.body
 
 func _update(_delta: float):
 	if Engine.is_editor_hint():
@@ -57,12 +57,6 @@ func _update(_delta: float):
 func _fixed_update(_delta: float):
 	if Engine.is_editor_hint():
 		return
-
-
-func _late_update(_delta: float):
-	if Engine.is_editor_hint():
-		return
-
 
 func _trigger_update():
 	if Engine.is_editor_hint():

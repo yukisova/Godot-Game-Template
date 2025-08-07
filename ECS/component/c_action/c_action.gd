@@ -5,6 +5,7 @@
 class_name C_Action
 extends IComponent
 
+@warning_ignore("unused_signal")
 signal _action_searched ## FIXME 这里原本的目的是用于搜索已有的Action,但是Action往往是可以直接引用的, 这个信号目前似乎没有存在的必要
 
 func _enter_tree() -> void:

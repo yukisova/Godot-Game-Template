@@ -1,0 +1,153 @@
+[gd_scene load_steps=29 format=3 uid="uid://chcm2vu8h6bs1"]
+
+[ext_resource type="PackedScene" uid="uid://6jpwo3n27sj2" path="res://entity/entity.tscn" id="1_cpfht"]
+[ext_resource type="PackedScene" uid="uid://cq0u8u1qie88t" path="res://entity/entity_template/character_body.tscn" id="2_10by5"]
+[ext_resource type="PackedScene" uid="uid://bvjy63fua1sx2" path="res://component/c_texture/c_texture.tscn" id="3_10by5"]
+[ext_resource type="PackedScene" uid="uid://bo5de2ow6bqjo" path="res://component/c_camera/c_camera.tscn" id="3_qlyid"]
+[ext_resource type="Script" uid="uid://b1kgwv70jiajt" path="res://component/c_camera/follow_strategy/cfs_mouse_follow.gd" id="4_d1eba"]
+[ext_resource type="Texture2D" uid="uid://uyc1xepl4vif" path="res://asset/char_set/测试用char_1.png" id="6_3swxj"]
+[ext_resource type="PackedScene" uid="uid://dvrvdiy0pquiq" path="res://component/c_movement/c_movement.tscn" id="7_lxaiq"]
+[ext_resource type="Script" uid="uid://dwt0prmf31a5" path="res://component/c_movement/move_strategy/vector_move.gd" id="8_s6qkr"]
+[ext_resource type="PackedScene" uid="uid://caj56l0yail7q" path="res://component/c_status/c_status.tscn" id="9_r1axf"]
+[ext_resource type="Script" uid="uid://0y7pq6c8rex1" path="res://component/c_status/status_extension/inventory/inventory.gd" id="10_ddqps"]
+[ext_resource type="PackedScene" uid="uid://ca1hb1m2dinl2" path="res://component/c_state/c_state.tscn" id="11_gg8ev"]
+[ext_resource type="Script" uid="uid://dnmlb5kw5y7u3" path="res://component/c_state/state/hfsm/state/player/sm_sora_root.gd" id="12_8yxan"]
+[ext_resource type="Script" uid="uid://b3dlfvhs4o6ii" path="res://component/c_state/state/hfsm/state/player/state_idle.gd" id="13_jeuop"]
+[ext_resource type="Script" uid="uid://cpdkw72ahtbjj" path="res://component/c_state/transition_record.gd" id="14_3syqy"]
+[ext_resource type="Script" uid="uid://dj1d6vr2iy6ds" path="res://component/c_state/state/hfsm/state/player/state_move.gd" id="15_bw1gr"]
+[ext_resource type="PackedScene" uid="uid://cps21xspaovit" path="res://component/c_collision/c_collision.tscn" id="16_74hs8"]
+[ext_resource type="PackedScene" uid="uid://culm6jk4g06ro" path="res://component/c_collision/box_collision/seek_box/seek_box.tscn" id="17_68kku"]
+[ext_resource type="PackedScene" uid="uid://lu3gu1tfxdey" path="res://component/c_input_reactor/c_input_reactor.tscn" id="18_lccat"]
+[ext_resource type="PackedScene" uid="uid://dyxr8eofrj3pw" path="res://ui/ui/ui_pause/ui_pause.tscn" id="19_qvx2r"]
+[ext_resource type="Script" uid="uid://b12rb4ncy2q57" path="res://component/c_input_reactor/reactor_extension/e_player/seek_confirm.gd" id="20_3gllj"]
+[ext_resource type="Script" uid="uid://dc4xbso7xmwvo" path="res://component/c_input_reactor/reactor_extension/e_player/mouse_focus.gd" id="21_04ll1"]
+[ext_resource type="Script" uid="uid://bj5wq8iankhmq" path="res://component/c_input_reactor/reactor_extension/e_player/test_check_info.gd" id="22_h8dci"]
+[ext_resource type="PackedScene" uid="uid://b3vbfhugiqyva" path="res://component/c_action/c_action.tscn" id="23_86vaq"]
+[ext_resource type="PackedScene" uid="uid://crbs5skmddqls" path="res://component/c_ray/c_ray.tscn" id="24_d1eba"]
+[ext_resource type="Script" uid="uid://3c3x3bgxinnw" path="res://component/c_ray/box_ray/interact_ray/interact_ray.gd" id="25_3swxj"]
+
+[sub_resource type="Resource" id="Resource_whce7"]
+script = ExtResource("14_3syqy")
+to_state = NodePath("../Move")
+metadata/_custom_type_script = "uid://cpdkw72ahtbjj"
+
+[sub_resource type="Resource" id="Resource_osnnt"]
+script = ExtResource("14_3syqy")
+to_state = NodePath("../Idle")
+metadata/_custom_type_script = "uid://cpdkw72ahtbjj"
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_qcfhx"]
+size = Vector2(32, 10)
+
+[node name="野比大雄" node_paths=PackedStringArray("main_control", "component_container") instance=ExtResource("1_cpfht")]
+main_control = NodePath("CharacterBody")
+component_container = NodePath("CharacterBody/ComponentContainer")
+
+[node name="CharacterBody" parent="." index="0" groups=["player"] instance=ExtResource("2_10by5")]
+y_sort_enabled = true
+
+[node name="CCamera" parent="CharacterBody/ComponentContainer" index="0" node_paths=PackedStringArray("camera_strategy") instance=ExtResource("3_qlyid")]
+camera_strategy = NodePath("MouseFollow")
+initialize_from = null
+
+[node name="Camera2D" parent="CharacterBody/ComponentContainer/CCamera" index="0"]
+zoom = Vector2(2, 2)
+
+[node name="MouseFollow" type="Node" parent="CharacterBody/ComponentContainer/CCamera" index="1"]
+script = ExtResource("4_d1eba")
+smoothing = null
+
+[node name="CTexture" parent="CharacterBody/ComponentContainer" index="1" instance=ExtResource("3_10by5")]
+texture_path = NodePath("Sprite2D")
+initialize_from = null
+
+[node name="Sprite2D" type="Sprite2D" parent="CharacterBody/ComponentContainer/CTexture" index="0"]
+position = Vector2(0, 12)
+texture = ExtResource("6_3swxj")
+offset = Vector2(0, -12)
+
+[node name="CMovement" parent="CharacterBody/ComponentContainer" index="2" node_paths=PackedStringArray("move_strategy") instance=ExtResource("7_lxaiq")]
+move_strategy = NodePath("VectorMove")
+initialize_from = null
+
+[node name="VectorMove" type="Node" parent="CharacterBody/ComponentContainer/CMovement" index="0" node_paths=PackedStringArray("c_input", "blackboard")]
+script = ExtResource("8_s6qkr")
+c_input = NodePath("../../CInputReactor")
+move_speed = 1000.0
+blackboard = NodePath("../..")
+
+[node name="CStatus" parent="CharacterBody/ComponentContainer" index="3" instance=ExtResource("9_r1axf")]
+basic_info = Dictionary[int, float]({
+0: 100.0,
+1: 50.0,
+2: 100.0
+})
+initialize_from = null
+
+[node name="Inventory" type="Node" parent="CharacterBody/ComponentContainer/CStatus" index="0"]
+script = ExtResource("10_ddqps")
+inventory_pack_num = 5
+
+[node name="CState" parent="CharacterBody/ComponentContainer" index="4" node_paths=PackedStringArray("root_state_machine") instance=ExtResource("11_gg8ev")]
+root_state_machine = NodePath("PlayerSM")
+initialize_from = null
+
+[node name="PlayerSM" type="Node" parent="CharacterBody/ComponentContainer/CState" index="0"]
+script = ExtResource("12_8yxan")
+init_state = NodePath("Idle")
+metadata/_custom_type_script = "uid://b5ywitjyd2ccg"
+
+[node name="Idle" type="Node" parent="CharacterBody/ComponentContainer/CState/PlayerSM" index="0" node_paths=PackedStringArray("vector_move", "c_texture")]
+script = ExtResource("13_jeuop")
+vector_move = NodePath("../../../CMovement/VectorMove")
+c_texture = NodePath("../../../CTexture")
+hfsm_state_transition = Dictionary[StringName, ExtResource("14_3syqy")]({
+&"": SubResource("Resource_whce7")
+})
+
+[node name="Move" type="Node" parent="CharacterBody/ComponentContainer/CState/PlayerSM" index="1" node_paths=PackedStringArray("vector_move", "c_texture")]
+script = ExtResource("15_bw1gr")
+vector_move = NodePath("../../../CMovement/VectorMove")
+c_texture = NodePath("../../../CTexture")
+hfsm_state_transition = Dictionary[StringName, ExtResource("14_3syqy")]({
+&"": SubResource("Resource_osnnt")
+})
+
+[node name="CCollision" parent="CharacterBody/ComponentContainer" index="5" instance=ExtResource("16_74hs8")]
+initialize_from = null
+
+[node name="SeekBox" parent="CharacterBody/ComponentContainer/CCollision" index="0" instance=ExtResource("17_68kku")]
+
+[node name="CInputReactor" parent="CharacterBody/ComponentContainer" index="6" instance=ExtResource("18_lccat")]
+pause_ui = ExtResource("19_qvx2r")
+initialize_from = null
+
+[node name="SeekConfirm" type="Node" parent="CharacterBody/ComponentContainer/CInputReactor" index="0" node_paths=PackedStringArray("seek_box")]
+script = ExtResource("20_3gllj")
+seek_box = NodePath("../../CCollision/SeekBox")
+
+[node name="MouseFocus" type="Node" parent="CharacterBody/ComponentContainer/CInputReactor" index="1" node_paths=PackedStringArray("mouse_focus")]
+script = ExtResource("21_04ll1")
+mouse_focus = [NodePath("../../CCollision/SeekBox")]
+
+[node name="TestCheckInfo" type="Node" parent="CharacterBody/ComponentContainer/CInputReactor" index="2"]
+script = ExtResource("22_h8dci")
+
+[node name="CAction" parent="CharacterBody/ComponentContainer" index="7" instance=ExtResource("23_86vaq")]
+initialize_from = null
+
+[node name="CRay" parent="CharacterBody/ComponentContainer" index="8" instance=ExtResource("24_d1eba")]
+
+[node name="InteractRay" type="RayCast2D" parent="CharacterBody/ComponentContainer/CRay" index="0"]
+position = Vector2(0, 15)
+target_position = Vector2(30, 0)
+collision_mask = 2
+script = ExtResource("25_3swxj")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody" index="1"]
+position = Vector2(0, 16)
+shape = SubResource("RectangleShape2D_qcfhx")
+
+[editable path="CharacterBody"]
+[editable path="CharacterBody/ComponentContainer/CCamera"]
+[editable path="CharacterBody/ComponentContainer/CState"]

@@ -21,12 +21,12 @@ var input_vector_dict: Dictionary[String, Vector2] = {
 }
 var reactor_extension: Array[ReactorExtension] = []
 
-var interact_obj: C_Interactable = null:
+var interact_obj: PassiveInteraction = null:
 	set(v):
 		if v == null:
 			print("可交互对象重置")
 		else:
-			print("可交互对象更新: ", v.component_owner.name)
+			print("可交互对象更新: ", v.binding.component_owner.name)
 		interact_obj = v
 
 func _enter_tree() -> void:

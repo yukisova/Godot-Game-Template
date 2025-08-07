@@ -10,6 +10,7 @@ signal state_poped
 ## PDA状态压入栈
 signal state_pushed(to_state: StatePda)
 ## HFSM状态切换
+@warning_ignore("unused_signal")
 signal state_transition(to_state: StateHfsm)
 
 ## 状态的拥有者

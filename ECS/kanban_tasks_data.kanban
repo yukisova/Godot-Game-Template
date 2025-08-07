@@ -20,7 +20,9 @@
 		{
 			"uuid": "31ae34de-c661-4e46-a361-c1297d43704b",
 			"title": "Doing",
-			"tasks": []
+			"tasks": [
+				"c991403c-5cdf-4180-bdf2-49e14fb36026"
+			]
 		},
 		{
 			"uuid": "9ff9bbb5-3736-4663-8148-b5dcac0be5f2",
@@ -30,7 +32,8 @@
 				"22224e51-43ab-4855-81ad-454d2430dde4",
 				"95d02c9b-db71-457d-b812-28e1439a6783",
 				"d8393eef-0a5e-4bdc-9af9-7c7b2c4e6c83",
-				"a9533bad-1d20-4cfc-93d8-5a8c3de80acb"
+				"a9533bad-1d20-4cfc-93d8-5a8c3de80acb",
+				"55fa974e-446d-41c0-98f3-2fa357c92f64"
 			]
 		},
 		{
@@ -118,6 +121,20 @@
 					"done": false
 				}
 			]
+		},
+		{
+			"uuid": "55fa974e-446d-41c0-98f3-2fa357c92f64",
+			"title": "先实现一个背包系统",
+			"description": "实现网格背包系统，之后可以基于此设计TNWE的物品逻辑",
+			"category": "c78c7d53-12cd-4ef8-8ef7-0f68d675ba1a",
+			"steps": []
+		},
+		{
+			"uuid": "c991403c-5cdf-4180-bdf2-49e14fb36026",
+			"title": "RayCast2D以及配套的碰撞体检测系统",
+			"description": "需要因此再重构一下C_Interactable",
+			"category": "c78c7d53-12cd-4ef8-8ef7-0f68d675ba1a",
+			"steps": []
 		}
 	],
 	"layout": {

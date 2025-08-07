@@ -42,7 +42,8 @@ static func rebind_action(action_name: String, new_key: Key):
 
 #endregion
 
-## 游戏设置的预加载(因此应当将)
+## FIXME 游戏设置的预加载: 
+## 目前问题: 游戏并没有设置记录功能，只是粗暴地使用了位于SoraConstant常量静态集中的默认设置项数据
 func _config_return() -> Dictionary:
 	var configfile := FileAccess.open(CONFIG_PATH, FileAccess.READ)
 	var config: Dictionary
@@ -63,6 +64,7 @@ func _config_info_parser(_setting: Dictionary):
 
 	is_initialized = true
 
+## 设置信息的改变，
 func _config_changed(_changed_config: Dictionary):
 	var configfile := FileAccess.open(CONFIG_PATH, FileAccess.WRITE)
 	var json = JSON.new()

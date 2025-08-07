@@ -5,6 +5,20 @@ extends CanvasLayer
 
 signal _unspawned
 
+@export var is_testing:bool
+
+func _ready() -> void:
+	if get_tree().current_scene != self:
+		_main_setup()
+	else:
+		_test_setup()
+
+func _main_setup(): ## 主要运行时，运行的逻辑
+	pass
+
+func _test_setup(): ## 单元测试时，运行的逻辑
+	pass
+
 func unspawn():
 	_unspawned.emit(self)
 

@@ -9,6 +9,7 @@ camera_limit = NodePath("CameraLimit")
 room = NodePath("Room")
 
 [node name="CameraLimit" type="Control" parent="."]
+custom_minimum_size = Vector2(50, 50)
 layout_mode = 3
 anchors_preset = 0
 

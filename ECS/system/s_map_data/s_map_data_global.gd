@@ -2,11 +2,12 @@
 ## @describe: 地图信息加载系统，代替了原本常用的scene_change
 extends ISystem
 
+## 游戏运行时动态在某个Level中放置实体
 signal factor_added(new_factor: Entity, start_position: Vector2)
+## 游戏运行前的地图注册
 signal map_info_registered(map: PackedScene)
+## 楼层注册
 signal level_changed(operate_entity: Entity,new_level: Level)
-
-@export var test_start_map_scene: PackedScene ## 要加载的地图
 
 var current_level: Level
 var current_map: StaticMap
@@ -28,7 +29,7 @@ func _on_map_info_registered(map_scene: PackedScene):
 	await get_tree().process_frame
 	var map = map_scene.instantiate() as StaticMap
 	current_map = map
-	
+	SUiSpawner._hide_hud(["transition"])
 	Main.game_view.add_child(map)
 	
 	## 当地图完成加载后，发送map_info_loaded信号，表明当前已经完成了所有地图信息的加载

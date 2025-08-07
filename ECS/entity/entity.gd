@@ -4,7 +4,10 @@
 class_name Entity
 extends Node2D
 
-signal initialize_complete
+signal initialize_complete ## 实体初始化完毕后发出
+
+signal entity_ray_interact(interact_source: Entity) ## 用于玩家与目标交互对象之间基于RayCast的交互，只会在
+
 
 @export_group("初始化的黑板信息")
 @export var init_data_variant: Dictionary[String, Variant]

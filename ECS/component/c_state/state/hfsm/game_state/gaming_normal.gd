@@ -23,9 +23,7 @@ func _ready() -> void:
 		)
 
 func _enter():
-	SUiSpawner.current_hud[&""]._refresh()
-	SUiSpawner.current_hud[&""].show()
-	
+	SSignalBus.game_loop_continue.emit()
 
 func _exit():
-	SUiSpawner.current_hud[&""].hide()
+	pass

@@ -3,4 +3,4 @@
 class_name SeekBox
 extends BoxCollision
 
-var seek_target : Array[C_Interactable] = []
+var seek_target : Array[PassiveInteraction] = []

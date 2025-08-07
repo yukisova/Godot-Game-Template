@@ -12,6 +12,19 @@ func _setup():
 		Main.ui_view.add_child(hud)
 		current_hud[key] = hud as IHud
 		current_hud[key].hide()
+	
+	SSignalBus.game_loop_start.connect(func():
+		for hud:IHud in current_hud.values():
+			hud._initialize()
+	)
+	SSignalBus.game_loop_continue.connect(func():
+		for hud:IHud in current_hud.values():
+			hud._refresh()
+	)
+	SSignalBus.game_loop_paused.connect(func():
+		for hud:IHud in current_hud.values():
+			hud.hide()
+	)
 
 func _resetup():
 	for hud in current_hud.values():
@@ -62,3 +75,6 @@ func _all_unspawn():
 ## 当系统完成加载的时候，进入主场景
 func _loading_start_ui():
 	_spawn_ui(main_menu_scene)
+
+func _get_hud(keyword: StringName):
+	return current_hud.get(keyword)

@@ -6,12 +6,13 @@ extends IUi
 
 @export_subgroup("依赖")
 @export var continue_game_button: FuncButton
+@export var test_game_button: FuncButton
 @export var start_game_button: FuncButton
 @export var load_game_button: FuncButton
 @export var game_setting_button: LinkageButton
 @export var quit_game_button: FuncButton
 
-func _ready() -> void:
+func _main_setup() -> void:
 	## 播放主菜单音乐
 	SAudioMaster.play_music(bgm)
 	
@@ -27,7 +28,7 @@ func _ready() -> void:
 	#continue_game_button.pressed.connect(func():\
 		#
 	#)
-	start_game_button.pressed.connect(Callable(func(_args):
+	test_game_button.pressed.connect(Callable(func(_args):
 		var game_state_machine = SGameState.state_machine as StateMachineHfsm 
 		
 		var current_state = game_state_machine._get_active_state()
@@ -37,7 +38,15 @@ func _ready() -> void:
 			SAudioMaster.play_music(null)
 			unspawn()
 		else:
-			push_error("当前出现问题: 主菜单场景状态机错误！当前状态名:%s"%[current_state.name])).bind(start_game_button.args)
+			push_error("当前出现问题: 主菜单场景状态机错误！当前状态名:%s"%[current_state.name])).bind(test_game_button.args)
+	)
+	start_game_button.pressed.connect(Callable(func(_args):
+		SAudioMaster.play_music(null)
+		
+		var start_game_ui = _args[0]
+		
+		SUiSpawner._spawn_ui(start_game_ui)
+		).bind(start_game_button.args)
 	)
 	## TODO 游戏存档模块：加载游戏逻辑还有待进步
 	load_game_button.pressed.connect(Callable(func(_args):

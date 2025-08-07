@@ -1,0 +1,79 @@
+[gd_scene load_steps=6 format=3 uid="uid://b7mmsux2502jx"]
+
+[ext_resource type="Script" uid="uid://lqwjcqcum3dj" path="res://ui/ui/ui_start_game_cutscene/ui_start_game_cutscene.gd" id="1_gci7r"]
+[ext_resource type="PackedScene" uid="uid://db1m4fs2mf0ed" path="res://scene/static_map/m_地铁站_ep_1.tscn" id="2_x45hb"]
+
+[sub_resource type="Animation" id="Animation_x45hb"]
+resource_name = "tip"
+length = 3.0
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.016208077, 1, 2, 3),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_w1xqb"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_w1xqb"]
+_data = {
+&"RESET": SubResource("Animation_w1xqb"),
+&"tip": SubResource("Animation_x45hb")
+}
+
+[node name="UiStartGameCutscene" type="CanvasLayer"]
+script = ExtResource("1_gci7r")
+start_game_scene = ExtResource("2_x45hb")
+
+[node name="Control" type="Control" parent="."]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="Control"]
+custom_minimum_size = Vector2(400, 100)
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -0.5
+offset_right = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="RichTextLabel" parent="Control/MarginContainer"]
+layout_mode = 2
+text = "这是由萧萧sora，与三角制作的一个测试用游戏原型
+主要目的是测试游戏的原型(如过场剧情，与分支选项)
+游戏中存在较为阴暗的描述与表示，但尽量不会太血腥。"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Control"]
+libraries = {
+&"": SubResource("AnimationLibrary_w1xqb")
+}
