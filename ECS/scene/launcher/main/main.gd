@@ -62,7 +62,7 @@ func _game_setting_parser(_setting_info: Dictionary):
 	pass
 
 enum PhysicsLayer{
-	Wall, ## 墙壁的碰撞体
-	Interactable, ## 可交互的碰撞体
-	Breakable, ## 破坏检测时使用的碰撞体
+	Wall = 1 << 0, ## 墙壁的碰撞体
+	Interactable = 1 << 1, ## 可交互的碰撞体
+	Breakable = 1 << 2, ## 破坏检测时使用的碰撞体
 }

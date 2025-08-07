@@ -34,7 +34,7 @@ var dialogue_line: DialogueLine:
 			apply_dialogue_line()
 		else:
 			## 此处文件结束, 为了匹配目标的
-			# queue_free()
+			await get_tree().create_timer(0.1).timeout
 			unspawn()
 	get:
 		return dialogue_line

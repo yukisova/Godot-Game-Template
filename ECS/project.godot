@@ -39,7 +39,7 @@ SSubSystemManager="*res://system/s_sub_system_manager/s_sub_system_manager.tscn"
 
 [dialogue_manager]
 
-runtime/balloon_path="res://ui/ui_composite/canvas/dialogue_panel/dialog_panel.tscn"
+runtime/balloon_path="uid://shdn4eldwjpu"
 editor/translations/default_csv_locale="zh"
 
 [display]
@@ -54,7 +54,7 @@ project/assembly_name="昨日之影"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/Todo_Manager/plugin.cfg", "res://addons/dialogue_manager/plugin.cfg", "res://addons/kanban_tasks/plugin.cfg")
+enabled=PackedStringArray("res://addons/Todo_Manager/plugin.cfg", "res://addons/dialogue_manager/plugin.cfg")
 
 [global_group]
 
