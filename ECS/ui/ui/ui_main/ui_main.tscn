@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://fqkh2lkuaxp4" path="res://ui/ui/ui_main/ui_main.gd" id="1_8moro"]
 [ext_resource type="Theme" uid="uid://cbvflgkah1pwb" path="res://resource/resource_template/basic_theme.tres" id="2_1q3r7"]
 [ext_resource type="Script" uid="uid://b77vti74tgrbe" path="res://ui/ui_composite/func_button.gd" id="3_3ko51"]
-[ext_resource type="PackedScene" uid="uid://db1m4fs2mf0ed" path="res://scene/static_map/m_地铁站_ep_1.tscn" id="4_mqo0q"]
+[ext_resource type="PackedScene" uid="uid://nqh6sy3jpxp3" path="res://scene/static_map/m_测试场景.tscn" id="4_bbnxr"]
 [ext_resource type="Script" uid="uid://22228lam2w6p" path="res://ui/ui_composite/link_button.gd" id="5_63x8v"]
 [ext_resource type="PackedScene" uid="uid://b7mmsux2502jx" path="res://ui/ui/ui_start_game_cutscene/ui_start_game_cutscene.tscn" id="5_bbnxr"]
 [ext_resource type="PackedScene" uid="uid://ckmbalibndnve" path="res://ui/ui_composite/canvas/setting_panel/setting_panel.tscn" id="6_8k5ru"]
@@ -66,7 +66,7 @@ custom_minimum_size = Vector2(300, 80)
 layout_mode = 2
 text = "测试游戏"
 script = ExtResource("3_3ko51")
-args = [ExtResource("4_mqo0q")]
+args = [ExtResource("4_bbnxr")]
 
 [node name="StartGame" type="Button" parent="Control/MarginContainer/VBoxContainer"]
 custom_minimum_size = Vector2(300, 80)

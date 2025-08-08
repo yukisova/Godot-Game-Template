@@ -24,6 +24,7 @@ func _initialize(_owner: Entity):
 		if i is StatePda:
 			pda_state_dict[i.keyword] = i
 	
+	root_state_machine.is_root = true
 	root_state_machine._setup()
 	root_state_machine._enter()
 

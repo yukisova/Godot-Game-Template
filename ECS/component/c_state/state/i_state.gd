@@ -15,5 +15,5 @@ func _fixed_update(_delta: float) -> void:
 func _exit():
 	pass
 
-func _listen(): ## 用于部分状态下的按键监听
+func _listen(): ## 
 	pass

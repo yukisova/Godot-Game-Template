@@ -1,23 +1,18 @@
-## @editing: Sora [br]
-## @describe: NPC的一般行走AI，用到了导航节点，并且根据需要，为了避免不同的AI碰撞，设置了
+## 
 @tool
-extends StateHfsm
+extends StatePda
 
-@export var animated_sprite: AnimatedSprite2D
 @export var vector_move: MoveStrategy
 @export var c_navigation: C_Navigation
 
-@export var walk_state_time_range: Vector2 = Vector2(3.0, 5.0)
+## ZoneRandomPatrol状态下的随机速度
 @export var walk_speed_range: Vector2 = Vector2(5, 10)
 
-var walk_transition_trigger : bool = false
 var current_speed: float
 
 func _ready() -> void:
-	if (Engine.is_editor_hint()):
-		return
+	if (Engine.is_editor_hint()): return
 	c_navigation.nav_agent.velocity_computed.connect(_on_safe_velocity_computed)
-	
 
 ## 安全的位移力
 func _on_safe_velocity_computed(safe_velocity: Vector2):
@@ -26,24 +21,19 @@ func _on_safe_velocity_computed(safe_velocity: Vector2):
 	character.move_and_slide()
 
 func _enter() -> void:
-	walk_transition_trigger = false
 	set_movement_target.call_deferred()
-
-	animated_sprite.play("walk")
 	
 func _update(delta: float) -> void:
-	if (walk_transition_trigger):
-		state_transition.emit(get_transition_state())
+	super(delta)
 	
 func _fixed_update(delta: float) -> void:
 	if c_navigation.nav_agent.is_navigation_finished():
-		walk_transition_trigger = true
+		pop_trigger = true
 		return
 	
 	var target_position: Vector2 = c_navigation.nav_agent.get_next_path_position()
 	var target_direction: Vector2 = c_navigation.component_body.global_position.direction_to(target_position).normalized()
-	animated_sprite.flip_h = target_direction.x < 0
-	var _owner_body = vector_move.component_body as CharacterBody2D
+	var _owner_body = vector_move.binding_entity.main_control as CharacterBody2D
 	var _velocity = target_direction * current_speed
 	
 	if c_navigation.nav_agent.avoidance_enabled:
@@ -53,8 +43,7 @@ func _fixed_update(delta: float) -> void:
 		_owner_body.move_and_slide()
 
 func _exit():
-	animated_sprite.stop()
-	walk_transition_trigger = false
+	super()
 
 ## 设置随机的移动目标：利用NavigationServer2D底层提供的获取随机点的方法
 func set_movement_target() -> void:

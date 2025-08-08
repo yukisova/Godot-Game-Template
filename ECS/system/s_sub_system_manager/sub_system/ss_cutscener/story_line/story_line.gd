@@ -3,7 +3,6 @@
 ## 2. 进阶: 数据缓存，可以在场景进行切换前保存角色通过对话进行的信息，进而影响剧情分支，甚至可以影响角色的游玩分支
 ## TODO
 
-
 class_name StoryLine
 extends Resource
 

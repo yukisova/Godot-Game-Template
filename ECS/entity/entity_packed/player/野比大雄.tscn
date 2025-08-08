@@ -11,10 +11,10 @@
 [ext_resource type="PackedScene" uid="uid://caj56l0yail7q" path="res://component/c_status/c_status.tscn" id="9_r1axf"]
 [ext_resource type="Script" uid="uid://0y7pq6c8rex1" path="res://component/c_status/status_extension/inventory/inventory.gd" id="10_ddqps"]
 [ext_resource type="PackedScene" uid="uid://ca1hb1m2dinl2" path="res://component/c_state/c_state.tscn" id="11_gg8ev"]
-[ext_resource type="Script" uid="uid://dnmlb5kw5y7u3" path="res://component/c_state/state/hfsm/state/player/sm_sora_root.gd" id="12_8yxan"]
-[ext_resource type="Script" uid="uid://b3dlfvhs4o6ii" path="res://component/c_state/state/hfsm/state/player/state_idle.gd" id="13_jeuop"]
+[ext_resource type="Script" uid="uid://dnmlb5kw5y7u3" path="res://component/c_state/state/hfsm/state/player/sm_player_root.gd" id="12_8yxan"]
+[ext_resource type="Script" uid="uid://b3dlfvhs4o6ii" path="res://component/c_state/state/hfsm/state/player/state_idle_player.gd" id="13_jeuop"]
 [ext_resource type="Script" uid="uid://cpdkw72ahtbjj" path="res://component/c_state/transition_record.gd" id="14_3syqy"]
-[ext_resource type="Script" uid="uid://dj1d6vr2iy6ds" path="res://component/c_state/state/hfsm/state/player/state_move.gd" id="15_bw1gr"]
+[ext_resource type="Script" uid="uid://dj1d6vr2iy6ds" path="res://component/c_state/state/hfsm/state/player/state_move_player.gd" id="15_bw1gr"]
 [ext_resource type="PackedScene" uid="uid://cps21xspaovit" path="res://component/c_collision/c_collision.tscn" id="16_74hs8"]
 [ext_resource type="PackedScene" uid="uid://culm6jk4g06ro" path="res://component/c_collision/box_collision/seek_box/seek_box.tscn" id="17_68kku"]
 [ext_resource type="PackedScene" uid="uid://lu3gu1tfxdey" path="res://component/c_input_reactor/c_input_reactor.tscn" id="18_lccat"]
@@ -127,8 +127,9 @@ mouse_focus = [NodePath("../../CCollision/SeekBox")]
 [node name="TestCheckInfo" type="Node" parent="CharacterBody/ComponentContainer/CInputReactor" index="2"]
 script = ExtResource("22_h8dci")
 
-[node name="RayInteractConfirm" type="Node" parent="CharacterBody/ComponentContainer/CInputReactor" index="3"]
+[node name="RayInteractConfirm" type="Node" parent="CharacterBody/ComponentContainer/CInputReactor" index="3" node_paths=PackedStringArray("interact_ray")]
 script = ExtResource("23_lxaiq")
+interact_ray = NodePath("../../CRay/InteractRay")
 
 [node name="CAction" parent="CharacterBody/ComponentContainer" index="7" instance=ExtResource("23_86vaq")]
 

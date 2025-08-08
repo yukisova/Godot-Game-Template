@@ -6,6 +6,7 @@ extends StateHfsm
 
 signal state_transition_finished
 
+
 @export_node_path("StateHfsm") var init_state: NodePath:
 	set(value):
 		if value.is_empty():
@@ -33,6 +34,7 @@ signal state_transition_finished
 			return init_state
 
 var current_state: StateHfsm
+var is_root: bool = false
 
 func _enter_tree() -> void:
 	if Engine.is_editor_hint():
@@ -41,6 +43,7 @@ func _enter_tree() -> void:
 func _setup() -> void:
 	for i in get_children():
 		if i is StateHfsm:
+			i.belong_state_machine = self
 			i.state_transition.connect(_on_state_transition)
 			i._setup()
 

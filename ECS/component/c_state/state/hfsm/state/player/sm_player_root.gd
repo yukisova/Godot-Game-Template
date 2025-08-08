@@ -4,11 +4,8 @@
 extends StateMachineHfsm
 
 @export_group("关联Action","action_")
-@export var action_seek: Action ## 
+@export var action_seek: Action
 
-func _update(delta: float) -> void:
-	super._update(delta)
-	
 
 func _listen():
 	pass

@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=3 uid="uid://7bn4a56gypuj"]
 
-[ext_resource type="Script" uid="uid://c8pkw2hs14qni" path="res://ui/hud/basic_hud/basic_hud.gd" id="1_m0gie"]
+[ext_resource type="Script" uid="uid://c8pkw2hs14qni" path="res://ui/hud/attribute_hud/attribute_hud.gd" id="1_m0gie"]
 [ext_resource type="Shader" uid="uid://dh7nyq424iyhg" path="res://resource/shader/测试用圆形Shader.gdshader" id="2_nrqnx"]
 [ext_resource type="Script" uid="uid://d0fiy8es3usr6" path="res://ui/ui/ui_brain/composite/grid_inventory/dragable_item.gd" id="3_j82c2"]
 [ext_resource type="Script" uid="uid://chg08yn3wtvta" path="res://ui/ui_composite/dragable_obj/drag_slot.gd" id="4_ceok6"]
@@ -8,7 +8,7 @@
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_m0gie"]
 shader = ExtResource("2_nrqnx")
 
-[node name="BasicHud" type="CanvasLayer" node_paths=PackedStringArray("hour_pointer", "minute_pointer", "bag_button", "bag_slot_container", "bag_slot_prototype", "bag_dragable_item_prototype")]
+[node name="AttributeHud" type="CanvasLayer" node_paths=PackedStringArray("hour_pointer", "minute_pointer", "bag_button", "bag_slot_container", "bag_slot_prototype", "bag_dragable_item_prototype")]
 script = ExtResource("1_m0gie")
 hour_pointer = NodePath("TheCircleTimer/MarginContainer/ColorRect/Node2D/HourPointer")
 minute_pointer = NodePath("TheCircleTimer/MarginContainer/ColorRect/Node2D/MinutePointer")

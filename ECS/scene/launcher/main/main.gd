@@ -66,3 +66,8 @@ enum PhysicsLayer{
 	Interactable = 1 << 1, ## 可交互的碰撞体
 	Breakable = 1 << 2, ## 破坏检测时使用的碰撞体
 }
+
+enum NavigationLayer{
+	Normal = 1 << 0, ## 一般的导航层，由地图的TilemapLayer所决定
+	Zone = 1 << 1, ## 用于完全随机移动的Zone，由指定的NavigationPolygon决定
+}
