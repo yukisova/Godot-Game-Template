@@ -1,0 +1,49 @@
+[gd_scene load_steps=10 format=3 uid="uid://o6phrnqwl5gh"]
+
+[ext_resource type="PackedScene" uid="uid://6jpwo3n27sj2" path="res://entity/entity.tscn" id="1_fw2go"]
+[ext_resource type="PackedScene" uid="uid://cq0u8u1qie88t" path="res://entity/entity_template/character_body.tscn" id="2_voych"]
+[ext_resource type="PackedScene" uid="uid://caj56l0yail7q" path="res://component/c_status/c_status.tscn" id="3_5g7lq"]
+[ext_resource type="PackedScene" uid="uid://ca1hb1m2dinl2" path="res://component/c_state/c_state.tscn" id="4_juero"]
+[ext_resource type="Script" uid="uid://bcra6te86xkrn" path="res://component/c_state/state/hfsm/state/partner/sm_partner_root.gd" id="5_x06ls"]
+[ext_resource type="Script" uid="uid://chldj252rada0" path="res://component/c_state/state/hfsm/state/partner/partner_follow.gd" id="8_x0gje"]
+[ext_resource type="PackedScene" uid="uid://cl2k6r335pke0" path="res://component/c_navigation/c_navigation.tscn" id="9_8wt6s"]
+[ext_resource type="Script" uid="uid://6psh074mfq4r" path="res://component/c_state/state/hfsm/state/partner/partner_idle.gd" id="9_pe1fs"]
+[ext_resource type="Script" uid="uid://6wajeg5aut1l" path="res://component/c_state/state/hfsm/state/partner/partner_fight.gd" id="10_p060j"]
+
+[node name="IPartner" node_paths=PackedStringArray("main_control", "component_container") instance=ExtResource("1_fw2go")]
+main_control = NodePath("CharacterBody")
+component_container = NodePath("CharacterBody/ComponentContainer")
+
+[node name="CharacterBody" parent="." index="0" groups=["partner"] instance=ExtResource("2_voych")]
+
+[node name="CStatus" parent="CharacterBody/ComponentContainer" index="0" instance=ExtResource("3_5g7lq")]
+basic_info = Dictionary[int, float]({
+0: 100.0
+})
+
+[node name="CState" parent="CharacterBody/ComponentContainer" index="1" node_paths=PackedStringArray("root_state_machine") instance=ExtResource("4_juero")]
+root_state_machine = NodePath("StateMachineHfsm")
+
+[node name="StateMachineHfsm" type="Node" parent="CharacterBody/ComponentContainer/CState" index="1" node_paths=PackedStringArray("c_navigation")]
+script = ExtResource("5_x06ls")
+c_navigation = NodePath("../../CNavigation")
+init_state = NodePath("Follow")
+metadata/_custom_type_script = "uid://b5ywitjyd2ccg"
+
+[node name="Follow" type="Node" parent="CharacterBody/ComponentContainer/CState/StateMachineHfsm" index="0"]
+script = ExtResource("8_x0gje")
+
+[node name="Idle" type="Node" parent="CharacterBody/ComponentContainer/CState/StateMachineHfsm" index="1"]
+script = ExtResource("9_pe1fs")
+
+[node name="Fight" type="Node" parent="CharacterBody/ComponentContainer/CState/StateMachineHfsm" index="2"]
+script = ExtResource("10_p060j")
+
+[node name="CNavigation" parent="CharacterBody/ComponentContainer" index="2" instance=ExtResource("9_8wt6s")]
+
+[node name="NavigationAgent2D" parent="CharacterBody/ComponentContainer/CNavigation" index="0"]
+target_desired_distance = 40.0
+simplify_path = true
+
+[editable path="CharacterBody"]
+[editable path="CharacterBody/ComponentContainer/CNavigation"]

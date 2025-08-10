@@ -1,16 +1,38 @@
-[gd_scene load_steps=3 format=3 uid="uid://dx8lfcn7h43ea"]
+[gd_scene load_steps=6 format=3 uid="uid://dx8lfcn7h43ea"]
 
 [ext_resource type="Script" uid="uid://btod27rj3wlyo" path="res://resource/node_template/map/static_map.gd" id="1_fy625"]
 [ext_resource type="Texture2D" uid="uid://bj5r82depcnqo" path="res://resource/resource_template/time_gradient.tres" id="2_rq5ia"]
+[ext_resource type="Script" uid="uid://b36hyix3bkmtb" path="res://resource/node_template/map/fog.gd" id="3_wsov5"]
 
-[node name="StaticMap" type="Node" node_paths=PackedStringArray("levels", "autoload_cutscene", "map_filter")]
+[sub_resource type="Gradient" id="Gradient_wsov5"]
+offsets = PackedFloat32Array(0.9096535, 0.94925743)
+colors = PackedColorArray(0, 0, 0, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_fgv36"]
+gradient = SubResource("Gradient_wsov5")
+width = 16
+height = 16
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(0.8, 0.2)
+metadata/_snap_enabled = true
+
+[node name="StaticMap" type="Node" node_paths=PackedStringArray("levels", "autoload_cutscene", "map_filter", "fog_image")]
 script = ExtResource("1_fy625")
 levels = NodePath("Levels")
 autoload_cutscene = NodePath("AutoLoadCutscene")
 map_filter = NodePath("MapFilter")
+fog_image = NodePath("Levels/Fog")
 filter_gradient = ExtResource("2_rq5ia")
 
 [node name="Levels" type="Node2D" parent="."]
+
+[node name="Fog" type="Sprite2D" parent="Levels"]
+z_index = 10
+script = ExtResource("3_wsov5")
+fog_width = 100
+fog_height = 100
+light_texture = SubResource("GradientTexture2D_fgv36")
 
 [node name="AutoLoadCutscene" type="Node" parent="."]
 

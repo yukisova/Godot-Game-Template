@@ -40,8 +40,11 @@ func _initialize(_owner: Entity):
 		)
 		interaction_infos.append(interaction_record_info)
 	
+	for i in get_children():
+		if i is PassiveInteraction:
+			i.binding_entity = component_owner
+	
 	for interaction_action in interaction_infos:
-		interaction_action.interaction.binding_entity = component_owner
 		register_inteactable_area(interaction_action)
 	
 

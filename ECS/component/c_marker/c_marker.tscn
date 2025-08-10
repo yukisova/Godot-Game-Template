@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://crglbm3y0ny75"]
+
+[ext_resource type="Script" uid="uid://ctku1yalywcb0" path="res://component/c_marker/c_marker.gd" id="1_b7h0d"]
+
+[node name="CMarker" type="Node2D"]
+script = ExtResource("1_b7h0d")

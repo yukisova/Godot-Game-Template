@@ -15,5 +15,5 @@ func _fixed_update(_delta: float) -> void:
 func _exit():
 	pass
 
-func _listen(): ## 
+func _blur_update(_delta: float): ## 
 	pass

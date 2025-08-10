@@ -17,8 +17,11 @@ signal filter_changed(point: float)
 @export var levels: Node2D ## 层级集
 @export var autoload_cutscene: Node ## 自动加载的过场事件
 @export var map_filter: CanvasModulate ## 地图滤镜
+@export var fog_image: Sprite2D ## 地图迷雾根系统
 @export var filter_gradient: GradientTexture1D ## 滤镜的渐变效 果
 @export var cutscene_enable: bool = true
+
+var cache_in_map: Dictionary ## 地图内的临时缓存，主要用于对话等仅需要在地图场景内临时存储的信息
 
 ## 用于统计用的层级数
 var level_count: int = 0
@@ -41,10 +44,14 @@ func _enter_tree() -> void:
 	if cutscene_enable:
 		for cutscene in autoload_cutscene.get_children():
 			SSignalBus.game_loop_start.connect(cutscene._start)
+		
 	else:
 		SSignalBus.game_loop_start.connect(func():
 			SUiSpawner._get_hud("transition").fade_in()
 		)
+	SSignalBus.game_loop_start.connect(func():
+		fog_image._initialize()
+	)
 
 ## 所有楼层的信息全部完成加载后发出
 func _on_level_fully_loaded():

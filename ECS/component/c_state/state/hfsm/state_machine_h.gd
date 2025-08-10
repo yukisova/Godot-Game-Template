@@ -65,12 +65,12 @@ func _exit():
 	current_state._exit()
 	current_state = null
 
-func _fixed_update(delta: float) -> void:
-	current_state._f_u(delta)
+func _fixed_update(_delta: float) -> void:
+	current_state._f_u(_delta)
 
-func _update(delta: float) -> void:
-	_listen()
-	current_state._u(delta)
+func _update(_delta: float) -> void:
+	_blur_update(_delta)
+	current_state._u(_delta)
 
 func _get_active_state() -> StateHfsm:
 	return current_state

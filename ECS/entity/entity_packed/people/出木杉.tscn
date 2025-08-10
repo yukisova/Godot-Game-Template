@@ -10,6 +10,7 @@ size = Vector2(32, 10)
 
 [node name="CTexture" parent="CharacterBody/ComponentContainer" index="0"]
 texture_path = NodePath("Sprite2D")
+initialize_from = ""
 
 [node name="Sprite2D" type="Sprite2D" parent="CharacterBody/ComponentContainer/CTexture" index="0"]
 modulate = Color(1, 0, 1, 1)

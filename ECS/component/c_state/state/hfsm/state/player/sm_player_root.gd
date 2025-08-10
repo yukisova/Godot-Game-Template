@@ -5,7 +5,3 @@ extends StateMachineHfsm
 
 @export_group("关联Action","action_")
 @export var action_seek: Action
-
-
-func _listen():
-	pass

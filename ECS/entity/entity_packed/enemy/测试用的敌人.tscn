@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://ht3v3wnr5dy"]
+[gd_scene load_steps=20 format=3 uid="uid://ht3v3wnr5dy"]
 
 [ext_resource type="PackedScene" uid="uid://2g3kd2w3tlq6" path="res://entity/entity_packed/enemy/i_enemy.tscn" id="1_e6iff"]
 [ext_resource type="Script" uid="uid://dwt0prmf31a5" path="res://component/c_movement/move_strategy/vector_move.gd" id="2_b1t4d"]
@@ -10,7 +10,9 @@
 [ext_resource type="Script" uid="uid://cpdkw72ahtbjj" path="res://component/c_state/transition_record.gd" id="6_m4qc1"]
 [ext_resource type="Script" uid="uid://bp0u3hwov62j1" path="res://component/c_state/state/hfsm/state/enemy/warning.gd" id="7_b1t4d"]
 [ext_resource type="Script" uid="uid://cd0ct6p5veb0e" path="res://component/c_state/state/pda/state/enemy/random_patrol.gd" id="8_11qm1"]
+[ext_resource type="Script" uid="uid://d3e6ff7wxf0un" path="res://component/c_state/state/pda/state/enemy/watching.gd" id="10_sv75w"]
 [ext_resource type="PackedScene" uid="uid://cps21xspaovit" path="res://component/c_collision/c_collision.tscn" id="11_cnyrn"]
+[ext_resource type="Script" uid="uid://cdj07glc4b6q5" path="res://component/c_state/state/pda/state/enemy/confused.gd" id="11_k3wj4"]
 [ext_resource type="PackedScene" uid="uid://7mixsvyk4krp" path="res://component/c_collision/box_collision/sight_box/sight_box.tscn" id="12_yco6y"]
 [ext_resource type="Script" uid="uid://cf4bsx3i08rsi" path="res://component/c_collision/box_collision/sight_box/sight_collision_resource.gd" id="13_sv75w"]
 
@@ -51,31 +53,43 @@ script = ExtResource("4_yco6y")
 init_state = NodePath("Patroling")
 metadata/_custom_type_script = "uid://b5ywitjyd2ccg"
 
-[node name="Patroling" type="Node" parent="CharacterBody/ComponentContainer/CState/StateMachineHfsm" index="0" node_paths=PackedStringArray("sight_box", "vector_move", "possible_pda_state_push")]
+[node name="Patroling" type="Node" parent="CharacterBody/ComponentContainer/CState/StateMachineHfsm" index="0" node_paths=PackedStringArray("vector_move", "sight_box", "possible_pda_state_push")]
 script = ExtResource("5_kc10g")
-sight_box = NodePath("../../../CCollision/Sightbox")
 vector_move = NodePath("../../../CMovement/VectorMove")
+sight_box = NodePath("../../../CCollision/Sightbox")
 hfsm_state_transition = Dictionary[StringName, ExtResource("6_m4qc1")]({
 &"": SubResource("Resource_yco6y")
 })
-possible_pda_state_push = [NodePath("../../PdaStates/RandomPatrol")]
+possible_pda_state_push = [NodePath("../../PdaStates/RandomPatrol"), NodePath("../../PdaStates/TargetLock"), NodePath("../../PdaStates/TargetLost")]
 
-[node name="Searching" type="Node" parent="CharacterBody/ComponentContainer/CState/StateMachineHfsm" index="1"]
+[node name="Searching" type="Node" parent="CharacterBody/ComponentContainer/CState/StateMachineHfsm" index="1" node_paths=PackedStringArray("sight_box", "possible_pda_state_push")]
 script = ExtResource("6_fnsjg")
+sight_box = NodePath("../../../CCollision/Sightbox")
 hfsm_state_transition = Dictionary[StringName, ExtResource("6_m4qc1")]({
 &"": SubResource("Resource_sv75w")
 })
+possible_pda_state_push = [NodePath("../../PdaStates/TargetLock"), NodePath("../../PdaStates/TargetLost")]
 
-[node name="Warning" type="Node" parent="CharacterBody/ComponentContainer/CState/StateMachineHfsm" index="2"]
+[node name="Warning" type="Node" parent="CharacterBody/ComponentContainer/CState/StateMachineHfsm" index="2" node_paths=PackedStringArray("sight_box", "possible_pda_state_push")]
 script = ExtResource("7_b1t4d")
+sight_box = NodePath("../../../CCollision/Sightbox")
 hfsm_state_transition = Dictionary[StringName, ExtResource("6_m4qc1")]({
 &"": SubResource("Resource_k3wj4")
 })
+possible_pda_state_push = [NodePath("../../PdaStates/TargetLock"), NodePath("../../PdaStates/TargetLost")]
 
 [node name="RandomPatrol" type="Node" parent="CharacterBody/ComponentContainer/CState/PdaStates" index="0" node_paths=PackedStringArray("vector_move", "c_navigation")]
 script = ExtResource("8_11qm1")
 vector_move = NodePath("../../../CMovement/VectorMove")
 c_navigation = NodePath("../../../CNavigation")
+walk_speed_range = Vector2(3000, 5000)
+
+[node name="TargetLock" type="Node" parent="CharacterBody/ComponentContainer/CState/PdaStates" index="1" node_paths=PackedStringArray("sight_box")]
+script = ExtResource("10_sv75w")
+sight_box = NodePath("../../../CCollision/Sightbox")
+
+[node name="TargetLost" type="Node" parent="CharacterBody/ComponentContainer/CState/PdaStates" index="2"]
+script = ExtResource("11_k3wj4")
 
 [node name="CTexture" parent="CharacterBody/ComponentContainer" index="2"]
 texture_path = NodePath("Sprite2D")
@@ -86,10 +100,15 @@ position = Vector2(0, 12)
 texture = ExtResource("2_wvlat")
 offset = Vector2(0, -12)
 
+[node name="NavigationAgent2D" parent="CharacterBody/ComponentContainer/CNavigation" index="0"]
+navigation_layers = 2
+
 [node name="CCollision" parent="CharacterBody/ComponentContainer" index="4" instance=ExtResource("11_cnyrn")]
 
 [node name="Sightbox" parent="CharacterBody/ComponentContainer/CCollision" index="0" instance=ExtResource("12_yco6y")]
 sight_box_resource = Array[ExtResource("13_sv75w")]([SubResource("Resource_qoshy")])
+chase_target_group_name = Array[StringName]([&"player"])
 
 [editable path="CharacterBody"]
 [editable path="CharacterBody/ComponentContainer/CState"]
+[editable path="CharacterBody/ComponentContainer/CNavigation"]

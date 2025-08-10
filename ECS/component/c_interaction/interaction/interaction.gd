@@ -3,7 +3,7 @@
 @abstract class_name PassiveInteraction
 extends Node
 
-var binding_entity
+var binding_entity: Entity
 
 signal interact_activated
 signal interact_deactivated

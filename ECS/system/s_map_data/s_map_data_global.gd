@@ -68,3 +68,19 @@ func _on_level_changed(operate_entity: Entity,new_level: Level):
 		current_level = new_level
 		
 	operate_entity.reparent(new_level)
+
+func get_map_cache(key: String, default):
+	if current_map:
+		return current_map.cache_in_map.get_or_add(key , default)
+	else:
+		return default
+
+func set_map_cache(key: String, value, set_type: int= 0): ## 一开始的目的供DialogueManager方便读取
+	if current_map:
+		match set_type:
+			0:
+				current_map.cache_in_map[key] = value
+			1:
+				current_map.cache_in_map[key] += value
+			2:
+				current_map.cache_in_map[key] -= value

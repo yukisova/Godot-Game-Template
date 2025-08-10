@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=4 uid="uid://nqh6sy3jpxp3"]
+[gd_scene load_steps=28 format=4 uid="uid://nqh6sy3jpxp3"]
 
 [ext_resource type="PackedScene" uid="uid://dx8lfcn7h43ea" path="res://resource/node_template/map/static_map.tscn" id="1_8b7id"]
 [ext_resource type="PackedScene" uid="uid://6dpqakv78nkp" path="res://resource/node_template/map/level.tscn" id="2_kqh3t"]
@@ -7,21 +7,33 @@
 [ext_resource type="PackedScene" uid="uid://tufppmw8gluy" path="res://resource/node_template/map/tilemap/floating/wall.tscn" id="5_miv26"]
 [ext_resource type="TileSet" uid="uid://uv8m2iijojh1" path="res://resource/resource_template/tileset/tileset_test_wall_16.tres" id="6_6k0fo"]
 [ext_resource type="PackedScene" uid="uid://de3o6pll5kxdx" path="res://resource/node_template/map/player_spawn.tscn" id="7_05w2q"]
+[ext_resource type="PackedScene" uid="uid://ht3v3wnr5dy" path="res://entity/entity_packed/enemy/测试用的敌人.tscn" id="8_8b7id"]
 [ext_resource type="PackedScene" uid="uid://ceewa82bai01n" path="res://entity/entity_packed/people/出木杉.tscn" id="8_8ghfr"]
 [ext_resource type="PackedScene" uid="uid://dbswip03t13sy" path="res://component/c_interaction/c_interactable.tscn" id="9_h8umv"]
 [ext_resource type="Script" uid="uid://ccu2saj6ovslc" path="res://component/c_interaction/interaction_record.gd" id="10_xyu3f"]
 [ext_resource type="Script" uid="uid://djglhr34yxc4x" path="res://component/c_interaction/interaction/initiative_interaction/interaction_dialogue.gd" id="11_1788p"]
 [ext_resource type="PackedScene" uid="uid://shdn4eldwjpu" path="res://ui/ui/ui_dialogue/ui_dialogue.tscn" id="12_7knx6"]
 [ext_resource type="Resource" uid="uid://dnsdhsw7d2jqs" path="res://resource/plugins_resource/dialogue/ep0_暴雨之中.dialogue" id="13_ta42a"]
+[ext_resource type="Resource" uid="uid://df5rhoqxwvev4" path="res://resource/plugins_resource/dialogue/test_新功能测试.dialogue" id="14_kqh3t"]
 [ext_resource type="PackedScene" uid="uid://d0kiagyc2yilx" path="res://entity/entity_packed/people/源静香.tscn" id="14_nfrqy"]
+[ext_resource type="Script" uid="uid://dvmbwfg4s6j48" path="res://component/c_interaction/interaction/initiative_interaction/interaction_be_partner.gd" id="15_320cn"]
 [ext_resource type="PackedScene" uid="uid://cvl4a2oc006pj" path="res://entity/entity_packed/people/翁蛾健治.tscn" id="15_phtbu"]
+[ext_resource type="PackedScene" uid="uid://o6phrnqwl5gh" path="res://entity/entity_packed/player/i_partner.tscn" id="16_p2mf1"]
+
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_p2mf1"]
+vertices = PackedVector2Array(8, 16, -8, 16, -8, 0, 8, 0)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(-8, 0, 8, 0, 8, 16, -8, 16)])
+agent_radius = 0.0
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ykcdb"]
 texture = ExtResource("4_p2mf1")
 0:0/0 = 0
 0:0/0/texture_origin = Vector2i(0, -8)
+0:0/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_p2mf1")
 
 [sub_resource type="TileSet" id="TileSet_k30nv"]
+navigation_layer_0/layers = 1
 sources/0 = SubResource("TileSetAtlasSource_ykcdb")
 
 [sub_resource type="Resource" id="Resource_30y63"]
@@ -36,7 +48,17 @@ interact_type = 2
 interaction = NodePath("InteractionDialogue")
 metadata/_custom_type_script = "uid://ccu2saj6ovslc"
 
-[node name="m_地铁站_ep1" node_paths=PackedStringArray("player_spawn") instance=ExtResource("1_8b7id")]
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_8b7id"]
+vertices = PackedVector2Array(129.49219, 225.4375, -242.14844, 287.22656, -245.86719, 5.7109375, 143.35938, -5.6796875)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(-256, -4, 154, -16, 139, 234, -252, 299)])
+
+[sub_resource type="Gradient" id="Gradient_p2mf1"]
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_miv26"]
+gradient = SubResource("Gradient_p2mf1")
+
+[node name="m_测试场景" node_paths=PackedStringArray("player_spawn") instance=ExtResource("1_8b7id")]
 player_spawn = NodePath("Levels/Level/PlayerSpawn")
 cutscene_enable = false
 
@@ -60,7 +82,10 @@ tile_set = ExtResource("6_6k0fo")
 [node name="PlayerSpawn" parent="Levels/Level" index="4" instance=ExtResource("7_05w2q")]
 position = Vector2(0, -46)
 
-[node name="出木杉" parent="Levels/Level" index="5" instance=ExtResource("8_8ghfr")]
+[node name="测试用的敌人" parent="Levels/Level" index="5" instance=ExtResource("8_8b7id")]
+position = Vector2(-93, 84)
+
+[node name="出木杉" parent="Levels/Level" index="6" instance=ExtResource("8_8ghfr")]
 position = Vector2(-51, -61)
 
 [node name="CInteractable" parent="Levels/Level/出木杉" index="1" instance=ExtResource("9_h8umv")]
@@ -69,10 +94,18 @@ interactions_resources = Array[ExtResource("10_xyu3f")]([SubResource("Resource_3
 [node name="InteractionDialogue" type="Node" parent="Levels/Level/出木杉/CInteractable" index="0"]
 script = ExtResource("11_1788p")
 test_dialogue_ui = ExtResource("12_7knx6")
-test_dialogue = ExtResource("13_ta42a")
-test_dialogue_label = &"ep0_出木杉"
+test_dialogue = ExtResource("14_kqh3t")
+test_dialogue_label = &"伙伴加入_出木杉"
+dialogue_info = Dictionary[String, Variant]({
+"interaction_partner": NodePath("../InteractionPartner")
+})
 
-[node name="源静香" parent="Levels/Level" index="6" instance=ExtResource("14_nfrqy")]
+[node name="InteractionPartner" type="Node" parent="Levels/Level/出木杉/CInteractable" index="1" node_paths=PackedStringArray("partner_copy_list")]
+script = ExtResource("15_320cn")
+partner_scene = ExtResource("16_p2mf1")
+partner_copy_list = [NodePath("../../CharacterBody/ComponentContainer/CTexture")]
+
+[node name="源静香" parent="Levels/Level" index="7" instance=ExtResource("14_nfrqy")]
 position = Vector2(-93, -61)
 
 [node name="CInteractable" parent="Levels/Level/源静香" index="1" instance=ExtResource("9_h8umv")]
@@ -84,7 +117,16 @@ test_dialogue_ui = ExtResource("12_7knx6")
 test_dialogue = ExtResource("13_ta42a")
 test_dialogue_label = &"ep0_源静香"
 
-[node name="翁蛾健治" parent="Levels/Level" index="7" instance=ExtResource("15_phtbu")]
+[node name="翁蛾健治" parent="Levels/Level" index="8" instance=ExtResource("15_phtbu")]
 position = Vector2(324, -5)
 
+[node name="NavigationRegion2D" type="NavigationRegion2D" parent="Levels/Level" index="9"]
+navigation_polygon = SubResource("NavigationPolygon_8b7id")
+navigation_layers = 2
+
+[node name="Fog" parent="Levels" index="1"]
+texture = SubResource("GradientTexture2D_miv26")
+
 [editable path="Levels/Level"]
+[editable path="Levels/Level/出木杉"]
+[editable path="Levels/Level/出木杉/CharacterBody"]

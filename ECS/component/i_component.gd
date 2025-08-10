@@ -21,7 +21,8 @@ enum ComponentName {
 	c_navigation, ## 见[C_Navigation]
 	c_balloon, ## 见[C_Balloon]
 	c_event_trigger, ## 见[C_EventTrigger]
-	c_ray ## 见[C_Ray]
+	c_ray, ## 见[C_Ray]
+	c_marker ## 见[C_Marker]
 }
 
 ## TODO 

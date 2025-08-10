@@ -4,15 +4,25 @@ extends ISystem
 
 signal player_located(target_level: Level, target_position: Vector2)
 
+signal partner_joined(_partner: Entity)
+
 @export var player_scene: PackedScene
 @export_subgroup("依赖")
 @export var input_listener: InputListener
+
+@export var partner: Entity = null
+
+
 
 var player_static: Entity
 
 func _setup():
 	#Input.set_mouse_mode(Input.MOUSE_MODE_CONFINED)
-	
+	partner_joined.connect(func(_partner: Entity):
+		if partner:
+			partner.queue_free()
+		partner = _partner
+	)
 	player_located.connect(_on_player_located)
 
 func _on_player_located(target_level: Level, target_position:Vector2):
@@ -34,7 +44,7 @@ func _on_player_located(target_level: Level, target_position:Vector2):
 	
 	SSignalBus.entity_initialize_started.emit()
 
-#region 移动
+#region 角色的主要移动方法(工具方法)
 func _vec_input_2_toward() -> Dictionary:
 	return {}
 

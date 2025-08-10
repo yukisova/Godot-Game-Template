@@ -15,6 +15,7 @@ signal target_losed ##
 @export var chase_target_group_name: Array[StringName] ## 视觉Collision所重点反应的目标分组名
 
 var sight_target: Array[Node2D]
+var sight_target_last_position: Vector2 ## 发现的目标最后出现的位置
 
 func initialize_collision():
 	for i in get_children():
@@ -29,7 +30,8 @@ func initialize_collision():
 			SightCollisionResource.SightCollisionType.Rectangle:
 				rectangle_generate(i)
 
-func initialize():
+func _ready() -> void:
+	if Engine.is_editor_hint(): return
 	initialize_collision()
 	body_entered.connect(_on_body_entered)
 	body_exited.connect(_on_body_exited)
@@ -57,6 +59,7 @@ func _on_body_exited(body: Node2D):
 		sight_target.erase(body)
 		print("视线内失去了某个目标，目前的视角内信息: ", sight_target.map(func(v): return v.get_parent().name))
 		if sight_target.is_empty():
+			sight_target_last_position = body.global_position
 			target_losed.emit()
 
 #region 碰撞体生成
