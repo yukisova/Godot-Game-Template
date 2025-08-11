@@ -12,7 +12,7 @@ extends IComponent
 func _enter_tree() -> void:
 	component_name = ComponentName.c_camera
 
-func _initialize(_owner: Entity):
+func _initialize(_owner: IEntity):
 	super(_owner)
 	camera_strategy.c_camera = self
 	

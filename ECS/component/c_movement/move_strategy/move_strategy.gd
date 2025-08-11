@@ -3,7 +3,7 @@
 @abstract class_name MoveStrategy
 extends Node
 
-var binding_entity: Entity
+var binding_entity: IEntity
 
 @export var blackboard: ContainerBlackboard
 @abstract func _check_and_init()

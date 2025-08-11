@@ -7,4 +7,5 @@ func _listen():
 	interact_ray.rotation = vector.angle()
 	
 	if Input.is_action_just_pressed("interact"):
-		interact_ray.interact_target.entity_ray_interact.emit(binding_entity)
+		if interact_ray.interact_target:
+			interact_ray.interact_target.entity_ray_interact.emit(binding_entity)

@@ -2,6 +2,7 @@
 class_name SSItemFusion
 extends SubSystem
 
+## FIXME 合成的逻辑，但感觉更加适合放在物品内部，之后如果没啥大问题可以放在
 @export var fusion_records: Array[FusionRecord]
 
 func _enter_tree() -> void:
@@ -15,4 +16,14 @@ func fusion_up(pre: String, pro: String) -> Item:
 		if record.material_pre == pre and record.material_pro == pro or record.material_pre == pro and record.material_pro == pre:
 			return record.fusion_result.duplicate()
 	return null
-	
+
+#region :存档系统，将黑板的信息全部保存下来:
+func _save_as() -> Dictionary:
+	var result = {}
+	return {
+		keyword:result
+	}
+
+func _load_by():
+	pass
+#endregion

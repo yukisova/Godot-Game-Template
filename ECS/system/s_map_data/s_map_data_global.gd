@@ -3,11 +3,11 @@
 extends ISystem
 
 ## 游戏运行时动态在某个Level中放置实体
-signal factor_added(new_factor: Entity, start_position: Vector2)
+signal factor_added(new_factor: IEntity, start_position: Vector2)
 ## 游戏运行前的地图注册
 signal map_info_registered(map: PackedScene)
 ## 楼层注册
-signal level_changed(operate_entity: Entity,new_level: Level)
+signal level_changed(operate_entity: IEntity,new_level: Level)
 
 var current_level: Level
 var current_map: StaticMap
@@ -51,13 +51,13 @@ func _on_map_info_registered(map_scene: PackedScene):
 		push_warning("没有检测到角色出生点，最好再检查一下")
 
 ## 地图元素新建
-func _on_factor_added(new_factor: Entity, start_position: Vector2):
+func _on_factor_added(new_factor: IEntity, start_position: Vector2):
 	current_level.add_child.call_deferred(new_factor)
 	new_factor.main_control.global_position = start_position
 	new_factor._initialize()
 
 ## 切换层级
-func _on_level_changed(operate_entity: Entity,new_level: Level):
+func _on_level_changed(operate_entity: IEntity,new_level: Level):
 	if operate_entity.main_control.is_in_group("player"):
 		current_level.hide()
 		current_level.process_mode = Node.PROCESS_MODE_DISABLED
@@ -84,3 +84,10 @@ func set_map_cache(key: String, value, set_type: int= 0): ## 一开始的目的�
 				current_map.cache_in_map[key] += value
 			2:
 				current_map.cache_in_map[key] -= value
+
+#region :存档系统:
+func _save_as() -> Dictionary:
+	return current_map._save_as()
+func _load_by():
+	pass
+#endregion

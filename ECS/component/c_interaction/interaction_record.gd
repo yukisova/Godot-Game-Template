@@ -2,7 +2,7 @@
 class_name InteractionRecord
 extends Resource
 
-enum InteractType{ BodyEntered = 0, AreaEntered, RayCasted }
+enum InteractType{ Null= -1 , BodyEntered = 0, AreaEntered, RayCasted }
 
 @export var is_passive: bool
 @export var interact_type: InteractType:

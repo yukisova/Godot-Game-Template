@@ -39,3 +39,11 @@ func update_fog():
 	
 	fog_image.blend_rect(light_image, Rect2i(Vector2.ZERO, light_image.get_size()), player_position)
 	fog_texture.update(fog_image)
+
+#region :存档系统:
+func _save_as():
+	pass
+
+func _load_by():
+	pass
+#endregion

@@ -11,7 +11,7 @@ signal state_pushed(to_state: StatePda)
 
 ## HFSM状态切换
 @warning_ignore("unused_signal")
-signal state_transition(to_state: StateHfsm)
+signal state_transition(to_state)
 
 ## 状态的拥有者
 var belong_state_machine: StateMachineHfsm

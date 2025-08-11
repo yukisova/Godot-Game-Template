@@ -12,7 +12,7 @@ func _enter_tree() -> void:
 	component_name = ComponentName.c_collision
 
 ## 初始化: 
-func _initialize(_owner: Entity):
+func _initialize(_owner: IEntity):
 	super._initialize(_owner)
 	
 	for i in get_children():

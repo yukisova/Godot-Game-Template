@@ -8,9 +8,3 @@ func _setup(): ## 系统初始化
 
 func _resetup(): ## 重启系统
 	pass
-
-func _loading(_data: Dictionary):
-	pass
-
-func _saving():
-	pass

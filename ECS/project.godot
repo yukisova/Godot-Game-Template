@@ -35,7 +35,7 @@ SUiSpawner="*res://system/s_ui_spawner/s_ui_spawner_global.tscn"
 SGlobalConfig="*res://system/s_global_config/s_global_config_global.tscn"
 SObjectPool="*res://system/s_object_pool/s_object_pool_global.tscn"
 SCommandParser="*res://system/s_command_parser/s_command_parser.tscn"
-SSubSystemManager="*res://system/s_sub_system_manager/s_sub_system_manager.tscn"
+SBlackboard="*res://system/s_blackboard/s_blackboard_global.tscn"
 
 [dialogue_manager]
 

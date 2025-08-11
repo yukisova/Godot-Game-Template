@@ -9,7 +9,7 @@ extends IComponent
 func _enter_tree() -> void:
 	component_name = ComponentName.c_movement
 
-func _initialize(_owner: Entity):
+func _initialize(_owner: IEntity):
 	super._initialize(_owner)
 
 	move_strategy.binding_entity = component_owner

@@ -15,6 +15,6 @@ var current_nav = NavType.stop
 func _enter_tree() -> void:
 	component_name = ComponentName.c_navigation
 
-func _initialize(_owner: Entity):
+func _initialize(_owner: IEntity):
 	super(_owner)
 	

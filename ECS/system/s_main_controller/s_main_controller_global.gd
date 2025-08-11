@@ -4,21 +4,19 @@ extends ISystem
 
 signal player_located(target_level: Level, target_position: Vector2)
 
-signal partner_joined(_partner: Entity)
+signal partner_joined(_partner: IEntity)
 
 @export var player_scene: PackedScene
 @export_subgroup("依赖")
 @export var input_listener: InputListener
 
-@export var partner: Entity = null
+@export var partner: IEntity = null
 
-
-
-var player_static: Entity
+var player_static: IEntity
 
 func _setup():
 	#Input.set_mouse_mode(Input.MOUSE_MODE_CONFINED)
-	partner_joined.connect(func(_partner: Entity):
+	partner_joined.connect(func(_partner: IEntity):
 		if partner:
 			partner.queue_free()
 		partner = _partner
@@ -81,4 +79,11 @@ func _vec_input_a_toward() -> Dictionary:
 	if (!vec_info["vec"].is_zero_approx()):
 		vec_info["pre_vec"] = vec_info["vec"]
 	return vec_info
+#endregion
+
+#region :存档系统: 
+func _load_by(data: Dictionary):
+	pass
+func _save_as():
+	pass	
 #endregion

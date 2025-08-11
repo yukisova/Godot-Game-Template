@@ -11,13 +11,12 @@ var composites_dict: Dictionary[StringName, Control] = {}
 func _enter_tree() -> void:
 	component_name = ComponentName.c_balloon
 
-func _initialize(_owner: Entity):
+func _initialize(_owner: IEntity):
 	for i: Control in get_children():
 		composites_dict[i.name] = i
 
 func _target_fade_in(target_composite: StringName):
 	var composite = composites_dict.get(target_composite)
-	composite
 
 func _target_fade_out():
 	pass

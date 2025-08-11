@@ -14,7 +14,7 @@ extends IComponent
 func _enter_tree() -> void:
 	component_name = ComponentName.c_texture
 
-func _initialize(_owner: Entity):
+func _initialize(_owner: IEntity):
 	super(_owner)
 
 func _get_texture():

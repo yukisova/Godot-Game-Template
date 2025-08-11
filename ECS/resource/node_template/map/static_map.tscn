@@ -22,12 +22,12 @@ script = ExtResource("1_fy625")
 levels = NodePath("Levels")
 autoload_cutscene = NodePath("AutoLoadCutscene")
 map_filter = NodePath("MapFilter")
-fog_image = NodePath("Levels/Fog")
+fog_image = NodePath("Fog")
 filter_gradient = ExtResource("2_rq5ia")
 
 [node name="Levels" type="Node2D" parent="."]
 
-[node name="Fog" type="Sprite2D" parent="Levels"]
+[node name="Fog" type="Sprite2D" parent="."]
 z_index = 10
 script = ExtResource("3_wsov5")
 fog_width = 100

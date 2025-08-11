@@ -1,6 +1,6 @@
 [gd_scene load_steps=30 format=3 uid="uid://chcm2vu8h6bs1"]
 
-[ext_resource type="PackedScene" uid="uid://6jpwo3n27sj2" path="res://entity/entity.tscn" id="1_cpfht"]
+[ext_resource type="PackedScene" uid="uid://6jpwo3n27sj2" path="res://entity/i_entity.tscn" id="1_cpfht"]
 [ext_resource type="PackedScene" uid="uid://cq0u8u1qie88t" path="res://entity/entity_template/character_body.tscn" id="2_10by5"]
 [ext_resource type="PackedScene" uid="uid://bvjy63fua1sx2" path="res://component/c_texture/c_texture.tscn" id="3_10by5"]
 [ext_resource type="PackedScene" uid="uid://bo5de2ow6bqjo" path="res://component/c_camera/c_camera.tscn" id="3_qlyid"]
@@ -22,7 +22,7 @@
 [ext_resource type="Script" uid="uid://b12rb4ncy2q57" path="res://component/c_input_reactor/reactor_extension/e_player/seek_confirm.gd" id="20_3gllj"]
 [ext_resource type="Script" uid="uid://dc4xbso7xmwvo" path="res://component/c_input_reactor/reactor_extension/e_player/mouse_focus.gd" id="21_04ll1"]
 [ext_resource type="Script" uid="uid://bj5wq8iankhmq" path="res://component/c_input_reactor/reactor_extension/e_player/test_check_info.gd" id="22_h8dci"]
-[ext_resource type="PackedScene" uid="uid://b3vbfhugiqyva" path="res://component/c_action/c_action.tscn" id="23_86vaq"]
+[ext_resource type="PackedScene" uid="uid://b3vbfhugiqyva" path="res://component/c_action/c_action_queue_trigger.tscn" id="23_86vaq"]
 [ext_resource type="Script" uid="uid://cd4xrbwgqs7p0" path="res://component/c_input_reactor/reactor_extension/e_player/ray_interact_confirm.gd" id="23_lxaiq"]
 [ext_resource type="PackedScene" uid="uid://crbs5skmddqls" path="res://component/c_ray/c_ray.tscn" id="24_d1eba"]
 [ext_resource type="Script" uid="uid://3c3x3bgxinnw" path="res://component/c_ray/box_ray/interact_ray/interact_ray.gd" id="25_3swxj"]

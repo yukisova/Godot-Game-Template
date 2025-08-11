@@ -25,7 +25,7 @@ func _ready() -> void:
 
 ## 游戏系统注册
 func setup_system():
-	SSubSystemManager._setup()
+	SBlackboard._setup()
 	SSignalBus._setup()
 	SGameState._setup()
 	SGlobalConfig._setup()
@@ -39,7 +39,7 @@ func setup_system():
 	system_setup_completed.emit()
 
 func _on_system_reset_state():
-	SSubSystemManager._resetup()
+	SBlackboard._resetup()
 	SSignalBus._resetup()
 	SGameState._resetup()
 	SGlobalConfig._resetup()

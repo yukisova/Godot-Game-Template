@@ -17,7 +17,7 @@ func _enter_tree() -> void:
 	component_name = ComponentName.c_state
 
 ## 初始化: 记录所有下推状态,启动并登入状态机
-func _initialize(_owner: Entity):
+func _initialize(_owner: IEntity):
 	super._initialize(_owner)
 	
 	for i in pda_states.get_children():

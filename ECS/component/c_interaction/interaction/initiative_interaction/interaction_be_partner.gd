@@ -5,8 +5,8 @@ extends PassiveInteraction
 
 @export var partner_copy_list: Array[IComponent]
 
-func _on_interact_activated(target_entity: Entity):
-	var partner: Entity = partner_scene.instantiate()
+func _on_interact_activated(target_entity: IEntity):
+	var partner: IEntity = partner_scene.instantiate()
 	for i in partner_copy_list:
 		var duplicate_component = i.duplicate()
 		partner.component_container.add_child(duplicate_component)

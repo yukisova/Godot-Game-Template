@@ -16,7 +16,7 @@ func _setup() -> void:
 
 func _enter():
 	super()
-	SSubSystemManager.sub_systems_setup_start.emit()
+	SBlackboard.sub_systems_setup_start.emit()
 
 func _update(_delta: float) -> void:
 	super._update(_delta)

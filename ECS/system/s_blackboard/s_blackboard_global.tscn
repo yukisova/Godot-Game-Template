@@ -1,17 +1,10 @@
-[gd_scene load_steps=12 format=3 uid="uid://tchbnx2hwx8n"]
+[gd_scene load_steps=10 format=3 uid="uid://tchbnx2hwx8n"]
 
-[ext_resource type="Script" uid="uid://cpq243e8lv5ol" path="res://system/s_sub_system_manager/s_sub_system_manager.gd" id="1_c40g4"]
-[ext_resource type="Script" uid="uid://fidlw0yv63sq" path="res://system/s_sub_system_manager/sub_system/ss_time_loop/ss_time_loop.gd" id="2_iso6r"]
-[ext_resource type="Script" uid="uid://do4tqekxfbcbq" path="res://system/s_sub_system_manager/sub_system/ss_time_loop/time_record.gd" id="3_o335d"]
-[ext_resource type="Script" uid="uid://cpffolto6nais" path="res://system/s_sub_system_manager/sub_system/ss_item_fusion/ss_item_fusion.gd" id="4_1kceg"]
-[ext_resource type="Script" uid="uid://dwj6fnotps370" path="res://system/s_sub_system_manager/sub_system/ss_item_fusion/fusion_record.gd" id="5_vcqlq"]
+[ext_resource type="Script" uid="uid://cpq243e8lv5ol" path="res://system/s_blackboard/s_blackboard_global.gd" id="1_c40g4"]
+[ext_resource type="Script" uid="uid://fidlw0yv63sq" path="res://system/s_blackboard/sub_system/ss_time_loop/ss_time_loop.gd" id="2_iso6r"]
+[ext_resource type="Script" uid="uid://cpffolto6nais" path="res://system/s_blackboard/sub_system/ss_item_fusion/ss_item_fusion.gd" id="4_1kceg"]
+[ext_resource type="Script" uid="uid://dwj6fnotps370" path="res://system/s_blackboard/sub_system/ss_item_fusion/fusion_record.gd" id="5_vcqlq"]
 [ext_resource type="Script" uid="uid://0y58wickfubb" path="res://resource/custom_resource/item/item.gd" id="6_ifld1"]
-
-[sub_resource type="Resource" id="Resource_1kceg"]
-script = ExtResource("3_o335d")
-target_minute = 10
-target_event_keyword = "abc"
-metadata/_custom_type_script = "uid://do4tqekxfbcbq"
 
 [sub_resource type="Gradient" id="Gradient_ifld1"]
 offsets = PackedFloat32Array(0.67820513, 0.701282)
@@ -41,12 +34,11 @@ material_pro = "white"
 fusion_result = SubResource("Resource_ja4ab")
 metadata/_custom_type_script = "uid://dwj6fnotps370"
 
-[node name="SSubSystemManager" type="Node"]
+[node name="SBlackboard" type="Node"]
 script = ExtResource("1_c40g4")
 
 [node name="SSTimeLoop" type="Node" parent="."]
 script = ExtResource("2_iso6r")
-time_record = Array[ExtResource("3_o335d")]([SubResource("Resource_1kceg")])
 start_time = 770
 
 [node name="SSItemFusion" type="Node" parent="."]

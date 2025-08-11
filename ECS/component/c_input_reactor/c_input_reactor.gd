@@ -32,7 +32,7 @@ var interact_obj: PassiveInteraction = null:
 func _enter_tree() -> void:
 	component_name = ComponentName.c_input_reactor
 
-func _initialize(_owner: Entity):
+func _initialize(_owner: IEntity):
 	super._initialize(_owner)
 	
 	if component_owner == SMainController.player_static:
@@ -93,9 +93,7 @@ func _try_save_game():
 func _avaliable_in_gaming():
 	
 	input_vector_dict.move = _try_vector_control()
-	
-	#weapon_texture.rotation = (Vector2.ZERO).direction_to(aim_texture.position).normalized().angle()
-	
+
 	if validate_control("brain_trigger", ControlMode.just_pressed):
 		SUiSpawner._spawn_ui(brain_ui)
 	elif validate_control("pause_game", ControlMode.just_pressed):
@@ -106,9 +104,6 @@ func _avaliable_in_gaming():
 	
 	for i in reactor_extension:
 		i._listen()
-	
-	 
-		
 #endregion
 
 func _validate_property(property: Dictionary) -> void:

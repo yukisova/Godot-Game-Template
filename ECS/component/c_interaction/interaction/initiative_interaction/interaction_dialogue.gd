@@ -14,7 +14,7 @@ func _fixed_dialogue_info() -> Dictionary:
 			dialogue_info_fixed[key] = get_node(dialogue_info_fixed[key])
 	return dialogue_info_fixed
 
-func _on_interact_activated(_target_entity: Entity):
+func _on_interact_activated(_target_entity: IEntity):
 	var dialogue = SUiSpawner._spawn_ui(test_dialogue_ui)
 	DialogueManager._start_balloon(dialogue, test_dialogue, test_dialogue_label, [_fixed_dialogue_info(),{"target_entity": _target_entity}])
 	

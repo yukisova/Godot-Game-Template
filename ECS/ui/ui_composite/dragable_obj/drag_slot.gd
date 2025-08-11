@@ -23,7 +23,7 @@ func _drop_data(at_position: Vector2, data: Variant) -> void:
 			data.queue_free()
 		else: ## 尝试合成
 			var pro_data: DragableItem = get_child(0)
-			var item_fusion = SSubSystemManager.sub_systems.get(&"item_fusion") as SSItemFusion
+			var item_fusion = SBlackboard.sub_systems.get(&"item_fusion") as SSItemFusion
 			var fusion_record = item_fusion.fusion_up(pre_data.binding_item.item_nick_name,pro_data.binding_item.item_nick_name)
 			if fusion_record is Item:
 				pro_data.binding_item = fusion_record

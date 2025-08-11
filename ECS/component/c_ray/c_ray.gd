@@ -9,7 +9,7 @@ var box_rays: Array[BoxRay]
 func _enter_tree() -> void:
 	component_name = ComponentName.c_ray
 
-func _initialize(_owner: Entity):
+func _initialize(_owner: IEntity):
 	super(_owner)
 	for i in get_children():
 		if i is BoxRay:

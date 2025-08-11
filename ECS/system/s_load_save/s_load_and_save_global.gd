@@ -3,69 +3,44 @@
 extends ISystem
 
 ## 游戏保存
+@warning_ignore("unused_signal")
 signal saving_started
+
 ## 游戏加载开始——期间会等待所有的加载项加载完毕
 signal loading_started
 ## 游戏加载
 signal loading_refreshed(data: Dictionary)
-
-## 黑板操作信号
-signal blackboard_inserted(key: StringName, value: Variant)
-signal blackboard_cleaned(key: StringName)
-
 ## 默认的保存文件名
 const SAVE_PATH := "user://data.sav"
 
-## FIXME 位于存档系统中的全局黑板 游戏运行时的缓存信息(方便全局共享，相当于一个黑板)
+## FIXME 位于存档系统中的全局黑板 游戏运行时的缓存信息(方便全局共享，相当于一个黑板)，但目前还没有用上，如果有更好的方案的话，可以直接删去
 var gaming_data_cache: Dictionary = {}
 
 func _enter_tree() -> void:
 	saving_started.connect(_data_saving)
 	loading_started.connect(_data_loading)
 	
-	blackboard_inserted.connect(_on_blackboard_insert)
-	blackboard_cleaned.connect(_on_blackboard_clean)
 
 func _resetup():
 	gaming_data_cache.clear()
 
+
+## 发出存档信号的时候，会递归获取到所有的可存档信息
 func _data_saving():
-	# var scene := get_tree().current_scene ## 获取场景信息
-	# var scene_name := scene.scene_file_path.get_file().get_basename() ## 获取场景名
-	
 	var data := {}
-	var json := JSON.stringify(data) ## 字符化字典
-	var file := FileAccess.open(SAVE_PATH, FileAccess.WRITE)
-	if not file:
-		return
-	file.store_string(json)
+	data.merge(SBlackboard._save_as())
+	data.merge(SMapData._save_as())
+
+	
+	var save_data = SavedDataFile.new()	
+	save_data.save_data = data
+
+	ResourceSaver.save(save_data, "user://sav.tres") ## FIXME 在游戏开发阶段建议使用的
+	print("数据已经成功保存！")
 
 ## 游戏内数据的加载
 func _data_loading():
-	var result = {}
-	var datafile := FileAccess.open(SAVE_PATH, FileAccess.READ)
-	#var setting := FileAccess.open()
-	if not datafile:
-		return
-	
-	var json_for_savingfile := datafile.get_as_text()
-	var data := JSON.parse_string(json_for_savingfile) as Dictionary
-	result.merge(result, true)
-	print("目前的存档文件内容为: ",data)
-	loading_refreshed.emit.call_deferred(result)
+	var data: SavedDataFile = ResourceLoader.load("user://sav.tres")
 
-## TODO 黑板相关
-#region :黑板操作: 黑板本身分为两种, 严格限制接收值类型，与不严格的类型
-## 插入黑板数据: 要求1. 数据插入后需要出现回声Echo，便于分辨杂项
-func _on_blackboard_insert(key: StringName, value: Variant):
-	if key == &"": return ## 不允许空
-	pass
 
-func _on_blackboard_clean(key: StringName):
-	if key == &"": return ## 不允许空
-	pass
-
-## 查找数据
-func blackboard_data_search():
-	pass
-#endregion
+	# loading_refreshed.emit.call_deferred(result)

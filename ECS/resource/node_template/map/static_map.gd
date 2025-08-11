@@ -1,9 +1,6 @@
 ## @editing: Sora [br]
 ## @describe: 静态地图类, s_map_data处理的主要对象
 
-## 2025.8.4 更新: 
-## 目前，StaticMap的作用更加偏向于可以无缝切换的地图，但是切换地图的逻辑必须要好好进行斟酌
-
 @tool
 class_name StaticMap
 extends Node
@@ -69,3 +66,16 @@ func _on_level_entity_fully_loaded():
 func time_change_filter(point: float):
 	time = point
 	map_filter.color = filter_gradient.gradient.sample(time)
+
+#region :存档系统:
+func _save_as():
+	var result = {}
+	for i: Level in levels.get_children():
+		result.merge(i._save_as())
+	return {
+		name:result
+	}
+
+func _load_by():
+	pass
+#endregion

@@ -56,7 +56,7 @@ func _enter_tree() -> void:
 	component_name = ComponentName.c_status
 
 ## 初始化: 记录扩展状态与基础状态信息
-func _initialize(_owner: Entity):
+func _initialize(_owner: IEntity):
 	super._initialize(_owner)
 	
 	for extension in get_children():

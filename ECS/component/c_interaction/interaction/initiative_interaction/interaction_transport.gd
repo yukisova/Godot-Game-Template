@@ -3,9 +3,9 @@
 extends PassiveInteraction
 
 @export var target_level: Level ## 所要传送的楼层
-@export var target_point: Entity ## 所会传送到的目标地点
+@export var target_point: IEntity ## 所会传送到的目标地点
 
-func _on_interact_activated(target_entity: Entity):
+func _on_interact_activated(target_entity: IEntity):
 	target_entity.main_control.global_position = target_point.init_data_variant.get("transported_position") as Vector2
 	SMapData.level_changed.emit(target_entity, target_level)
 

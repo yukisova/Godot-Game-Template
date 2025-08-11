@@ -2,7 +2,7 @@
 ##@describe:	角色的基础hud
 extends IHud
 
-var binding_entity: Entity
+var binding_entity: IEntity
 
 @export_group("时间循环", "time_")
 @export var hour_pointer: Line2D
@@ -19,7 +19,7 @@ var inventory_in_player: InventoryExtension
 
 func _initialize():
 	return 
-	var timeloop = SSubSystemManager.sub_systems[&"time_loop"] as SSTimeLoop
+	var timeloop = SBlackboard.sub_systems[&"time_loop"] as SSTimeLoop
 	timeloop.time_updated.connect(func(v: int):
 		rotate_pointer(v)
 		)

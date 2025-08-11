@@ -6,3 +6,15 @@ extends ISystem
 var keyword: StringName
 
 @abstract func _update(_delta: float)
+
+#region :存档系统:
+func _save_data():
+    var result = {
+        keyword : _save_as()
+    }
+
+func _save_as() -> Dictionary:
+    return {}
+func _load_by():
+    pass
+#endregion

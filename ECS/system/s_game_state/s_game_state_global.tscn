@@ -5,7 +5,7 @@
 [ext_resource type="Script" uid="uid://dl3k6gt6akppx" path="res://component/c_state/state/hfsm/game_state/game_state_start.gd" id="4_6q7b1"]
 [ext_resource type="Script" uid="uid://cpdkw72ahtbjj" path="res://component/c_state/transition_record.gd" id="4_t4e6g"]
 [ext_resource type="Script" uid="uid://d07bul8fnqiu7" path="res://component/c_state/state/hfsm/game_state/game_state_transition.gd" id="5_8gfhu"]
-[ext_resource type="Script" uid="uid://p143vwhudqhs" path="res://component/c_state/state/hfsm/state_machine/gaming_csm.gd" id="6_6f08a"]
+[ext_resource type="Script" uid="uid://p143vwhudqhs" path="res://component/c_state/state/hfsm/game_state/gaming_csm.gd" id="6_6f08a"]
 [ext_resource type="Script" uid="uid://dbmyewjmvf2v0" path="res://component/c_state/state/hfsm/game_state/gaming_normal.gd" id="7_qp31e"]
 [ext_resource type="Script" uid="uid://dcrr4ixsmsp40" path="res://component/c_state/state/hfsm/game_state/gaming_pause.gd" id="8_lnw6v"]
 [ext_resource type="Script" uid="uid://pihnviy45w5k" path="res://component/c_state/state/hfsm/game_state/gaming_cutscene.gd" id="9_y2rt6"]

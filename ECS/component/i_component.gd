@@ -9,7 +9,7 @@ enum ComponentType { ## 组件的状态
 }
 
 enum ComponentName {
-	c_action = 0, ## 见[C_Action]
+	c_action_queue_trigger = 0, ## 见[C_ActionQueueTrigger]
 	c_texture, ## 见[C_Texture]
 	c_camera, ## 见[C_Camera]
 	c_collision, ## 见[C_Collision]
@@ -28,7 +28,7 @@ enum ComponentName {
 ## TODO 
 @export var initialize_from: String ## 在初始化的时候如果需要在外部自定义初始化的值，所在ContainerBlackboard中获取的
 
-var component_owner: Entity ## 组件的拥有者, 即实体
+var component_owner: IEntity ## 组件的拥有者, 即实体
 var component_body: CollisionObject2D ## 实体的主碰撞体
 var component_name: ComponentName ## 用于实体内组件字典进行识别的类型枚举
 var component_type: ComponentType: ## 实体的类型
@@ -44,7 +44,7 @@ var component_type: ComponentType: ## 实体的类型
 var component_context: Dictionary = {} ## 组件的上下文
 
 
-func _initialize(_owner: Entity):
+func _initialize(_owner: IEntity):
 	if Engine.is_editor_hint():
 		return
 	component_owner = _owner
@@ -67,3 +67,17 @@ func _trigger_update():
 func get_controller() -> IComponent :
 	var input = component_owner.list_base_components.get(ComponentName.c_input_reactor)
 	return input
+
+#region :存档系统:
+func _save_as() -> Dictionary:
+	var result = {}
+	for i in get_children():
+		if i.has_method("_save_as"):
+			result.merge(i._save_as())
+	return {
+		component_name:result
+	}
+
+func _load_by():
+	pass
+#endregion

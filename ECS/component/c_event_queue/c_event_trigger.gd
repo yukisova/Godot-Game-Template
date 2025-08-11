@@ -8,8 +8,8 @@ extends IComponent
 func _enter_tree() -> void:
 	component_name = ComponentName.c_event_trigger
 
-func _initialize(_owner: Entity):
-	var time_loop = SSubSystemManager.sub_systems[&"time_loop"] as SSTimeLoop
+func _initialize(_owner: IEntity):
+	var time_loop = SBlackboard.sub_systems[&"time_loop"] as SSTimeLoop
 	time_loop.time_important_coming.connect(event_keyword_check)
 
 func event_keyword_check(keyword: String):

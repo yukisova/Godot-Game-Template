@@ -47,7 +47,7 @@ func _setup() -> void:
 			i.state_transition.connect(_on_state_transition)
 			i._setup()
 
-func _on_state_transition(to_state: StateHfsm):
+func _on_state_transition(to_state):
 	var from_state = current_state
 	from_state._clear_stack_and_exit()
 	if to_state != from_state:
