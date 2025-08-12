@@ -23,7 +23,7 @@ const BASIC_SETTING: Dictionary = {
 		"move_d": KEY_S,
 		"interact": KEY_SPACE,
 		"test_saving": KEY_O,
-		"brain_trigger": KEY_I,
+		"brain_trigger": KEY_TAB,
 		"pause_game": KEY_P
 	},
 	"display": {

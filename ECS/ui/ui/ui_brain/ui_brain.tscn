@@ -66,7 +66,6 @@ metadata/_custom_type_script = "uid://0y58wickfubb"
 
 [node name="UiBrain" type="CanvasLayer" node_paths=PackedStringArray("grid_inventory", "focus_item_image", "focus_item_name", "focus_item_describe")]
 script = ExtResource("1_hlga1")
-is_testing = true
 inventory = Array[ExtResource("2_j5kx2")]([SubResource("Resource_4wouh"), SubResource("Resource_j5kx2"), SubResource("Resource_wk11c")])
 grid_inventory = NodePath("Control/TabContainer/MarginContainer/HSplitContainer/ScrollContainer/GridInventory")
 focus_item_image = [NodePath("Control/TabContainer/MarginContainer/HSplitContainer/VSplitContainer/MarginContainer/VBoxContainer/TextureRect"), NodePath("Control/TabContainer/ListInventory/HSplitContainer/VSplitContainer/MarginContainer/VBoxContainer/TextureRect")]
@@ -89,10 +88,9 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-current_tab = 1
+current_tab = 0
 
 [node name="MarginContainer" type="MarginContainer" parent="Control/TabContainer"]
-visible = false
 layout_mode = 2
 metadata/_tab_index = 0
 
@@ -152,6 +150,7 @@ text = "[color=red]你好啊我的朋友[/color]"
 fit_content = true
 
 [node name="ListInventory" type="MarginContainer" parent="Control/TabContainer"]
+visible = false
 layout_mode = 2
 metadata/_tab_index = 1
 

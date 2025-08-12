@@ -5,7 +5,8 @@ extends Node
 
 enum ExtensionType{
 	背包,
-	临时效果
+	临时效果,
+	装备,
 }
 
 var extention_type: ExtensionType

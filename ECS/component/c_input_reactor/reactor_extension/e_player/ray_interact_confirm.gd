@@ -8,4 +8,4 @@ func _listen():
 	
 	if Input.is_action_just_pressed("interact"):
 		if interact_ray.interact_target:
-			interact_ray.interact_target.entity_ray_interact.emit(binding_entity)
+			interact_ray.interact_target.entity_ray_interact.emit(c_input_reactor.component_owner)

@@ -8,7 +8,6 @@ signal initialize_complete ## 实体初始化完毕后发出
 
 signal entity_ray_interact(interact_source: IEntity) ## 用于玩家与目标交互对象之间基于RayCast的交互，只会在
 
-
 @export_group("初始化的黑板信息")
 @export var init_data_variant: Dictionary[String, Variant]
 @export var init_data_node: Dictionary[String, Node]
@@ -17,15 +16,7 @@ signal entity_ray_interact(interact_source: IEntity) ## 用于玩家与目标交
 @export var main_control: Node2D  ## 主要控制对象
 @export var component_container: ContainerBlackboard
 
-var is_origin_exist: bool = false ## 是否原本就存在于地图场景
-
-var body: CollisionObject2D:
-	get:
-		for i in get_children():
-			if i is CollisionObject2D:
-				return i
-		push_error("实体没有发现碰撞体？？？")
-		return null
+var is_entity_origin_exist: bool ## 实体是否原本就存在于静态地图中(是的话，则)
 
 var list_base_components: Dictionary[int, IComponent] = {} ## 基础组件组
 var list_interface_components: Dictionary[int, IComponent] = {} ## 插件组件组
@@ -48,6 +39,9 @@ func _ready() -> void:
 		SSignalBus.entity_initialize_started.connect(_initialize.bind(true))
 
 func _initialize(need_disconnect: bool = false):
+	if SLoadAndSave.current_saved:
+		_load_by(SLoadAndSave.current_saved)
+
 	for interface in get_children():
 		if (interface is IComponent):
 			interface._initialize(self)
@@ -81,25 +75,31 @@ func _physics_process(delta: float) -> void:
 			base._fixed_update(delta)
 
 #region :存档系统: 
-func _load_by(data: Dictionary):
-	global_position = data["start_position"]
-	main_control.global_position = data["current_position"]
-
-
-func _save_as() -> Dictionary:
+func _save_as(data: SavedDataFile):
 	var result: Dictionary = {}
-	result["basic"] = {
-		"start_position":global_position,
-		"current_position":main_control.global_position,
-		"scene_file_path": scene_file_path
+	result["type"] = "entity"
+	result[" "] = {
+		"start_position": global_position,
+		"current_position": main_control.global_position,
+		"scene_file_path": scene_file_path,
+		"current_level_index": get_parent().get_index()
 	}
-	for i in list_base_components.values():
+	for i:IComponent in list_base_components.values():
 		result.merge(i._save_as())
-	for i in list_interface_components.values():
+	for i:IComponent in list_interface_components.values():
 		result.merge(i._save_as())
 	
 	return {
 		name:result
 	}
 	
+func _load_by(data: SavedDataFile, ...args):
+	await initialize_complete
+	if args[0] is Dictionary:
+		var dict = args[0]
+		global_position = dict[" "]["start_position"]
+		main_control.global_position = dict[" "]["current_position"]
+		for i in dict.keys():
+			if i in IComponent.ComponentName:
+				list_base_components[i]._load_by(dict[i])
 #endregion

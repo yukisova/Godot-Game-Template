@@ -39,9 +39,9 @@ func _spawn_ui(scene: PackedScene, context: Dictionary = {}) -> IUi:
 		if current_ui:
 			current_ui.queue_free()
 		current_ui = canvas
+		canvas._initilize_info(context)
 		Main.ui_view.add_child(current_ui)
 		current_ui._unspawned.connect(_unspawn_ui)
-		canvas._initilize_info(context)
 		
 		var current_game_state = SGameState.state_machine._get_leaf_state()
 		if current_game_state is GamingStateNormal:

@@ -17,6 +17,13 @@ func _enter_tree() -> void:
 func _initialize(_owner: IEntity):
 	super(_owner)
 
-func _get_texture():
-	
+func _get_texture():	
 	return get_node(texture_path)
+
+#region :存档系统:
+func _save_as() -> Dictionary:
+	return {}
+
+func _load_by(data: Dictionary):
+	pass
+#endregion

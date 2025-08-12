@@ -2,7 +2,6 @@
 ## @describe: 拾取交互（），之后会更加生动
 extends PassiveInteraction
 
-
 @export var binding_item: Item
 
 func _on_interact_activated(_target_entity: IEntity):

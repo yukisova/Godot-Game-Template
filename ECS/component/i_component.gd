@@ -21,7 +21,6 @@ enum ComponentName {
 	c_navigation, ## 见[C_Navigation]
 	c_balloon, ## 见[C_Balloon]
 	c_event_trigger, ## 见[C_EventTrigger]
-	c_ray, ## 见[C_Ray]
 	c_marker ## 见[C_Marker]
 }
 
@@ -48,7 +47,7 @@ func _initialize(_owner: IEntity):
 	if Engine.is_editor_hint():
 		return
 	component_owner = _owner
-	component_body = component_owner.body
+	component_body = component_owner.main_control
 
 
 func _update(_delta: float):
@@ -70,14 +69,11 @@ func get_controller() -> IComponent :
 
 #region :存档系统:
 func _save_as() -> Dictionary:
-	var result = {}
-	for i in get_children():
-		if i.has_method("_save_as"):
-			result.merge(i._save_as())
-	return {
-		component_name:result
-	}
+	return { component_name:_data_to_dict() }
 
-func _load_by():
+func _data_to_dict() -> Dictionary:
+	return {}
+
+func _load_by(dict:Dictionary):
 	pass
 #endregion

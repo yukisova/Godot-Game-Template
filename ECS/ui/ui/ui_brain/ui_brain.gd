@@ -23,10 +23,13 @@ func _test_setup():
 		"inventory": inventory,
 	})
 
+	
+
 ## 应当传入的动态参数:
 ## 角色当前的背包内容与每个物品的编排位置
 func _initilize_info(_context: Dictionary) -> void:
-	for i in _context["inventory"]:
+	var inventory = _context["inventory"] as InventoryExtension
+	for i in inventory.inventory_array:
 		grid_inventory.add_item(i)
 
 func _on_display_item_info(item: Item):

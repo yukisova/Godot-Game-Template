@@ -19,7 +19,6 @@ func _setup(): ## 系统初始化
 
 	sub_systems_setup_start.connect(func():
 		for i in sub_systems.values():
-			SLoadAndSave.saving_started.connect(i._save_as)
 			i._setup()
 		)
 
@@ -33,19 +32,10 @@ func _process(delta: float) -> void:
 			i._update(delta)
 
 #region :存档系统，将黑板的信息全部保存下来:
-func _save_as() -> Dictionary:
-	var result = {}
-	result["basic"] = {
-		"info" = blackboard_info
-	}
-	for i in get_children():
-		if i.has_method("_save_as"):
-			result.merge(i._save_as())
-	return {
-		"blackboard":result
-	}
+func _data_saving(data: SavedDataFile):
+	pass	
 
-func _load_by():
+func _data_loading(data: SavedDataFile):
 	pass
 #endregion
 

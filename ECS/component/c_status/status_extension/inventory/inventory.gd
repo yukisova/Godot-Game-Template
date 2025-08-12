@@ -18,7 +18,6 @@ func _enter_tree() -> void:
 	extention_type = ExtensionType.背包
 
 func _initialize():
-	
 	inventory_array.resize(inventory_pack_num)
 	
 

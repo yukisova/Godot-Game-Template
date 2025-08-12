@@ -18,12 +18,12 @@ func fusion_up(pre: String, pro: String) -> Item:
 	return null
 
 #region :存档系统，将黑板的信息全部保存下来:
-func _save_as() -> Dictionary:
+func _save_as(data: SavedDataFile):
 	var result = {}
 	return {
 		keyword:result
 	}
 
-func _load_by():
+func _load_by(data: SavedDataFile):
 	pass
 #endregion

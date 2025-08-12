@@ -25,6 +25,7 @@ func _enter_tree() -> void:
 			layers_count += 1
 		elif layer is IEntity:
 			layer.initialize_complete.connect(_on_entity_initialize)
+			layer.is_entity_origin_exist = true
 			entity_count += 1
 	_check_all_layers_loaded()
 
@@ -56,15 +57,17 @@ func get_camera_limit() -> Dictionary:
 	return limit_dict
 
 #region :存档系统:
-func _save_as() -> Dictionary:
-	var result = {}
-	for i in get_children():
-		if i.has_method("_save_as"):
-			result.merge(i._save_as())
-	return {
-		name:result
-	}
+func _save_as(_data: SavedDataFile) -> Dictionary:
+	var levels_result = {}
+	for element in get_children():
+		if element.has_method("_save_as"):
+			levels_result.merge(element._save_as(_data))
+	return { name:levels_result }
+	
 
-func _load_by():
-	pass
+func _load_by(data: SavedDataFile):
+	var dict = data.map_info[name]
+	for element in get_children():
+		if element.has_method("_load_by"):
+			element._load_by(data, dict[element.name])
 #endregion

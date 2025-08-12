@@ -80,10 +80,3 @@ func _vec_input_a_toward() -> Dictionary:
 		vec_info["pre_vec"] = vec_info["vec"]
 	return vec_info
 #endregion
-
-#region :存档系统: 
-func _load_by(data: Dictionary):
-	pass
-func _save_as():
-	pass	
-#endregion

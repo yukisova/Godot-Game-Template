@@ -34,13 +34,13 @@ func _update(_delta: float) -> void:
 #endregion
 
 #region :存档系统，将黑板的信息全部保存下来:
-func _save_as() -> Dictionary:
+func _save_as(_data: SavedDataFile) -> Dictionary:
 	var result = {}
 	result["real_time"] = real_time
 	return {
 		keyword:result
 	}
 
-func _load_by():
+func _load_by(data: SavedDataFile):
 	pass
 #endregion

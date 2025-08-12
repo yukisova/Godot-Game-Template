@@ -1,7 +1,8 @@
-[gd_scene load_steps=30 format=3 uid="uid://chcm2vu8h6bs1"]
+[gd_scene load_steps=32 format=3 uid="uid://chcm2vu8h6bs1"]
 
 [ext_resource type="PackedScene" uid="uid://6jpwo3n27sj2" path="res://entity/i_entity.tscn" id="1_cpfht"]
 [ext_resource type="PackedScene" uid="uid://cq0u8u1qie88t" path="res://entity/entity_template/character_body.tscn" id="2_10by5"]
+[ext_resource type="Script" uid="uid://815l8mjrysw1" path="res://entity/entity_packed/player/i_player.gd" id="2_s6qkr"]
 [ext_resource type="PackedScene" uid="uid://bvjy63fua1sx2" path="res://component/c_texture/c_texture.tscn" id="3_10by5"]
 [ext_resource type="PackedScene" uid="uid://bo5de2ow6bqjo" path="res://component/c_camera/c_camera.tscn" id="3_qlyid"]
 [ext_resource type="Script" uid="uid://b1kgwv70jiajt" path="res://component/c_camera/follow_strategy/cfs_mouse_follow.gd" id="4_d1eba"]
@@ -21,11 +22,12 @@
 [ext_resource type="PackedScene" uid="uid://dyxr8eofrj3pw" path="res://ui/ui/ui_pause/ui_pause.tscn" id="19_qvx2r"]
 [ext_resource type="Script" uid="uid://b12rb4ncy2q57" path="res://component/c_input_reactor/reactor_extension/e_player/seek_confirm.gd" id="20_3gllj"]
 [ext_resource type="Script" uid="uid://dc4xbso7xmwvo" path="res://component/c_input_reactor/reactor_extension/e_player/mouse_focus.gd" id="21_04ll1"]
+[ext_resource type="PackedScene" uid="uid://55la10tbk38m" path="res://ui/ui/ui_brain/ui_brain.tscn" id="21_s6qkr"]
 [ext_resource type="Script" uid="uid://bj5wq8iankhmq" path="res://component/c_input_reactor/reactor_extension/e_player/test_check_info.gd" id="22_h8dci"]
 [ext_resource type="PackedScene" uid="uid://b3vbfhugiqyva" path="res://component/c_action/c_action_queue_trigger.tscn" id="23_86vaq"]
 [ext_resource type="Script" uid="uid://cd4xrbwgqs7p0" path="res://component/c_input_reactor/reactor_extension/e_player/ray_interact_confirm.gd" id="23_lxaiq"]
-[ext_resource type="PackedScene" uid="uid://crbs5skmddqls" path="res://component/c_ray/c_ray.tscn" id="24_d1eba"]
-[ext_resource type="Script" uid="uid://3c3x3bgxinnw" path="res://component/c_ray/box_ray/interact_ray/interact_ray.gd" id="25_3swxj"]
+[ext_resource type="Script" uid="uid://3c3x3bgxinnw" path="res://component/c_collision/box_ray/interact_ray/interact_ray.gd" id="25_3swxj"]
+[ext_resource type="Script" uid="uid://ceknbpsdqqm6d" path="res://component/c_input_reactor/reactor_extension/e_player/ui_panel_open.gd" id="25_r1axf"]
 
 [sub_resource type="Resource" id="Resource_whce7"]
 script = ExtResource("14_3syqy")
@@ -41,6 +43,7 @@ metadata/_custom_type_script = "uid://cpdkw72ahtbjj"
 size = Vector2(32, 10)
 
 [node name="野比大雄" node_paths=PackedStringArray("main_control", "component_container") instance=ExtResource("1_cpfht")]
+script = ExtResource("2_s6qkr")
 main_control = NodePath("CharacterBody")
 component_container = NodePath("CharacterBody/ComponentContainer")
 
@@ -113,8 +116,13 @@ hfsm_state_transition = Dictionary[StringName, ExtResource("14_3syqy")]({
 
 [node name="SeekBox" parent="CharacterBody/ComponentContainer/CCollision" index="0" instance=ExtResource("17_68kku")]
 
+[node name="InteractRay" type="RayCast2D" parent="CharacterBody/ComponentContainer/CCollision" index="1"]
+position = Vector2(0, 15)
+target_position = Vector2(30, 0)
+collision_mask = 2
+script = ExtResource("25_3swxj")
+
 [node name="CInputReactor" parent="CharacterBody/ComponentContainer" index="6" instance=ExtResource("18_lccat")]
-pause_ui = ExtResource("19_qvx2r")
 
 [node name="SeekConfirm" type="Node" parent="CharacterBody/ComponentContainer/CInputReactor" index="0" node_paths=PackedStringArray("seek_box")]
 script = ExtResource("20_3gllj")
@@ -129,17 +137,15 @@ script = ExtResource("22_h8dci")
 
 [node name="RayInteractConfirm" type="Node" parent="CharacterBody/ComponentContainer/CInputReactor" index="3" node_paths=PackedStringArray("interact_ray")]
 script = ExtResource("23_lxaiq")
-interact_ray = NodePath("../../CRay/InteractRay")
+interact_ray = NodePath("../../CCollision/InteractRay")
 
-[node name="CAction" parent="CharacterBody/ComponentContainer" index="7" instance=ExtResource("23_86vaq")]
+[node name="UiPanelOpen" type="Node" parent="CharacterBody/ComponentContainer/CInputReactor" index="4" node_paths=PackedStringArray("inventory")]
+script = ExtResource("25_r1axf")
+brain_ui = ExtResource("21_s6qkr")
+inventory = NodePath("../../CStatus/Inventory")
+pause_ui = ExtResource("19_qvx2r")
 
-[node name="CRay" parent="CharacterBody/ComponentContainer" index="8" instance=ExtResource("24_d1eba")]
-
-[node name="InteractRay" type="RayCast2D" parent="CharacterBody/ComponentContainer/CRay" index="0"]
-position = Vector2(0, 15)
-target_position = Vector2(30, 0)
-collision_mask = 2
-script = ExtResource("25_3swxj")
+[node name="CActionQueueTrigger" parent="CharacterBody/ComponentContainer" index="7" instance=ExtResource("23_86vaq")]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody" index="1"]
 position = Vector2(0, 16)

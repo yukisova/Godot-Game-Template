@@ -18,3 +18,11 @@ func _initialize(_owner: IEntity):
 ## 移动逻辑的实现
 func _update(_delta: float):
 	move_strategy._update(_delta)
+
+#region :存档系统:
+func _save_as() -> Dictionary:
+	return {}
+
+func _load_by(data: Dictionary):
+	pass
+#endregion

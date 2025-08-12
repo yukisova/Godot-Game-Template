@@ -23,13 +23,17 @@ func _initialize(_owner: IEntity):
 	for i in pda_states.get_children():
 		if i is StatePda:
 			pda_state_dict[i.keyword] = i
-	
-	root_state_machine.is_root = true
-	root_state_machine._setup()
-	root_state_machine._enter()
+	if root_state_machine:
+		root_state_machine.is_root = true
+		root_state_machine._setup()
+		root_state_machine._enter()
+	else:
+		push_warning("角色",component_owner.name,"不存在根状态机")
 
 func _update(_delta: float):
-	root_state_machine._update(_delta)
+	if root_state_machine:
+		root_state_machine._update(_delta)
 
 func _fixed_update(_delta: float):
-	root_state_machine._fixed_update(_delta)
+	if root_state_machine:
+		root_state_machine._fixed_update(_delta)

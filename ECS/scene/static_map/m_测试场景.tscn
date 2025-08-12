@@ -1,4 +1,4 @@
-[gd_scene load_steps=35 format=4 uid="uid://nqh6sy3jpxp3"]
+[gd_scene load_steps=37 format=4 uid="uid://nqh6sy3jpxp3"]
 
 [ext_resource type="PackedScene" uid="uid://dx8lfcn7h43ea" path="res://resource/node_template/map/static_map.tscn" id="1_8b7id"]
 [ext_resource type="PackedScene" uid="uid://6dpqakv78nkp" path="res://resource/node_template/map/level.tscn" id="2_kqh3t"]
@@ -20,10 +20,12 @@
 [ext_resource type="PackedScene" uid="uid://cvl4a2oc006pj" path="res://entity/entity_packed/people/翁蛾健治.tscn" id="15_phtbu"]
 [ext_resource type="PackedScene" uid="uid://o6phrnqwl5gh" path="res://entity/entity_packed/partner/i_partner.tscn" id="16_p2mf1"]
 [ext_resource type="PackedScene" uid="uid://ca1hb1m2dinl2" path="res://component/c_state/c_state.tscn" id="20_6k0fo"]
-[ext_resource type="Script" uid="uid://c3cklpcfivxlr" path="res://component/c_state/state/hfsm/state/runtime_cutscene/rcu_ep0_健治.gd" id="21_6k0fo"]
 [ext_resource type="PackedScene" uid="uid://cl2k6r335pke0" path="res://component/c_navigation/c_navigation.tscn" id="22_05w2q"]
 [ext_resource type="PackedScene" uid="uid://cps21xspaovit" path="res://component/c_collision/c_collision.tscn" id="23_h8umv"]
 [ext_resource type="PackedScene" uid="uid://chj3kl8gl43h" path="res://component/c_collision/box_collision/interaction_box/interact_box.tscn" id="24_xyu3f"]
+[ext_resource type="Script" uid="uid://dyicjmjyi8vve" path="res://component/c_interaction/interaction/passive_interaction/interaction_collect.gd" id="25_xyu3f"]
+[ext_resource type="Texture2D" uid="uid://kbkgom7sc05c" path="res://asset/item_texture/ItemIcon.png" id="26_7knx6"]
+[ext_resource type="Script" uid="uid://bie3fadk4fwqc" path="res://resource/custom_resource/item/item_weapon.gd" id="27_ta42a"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_p2mf1"]
 vertices = PackedVector2Array(8, 16, -8, 16, -8, 0, 8, 0)
@@ -63,15 +65,22 @@ interaction = NodePath("InteractionDialogue")
 interact_box = NodePath("../CCollision/InteractionBox")
 metadata/_custom_type_script = "uid://ccu2saj6ovslc"
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_nfrqy"]
+atlas = ExtResource("26_7knx6")
+region = Rect2(0, 0, 80, 80)
+
+[sub_resource type="Resource" id="Resource_phtbu"]
+script = ExtResource("27_ta42a")
+item_nick_name = "pistol"
+item_name = "手枪"
+item_description = "一把手枪，"
+item_texture = SubResource("AtlasTexture_nfrqy")
+metadata/_custom_type_script = "uid://bie3fadk4fwqc"
+
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_8b7id"]
 vertices = PackedVector2Array(129.49219, 225.4375, -242.14844, 287.22656, -245.86719, 5.7109375, 143.35938, -5.6796875)
 polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
 outlines = Array[PackedVector2Array]([PackedVector2Array(-256, -4, 154, -16, 139, 234, -252, 299)])
-
-[sub_resource type="Gradient" id="Gradient_p2mf1"]
-
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_miv26"]
-gradient = SubResource("Gradient_p2mf1")
 
 [node name="m_测试场景" node_paths=PackedStringArray("player_spawn") instance=ExtResource("1_8b7id")]
 player_spawn = NodePath("Levels/Level/PlayerSpawn")
@@ -137,19 +146,7 @@ position = Vector2(324, -5)
 
 [node name="CNavigation" parent="Levels/Level/翁蛾健治/CharacterBody/ComponentContainer" index="0" instance=ExtResource("22_05w2q")]
 
-[node name="CState" parent="Levels/Level/翁蛾健治/CharacterBody/ComponentContainer" index="1" node_paths=PackedStringArray("root_state_machine") instance=ExtResource("20_6k0fo")]
-root_state_machine = NodePath("RuntimeCutscene")
-
-[node name="RuntimeCutscene" type="Node" parent="Levels/Level/翁蛾健治/CharacterBody/ComponentContainer/CState" index="1" node_paths=PackedStringArray("c_navigation", "target_marker", "c_interactable")]
-script = ExtResource("21_6k0fo")
-c_navigation = NodePath("../../CNavigation")
-target_marker = NodePath("TargetMarker")
-c_interactable = NodePath("../../CInteractable")
-current_state = null
-metadata/_custom_type_script = "uid://b5ywitjyd2ccg"
-
-[node name="TargetMarker" type="Marker2D" parent="Levels/Level/翁蛾健治/CharacterBody/ComponentContainer/CState/RuntimeCutscene" index="0"]
-position = Vector2(19, -179)
+[node name="CState" parent="Levels/Level/翁蛾健治/CharacterBody/ComponentContainer" index="1" instance=ExtResource("20_6k0fo")]
 
 [node name="CCollision" parent="Levels/Level/翁蛾健治/CharacterBody/ComponentContainer" index="3" instance=ExtResource("23_h8umv")]
 
@@ -165,14 +162,19 @@ interactions_resources = Array[ExtResource("10_xyu3f")]([SubResource("Resource_1
 [node name="InteractionDialogue" type="Node" parent="Levels/Level/翁蛾健治/CharacterBody/ComponentContainer/CInteractable" index="0"]
 script = ExtResource("11_1788p")
 test_dialogue_ui = ExtResource("12_7knx6")
-test_dialogue = ExtResource("13_ta42a")
+test_dialogue = ExtResource("14_kqh3t")
+test_dialogue_label = &"武器测试_翁蛾健治"
+dialogue_info = Dictionary[String, Variant]({
+"interaction_collect": NodePath("../InteractionCollect")
+})
+
+[node name="InteractionCollect" type="Node" parent="Levels/Level/翁蛾健治/CharacterBody/ComponentContainer/CInteractable" index="1"]
+script = ExtResource("25_xyu3f")
+binding_item = SubResource("Resource_phtbu")
 
 [node name="NavigationRegion2D" type="NavigationRegion2D" parent="Levels/Level" index="9"]
 navigation_polygon = SubResource("NavigationPolygon_8b7id")
 navigation_layers = 2
-
-[node name="Fog" parent="Levels" index="1"]
-texture = SubResource("GradientTexture2D_miv26")
 
 [editable path="Levels/Level"]
 [editable path="Levels/Level/出木杉"]

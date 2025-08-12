@@ -54,9 +54,11 @@ func _main_setup() -> void:
 		
 		var current_state = game_state_machine._get_active_state()
 		if current_state is GameStartState:
-			#current_state.update_trigger = true
 			SLoadAndSave.loading_started.emit()
-			#unspawn()
+			current_state.update_trigger = true
+			SMapData.map_info_registered.emit(_args[0] as PackedScene)
+			SAudioMaster.play_music(null)
+			unspawn()
 		else:
 			push_error("当前出现问题: 主菜单场景状态机错误！当前状态名:%s"%[current_state.name])).bind(load_game_button.args)
 	)

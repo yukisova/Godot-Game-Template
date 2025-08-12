@@ -6,10 +6,6 @@ extends IComponent
 
 enum ControlMode{ just_pressed = 0, pressed, just_release }
 @export_enum("横版", "四向", "八向", "全向") var award_mode: String = "四向"
-## 游戏的装备等游戏内信息相关的设置菜单
-@export var brain_ui: PackedScene
-## 游戏的设置，游戏的退出等游戏外相关的设置菜单
-@export var pause_ui: PackedScene
 
 @export_flags("向量监听","主控") var disable_flag: int:
 	set(v):
@@ -42,7 +38,7 @@ func _initialize(_owner: IEntity):
 	for i in get_children():
 		if i is ReactorExtension:
 			reactor_extension.append(i)
-			i.binding_entity = component_owner
+			i.c_input_reactor = self
 			
 
 func validate_control(key_string: StringName, control_mode: ControlMode = ControlMode.just_pressed) -> bool:
@@ -94,11 +90,7 @@ func _avaliable_in_gaming():
 	
 	input_vector_dict.move = _try_vector_control()
 
-	if validate_control("brain_trigger", ControlMode.just_pressed):
-		SUiSpawner._spawn_ui(brain_ui)
-	elif validate_control("pause_game", ControlMode.just_pressed):
-		SUiSpawner._spawn_ui(pause_ui)
-	elif validate_control("interact", ControlMode.just_pressed):
+	if validate_control("interact", ControlMode.just_pressed):
 		if interact_obj != null:
 			interact_obj.interact_activated.emit(component_owner)
 	

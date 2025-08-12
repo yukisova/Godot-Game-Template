@@ -21,6 +21,6 @@ func _save_as() -> Dictionary:
 		keyword:result
 	}
 
-func _load_by():
+func _load_by(data: SavedDataFile):
 	pass
 #endregion

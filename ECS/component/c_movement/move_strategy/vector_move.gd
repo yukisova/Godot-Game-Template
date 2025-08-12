@@ -1,7 +1,7 @@
 ## @editing: Sora [br]
 ## @describe: 以向量的方式进行移动，分为输入控制和AI控制两种，对应玩家与其他实体
+class_name MoveStrategyVector
 extends MoveStrategy
-
 
 @export var c_input: C_InputReactor = null ## 是否拥有Input组件,
 ## 移动方向
@@ -38,3 +38,11 @@ func _update(_delta: float):
 		else:
 			body.velocity = body.velocity.lerp(Vector2.ZERO, _delta * 10)
 		body.move_and_slide()
+
+func _save_as() -> Dictionary:
+	return {
+		"type" = MoveStrategyType.VectorMove,
+		"toward_direction" = toward_direction,
+		"move_vector" = Vector2.ZERO,
+		"move_speed" = move_speed
+	}

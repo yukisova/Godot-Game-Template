@@ -68,14 +68,19 @@ func time_change_filter(point: float):
 	map_filter.color = filter_gradient.gradient.sample(time)
 
 #region :存档系统:
-func _save_as():
-	var result = {}
-	for i: Level in levels.get_children():
-		result.merge(i._save_as())
-	return {
-		name:result
+func _save(data: SavedDataFile):
+	var map_result = {}
+	map_result[" "] = {
+		"fog":fog_image.texture.get_image()
 	}
 
-func _load_by():
+	for level: Level in levels.get_children():
+		map_result.merge(level._save_as(data))
+	data.map_info = map_result
+
+func _load(data: SavedDataFile):
+	
+	for level: Level in levels.get_children():
+		level._load_by(data)
 	pass
 #endregion

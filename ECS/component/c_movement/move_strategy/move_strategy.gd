@@ -3,8 +3,14 @@
 @abstract class_name MoveStrategy
 extends Node
 
+enum MoveStrategyType{
+	VectorMove = 0
+}
+
 var binding_entity: IEntity
 
 @export var blackboard: ContainerBlackboard
 @abstract func _check_and_init()
 @abstract func _update(_delta: float)
+
+@abstract func _save_as() -> Dictionary

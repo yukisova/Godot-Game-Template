@@ -86,8 +86,10 @@ func set_map_cache(key: String, value, set_type: int= 0): ## 一开始的目的�
 				current_map.cache_in_map[key] -= value
 
 #region :存档系统:
-func _save_as() -> Dictionary:
-	return current_map._save_as()
-func _load_by():
+func _data_saving(data: SavedDataFile):
+	data.map_cache = current_map.cache_in_map
+	current_map._save(data) ## 从这里开始，data会收集来自map当中的信息进行包装，并统一保存至指定的字典
+
+func _data_loading(data: SavedDataFile):
 	pass
 #endregion
