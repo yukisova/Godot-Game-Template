@@ -28,12 +28,20 @@ func _test_setup():
 ## 应当传入的动态参数:
 ## 角色当前的背包内容与每个物品的编排位置
 func _initilize_info(_context: Dictionary) -> void:
+	await ready
 	var inventory = _context["inventory"] as InventoryExtension
+	grid_inventory.grid_num = inventory.inventory_pack_num
 	for i in inventory.inventory_array:
-		grid_inventory.add_item(i)
+		if i != null:
+			grid_inventory.add_item(i)
 
 func _on_display_item_info(item: Item):
 	var current_tab: int = tab_container.current_tab
 	focus_item_image[current_tab].texture = item.item_texture
 	focus_item_describe[current_tab].text = item.item_description
 	focus_item_name[current_tab].text = item.item_name
+
+
+func _process(delta: float) -> void:
+	if Input.is_action_just_pressed("brain_trigger"):
+		unspawn()

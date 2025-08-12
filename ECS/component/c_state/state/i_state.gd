@@ -17,3 +17,9 @@ func _exit():
 
 func _blur_update(_delta: float): ## 
 	pass
+
+func _pause():
+	pass
+
+func _continue():
+	pass

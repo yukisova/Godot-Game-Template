@@ -2,6 +2,9 @@
 ## @describe: 游戏的状态机系统
 extends ISystem
 
+signal game_paused
+signal game_continue
+
 @export var state_machine: StateMachineHfsm
 var is_setup = false
 

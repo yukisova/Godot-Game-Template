@@ -19,7 +19,6 @@ func _enter_tree() -> void:
 
 func _initialize():
 	inventory_array.resize(inventory_pack_num)
-	
 
 func _effect():
 	pass

@@ -7,7 +7,7 @@ var current_index: Vector2i = Vector2i(-1, -1)
 var linkage_dragable: DragableItem = null
 
 func _ready():
-	custom_minimum_size = Vector2(64, 64)
+	custom_minimum_size = Vector2(80,80)
 	
 	# 添加长按检测
 	var timer = Timer.new()

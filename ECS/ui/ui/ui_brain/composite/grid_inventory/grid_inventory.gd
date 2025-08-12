@@ -157,8 +157,9 @@ func remove_item(item: DragableItem):
 	
 	# 清除所有占用格子
 	for slot in dict.values():
-		if slot.linkage_dragable == item:
-			slot.linkage_dragable = null
+		if slot:
+			if slot.linkage_dragable == item:
+				slot.linkage_dragable = null
 	
 	item.current_slot = null
 
@@ -197,11 +198,12 @@ func add_item(item_data: Item) -> bool:
 	# 3. 搜索可用位置 (从左到右，从上到下)
 	var placed = false
 	for slot in dict.values():
-		if is_area_available(slot.current_index, grid_size):
-			# 4. 放置物品并更新状态
-			place_item(new_item, slot.current_index)
-			placed = true
-			break
+		if slot:
+			if is_area_available(slot.current_index, grid_size):
+				# 4. 放置物品并更新状态
+				place_item(new_item, slot.current_index)
+				placed = true
+				break
 	
 	# 5. 处理放置失败
 	if not placed:

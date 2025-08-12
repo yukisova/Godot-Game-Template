@@ -47,7 +47,6 @@ func _fixed_update(delta: float) -> void:
 		_owner_body.move_and_slide()
 
 func _exit():
-	var _owner_body = vector_move.binding_entity.main_control as CharacterBody2D
 	velocity_computed_enable = false
 
 ## 设置随机的移动目标：利用NavigationServer2D底层提供的获取随机点的方法
@@ -59,4 +58,12 @@ func set_movement_target_random() -> void:
 		false)
 	nav_agent.target_position = target_position
 	current_speed = randf_range(walk_speed_range.x, walk_speed_range.y)
+	velocity_computed_enable = true
+
+
+
+func _pause():
+	velocity_computed_enable = false
+
+func _continue():
 	velocity_computed_enable = true

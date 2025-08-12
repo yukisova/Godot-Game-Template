@@ -61,7 +61,7 @@ script = ExtResource("4_d1eba")
 smoothing = null
 
 [node name="CTexture" parent="CharacterBody/ComponentContainer" index="1" instance=ExtResource("3_10by5")]
-texture_path = NodePath("Sprite2D")
+texture_node_path = NodePath("Sprite2D")
 
 [node name="Sprite2D" type="Sprite2D" parent="CharacterBody/ComponentContainer/CTexture" index="0"]
 position = Vector2(0, 12)
@@ -78,15 +78,9 @@ move_speed = 1000.0
 blackboard = NodePath("../..")
 
 [node name="CStatus" parent="CharacterBody/ComponentContainer" index="3" instance=ExtResource("9_r1axf")]
-basic_info = Dictionary[int, float]({
-0: 100.0,
-1: 50.0,
-2: 100.0
-})
 
 [node name="Inventory" type="Node" parent="CharacterBody/ComponentContainer/CStatus" index="0"]
 script = ExtResource("10_ddqps")
-inventory_pack_num = 5
 
 [node name="CState" parent="CharacterBody/ComponentContainer" index="4" node_paths=PackedStringArray("root_state_machine") instance=ExtResource("11_gg8ev")]
 root_state_machine = NodePath("PlayerSM")

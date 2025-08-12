@@ -48,9 +48,9 @@ enum {
 	SHD
 }
 #endregion
-
 enum InputType{
 	Pressed = 0,
 	Released,
 	JustPressed,
 }
+

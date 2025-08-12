@@ -19,7 +19,7 @@ func _enter_tree() -> void:
 ## 初始化: 记录所有下推状态,启动并登入状态机
 func _initialize(_owner: IEntity):
 	super._initialize(_owner)
-	
+	SGameState.game_paused.connect(_pause)
 	for i in pda_states.get_children():
 		if i is StatePda:
 			pda_state_dict[i.keyword] = i
@@ -37,3 +37,11 @@ func _update(_delta: float):
 func _fixed_update(_delta: float):
 	if root_state_machine:
 		root_state_machine._fixed_update(_delta)
+
+func _pause():
+	if root_state_machine:
+		root_state_machine._pause()
+
+func _continue():
+	if root_state_machine:
+		root_state_machine._continue()

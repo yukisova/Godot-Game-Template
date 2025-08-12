@@ -89,9 +89,14 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 current_tab = 0
+tabs_visible = false
 
 [node name="MarginContainer" type="MarginContainer" parent="Control/TabContainer"]
 layout_mode = 2
+theme_override_constants/margin_left = 32
+theme_override_constants/margin_top = 32
+theme_override_constants/margin_right = 32
+theme_override_constants/margin_bottom = 32
 metadata/_tab_index = 0
 
 [node name="HSplitContainer" type="HSplitContainer" parent="Control/TabContainer/MarginContainer"]
@@ -107,8 +112,10 @@ vertical_scroll_mode = 3
 
 [node name="GridInventory" parent="Control/TabContainer/MarginContainer/HSplitContainer/ScrollContainer" instance=ExtResource("3_g7ipl")]
 layout_mode = 2
-grid_num = 40
-col_num = 8
+size_flags_horizontal = 3
+size_flags_vertical = 3
+col_num = 5
+long_press_duration = 0.19999999999708962
 
 [node name="VSplitContainer" type="VSplitContainer" parent="Control/TabContainer/MarginContainer/HSplitContainer"]
 layout_mode = 2

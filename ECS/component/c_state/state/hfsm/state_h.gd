@@ -91,7 +91,12 @@ func _u(_delta: float) -> void:
 		if i == pda_state_stack[-1] and i != self:
 			continue
 		i._blur_update(_delta)
-	
+
+func _p():
+	var top_state = pda_state_stack[-1]
+	top_state._pause()
+	await SGameState.game_continue
+	top_state._continue()
 
 ## 获取可过渡状态
 func get_transition_state(keyword: StringName = ""):

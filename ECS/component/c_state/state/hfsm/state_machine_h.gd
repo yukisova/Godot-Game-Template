@@ -72,6 +72,9 @@ func _update(_delta: float) -> void:
 	_blur_update(_delta)
 	current_state._u(_delta)
 
+func _pause():
+	current_state._p()
+
 func _get_active_state() -> StateHfsm:
 	return current_state
 

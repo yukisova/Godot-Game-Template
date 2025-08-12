@@ -19,8 +19,8 @@ panel_prototype = NodePath("PrototypeList/GridInventorySlotPrototype")
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
-theme_override_constants/h_separation = 0
-theme_override_constants/v_separation = 0
+theme_override_constants/h_separation = 4
+theme_override_constants/v_separation = 4
 
 [node name="ItemControl" type="Control" parent="."]
 layout_mode = 2
@@ -34,12 +34,9 @@ layout_mode = 2
 
 [node name="GridInventorySlotPrototype" type="PanelContainer" parent="PrototypeList"]
 visible = false
-custom_minimum_size = Vector2(64, 64)
 layout_mode = 0
-offset_left = 544.0
-offset_top = 292.0
-offset_right = 608.0
-offset_bottom = 356.0
+offset_right = 80.0
+offset_bottom = 80.0
 size_flags_horizontal = 4
 size_flags_vertical = 4
 script = ExtResource("2_flkpl")
@@ -47,8 +44,6 @@ script = ExtResource("2_flkpl")
 [node name="DragableItemPrototype" type="TextureRect" parent="PrototypeList"]
 visible = false
 layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
 stretch_mode = 5
 script = ExtResource("3_t5n40")
 

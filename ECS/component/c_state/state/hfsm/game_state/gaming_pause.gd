@@ -15,3 +15,9 @@ func _enter_tree() -> void:
 		await get_tree().process_frame
 		state_transition.emit(get_transition_state())
 		)
+
+func _enter():
+	SGameState.game_paused.emit()
+
+func _exit():
+	SGameState.game_continue.emit()
