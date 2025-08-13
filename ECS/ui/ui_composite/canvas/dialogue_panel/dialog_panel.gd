@@ -1,28 +1,74 @@
+## @editing: Sora [br]
+## @describe: 对话面板 - 基于DialogueManager的基础对话气泡
+##
+## 该组件是DialogueManager插件的标准对话界面实现：
+## - 提供对话文本的逐字显示效果
+## - 支持角色名称和选择分支
+## - 集成输入处理和跳过功能
+## - 支持多语言和本地化
+##
+## 主要功能：
+## - 打字机效果的对话显示
+## - 玩家选择分支的交互
+## - 对话跳过和快进控制
+## - 动态语言切换支持
+##
+## 技术特性：
+## - 事件驱动的对话流程
+## - 自动内存管理和清理
+## - 支持临时游戏状态传递
+## - 响应式的输入处理
+##
+## 使用场景：
+## - NPC对话系统
+## - 剧情叙述界面
+## - 教程指引文本
+## - 游戏内提示信息
 extends Control
-## A basic dialogue balloon for use with Dialogue Manager.
 
-## The action to use for advancing the dialogue
+#region 输入配置
+
+## 推进对话的输入动作
+## 用于继续到下一句对话
 @export var next_action: StringName = &"ui_accept"
 
-## The action to use to skip typing the dialogue
+## 跳过打字效果的输入动作
+## 用于快速显示完整对话文本
 @export var skip_action: StringName = &"ui_cancel"
 
-## The dialogue resource
+#endregion
+
+#region 对话数据
+
+## 对话资源
+## 当前播放的对话资源文件
 var resource: DialogueResource
 
-## Temporary game states
+## 临时游戏状态
+## 传递给对话系统的状态数据
 var temporary_game_states: Array = []
 
-## See if we are waiting for the player
-var is_waiting_for_input: bool = false
-
-## See if we are running a long mutation and should hide the balloon
-var will_hide_balloon: bool = false
-
-## A dictionary to store any ephemeral variables
+## 本地变量字典
+## 存储对话中的临时变量
 var locals: Dictionary = {}
 
+## 当前语言设置
+## 用于检测语言变化
 var _locale: String = TranslationServer.get_locale()
+
+#endregion
+
+#region 对话状态
+
+## 是否等待玩家输入
+## 标记当前对话是否在等待用户操作
+var is_waiting_for_input: bool = false
+
+## 是否将要隐藏气泡
+## 用于处理长时间变化时的界面管理
+var will_hide_balloon: bool = false
+
+#endregion
 
 ## The current line
 var dialogue_line: DialogueLine:

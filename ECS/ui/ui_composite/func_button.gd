@@ -22,7 +22,7 @@
 ## - 配置数据：用于设置传递
 ## - 回调函数：用于复杂逻辑
 class_name FuncButton
-extends BaseButton
+extends Button
 
 #region 按钮参数
 

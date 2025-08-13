@@ -1,16 +1,47 @@
-## 为了便捷实现目标功能，目前以如下的标准设计:
-## 所有物品为矩形，不存在异形物品
+## @editing: Sora [br]
+## @describe: 网格背包系统 - 高级拖拽式物品管理界面
+##
+## 该组件实现了一个功能完整的网格背包系统：
+## - 基于网格的物品布局和管理
+## - 支持拖拽、旋转、自动整理等操作
+## - 智能的碰撞检测和位置验证
+## - 流畅的交互体验和视觉反馈
+##
+## 设计原则：
+## - 所有物品为矩形，简化碰撞检测逻辑
+## - 基于状态机的交互管理
+## - 数据驱动的网格布局系统
+## - 可配置的交互参数和行为
+##
+## 主要功能：
+## - 动态网格生成和管理
+## - 物品的拖拽放置操作
+## - 长按拾取和旋转机制
+## - 自动整理和优化布局
+## - 实时的可用性检测
+## - 物品放置位置预览
+##
+## 技术特性：
+## - 支持编辑器实时预览
+## - 高效的空间查询算法
+## - 流畅的动画和反馈
+## - 灵活的扩展接口
 @tool
 class_name GridInventory
 extends MarginContainer
 
-# 背包配置
+#region 网格配置
+
+## 网格槽位总数
+## 决定背包的容量大小，最小值为1
 @export_range(1, 1, 1, "or_greater") var grid_num: int = 1:
 	set(v):
 		grid_num = v
 		if grid_container:
 			_generate_grid(grid_num)
 
+## 网格列数
+## 决定背包的布局形状，影响行列数量
 @export_range(1, 1, 1, "or_greater") var col_num: int = 1:
 	set(v):
 		col_num = v
@@ -19,119 +50,255 @@ extends MarginContainer
 			if !Engine.is_editor_hint():
 				_recaculate_grid_index()
 
+## 网格槽位原型
+## 用于生成所有网格槽位的模板组件
 @export var panel_prototype: GridInventorySlot:
 	set(v):
 		panel_prototype = v
-		panel_prototype.hide()
-@export var mouse_control_enable: bool = true
-@export var long_press_duration: float = 0.5 # 长按拿起物品所需时间
-@export var rotation_speed: float = 90.0 # 旋转速度 (度/秒)
+		if panel_prototype:
+			panel_prototype.hide()
 
+@export var button_container_popum: PackedScene:
+	set(v):
+		if v:
+			var scene = v.instantiate()
+			if scene is ButtonContainer:
+				button_container_popum = v
+			scene.queue_free()
+
+var binding_status: C_Status
+
+var button_container: ButtonContainer: ## 已经存在的ButtonContainer
+	set(v):
+		if button_container:
+			button_container.queue_free()
+		button_container = v
+
+#endregion
+
+#region 交互配置
+
+## 是否启用鼠标控制
+## 控制是否响应鼠标拖拽操作
+@export var mouse_control_enable: bool = true
+
+## 长按拾取持续时间
+## 玩家需要长按多长时间才能拾取物品（秒）
+@export var long_press_duration: float = 0.5
+
+## 物品旋转速度
+## 物品旋转时的角速度（度/秒）
+@export var rotation_speed: float = 90.0
+
+#endregion
+
+#region 场景节点引用
+
+## 网格容器
+## 存放所有网格槽位的GridContainer组件
 @onready var grid_container: GridContainer = $GridContainer
+
+## 可拖拽物品原型
+## 用于创建新物品实例的模板组件
 @onready var dragable_item_prototype: DragableItem = $PrototypeList/DragableItemPrototype
+
+## 物品控制容器
+## 管理所有可拖拽物品显示的容器
 @onready var item_control: Control = $ItemControl
+
+## 鼠标指针
+## 显示当前鼠标位置和状态的指示器
 @onready var pointer: Control = $Pointer
 
+## button_container生成之后默认所在的位置
+@onready var button_container_control: Control = $ButtonContainerControl
+#endregion
+
+#region 信号系统
+
+## 焦点物品更新信号
+## 当用户选择不同物品时发出，用于更新物品详情显示
 signal focus_item_updated(item: Item)
+
+## 上次聚焦的物品
+## 自动发出焦点更新信号
 var last_time_focus_item: DragableItem:
 	set(v):
 		last_time_focus_item = v
-		focus_item_updated.emit(last_time_focus_item.binding_item)
+		if v and v.binding_item:
+			focus_item_updated.emit(v.binding_item)
 
-### 用于供下一帧进行参考的上一帧信息
-#var last_time_hover: FocusTarget = FocusTarget.new(Vector2i(1,1), Vector2i(-1,-1)):
-	#set(v):
-		##await clean_vision(last_time_hover)
-		#last_time_hover = v
-#@onready var focus_target_deafult = FocusTarget.new(Vector2i(1,1), Vector2i(-1,-1))
-#class FocusTarget:
-	#var tilesize: Vector2i
-	#var index: Vector2i
-	#
-	#func _init(_tilesize: Vector2i, _index: Vector2i) -> void:
-		#tilesize = _tilesize
-		#index = _index
-	#
-	#func is_equal(_other: FocusTarget) -> bool:
-		#return tilesize == _other.tilesize and index == _other.index
-	#
+#endregion
 
-## 存放的字典
+#region 数据存储
+
+## 网格槽位字典
+## Key: 网格索引(Vector2i), Value: 对应的槽位组件
 var dict: Dictionary[Vector2i, GridInventorySlot] = {}
+
+## 背包中的物品列表
+## 存储当前背包中所有的可拖拽物品
 var items_in_inventory: Array[DragableItem] = []
 
-# 交互状态管
-enum InteractionState {
-	IDLE, ## 正常
-	HOVERING, ## 点击 -> 拿起的过程 
-	HOLDING, ## 拿起
-	ROTATING ## 旋转
-}
-var interaction_state: InteractionState = InteractionState.IDLE
-var current_held_item: DragableItem = null ## 当前所拿起的物品
-var press_time: float = 0.0 ## 长按的起始时间
-var current_rotation: float = 0.0 ## 当前的旋转
-var highlight_timer: float = 0.0 ## 长按的时间
+#endregion
 
+#region 交互状态管理
+
+## 交互状态枚举
+## 定义用户与背包系统的不同交互模式
+enum InteractionState {
+	IDLE,      ## 空闲状态：无交互
+	HOVERING,  ## 悬停状态：鼠标悬停在物品上
+	HOLDING,   ## 持有状态：正在拖拽物品
+	ROTATING   ## 旋转状态：正在旋转物品
+}
+
+## 当前交互状态
+var interaction_state: InteractionState = InteractionState.IDLE
+
+## 当前持有的物品
+## 正在被拖拽的物品实例
+var current_held_item: DragableItem = null
+
+## 按压时间计时器
+## 用于检测长按操作的累计时间
+var press_time: float = 0.0
+
+## 当前旋转角度
+## 物品旋转时的累计角度
+var current_rotation: float = 0.0
+
+## 高亮计时器
+## 用于悬停效果的时间累计
+var highlight_timer: float = 0.0
+
+#endregion
+
+#region 预览系统
+
+## 预览高亮槽位列表
+## 存储当前预览状态下需要高亮显示的槽位
+var preview_highlight_slots: Array[GridInventorySlot] = []
+
+## 预览状态标志
+## 标记当前是否处于预览模式
+var is_previewing: bool = false
+
+#endregion
+
+#region 组件初始化
+
+## 组件准备就绪
+## 初始化网格布局和原型组件
 func _ready():
-	# 初始化时隐藏原型
-	if Engine.is_editor_hint(): return
+	# 编辑器模式下不执行运行时逻辑
+	if Engine.is_editor_hint(): 
+		return
+	
+	print("网格背包: 开始初始化")
+	
+	# 设置基础组件状态
 	item_control.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	panel_prototype.hide()
 	dragable_item_prototype.hide()
+	pointer.hide()	
 	
-	## 确保目标GridContainer设置了col_num
-	col_num = col_num
-	## 生成网格
-	_generate_grid(grid_num)
-	pointer.hide() # 初始隐藏指针
+	print("网格背包: 初始化完成，网格数量: ", grid_num, ", 列数: ", col_num)
 
+#endregion
+
+#region 网格管理
+
+## 生成网格槽位
+## @param v: 要生成的槽位数量
 func _generate_grid(v: int):
-	# 1. 清除现有格子
+	print("网格背包: 生成网格，槽位数量: ", v)
+	
+	# 清除现有的槽位（保留原型）
 	for child in grid_container.get_children():
 		if child != panel_prototype:
 			child.queue_free()
 	
-	# 2. 刷新格子
+	# 创建新的槽位
 	for i in range(v):
 		var panel = panel_prototype.duplicate() as GridInventorySlot
 		grid_container.add_child(panel)
 		panel.show()
+	
+	# 运行时模式下重新计算索引
 	if !Engine.is_editor_hint():
 		_recaculate_grid_index()
 
-## 遍历更新网格的索引
+## 重新计算网格索引
+## 遍历所有槽位并更新其二维坐标索引
 func _recaculate_grid_index():
-	## 1. 将旧索引字典进行重置
+	print("网格背包: 重新计算网格索引")
+	
+	# 清空索引字典
 	dict.clear()
 	
 	var children = grid_container.get_children()
 	for i in range(children.size()):
 		var child = children[i]
 		if child is GridInventorySlot:
-			# 计算行列索引
+			# 计算二维网格坐标
 			@warning_ignore("integer_division")
-			var row:int = i / col_num
-			var col:int = i % col_num
+			var row: int = i / col_num 
+			var col: int = i % col_num
 			child.current_index = Vector2i(row, col)
+			print("网格背包: 计算网格索引: ", child.current_index, col_num)
 			dict[child.current_index] = child
 		else:
-			push_error("不允许在GridInventory中插入非GridInventorySlot类节点")
+			push_error("网格背包: 检测到非法子节点类型: " + str(type_string(typeof(child))))
+
+#endregion
+
+#region 区域检测和验证
 
 ## 检查区域是否可用 
+## @param start_index: 起始网格坐标
+## @param _size: 物品占用的网格尺寸
+## @return: 该区域是否可以放置物品
 func is_area_available(start_index: Vector2i, _size: Vector2i) -> bool:
+	# 检查每个被占用的网格槽位
 	for col in range(_size.x):
 		for row in range(_size.y):
 			var index = start_index + Vector2i(row, col)
-			if not dict.has(index): # 超出边界
+			# 检查是否超出边界
+			if not dict.has(index): 
 				return false
+			# 检查槽位是否已被占用
 			if dict[index].linkage_dragable != null:
 				return false
 	return true
 
+## 获取区域覆盖的所有槽位
+## @param start_index: 起始网格坐标
+## @param _size: 物品占用的网格尺寸
+## @return: 该区域覆盖的所有槽位列表
+func get_area_slots(start_index: Vector2i, _size: Vector2i) -> Array[GridInventorySlot]:
+	var slots: Array[GridInventorySlot] = []
+	
+	for col in range(_size.x):
+		for row in range(_size.y):
+			var index = start_index + Vector2i(row, col)
+			if dict.has(index):
+				slots.append(dict[index])
+	
+	return slots
+
+#endregion
+
+#region 物品操作
+
 ## 放置物品
+## @param item: 要放置的可拖拽物品
+## @param start_index: 起始网格坐标
+## @return: 是否成功放置
 func place_item(item: DragableItem, start_index: Vector2i) -> bool:
-	var _size = item.binding_item.item_tilesize
+	var _size = item.item_size
+	
+	# 检查区域是否可用
 	if not is_area_available(start_index, _size):
 		return false
 	
@@ -141,37 +308,41 @@ func place_item(item: DragableItem, start_index: Vector2i) -> bool:
 			var index = start_index + Vector2i(row, col)
 			dict[index].linkage_dragable = item
 	
-	# 设置物品位置
+	# 设置物品位置和状态
 	item.global_position = dict[start_index].global_position
 	item.current_slot = dict[start_index]
 	item.origin_slot = dict[start_index]
 	items_in_inventory.append(item)
+	
+	print("网格背包: 成功放置物品 ", item.binding_item.item_name, " 在位置 ", start_index)
 	return true
 
-
-	
-# 移除物品
+## 移除物品
+## @param item: 要移除的可拖拽物品
 func remove_item(item: DragableItem):
 	if item in items_in_inventory:
 		items_in_inventory.erase(item)
 	
 	# 清除所有占用格子
 	for slot in dict.values():
-		if slot:
-			if slot.linkage_dragable == item:
-				slot.linkage_dragable = null
+		if slot and slot.linkage_dragable == item:
+			slot.linkage_dragable = null
 	
 	item.current_slot = null
+	print("网格背包: 移除物品 ", item.binding_item.item_name)
 
-# 自动整理背包
+## 自动整理背包
+## 按照物品大小重新排列所有物品，大物品优先放置
 func auto_organize():
+	print("网格背包: 开始自动整理")
+	
 	# 先移除所有物品
 	var items = items_in_inventory.duplicate()
 	for item in items:
 		remove_item(item)
 	
 	# 按物品大小排序（大物品优先）
-	items.sort_custom(func(a, b): return a.binding_item.grid_value > b.binding_item.grid_value)
+	items.sort_custom(func(a, b): return a.binding_item.get_grid_value() > b.binding_item.get_grid_value())
 	
 	# 重新放置物品
 	for item in items:
@@ -183,8 +354,15 @@ func auto_organize():
 					break
 		if not placed:
 			push_warning("无法放置物品: " + item.binding_item.item_name)
+	
+	print("网格背包: 自动整理完成")
 
+## 添加物品到背包
+## @param item_data: 要添加的物品数据
+## @return: 是否成功添加
 func add_item(item_data: Item) -> bool:
+	print("网格背包: 尝试添加物品 ", item_data.item_name)
+	
 	# 1. 创建DragableItem实例
 	var new_item: DragableItem = dragable_item_prototype.duplicate()
 	new_item.binding_item = item_data
@@ -193,17 +371,16 @@ func add_item(item_data: Item) -> bool:
 	
 	await get_tree().process_frame
 	
-	var grid_size = new_item.binding_item.item_tilesize
+	var grid_size = new_item.item_size
 	
 	# 3. 搜索可用位置 (从左到右，从上到下)
 	var placed = false
 	for slot in dict.values():
-		if slot:
-			if is_area_available(slot.current_index, grid_size):
-				# 4. 放置物品并更新状态
-				place_item(new_item, slot.current_index)
-				placed = true
-				break
+		if slot and is_area_available(slot.current_index, grid_size):
+			# 4. 放置物品并更新状态
+			place_item(new_item, slot.current_index)
+			placed = true
+			break
 	
 	# 5. 处理放置失败
 	if not placed:
@@ -211,9 +388,15 @@ func add_item(item_data: Item) -> bool:
 		push_error("背包空间不足，无法添加物品: " + item_data.item_name)
 		return false
 	
+	print("网格背包: 成功添加物品 ", item_data.item_name)
 	return true
 
+#endregion
+
+#region 鼠标交互检测
+
 ## 获取当前鼠标下的格子
+## @return: 鼠标下方的网格槽位，如果没有则返回null
 func get_slot_under_mouse() -> GridInventorySlot:
 	var mouse_pos = get_global_mouse_position()
 	for slot in grid_container.get_children():
@@ -221,6 +404,9 @@ func get_slot_under_mouse() -> GridInventorySlot:
 			return slot
 	return null
 
+## 获取最近的网格槽位
+## @param mouse_pos: 鼠标位置
+## @return: 距离鼠标最近的网格槽位
 func get_nearest_slot(mouse_pos: Vector2) -> GridInventorySlot:
 	# 1. 创建二维KD树索引（提高搜索效率）
 	var slot_positions = []
@@ -248,6 +434,7 @@ func get_nearest_slot(mouse_pos: Vector2) -> GridInventorySlot:
 	return nearest_slot
 
 ## 获取当前鼠标下的物品
+## @return: 鼠标下方的可拖拽物品，如果没有则返回null
 func get_item_under_mouse() -> DragableItem:
 	var mouse_pos = get_global_mouse_position()
 	for item in items_in_inventory:
@@ -255,7 +442,12 @@ func get_item_under_mouse() -> DragableItem:
 			return item
 	return null
 
+#endregion
+
+#region 拖拽操作
+
 ## 开始拿起物品
+## @param item: 要拿起的可拖拽物品
 func pick_up_item(item: DragableItem):
 	if item and item.current_slot:
 		interaction_state = InteractionState.HOLDING
@@ -264,10 +456,13 @@ func pick_up_item(item: DragableItem):
 		item.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		item.z_index = 10 # 提高层级确保在最上层
 		current_rotation = item.rotation
+		print("网格背包: 拿起物品 ", item.binding_item.item_name)
 
 ## 放下物品
+## 尝试将当前持有的物品放置到目标位置
 func drop_item():
-	if not current_held_item: return
+	if not current_held_item: 
+		return
 	
 	var target_slot = get_slot_under_mouse()
 	if not target_slot:
@@ -276,100 +471,112 @@ func drop_item():
 	if target_slot and place_item(current_held_item, target_slot.current_index):
 		## 成功放下
 		current_held_item.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		#current_held_item.z_index = 0
+		current_held_item.z_index = 0
+		print("网格背包: 成功放下物品 ", current_held_item.binding_item.item_name)
 	else:
 		## 放下失败，放回原处
 		if current_held_item.origin_slot:
 			place_item(current_held_item, current_held_item.origin_slot.current_index)
+			print("网格背包: 放下失败，物品已放回原处")
 			
 	current_held_item = null
 	interaction_state = InteractionState.IDLE
 
-### 预览目标区域
-#func drop_item_vision():
-	## 1. 确定当前聚焦的物品尺寸
-	#var source_tilesize: Vector2i
-	#var current_item = current_held_item if current_held_item else get_item_under_mouse()
-	#
-	#if current_item:
-		#source_tilesize = current_item.binding_item.item_tilesize
-	#else:
-		#source_tilesize = Vector2i(1,1)
-	#
-	## 2. 获取目标格子
-	#var target_slot = get_slot_under_mouse()
-	#if not target_slot and current_held_item:
-		#target_slot = get_nearest_slot(pointer.global_position)
-	#
-	## 3. 创建当前帧的聚焦目标
-	#var this_time_hover = FocusTarget.new(source_tilesize, target_slot.current_index if target_slot else Vector2i(-1,-1))
-	#
-	## 4. 状态变化时更新预览
-	#if !this_time_hover.is_equal(last_time_hover):
-		#if target_slot:
-			#place_item_vision(this_time_hover)
-		#last_time_hover = this_time_hover
-	#
-	## 5. 没有有效目标时清除预览
-	#if not target_slot:
-		#last_time_hover = focus_target_deafult
-#
-	#
-#func place_item_vision(focus_target: FocusTarget):
-	#var tilesize = focus_target.tilesize
-	#var start_index = focus_target.index
-	#var target_color = Color.GREEN
-	#
-	#if not is_area_available(start_index, tilesize):
-		#target_color = Color.RED
-	#
-	## 添加视觉动画效果
-	#var tween = create_tween()
-	#for col in range(tilesize.x):
-		#for row in range(tilesize.y):
-			#var index = start_index + Vector2i(row, col)
-			#if dict.has(index):
-				#var slot = dict[index]
-				#tween.parallel().tween_property(slot, "self_modulate", target_color, 0.1)
-#
-#func clean_vision(focus_target: FocusTarget):
-	#if focus_target.is_equal(focus_target_deafult): 
-		#return
-		#
-	#var tilesize = focus_target.tilesize
-	#var start_index = focus_target.index
-	#
-	## 只清除实际存在的格子
-	#for col in range(tilesize.x):
-		#for row in range(tilesize.y):
-			#var index = start_index + Vector2i(row, col)
-			#if dict.has(index):
-				## 恢复默认颜色（无滤镜）
-				#dict[index].self_modulate = Color(1, 1, 1, 1)
+## 预览目标区域
+## 显示当前物品可以放置的位置预览
+func drop_item_vision():
+	if not current_held_item:
+		return
+	
+	# 清除之前的预览
+	clear_preview()
+	
+	var target_slot = get_slot_under_mouse()
+	if not target_slot:
+		target_slot = get_nearest_slot(pointer.global_position)
+	
+	if target_slot:
+		var item_size = current_held_item.item_size
+		
+		# 检查该位置是否可用
+		if is_area_available(target_slot.current_index, item_size):
+			# 获取预览区域的所有槽位
+			preview_highlight_slots = get_area_slots(target_slot.current_index, item_size)
+			
+			# 高亮显示可用区域（绿色）
+			for slot in preview_highlight_slots:
+				slot.modulate = Color(0.5, 1.0, 0.5, 0.8)  # 半透明绿色
+			
+			is_previewing = true
+		else:
+			# 高亮显示不可用区域（红色）
+			preview_highlight_slots = get_area_slots(target_slot.current_index, item_size)
+			
+			for slot in preview_highlight_slots:
+				if dict.has(slot.current_index):
+					slot.modulate = Color(1.0, 0.5, 0.5, 0.8)  # 半透明红色
+			
+			is_previewing = true
 
+## 清除预览效果
+## 恢复所有槽位的正常显示状态
+func clear_preview():
+	if is_previewing:
+		for slot in preview_highlight_slots:
+			slot.modulate = Color.WHITE  # 恢复正常颜色
+		
+		preview_highlight_slots.clear()
+		is_previewing = false
 
+#endregion
+
+#region 物品旋转
 
 ## 旋转当前手持物品
+## 在拖拽过程中旋转物品的显示方向
 func rotate_held_item():
-	if not current_held_item: return
+	if not current_held_item: 
+		return
 	
-	# 旋转物品
-	current_rotation += deg_to_rad(rotation_speed) * get_process_delta_time()
+	# 检查物品是否可以旋转（1x1的物品旋转没有意义）
+	if current_held_item.binding_item.item_tilesize.x == current_held_item.binding_item.item_tilesize.y:
+		return
+	
+	# 离散旋转：每次旋转90度
+	current_rotation += deg_to_rad(90.0)
 	current_held_item.rotation = fmod(current_rotation, TAU)
 	
-	# 更新物品尺寸（如果需要）
-	var rotated_size = Vector2i(
-		current_held_item.binding_item.item_tilesize.y,
-		current_held_item.binding_item.item_tilesize.x
-	)
-	current_held_item.custom_minimum_size = Vector2(64, 64) * rotated_size
+	# 更新物品的实际网格尺寸（交换宽度和高度）
+	var original_size = current_held_item.binding_item.item_tilesize
+	var rotated_size = Vector2i(original_size.y, original_size.x)
+	current_held_item.binding_item.item_tilesize = rotated_size
+	
+	# 更新物品的显示尺寸
+	current_held_item.custom_minimum_size = Vector2(80, 80) * Vector2(rotated_size)
 	current_held_item.size = current_held_item.custom_minimum_size
+	
+	# 更新物品的内部尺寸状态
+	current_held_item.item_size = rotated_size
+	current_held_item.is_rotated = !current_held_item.is_rotated
+	
+	print("网格背包: 旋转物品 ", current_held_item.binding_item.item_name, " 尺寸从 ", original_size, " 变为 ", rotated_size)
 
+#endregion
+
+#region 主循环处理
+
+## 每帧处理
+## 处理用户输入和状态更新
 func _process(delta):
 	if not mouse_control_enable or Engine.is_editor_hint():
 		return
 	
 	pointer.global_position = pointer.get_global_mouse_position()
+	
+	# 检查是否有button_container存在，如果存在则检查鼠标是否在button_container区域内
+	if _is_mouse_over_button_container():
+		pointer.hide()
+		return
 	
 	match interaction_state:
 		InteractionState.IDLE:
@@ -378,12 +585,22 @@ func _process(delta):
 			if item:
 				interaction_state = InteractionState.HOVERING
 				pointer.show()
-				#pointer.texture = load("res://ui/hover_pointer.png") # 悬停样式
 				highlight_timer = 0.0
+				
+				# 如果鼠标点击了物品，直接选择
+				if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
+					last_time_focus_item = item
+					press_time += delta
+				elif press_time != 0:
+					_select_item(item, pointer.global_position)
+					press_time = 0
 			else:
+				if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
+					button_container = null
 				pointer.hide()
+				press_time = 0
+				
 		InteractionState.HOVERING:
-			
 			highlight_timer += delta
 			var item = get_item_under_mouse()
 			
@@ -392,46 +609,87 @@ func _process(delta):
 				pointer.hide()
 				return
 			
-			
-			# 显示长按进度
-			#pointer.modulate = Color(1, 1, 1, clamp(highlight_timer / long_press_duration, 0.3, 1.0))
+			# 检查是否有button_container存在且鼠标在其区域内
+			if _is_mouse_over_button_container():
+				# 鼠标在button_container区域内，暂停交互
+				pointer.hide()
+				return
 			
 			if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
 				last_time_focus_item = item
 				press_time += delta
+			elif press_time != 0:
+				# 如果当前物品与之前选择的物品不同，直接切换选择:
+				_select_item(item, get_item_under_mouse().global_position+get_item_under_mouse().size / 2)
 			else:
 				press_time = 0
-			
 			
 			# 长按时间达到
 			if press_time >= long_press_duration:
 				pick_up_item(item)
-				#pointer.texture = load("res://ui/hold_pointer.png") # 拿起样式
 				pointer.modulate = Color(1, 1, 1, 1)
+				
 		InteractionState.HOLDING:
-			## 3.0. 如果当前没有抓住物品，则说明目标格子不存在物品，可以直接回退到IDLE状态
+			## 如果当前没有抓住物品，则说明目标格子不存在物品，可以直接回退到IDLE状态
+			if button_container:
+				button_container = null
 			if not current_held_item:
 				interaction_state = InteractionState.IDLE
 				pointer.hide()
 				return
 			
-			# 3.2. 物品跟随鼠标
+			# 物品跟随鼠标
 			current_held_item.global_position = pointer.global_position - current_held_item.size / 2
 			
-			# 3.3. 显示放置区域预览
+			# 显示放置区域预览
 			pointer.show()
+			drop_item_vision()
 			
-			# 3.4. 如果在此时按下按键，可以旋转物品
+			# 如果在此时按下按键，可以旋转物品
 			if Input.is_key_pressed(KEY_8):
 				rotate_held_item()
+				# 旋转后立即更新预览以反映新的尺寸
+				drop_item_vision()
 	
 	# 松开鼠标放下物品
 	if interaction_state == InteractionState.HOLDING and not Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
+		clear_preview()  # 清除预览效果
 		drop_item()
+		press_time = 0
 
+## 点击物品的时候，会生成一个button_container在当前鼠标所在的位置，并且传入玩家的信息
+func _select_item(item: DragableItem, at_position: Vector2):
+	# 清理之前的button_container
+	button_container = null
+	
+	button_container = button_container_popum.instantiate() as ButtonContainer
+	button_container_control.add_child(button_container)
+	button_container._generate(ButtonContainer.get_button_info_from(item.binding_item.get_func_callable(), [binding_status]), at_position)
+	
+	# 重置按压时间，但保持当前交互状态
+	press_time = 0.0
+
+## 检查鼠标是否在button_container区域内
+## @return: 如果鼠标在button_container区域内则返回true
+func _is_mouse_over_button_container() -> bool:
+	if not button_container or not is_instance_valid(button_container) or not button_container.visible:
+		return false
+	
+	var mouse_pos = get_global_mouse_position()
+	var button_rect = button_container.get_global_rect()
+	return button_rect.has_point(mouse_pos)
+	
+#endregion
+
+#region 输入处理
+
+## 处理未处理的输入事件
+## @param event: 输入事件
 func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventKey:
 		if event.keycode == KEY_9 and event.is_pressed():
 			print("背包物品状态:")
 			for item in items_in_inventory:
 				print("物品%s的起始存放位置%s" % [item.binding_item.item_name, item.current_slot.current_index])
+
+#endregion

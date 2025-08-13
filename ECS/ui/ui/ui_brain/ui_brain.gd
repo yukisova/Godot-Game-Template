@@ -20,16 +20,6 @@
 ## - 快捷键开关控制
 extends IUi
 
-#region 测试配置
-
-@export_subgroup("测试用")
-
-## 测试用背包物品
-## 用于开发调试的物品列表
-@export var inventory: Array[Item]
-
-#endregion
-
 #region UI组件依赖
 
 @export_subgroup("依赖")
@@ -77,13 +67,6 @@ func _ready() -> void:
 	
 	print("角色状态UI: 初始化完成")
 
-## 测试设置
-## 用于开发调试的初始化方法
-func _test_setup():
-	_initilize_info({
-		"inventory": inventory,
-	})
-
 #endregion
 
 #region UI初始化
@@ -94,14 +77,17 @@ func _initilize_info(_context: Dictionary) -> void:
 	await ready
 	print("角色状态UI: 开始加载背包数据")
 	
-	# 获取背包扩展组件
-	var inventory_data = _context["inventory"] as InventoryExtension
+	var status:C_Status = _context["status"]
+	var inventory: InventoryExtension = status.status_extension[StatusExtension.ExtensionType.INVENTORY]
 	
-	# 设置网格背包的容量
-	grid_inventory.grid_num = inventory_data.inventory_pack_num
+	grid_inventory.grid_num = inventory.inventory_pack_num
+	grid_inventory.col_num = inventory.inventory_pack_col
+	
+	grid_inventory.binding_status = status
+	
 	
 	# 加载所有背包物品
-	for i in inventory_data.inventory_array:
+	for i in inventory.inventory_array:
 		if i != null:
 			grid_inventory.add_item(i)
 	

@@ -59,12 +59,6 @@ func _enter_tree() -> void:
 	# 立即加载配置文件
 	var config = _config_return()
 	
-	# 验证配置数据
-	if config.has("keymap") and config["keymap"].has("interact"):
-		print("配置系统: 配置数据包含 'interact' 键位设置")
-	else:
-		push_error("配置系统: 配置数据中缺少 'interact' 键位设置")
-	
 	preloading_started.emit.call_deferred(config)
 
 ## 系统设置

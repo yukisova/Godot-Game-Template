@@ -22,7 +22,7 @@ extends ReactorExtension
 
 ## 背包扩展组件
 ## 为思维界面提供背包数据支持
-@export var inventory: InventoryExtension
+@export var c_status: C_Status
 
 ## 暂停界面场景
 ## 包含游戏设置、退出游戏等游戏外相关的设置菜单
@@ -34,7 +34,7 @@ func _listen():
 	# 监听思维界面触发键（默认为Tab键）
 	if c_input_reactor.validate_control("brain_trigger", c_input_reactor.ControlMode.just_pressed):
 		# 传递背包数据作为上下文信息
-		SUiSpawner._spawn_ui(brain_ui, {"inventory": inventory})
+		SUiSpawner._spawn_ui(brain_ui, {"status": c_status})
 	
 	# 监听暂停界面触发键（默认为P键）
 	elif c_input_reactor.validate_control("pause_game", c_input_reactor.ControlMode.just_pressed):

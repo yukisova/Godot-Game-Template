@@ -18,10 +18,22 @@
 	野比大雄以前玩牛仔游戏的时候使用的左轮手枪，经过了哆啦A梦的调整已经超过了一般的玩具枪
 	特点——小，单发，更容易隐蔽射击
 	- 是
-		if SMapData.get_map_cache("has_get_weapon",false) == false:
+		if SMapData.get_map_cache("has_get_weapon_a",false) == false:
 			翁蛾健治: 不要走火。
 			do interaction_collect._on_interact_activated(target_entity)
-			do SMapData.set_map_cache("has_get_weapon", true)
+			do SMapData.set_map_cache("has_get_weapon_a", true)
+		else:
+			翁蛾健治: 你已经拿过了，不要重复拿。
+	- 否
+		翁蛾健治: 没事，慢慢选。
+		=> 武器测试_翁蛾健治
+- 狙击枪
+	并不会出现在游戏当中，只是用来测试网格背包存放效果的
+	- 是
+		if SMapData.get_map_cache("has_get_weapon_b",false) == false:
+			翁蛾健治: 只是玩具。
+			do interaction_collect2._on_interact_activated(target_entity)
+			do SMapData.set_map_cache("has_get_weapon_b", true)
 		else:
 			翁蛾健治: 你已经拿过了，不要重复拿。
 	- 否

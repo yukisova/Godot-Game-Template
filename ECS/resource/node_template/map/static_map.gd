@@ -1,36 +1,113 @@
 ## @editing: Sora [br]
-## @describe: 静态地图类, s_map_data处理的主要对象
-
+## @describe: 静态地图系统 - 游戏地图的核心管理组件
+##
+## 该类是游戏地图系统的核心，负责管理静态地图的所有方面：
+## - 多层级地图结构的组织和加载
+## - 昼夜循环和视觉滤镜系统
+## - 玩家出生点和传送点管理
+## - 地图相关的过场剧情控制
+## - 地图数据的存档和读档
+##
+## 主要功能：
+## - 协调多个Level的加载和初始化
+## - 管理地图的视觉效果（滤镜、迷雾）
+## - 处理地图内的临时数据缓存
+## - 集成过场剧情的自动播放
+##
+## 技术特性：
+## - 异步的多层级加载机制
+## - 基于信号的加载状态协调
+## - 可编辑器预览的工具支持
+## - 模块化的存档系统集成
+##
+## 应用场景：
+## - 游戏关卡和场景的基础容器
+## - 世界地图的区域划分
+## - 副本和特殊场景的管理
 @tool
 class_name StaticMap
 extends Node
 
-signal filter_changed(point: float)
+#region 地图信号
+# 注意：已移除filter_changed信号，改为直接方法调用避免递归
+#endregion
 
-@export var player_spawn: PlayerSpawn ## 可选的玩家出生地
-@export_range(0,1) var time: float ## 玩家所在的地区的时间信息, 用于与滤镜进行交互，实现昼夜循环效果
+#region 玩家配置
+
+## 玩家出生点
+## 指定玩家在此地图中的初始位置和层级
+@export var player_spawn: PlayerSpawn
+
+## 地图时间
+## 控制昼夜循环的时间值（0.0-1.0）
+@export_range(0, 1) var time: float:
+	set(value):
+		if time != value:  # 避免重复设置
+			time = value
+			# 直接更新滤镜，避免信号循环
+			_update_filter(time)
+
+#endregion
+
+#region 地图组件依赖
 
 @export_subgroup("依赖")
-@export var levels: Node2D ## 层级集
-@export var autoload_cutscene: Node ## 自动加载的过场事件
-@export var map_filter: CanvasModulate ## 地图滤镜
-@export var fog_image: Sprite2D ## 地图迷雾根系统
-@export var filter_gradient: GradientTexture1D ## 滤镜的渐变效 果
+
+## 层级集合
+## 包含所有Level层级的容器节点
+@export var levels: Node2D
+
+## 自动加载过场事件
+## 地图加载完成后自动播放的过场剧情
+@export var autoload_cutscene: Node
+
+## 地图滤镜
+## 用于实现昼夜循环视觉效果的画布调制器
+@export var map_filter: CanvasModulate
+
+## 迷雾图像
+## 战争迷雾系统的根节点
+@export var fog_image: Sprite2D
+
+## 滤镜渐变纹理
+## 定义昼夜循环的颜色变化曲线
+@export var filter_gradient: GradientTexture1D
+
+## 是否启用过场剧情
+## 控制地图加载后是否自动播放过场动画
 @export var cutscene_enable: bool = true
 
-var cache_in_map: Dictionary ## 地图内的临时缓存，主要用于对话等仅需要在地图场景内临时存储的信息
+#endregion
 
-## 用于统计用的层级数
+#region 地图数据
+
+## 地图内临时缓存
+## 存储仅在当前地图有效的临时数据
+## 用途：对话状态、临时标记、局部变量等
+var cache_in_map: Dictionary
+
+#endregion
+
+#region 加载状态统计
+
+## 总层级数量
 var level_count: int = 0
-var level_loaded_count :int = 0
-var level_initialized_count : int = 0
+
+## 已加载层级数量
+var level_loaded_count: int = 0
+
+## 已初始化层级数量
+var level_initialized_count: int = 0
+
+#endregion
 
 ## _ready: 当游戏数据完全加载完毕后（发出game_data_loaded_compelete信号），如果存在过场剧情逻辑, 则立刻执行
 func _enter_tree() -> void:
 	if Engine.is_editor_hint():
 		return
 	
-	filter_changed.connect(time_change_filter) ## 当信号变动, 是游戏中的时间出现了变动 FIXME 但感觉这种写法有一定隐患，之后要想办法进行修改
+	# 移除了filter_changed信号连接，改为直接方法调用避免递归
+	print("静态地图: 初始化完成，层级数量: ", level_count)
 	
 	for level in levels.get_children():
 		if level is Level:
@@ -62,10 +139,18 @@ func _on_level_entity_fully_loaded():
 	if level_initialized_count == level_count:
 		SSignalBus.game_data_loaded_compelete.emit.call_deferred()
 
-## FIXME 名字过于奇怪，可以进行一波小优化
+## 时间变化滤镜更新（外部调用）
+## 由外部系统（如时间子系统）调用来更新地图时间
 func time_change_filter(point: float):
-	time = point
-	map_filter.color = filter_gradient.gradient.sample(time)
+	# 直接更新滤镜，不通过time属性setter避免循环
+	_update_filter(point)
+
+## 内部滤镜更新方法
+## 直接更新地图滤镜颜色，避免递归调用
+func _update_filter(time_value: float):
+	if map_filter and filter_gradient:
+		map_filter.color = filter_gradient.gradient.sample(time_value)
+		print("地图滤镜: 时间更新为 ", time_value)
 
 #region :存档系统:
 func _save(data: SavedDataFile):

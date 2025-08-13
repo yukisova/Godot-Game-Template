@@ -45,6 +45,8 @@ signal weight_exceeded(current_weight: float, max_weight: float)
 ## 背包总容量
 ## 背包可以存储的最大物品数量
 @export_range(1, 25, 1, "or_greater") var inventory_pack_num: int = 20
+## 背包列数
+@export_range(1, 8, 1, "or_greater") var inventory_pack_col: int = 4
 
 ## 背包总承重
 ## 背包可以承受的最大重量限制
@@ -61,7 +63,7 @@ var current_weight_num: float = 0.0
 ## 节点初始化
 ## 设置扩展类型为背包
 func _enter_tree() -> void:
-	extention_type = ExtensionType.背包
+	extention_type = ExtensionType.INVENTORY
 
 ## 扩展初始化
 ## 调整背包数组大小并更新统计信息

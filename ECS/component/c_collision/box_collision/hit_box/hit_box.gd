@@ -27,7 +27,7 @@ extends BoxCollision
 
 ## 装备组件引用
 ## 用于获取当前装备的攻击属性和伤害加成
-@export var equipment: StatusEquipment
+@export var equipment_extension: EquipmentExtension
 
 ## 状态组件引用
 ## 用于获取实体的攻击力、暴击率等战斗属性

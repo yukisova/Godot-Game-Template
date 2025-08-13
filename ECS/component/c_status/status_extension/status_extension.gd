@@ -20,14 +20,14 @@
 ## - 可配置的效果系统
 ## - 与状态组件无缝集成
 @abstract class_name StatusExtension
-extends Node
+extends Node2D
 
 ## 扩展类型枚举
 ## 定义不同类型的状态扩展，用于分类和管理
 enum ExtensionType {
-	背包,     ## 背包系统扩展
-	临时效果, ## Buff/Debuff系统扩展
-	装备,     ## 装备系统扩展
+	INVENTORY,     ## 背包系统扩展
+	BUFF_LIST, ## Buff/Debuff系统扩展
+	EQUIPMENT, ## 装备系统扩展
 }
 
 ## 扩展类型标识

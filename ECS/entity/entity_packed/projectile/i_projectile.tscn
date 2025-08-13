@@ -1,0 +1,32 @@
+[gd_scene load_steps=8 format=3 uid="uid://hxr8vlqtjwii"]
+
+[ext_resource type="PackedScene" uid="uid://6jpwo3n27sj2" path="res://entity/i_entity.tscn" id="1_v3bmw"]
+[ext_resource type="PackedScene" uid="uid://cq0u8u1qie88t" path="res://entity/entity_template/character_body.tscn" id="2_5ehvm"]
+[ext_resource type="PackedScene" uid="uid://bvjy63fua1sx2" path="res://component/c_texture/c_texture.tscn" id="3_7wfp7"]
+[ext_resource type="PackedScene" uid="uid://dvrvdiy0pquiq" path="res://component/c_movement/c_movement.tscn" id="4_pdel5"]
+[ext_resource type="Script" uid="uid://cn6q2f0x31g2l" path="res://component/c_movement/move_strategy/striangth.gd" id="5_w1a0x"]
+
+[sub_resource type="Gradient" id="Gradient_j67t8"]
+colors = PackedColorArray(1, 0, 0, 1, 1, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_pdel5"]
+gradient = SubResource("Gradient_j67t8")
+
+[node name="IProjectile" node_paths=PackedStringArray("main_control", "component_container") instance=ExtResource("1_v3bmw")]
+main_control = NodePath("CharacterBody")
+component_container = NodePath("CharacterBody/ComponentContainer")
+
+[node name="CharacterBody" parent="." index="0" instance=ExtResource("2_5ehvm")]
+
+[node name="CTexture" parent="CharacterBody/ComponentContainer" index="0" instance=ExtResource("3_7wfp7")]
+
+[node name="Sprite2D" type="Sprite2D" parent="CharacterBody/ComponentContainer/CTexture" index="0"]
+texture = SubResource("GradientTexture2D_pdel5")
+
+[node name="CMovement" parent="CharacterBody/ComponentContainer" index="1" node_paths=PackedStringArray("move_strategy") instance=ExtResource("4_pdel5")]
+move_strategy = NodePath("Striangth")
+
+[node name="Striangth" type="Node" parent="CharacterBody/ComponentContainer/CMovement" index="0"]
+script = ExtResource("5_w1a0x")
+
+[editable path="CharacterBody"]

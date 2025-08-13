@@ -8,9 +8,13 @@ signal time_updated(time: int)
 var past_time: int
 var real_time: int:
 	set(v):
-		real_time = v % 1440
-		time_updated.emit(real_time)
-		SMapData.current_map.filter_changed.emit(real_time / 1440.0)
+		var new_time = v % 1440
+		if real_time != new_time:  # 避免重复更新
+			real_time = new_time
+			time_updated.emit(real_time)
+			# 直接调用地图的滤镜更新方法，避免信号循环
+			if SMapData.current_map:
+				SMapData.current_map.time_change_filter(real_time / 1440.0)
 
 @export_range(0, 1440) var start_time: int
 

@@ -1,12 +1,20 @@
 ## @editing: Sora [br]
 ## @describe: 装备系统扩展
-class_name StatusEquipment
+## 装备系统下搭载着可以实现装备效果的节点，目前的主要应用为远程武器
+class_name EquipmentExtension
 extends StatusExtension
 
-var current_left ## 左手可使用的装备，各种副武器
-var current_right ## 右手可使用的装备，主要是主角的史莱姆法杖
+## 
+signal attack_node_changed(new_attack_node: Node2D)
+signal equipment_node_changed(new_equipment_node: Node2D)
 
-var item_list ## 左手区域的可任意切换的道具列表，Demo共3个
+var current_attack_node: Node2D ## 当前装备的攻击节点
+var current_equipment_node: Node2D ## 当前装备的装备节点
+
+## 节点初始化
+## 设置扩展类型为背包
+func _enter_tree() -> void:
+	extention_type = ExtensionType.EQUIPMENT
 
 func _initialize():
 	pass

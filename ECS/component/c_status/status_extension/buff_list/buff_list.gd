@@ -41,7 +41,7 @@ signal buff_updated(buff_id: String, buff_data: Dictionary)
 ## 扩展初始化
 ## 设置扩展类型并初始化Buff容器
 func _initialize():
-	extention_type = ExtensionType.临时效果
+	extention_type = ExtensionType.BUFF_LIST
 	current_buff.clear()
 
 ## 扩展效果执行

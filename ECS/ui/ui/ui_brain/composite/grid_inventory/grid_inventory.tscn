@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://caymvq0vt1vus"]
+[gd_scene load_steps=5 format=3 uid="uid://caymvq0vt1vus"]
 
 [ext_resource type="Script" uid="uid://dfj6sy7r7tbyd" path="res://ui/ui/ui_brain/composite/grid_inventory/grid_inventory.gd" id="1_h1t4r"]
 [ext_resource type="Script" uid="uid://cdy2xucttgl1k" path="res://ui/ui/ui_brain/composite/grid_inventory/grid_inventory_slot.gd" id="2_flkpl"]
 [ext_resource type="Script" uid="uid://d0fiy8es3usr6" path="res://ui/ui/ui_brain/composite/grid_inventory/dragable_item.gd" id="3_t5n40"]
+[ext_resource type="PackedScene" uid="uid://b1sv6ekm8rria" path="res://ui/ui/ui_brain/composite/button_container.tscn" id="4_710ed"]
 
 [node name="GridInventory" type="MarginContainer" node_paths=PackedStringArray("panel_prototype")]
 anchors_preset = 15
@@ -14,6 +15,7 @@ size_flags_horizontal = 0
 size_flags_vertical = 6
 script = ExtResource("1_h1t4r")
 panel_prototype = NodePath("PrototypeList/GridInventorySlotPrototype")
+button_container_popum = ExtResource("4_710ed")
 
 [node name="GridContainer" type="GridContainer" parent="."]
 layout_mode = 2
@@ -47,10 +49,5 @@ layout_mode = 0
 stretch_mode = 5
 script = ExtResource("3_t5n40")
 
-[node name="Control" type="Control" parent="."]
+[node name="ButtonContainerControl" type="Control" parent="."]
 layout_mode = 2
-
-[node name="HoverEffect" type="TextureRect" parent="Control"]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0

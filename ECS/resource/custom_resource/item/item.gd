@@ -15,7 +15,33 @@ extends Resource
 func get_weight() -> float:
 	return item_weight
 
-func _check():
-	pass
-func _use():
-	pass
+## 获取物品网格价值
+## 用于自动整理时的排序，通常基于物品占用的网格数量
+## @return: 物品的网格价值（网格面积）
+func get_grid_value() -> int:
+	return item_tilesize.x * item_tilesize.y
+
+func _check(...args):
+	var c_status = args[0] as C_Status
+	print("玩家的名字 ", c_status.component_owner.name)
+	
+func _use(...args):
+	var c_status = args[0] as C_Status
+	
+const STR_NAME = "name"
+const STR_FUNC = "func"
+const STR_TEXT = "text"
+
+func get_func_callable() -> Array[Dictionary]:
+	var result: Array[Dictionary] = []
+	result.push_front({
+		STR_NAME:"check",
+		STR_FUNC:_check,
+		STR_TEXT:"调查"
+	})
+	result.push_front({
+		STR_NAME:"use",
+		STR_FUNC:_use,
+		STR_TEXT:"使用"
+	})
+	return result

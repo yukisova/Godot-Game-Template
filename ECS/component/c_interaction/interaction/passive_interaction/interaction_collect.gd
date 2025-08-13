@@ -49,7 +49,7 @@ func _on_interact_activated(_target_entity: IEntity):
 		return
 	
 	# 获取背包扩展组件
-	var inventory_extension: InventoryExtension = status_component.status_extension.get(StatusExtension.ExtensionType.背包)
+	var inventory_extension: InventoryExtension = status_component.status_extension.get(StatusExtension.ExtensionType.INVENTORY)
 	if inventory_extension == null:
 		push_warning("拾取交互: 目标实体没有背包系统，无法存储物品")
 		return
@@ -104,7 +104,7 @@ func can_pickup(target_entity: IEntity) -> bool:
 	if not status_component:
 		return false
 	
-	var inventory_extension: InventoryExtension = status_component.status_extension.get(StatusExtension.ExtensionType.背包)
+	var inventory_extension: InventoryExtension = status_component.status_extension.get(StatusExtension.ExtensionType.INVENTORY)
 	if not inventory_extension:
 		return false
 	

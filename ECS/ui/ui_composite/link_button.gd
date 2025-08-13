@@ -23,7 +23,7 @@
 ## - 实时的模式切换反馈
 @tool
 class_name LinkageButton
-extends BaseButton
+extends Button
 
 #region 链接模式配置
 

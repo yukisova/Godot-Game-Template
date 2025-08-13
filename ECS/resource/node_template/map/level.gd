@@ -1,21 +1,79 @@
 ## @editing: Sora [br]
-## @describe: 静态地图里的层级系统
+## @describe: 地图层级系统 - 静态地图中的单个层级管理
+##
+## 该类管理静态地图中的单个层级，负责：
+## - 瓦片地图图层的加载和协调
+## - 预设实体的初始化管理
+## - 相机边界的限制设置
+## - 房间碰撞体的组织
+##
+## 主要功能：
+## - 异步加载瓦片图层和多边形瓦片
+## - 监控预设实体的初始化状态
+## - 提供相机限制的边界信息
+## - 支持层级数据的存档和读档
+##
+## 设计特点：
+## - 基于信号的异步加载机制
+## - 统计驱动的完成度检测
+## - 灵活的组件依赖管理
+## - 层次化的数据组织结构
+##
+## 使用场景：
+## - 多层建筑的楼层划分
+## - 地下城的区域分割
+## - 大型地图的区块管理
+## - 不同高度层的视觉分离
 class_name Level
 extends Node2D
 
-signal level_fully_loaded ## 当前层级的所有TilemapLayer加载完毕后发出
-signal level_entity_fully_initialize ## 判断当前层级的实体是否初始化完毕
+#region 层级信号
 
-@export var camera_limit: Control ## 用于限制玩家在该层级的相机的，包含尺寸信息的控件
-@export var room: Node2D ## 房间的碰撞体信息，
+## 层级完全加载信号
+## 当前层级的所有瓦片图层加载完毕后发出
+signal level_fully_loaded
 
-## 当前层中, 瓦片Tilemap的数目
+## 层级实体初始化完成信号
+## 当前层级的所有预设实体初始化完毕后发出
+signal level_entity_fully_initialize
+
+#endregion
+
+#region 层级组件
+
+## 相机限制区域
+## 用于限制玩家在该层级中的相机边界
+@export var camera_limit: Control
+
+## 房间碰撞体集合
+## 包含该层级所有房间和区域的碰撞体信息
+@export var room: Node2D
+
+#endregion
+
+#region 瓦片图层统计
+
+## 瓦片图层总数
+## 当前层级中瓦片地图的总数量
 var layers_count = 0
+
+## 已加载瓦片图层数
+## 已完成加载的瓦片图层数量
 var layers_loaded_count = 0
 
-## 当前层中，预定义Entity的数目
+#endregion
+
+#region 实体统计
+
+## 预设实体总数
+## 当前层级中预定义实体的总数量
 var entity_count = 0
+
+## 已初始化实体数
+## 已完成初始化的预设实体数量
 var entity_loaded_count = 0
+
+#endregion
 
 # 进入场景树: 对接瓦片的加载逻辑和预定义实体的初始化监听逻辑
 func _enter_tree() -> void:

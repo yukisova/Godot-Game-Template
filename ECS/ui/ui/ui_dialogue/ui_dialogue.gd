@@ -1,30 +1,75 @@
-## @editing: Sora
-## @describe: Dialogue的Ui,基于DialogueManager的SampleBalloon
+## @editing: Sora [br]
+## @describe: 对话框UI - 基于DialogueManager的对话系统界面
+##
+## 该UI组件实现了完整的对话系统界面，基于DialogueManager插件：
+## - 支持角色对话的显示和播放
+## - 提供玩家选择分支的交互
+## - 集成打字机效果和跳过功能
+## - 支持多语言本地化
+##
+## 主要功能：
+## - 逐字显示对话文本（打字机效果）
+## - 处理玩家的对话选择分支
+## - 支持对话的跳过和快进
+## - 动态语言切换支持
+##
+## 使用场景：
+## - NPC对话系统
+## - 剧情过场动画
+## - 教程指引文本
+## - 故事叙述界面
+##
+## 技术特性：
+## - 基于DialogueManager插件架构
+## - 事件驱动的对话流控制
+## - 支持临时游戏状态传递
+## - 自动内存管理和清理
 class_name UiDialogue
 extends IUi
 
-## The action to use for advancing the dialogue
+#region 输入配置
+
+## 推进对话的动作
+## 用于继续到下一句对话的输入动作
 @export var next_action: StringName = &"ui_accept"
 
-## The action to use to skip typing the dialogue
+## 跳过打字效果的动作
+## 用于快速显示完整对话文本的输入动作
 @export var skip_action: StringName = &"ui_cancel"
 
-## The dialogue resource
+#endregion
+
+#region 对话数据
+
+## 对话资源
+## 当前正在播放的对话资源文件
 var resource: DialogueResource
 
-## Temporary game states
+## 临时游戏状态
+## 传递给对话系统的临时状态数据
 var temporary_game_states: Array = []
 
-## See if we are waiting for the player
-var is_waiting_for_input: bool = false
-
-## See if we are running a long mutation and should hide the balloon
-var will_hide_balloon: bool = false
-
-## A dictionary to store any ephemeral variables
+## 本地变量字典
+## 存储对话过程中的临时变量
 var locals: Dictionary = {}
 
+#endregion
+
+#region 对话状态
+
+## 是否等待玩家输入
+## 标记当前是否在等待玩家操作
+var is_waiting_for_input: bool = false
+
+## 是否将要隐藏气泡
+## 用于处理长时间变化时的界面隐藏
+var will_hide_balloon: bool = false
+
+## 当前语言设置
+## 用于检测语言变化并更新显示
 var _locale: String = TranslationServer.get_locale()
+
+#endregion
 
 ## The current line
 var dialogue_line: DialogueLine:

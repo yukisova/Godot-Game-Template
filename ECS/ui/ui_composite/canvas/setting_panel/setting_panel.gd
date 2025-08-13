@@ -1,32 +1,118 @@
-##@editing:	Sora
-##@describe:	设置界面(子canvas)
+## @editing: Sora [br]
+## @describe: 游戏设置面板 - 综合性的游戏配置界面
+##
+## 该面板提供了游戏的各种设置选项：
+## - 键位映射的自定义配置
+## - 音频音量的调节控制
+## - 显示模式和语言切换
+## - 配置的保存和重置功能
+##
+## 主要功能：
+## - 实时键位重映射系统
+## - 音频总线音量控制
+## - 窗口模式切换（窗口化/全屏）
+## - 多语言支持和切换
+## - 配置冲突检测和验证
+##
+## 技术特性：
+## - 动态UI生成（键位列表）
+## - 实时输入捕获和处理
+## - 配置数据的深度复制
+## - 信号驱动的设置同步
+##
+## 使用场景：
+## - 游戏主菜单的设置选项
+## - 游戏内暂停菜单的设置
+## - 首次运行的配置向导
 extends CreationCanvas
 
+#region UI容器组件
+
 @export_group("容器")
+
+## 键位映射容器
+## 动态生成键位设置项的容器
 @export var keymap_container: VBoxContainer
+
+## 显示设置容器
+## 包含窗口模式和语言设置的容器
 @export var display_setting: VBoxContainer
+
+## 音频设置容器
+## 包含各音频总线音量控制的容器
 @export var audio_setting: VBoxContainer
 
+#endregion
+
+#region 音频控制组件
+
 @export_group("控件_音频")
+
+## 主音量滑块
+## 控制游戏整体音量的滑块控件
 @export var audio_setting_master: HSlider
+
+## 音效音量滑块
+## 控制音效音量的滑块控件
 @export var audio_setting_sfx: HSlider
+
+## 背景音乐音量滑块
+## 控制背景音乐音量的滑块控件
 @export var audio_setting_bgm: HSlider
 
+#endregion
+
+#region 显示控制组件
+
 @export_group("控件_显示")
-@export_subgroup("窗口","window_")
+
+@export_subgroup("窗口", "window_")
+
+## 窗口化模式按钮
+## 切换到窗口化显示模式
 @export var window_windowed: Button
+
+## 全屏模式按钮
+## 切换到全屏显示模式
 @export var window_fullscreen: Button
-@export_subgroup("多语言","translation_")
+
+@export_subgroup("多语言", "translation_")
+
+## 英语按钮
+## 切换游戏语言为英语
 @export var translation_english: Button
+
+## 中文按钮
+## 切换游戏语言为中文
 @export var translation_chinese: Button
 
+#endregion
+
+#region 操作控制组件
+
 @export_group("控件_保存")
+
+## 确认保存按钮
+## 应用并保存当前设置
 @export var confirm: FuncButton
+
+## 重置按钮
+## 重置所有设置为默认值
 @export var reset: FuncButton
 
+#endregion
+
+#region 设置数据管理
+
+## 当前配置字典
+## 存储用户当前的所有设置项
 var current_config: Dictionary
-## 当前的设置项，在没有选中要设置的目标时为空，目前只用于键位设置
+
+## 当前活动设置
+## 临时存储正在修改的设置项（主要用于键位设置）
 var current_setting: Dictionary = {}
+
+#endregion
 
 func _enter_tree() -> void:
 	confirm.pressed.connect(Callable(func(_args):
@@ -67,7 +153,7 @@ func _unhandled_input(event: InputEvent) -> void:
 
 #region 音频设置
 func __init_audio():
-	var audio = current_config["audio"]
+	var _audio = current_config["audio"]
 	audio_setting_master.drag_ended.connect(func(is_changed: bool):
 		if is_changed:
 			SAudioMaster._set_volume(SAudioMaster.AudioBusEnum.MASTER, audio_setting_master.value)
@@ -84,7 +170,7 @@ func __init_audio():
 
 #region 显示设置
 func __init_display():
-	var display = current_config["display"]
+	var _display = current_config["display"]
 	
 
 	window_windowed.pressed.connect(func():

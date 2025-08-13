@@ -1,4 +1,4 @@
-[gd_scene load_steps=32 format=3 uid="uid://chcm2vu8h6bs1"]
+[gd_scene load_steps=33 format=3 uid="uid://chcm2vu8h6bs1"]
 
 [ext_resource type="PackedScene" uid="uid://6jpwo3n27sj2" path="res://entity/i_entity.tscn" id="1_cpfht"]
 [ext_resource type="PackedScene" uid="uid://cq0u8u1qie88t" path="res://entity/entity_template/character_body.tscn" id="2_10by5"]
@@ -13,6 +13,7 @@
 [ext_resource type="Script" uid="uid://0y7pq6c8rex1" path="res://component/c_status/status_extension/inventory/inventory.gd" id="10_ddqps"]
 [ext_resource type="PackedScene" uid="uid://ca1hb1m2dinl2" path="res://component/c_state/c_state.tscn" id="11_gg8ev"]
 [ext_resource type="Script" uid="uid://dnmlb5kw5y7u3" path="res://component/c_state/state/hfsm/state/player/sm_player_root.gd" id="12_8yxan"]
+[ext_resource type="Script" uid="uid://lkyrqci5j6qw" path="res://component/c_status/status_extension/equipment/equipment.gd" id="12_ddqps"]
 [ext_resource type="Script" uid="uid://b3dlfvhs4o6ii" path="res://component/c_state/state/hfsm/state/player/state_idle_player.gd" id="13_jeuop"]
 [ext_resource type="Script" uid="uid://cpdkw72ahtbjj" path="res://component/c_state/transition_record.gd" id="14_3syqy"]
 [ext_resource type="Script" uid="uid://dj1d6vr2iy6ds" path="res://component/c_state/state/hfsm/state/player/state_move_player.gd" id="15_bw1gr"]
@@ -44,7 +45,6 @@ size = Vector2(32, 10)
 
 [node name="野比大雄" node_paths=PackedStringArray("main_control", "component_container") instance=ExtResource("1_cpfht")]
 script = ExtResource("2_s6qkr")
-init_data_variant = null
 main_control = NodePath("CharacterBody")
 component_container = NodePath("CharacterBody/ComponentContainer")
 
@@ -61,8 +61,6 @@ zoom = Vector2(2, 2)
 script = ExtResource("4_d1eba")
 
 [node name="CTexture" parent="CharacterBody/ComponentContainer" index="1" instance=ExtResource("3_10by5")]
-texture_path = null
-sprite_change_list = null
 
 [node name="Sprite2D" type="Sprite2D" parent="CharacterBody/ComponentContainer/CTexture" index="0"]
 position = Vector2(0, 12)
@@ -79,10 +77,12 @@ move_speed = 1000.0
 blackboard = NodePath("../..")
 
 [node name="CStatus" parent="CharacterBody/ComponentContainer" index="3" instance=ExtResource("9_r1axf")]
-basic_info = null
 
-[node name="Inventory" type="Node" parent="CharacterBody/ComponentContainer/CStatus" index="0"]
+[node name="Inventory" type="Node2D" parent="CharacterBody/ComponentContainer/CStatus" index="0"]
 script = ExtResource("10_ddqps")
+
+[node name="Equipment" type="Node2D" parent="CharacterBody/ComponentContainer/CStatus" index="1"]
+script = ExtResource("12_ddqps")
 
 [node name="CState" parent="CharacterBody/ComponentContainer" index="4" node_paths=PackedStringArray("root_state_machine") instance=ExtResource("11_gg8ev")]
 root_state_machine = NodePath("PlayerSM")
@@ -135,10 +135,10 @@ script = ExtResource("22_h8dci")
 script = ExtResource("23_lxaiq")
 interact_ray = NodePath("../../CCollision/InteractRay")
 
-[node name="UiPanelOpen" type="Node" parent="CharacterBody/ComponentContainer/CInputReactor" index="4" node_paths=PackedStringArray("inventory")]
+[node name="UiPanelOpen" type="Node" parent="CharacterBody/ComponentContainer/CInputReactor" index="4" node_paths=PackedStringArray("c_status")]
 script = ExtResource("25_r1axf")
 brain_ui = ExtResource("21_s6qkr")
-inventory = NodePath("../../CStatus/Inventory")
+c_status = NodePath("../../CStatus")
 pause_ui = ExtResource("19_qvx2r")
 
 [node name="CActionQueueTrigger" parent="CharacterBody/ComponentContainer" index="7" instance=ExtResource("23_86vaq")]

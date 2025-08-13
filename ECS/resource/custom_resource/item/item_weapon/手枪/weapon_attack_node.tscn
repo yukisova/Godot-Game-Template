@@ -1,0 +1,21 @@
+[gd_scene load_steps=5 format=3 uid="uid://cp3qo45fcw0ix"]
+
+[ext_resource type="Script" uid="uid://xjklvra480qw" path="res://resource/custom_resource/item/item_weapon/手枪/weapon_attack_node.gd" id="1_47x43"]
+[ext_resource type="Texture2D" uid="uid://kbkgom7sc05c" path="res://asset/item_texture/ItemIcon.png" id="2_q2f1f"]
+[ext_resource type="PackedScene" uid="uid://hxr8vlqtjwii" path="res://entity/entity_packed/projectile/i_projectile.tscn" id="2_unu6f"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_unu6f"]
+atlas = ExtResource("2_q2f1f")
+region = Rect2(0, 0, 80, 80)
+
+[node name="WeaponAttackNode" type="Node2D" node_paths=PackedStringArray("fire_point")]
+script = ExtResource("1_47x43")
+projectile_scene = ExtResource("2_unu6f")
+fire_point = NodePath("FirePoint")
+
+[node name="FirePoint" type="Marker2D" parent="."]
+position = Vector2(115, -13)
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(80, 0)
+texture = SubResource("AtlasTexture_unu6f")
