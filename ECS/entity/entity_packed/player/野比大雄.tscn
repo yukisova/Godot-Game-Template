@@ -29,12 +29,12 @@
 [ext_resource type="Script" uid="uid://3c3x3bgxinnw" path="res://component/c_collision/box_ray/interact_ray/interact_ray.gd" id="25_3swxj"]
 [ext_resource type="Script" uid="uid://ceknbpsdqqm6d" path="res://component/c_input_reactor/reactor_extension/e_player/ui_panel_open.gd" id="25_r1axf"]
 
-[sub_resource type="Resource" id="Resource_whce7"]
+[sub_resource type="Resource" id="Resource_r1axf"]
 script = ExtResource("14_3syqy")
 to_state = NodePath("../Move")
 metadata/_custom_type_script = "uid://cpdkw72ahtbjj"
 
-[sub_resource type="Resource" id="Resource_osnnt"]
+[sub_resource type="Resource" id="Resource_ddqps"]
 script = ExtResource("14_3syqy")
 to_state = NodePath("../Idle")
 metadata/_custom_type_script = "uid://cpdkw72ahtbjj"
@@ -44,6 +44,7 @@ size = Vector2(32, 10)
 
 [node name="野比大雄" node_paths=PackedStringArray("main_control", "component_container") instance=ExtResource("1_cpfht")]
 script = ExtResource("2_s6qkr")
+init_data_variant = null
 main_control = NodePath("CharacterBody")
 component_container = NodePath("CharacterBody/ComponentContainer")
 
@@ -58,10 +59,10 @@ zoom = Vector2(2, 2)
 
 [node name="MouseFollow" type="Node" parent="CharacterBody/ComponentContainer/CCamera" index="1"]
 script = ExtResource("4_d1eba")
-smoothing = null
 
 [node name="CTexture" parent="CharacterBody/ComponentContainer" index="1" instance=ExtResource("3_10by5")]
-texture_node_path = NodePath("Sprite2D")
+texture_path = null
+sprite_change_list = null
 
 [node name="Sprite2D" type="Sprite2D" parent="CharacterBody/ComponentContainer/CTexture" index="0"]
 position = Vector2(0, 12)
@@ -78,6 +79,7 @@ move_speed = 1000.0
 blackboard = NodePath("../..")
 
 [node name="CStatus" parent="CharacterBody/ComponentContainer" index="3" instance=ExtResource("9_r1axf")]
+basic_info = null
 
 [node name="Inventory" type="Node" parent="CharacterBody/ComponentContainer/CStatus" index="0"]
 script = ExtResource("10_ddqps")
@@ -95,7 +97,7 @@ script = ExtResource("13_jeuop")
 vector_move = NodePath("../../../CMovement/VectorMove")
 c_texture = NodePath("../../../CTexture")
 hfsm_state_transition = Dictionary[StringName, ExtResource("14_3syqy")]({
-&"": SubResource("Resource_whce7")
+&"move": SubResource("Resource_r1axf")
 })
 
 [node name="Move" type="Node" parent="CharacterBody/ComponentContainer/CState/PlayerSM" index="1" node_paths=PackedStringArray("vector_move", "c_texture")]
@@ -103,7 +105,7 @@ script = ExtResource("15_bw1gr")
 vector_move = NodePath("../../../CMovement/VectorMove")
 c_texture = NodePath("../../../CTexture")
 hfsm_state_transition = Dictionary[StringName, ExtResource("14_3syqy")]({
-&"": SubResource("Resource_osnnt")
+&"idle": SubResource("Resource_ddqps")
 })
 
 [node name="CCollision" parent="CharacterBody/ComponentContainer" index="5" instance=ExtResource("16_74hs8")]

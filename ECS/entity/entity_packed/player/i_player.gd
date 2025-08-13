@@ -11,7 +11,7 @@ func _save_as(data: SavedDataFile):
 	}
 	return {}
 
-func _load_by(data: SavedDataFile, ...args):
+func _load_by(data: SavedDataFile, ..._args):
 	var player_info = data.player_info
 
 	global_position = player_info["start_position"]

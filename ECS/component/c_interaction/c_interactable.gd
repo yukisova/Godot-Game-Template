@@ -1,24 +1,59 @@
-## SORA @editing: Sora [br]
-## @describe: 交互组件，可以实现基于被动或主动的交互
-
+## @editing: Sora [br]
+## @describe: 交互组件 - 管理实体的交互行为和交互逻辑
+## 
+## 该组件实现了复杂的实体交互系统，支持主动交互和被动交互两种模式。
+## 可以处理多种交互触发条件，如碰撞检测、区域检测、射线检测等。
+## 
+## 交互类型：
+## - BodyEntered：刚体进入触发的交互
+## - AreaEntered：区域进入触发的交互  
+## - RayCasted：射线检测触发的交互
+## - Null：禁用的交互
+## 
+## 交互模式：
+## - 被动交互：自动触发，无需玩家操作
+## - 主动交互：需要玩家按键确认的交互
+## 
+## 功能特性：
+## - 多重交互记录管理
+## - 动态交互类型切换
+## - 可配置的交互条件
+## - 与输入系统无缝集成
 @tool
 class_name C_Interactable
 extends IComponent
 
+## 交互记录资源数组
+## 存储所有可用的交互配置记录
 @export var interactions_resources: Array[InteractionRecord]
 
-var interaction_infos: Dictionary[int,InteractionRecordInfo] = {}
+## 交互信息字典
+## 存储处理后的交互记录信息，按索引进行管理
+var interaction_infos: Dictionary[int, InteractionRecordInfo] = {}
 
+## 交互记录信息类
+## 包含交互的完整信息和运行时状态
 class InteractionRecordInfo:
+	## 交互对象
 	var interaction: PassiveInteraction
+	## 交互检测区域
 	var interact_box: InteractBox
+	## 是否为被动交互
 	var is_passive: bool
+	## 交互类型
 	var interact_type: InteractionRecord.InteractType = InteractionRecord.InteractType.Null:
 		set(v):
 			interact_type = v
+	## 激活时的回调函数
 	var callable_actived: Callable
+	## 取消激活时的回调函数
 	var callable_deactived: Callable
 
+	## 构造函数
+	## @param _interaction: 交互对象
+	## @param _interact_box: 交互检测区域
+	## @param _is_passive: 是否为被动交互
+	## @param _interact_type: 交互类型
 	func _init(_interaction: PassiveInteraction, _interact_box: InteractBox, _is_passive: bool, _interact_type: InteractionRecord.InteractType) -> void:
 		interaction = _interaction
 		interact_box = _interact_box
@@ -28,12 +63,19 @@ class InteractionRecordInfo:
 func _enter_tree() -> void:
 	component_name = ComponentName.c_interaction
 
-## 初始化: 绑定交互的目标
+## 组件初始化
+## 解析交互记录资源，创建交互信息对象，并绑定相关的交互目标
+## @param _owner: 拥有此组件的实体
 func _initialize(_owner: IEntity):
 	super._initialize(_owner)
 	
+	# 清空现有交互信息
 	interaction_infos.clear()
-	interactions_resources = interactions_resources.filter(func(abc): return abc != null)
+	
+	# 过滤掉空的交互记录
+	interactions_resources = interactions_resources.filter(func(record): return record != null)
+	
+	# 处理每个交互记录
 	for i in range(interactions_resources.size()):
 		var record = interactions_resources[i]
 		var interaction_record_info = InteractionRecordInfo.new(
@@ -44,13 +86,18 @@ func _initialize(_owner: IEntity):
 		)
 		interaction_infos[i] = interaction_record_info
 	
-	for i in get_children():
-		if i is PassiveInteraction:
-			i.binding_entity = component_owner
+	# 绑定所有被动交互对象到实体
+	for child in get_children():
+		if child is PassiveInteraction:
+			child.binding_entity = component_owner
 	
+	# 为每个交互信息确认回调函数
 	for interaction_action in interaction_infos.values():
 		confirm_interact_callable(interaction_action)
 
+## 确认交互回调函数
+## 根据交互类型设置相应的激活和取消激活回调函数
+## @param interaction_info: 交互记录信息对象
 func confirm_interact_callable(interaction_info: InteractionRecordInfo):
 	match interaction_info.interact_type:
 		InteractionRecord.InteractType.BodyEntered:
@@ -86,6 +133,9 @@ func confirm_interact_callable(interaction_info: InteractionRecordInfo):
 				)
 	register_inteactable_area(interaction_info)
 
+## 注册交互区域
+## 将交互信息的回调函数连接到对应的碰撞体信号
+## @param interaction_info: 交互记录信息对象
 func register_inteactable_area(interaction_info: InteractionRecordInfo):
 	var final_body: CollisionObject2D
 	if interaction_info.interact_type == InteractionRecord.InteractType.RayCasted:
@@ -108,6 +158,9 @@ func register_inteactable_area(interaction_info: InteractionRecordInfo):
 		InteractionRecord.InteractType.Null:
 			print("该交互记录已经被禁用")
 
+## 注销交互区域
+## 断开交互信息的回调函数与碰撞体信号的连接
+## @param interaction_info: 交互记录信息对象
 func unregister_interactable_area(interaction_info: InteractionRecordInfo):
 	var final_body: CollisionObject2D
 	if interaction_info.interact_type == InteractionRecord.InteractType.RayCasted:
@@ -131,7 +184,11 @@ func unregister_interactable_area(interaction_info: InteractionRecordInfo):
 		InteractionRecord.InteractType.Null:
 			print("该交互记录已经被禁用")
 
-func change_interaction_info_type(index: int,target_type: InteractionRecord.InteractType):
+## 改变交互信息类型
+## 动态修改指定索引的交互记录的交互类型
+## @param index: 交互记录的索引
+## @param target_type: 目标交互类型
+func change_interaction_info_type(index: int, target_type: InteractionRecord.InteractType):
 	var interaction_info = interaction_infos[index]
 	if interaction_info.interact_type == target_type: return
 	

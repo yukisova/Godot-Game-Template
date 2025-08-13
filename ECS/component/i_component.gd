@@ -74,6 +74,6 @@ func _save_as() -> Dictionary:
 func _data_to_dict() -> Dictionary:
 	return {}
 
-func _load_by(dict:Dictionary):
+func _load_by(_dict: Dictionary):
 	pass
 #endregion

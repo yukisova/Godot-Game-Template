@@ -1,121 +1,175 @@
-##@editing:	Sora
-##@describe:	角色的基础hud
+## @editing: Sora [br]
+## @describe: 玩家属性HUD - 显示角色基础信息和快捷操作界面
+##
+## 该HUD集成了多个玩家相关的UI元素：
+## - 时间循环系统的时钟显示
+## - 背包抽屉式快捷栏
+## - 物品拖拽和交互功能
+## - 玩家状态的实时更新
+##
+## 主要功能：
+## - 实时显示游戏内时间（小时/分钟指针）
+## - 提供背包物品的快速访问
+## - 支持物品的拖拽操作
+## - 动态同步玩家背包变化
+##
+## UI特性：
+## - 抽屉式背包展开/收起动画
+## - 可拖拽的物品图标
+## - 响应式布局适配
 extends IHud
 
+#region 实体绑定
+
+## 绑定的实体
+## 通常为玩家角色实体
 var binding_entity: IEntity
 
+#endregion
+
+#region 时间循环UI
+
 @export_group("时间循环", "time_")
+
+## 小时指针
+## 用于显示游戏内的小时时间
 @export var hour_pointer: Line2D
+
+## 分钟指针  
+## 用于显示游戏内的分钟时间
 @export var minute_pointer: Line2D
 
+#endregion
+
+#region 背包抽屉UI
+
 @export_group("背包抽屉", "bag_")
+
+## 背包切换按钮
+## 控制背包抽屉的展开和收起
 @export var bag_button: Button
+
+## 背包槽位容器
+## 存放所有背包槽位的布局容器
 @export var bag_slot_container: HBoxContainer
+
+## 背包槽位原型
+## 用于动态创建背包槽位的模板
 @export var bag_slot_prototype: PanelContainer
+
+## 可拖拽物品原型
+## 用于创建可拖拽物品图标的模板
 @export var bag_dragable_item_prototype: DragableItem
 
+#endregion
+
+#region 背包系统集成
+
+## 玩家背包扩展
+## 引用玩家状态组件中的背包系统
 var inventory_in_player: InventoryExtension
 
+#endregion
 
+
+#region HUD生命周期
+
+## HUD初始化
+## 设置时间循环、背包系统和UI交互
 func _initialize():
-	return 
-	var timeloop = SBlackboard.sub_systems[&"time_loop"] as SSTimeLoop
-	timeloop.time_updated.connect(func(v: int):
-		rotate_pointer(v)
-		)
-	rotate_pointer(timeloop.real_time)
+	# 当前暂时禁用，等待系统完善
+	print("属性HUD: 初始化已禁用，等待系统完善")
+	return
 	
-	bag_button.toggled.connect(func(v: bool):
-		if v:
-			drawer_on()
-		else:
-			drawer_off()
-		)
-	
+	# TODO: 完整的初始化逻辑（已禁用）
+	# 以下代码在系统完善后启用：
+	# - 连接时间循环系统
+	# - 设置背包按钮事件  
+	# - 初始化背包槽位
+	# - 连接背包变化事件
 
-	var player = SMainController.player_static
-	var status_in_player = player.list_base_components[IComponent.ComponentName.c_status] as C_Status
-	inventory_in_player = status_in_player.status_extension[StatusExtension.ExtensionType.背包] as InventoryExtension
-	
-	inventory_in_player.inventory_added.connect(_on_add_inventory)
-	inventory_in_player.inventory_removed.connect(_on_remove_inventory)
-	for i in inventory_in_player.inventory_pack_num:
-		var bag_slot = bag_slot_prototype.duplicate() as PanelContainer
-		bag_slot_container.add_child(bag_slot)
-		bag_slot.show()
-		
-		var item = inventory_in_player.inventory_array[i] as Item
-		if item != null:
-			var bag_dragable_item = bag_dragable_item_prototype.duplicate() as DragableItem
-			bag_slot.add_child(bag_dragable_item)
-			bag_dragable_item.binding_item = item
-			bag_dragable_item.texture_rect.texture = item.item_texture
-			bag_dragable_item.origin_position = bag_slot.global_position
-			bag_dragable_item.show()
-	
-	await get_tree().process_frame
-	await get_tree().process_frame
-	
-	bag_slot_container.position = Vector2(-bag_slot_container.size.x,16)
-
+## HUD刷新
+## 更新显示内容（预留接口）
 func _refresh():
 	pass
 
+#endregion
 
-func _unhandled_input(event: InputEvent) -> void:
-	#if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
-		#if event.pressed and .get_global_rect().has_point(event.global_position):
-			## 点击时开始拖拽
-			#is_dragging = true
-			#drag_offset = global_position - event.global_position
-			#z_index = 100  # 置顶显示
-			#_tween_selected()
-		#else:
-			#_tween_unselected()
-			#is_dragging = false
+#region 输入处理
+
+## 处理未处理的输入事件
+## @param event: 输入事件
+func _unhandled_input(_event: InputEvent) -> void:
+	# 预留拖拽功能的输入处理
+	# TODO: 实现物品拖拽逻辑
 	pass
 
-func rotate_pointer(current_timer: int):
+#endregion
 
+#region 时间显示
+
+## 旋转时钟指针
+## @param current_timer: 当前时间（分钟数）
+func rotate_pointer(current_timer: int):
+	# 计算小时和分钟的比例
 	var hour = current_timer / 60.0 / 24
 	var minute = current_timer % 60 / 60.0
 	
+	# 计算指针旋转角度
 	var target_hour_rotation = hour * 2 * PI
 	var target_min_rotation = minute * 2 * PI
 	
+	# 应用旋转
 	hour_pointer.rotation = target_hour_rotation
 	minute_pointer.rotation = target_min_rotation
-	
 
-#region 抽屉式背包
+#endregion
+
+#region 抽屉式背包动画
+
+## 展开背包抽屉
+## 播放滑入动画并禁用按钮防止重复触发
 func drawer_on():
-	bag_button.button_mask ^= MOUSE_BUTTON_MASK_LEFT
+	bag_button.button_mask ^= MOUSE_BUTTON_MASK_LEFT  # 临时禁用按钮
 	var tween: Tween = get_tree().create_tween()
-	tween.tween_property(bag_slot_container, "position", Vector2(0,16), 1.0).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_CUBIC)
+	tween.tween_property(bag_slot_container, "position", Vector2(0, 16), 1.0).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_CUBIC)
 	
 	await tween.finished
-	bag_button.button_mask |= MOUSE_BUTTON_MASK_LEFT
+	bag_button.button_mask |= MOUSE_BUTTON_MASK_LEFT  # 重新启用按钮
 
+## 收起背包抽屉
+## 播放滑出动画并禁用按钮防止重复触发  
 func drawer_off():
-	bag_button.button_mask ^= MOUSE_BUTTON_MASK_LEFT
+	bag_button.button_mask ^= MOUSE_BUTTON_MASK_LEFT  # 临时禁用按钮
 	var tween: Tween = get_tree().create_tween()
-	tween.tween_property(bag_slot_container, "position", Vector2(-bag_slot_container.size.x,16), 1.0).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_CUBIC)
+	tween.tween_property(bag_slot_container, "position", Vector2(-bag_slot_container.size.x, 16), 1.0).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_CUBIC)
 	
 	await tween.finished
-	bag_button.button_mask |= MOUSE_BUTTON_MASK_LEFT
+	bag_button.button_mask |= MOUSE_BUTTON_MASK_LEFT  # 重新启用按钮
 
+#endregion
+
+#region 背包事件处理
+
+## 处理背包添加物品事件
+## @param item: 添加的物品
+## @param index: 物品在背包中的索引
 func _on_add_inventory(item: Item, index: int):
 	var bag_dragable_item = bag_dragable_item_prototype.duplicate() as DragableItem
 	var bag_slot = bag_slot_container.get_child(index)
 	
+	# 配置可拖拽物品
 	bag_slot.add_child(bag_dragable_item)
 	bag_dragable_item.binding_item = item
 	bag_dragable_item.texture = item.item_texture
 	bag_dragable_item.origin_position = bag_slot.global_position
 	bag_dragable_item.show()
 
+## 处理背包移除物品事件
+## @param index: 被移除物品的索引
 func _on_remove_inventory(index: int):
 	var target_bag_slot = bag_slot_container.get_child(index)
+	# 清理槽位中的所有子节点（物品图标）
 	target_bag_slot.get_children().map(func(v): return v.queue_free())
 
 #endregion

@@ -1,31 +1,63 @@
-##@editing:	Sora
-##@describe:	Ui
+## @editing: Sora
+## @describe: UI界面基类 - 游戏界面系统的抽象基类
+## 
+## UI基类提供了游戏中各种界面的统一框架，包括菜单、对话框、设置界面等。
+## 支持主运行模式和测试模式两种不同的初始化流程。
+## 
+## 生命周期管理：
+## - 自动识别运行环境（主游戏 vs 单元测试）
+## - 提供统一的创建和销毁机制
+## - 支持焦点管理和输入处理
+## 
+## 功能特性：
+## - 双模式初始化（主运行/测试）
+## - 信号驱动的生命周期管理
+## - 上下文数据绑定
+## - 焦点状态处理
 @abstract class_name IUi
 extends CanvasLayer
 
+## UI销毁信号
+## 当UI被销毁时触发，通知UI管理器进行清理
 signal _unspawned
 
-@export var is_testing:bool
+## 测试模式标志
+## 用于在编辑器中进行UI单元测试
+@export var is_testing: bool
 
+## Godot生命周期：节点准备就绪
+## 根据运行环境选择不同的初始化流程
 func _ready() -> void:
 	if get_tree().current_scene != self:
-		_main_setup()
+		_main_setup()  # 主游戏运行时的初始化
 	else:
-		_test_setup()
+		_test_setup()  # 单元测试时的初始化
 
-func _main_setup(): ## 主要运行时，运行的逻辑
+## 主运行时初始化
+## 在游戏主流程中的UI初始化逻辑
+## 子类应重写此方法以实现具体的初始化行为
+func _main_setup():
 	pass
 
-func _test_setup(): ## 单元测试时，运行的逻辑
+## 测试环境初始化  
+## 在单元测试环境中的UI初始化逻辑
+## 子类应重写此方法以实现测试相关的初始化行为
+func _test_setup():
 	pass
 
+## 销毁UI
+## 触发UI销毁流程并发送相应信号
 func unspawn():
 	_unspawned.emit(self)
 
 ## 信息初始化
+## 使用上下文数据初始化UI内容
+## @param _context: 包含初始化数据的上下文字典
 func _initilize_info(_context: Dictionary):
 	pass
 
-## 当聚焦于此界面的时候所可以进行的操作
+## 焦点监听处理
+## 当UI获得焦点时的输入监听和处理逻辑
+## 子类应重写此方法以实现具体的焦点处理行为
 func _focus_listen():
 	pass

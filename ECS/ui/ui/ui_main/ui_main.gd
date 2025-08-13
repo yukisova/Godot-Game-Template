@@ -1,22 +1,76 @@
-##@editing:	Sora
-##@describe:	游戏的主菜单，包含自动加载的开场动画，与游戏的所有选项，以后肯定会经常用到，因此现在先开始
+## @editing: Sora [br]
+## @describe: 主菜单UI - 游戏的主要入口界面
+##
+## 该UI提供游戏的所有主要入口功能：
+## - 开始新游戏和继续游戏
+## - 加载已保存的游戏存档
+## - 进入游戏设置界面
+## - 退出游戏应用程序
+##
+## 主要特性：
+## - 自动播放主菜单背景音乐
+## - 平滑的淡入动画效果
+## - 状态机集成的游戏流程控制
+## - 模块化的按钮事件处理
+##
+## 界面功能：
+## - 继续游戏：恢复上次游戏进度
+## - 测试游戏：快速进入测试模式
+## - 开始游戏：创建新的游戏流程
+## - 加载游戏：从存档文件恢复游戏
+## - 游戏设置：打开配置和选项界面
+## - 退出游戏：关闭应用程序
 extends IUi
 
+#region 音频配置
+
+## 主菜单背景音乐
+## 在界面显示时自动播放的BGM
 @export var bgm: AudioStream
 
+#endregion
+
+#region UI按钮组件
+
 @export_subgroup("依赖")
+
+## 继续游戏按钮
+## 恢复最近的游戏进度
 @export var continue_game_button: FuncButton
+
+## 测试游戏按钮
+## 快速进入测试模式，跳过部分初始化流程
 @export var test_game_button: FuncButton
+
+## 开始游戏按钮
+## 创建新的游戏并进入开场剧情
 @export var start_game_button: FuncButton
+
+## 加载游戏按钮
+## 从存档文件加载游戏状态
 @export var load_game_button: FuncButton
+
+## 游戏设置按钮
+## 打开配置界面，支持键位、音频、画质等设置
 @export var game_setting_button: LinkageButton
+
+## 退出游戏按钮
+## 关闭游戏应用程序
 @export var quit_game_button: FuncButton
 
+#endregion
+
+#region UI初始化
+
+## 主菜单设置
+## 初始化音频、动画和按钮事件绑定
 func _main_setup() -> void:
-	## 播放主菜单音乐
+	print("主菜单UI: 开始初始化")
+	
+	# 播放主菜单背景音乐
 	SAudioMaster.play_music(bgm)
 	
-	## 淡入主菜单
+	# 设置淡入动画效果
 	var control = get_child(0) as Control
 	control.modulate.a = 0
 	var tween: Tween = get_tree().create_tween()
@@ -24,11 +78,23 @@ func _main_setup() -> void:
 	tween.set_trans(Tween.TRANS_CUBIC)
 	tween.tween_property(control, "modulate:a", 1.0, 1.0)
 	
-	## 绑定按钮
-	#continue_game_button.pressed.connect(func():\
-		#
-	#)
+	# 绑定各按钮的点击事件
+	_setup_button_bindings()
+	
+	print("主菜单UI: 初始化完成")
+
+#endregion
+
+#region 按钮事件绑定
+
+## 设置所有按钮的事件绑定
+func _setup_button_bindings():
+	# 继续游戏按钮（暂未实现）
+	# TODO: 实现继续游戏功能
+	
+	# 测试游戏按钮 - 快速进入测试模式
 	test_game_button.pressed.connect(Callable(func(_args):
+		print("主菜单UI: 启动测试游戏")
 		var game_state_machine = SGameState.state_machine as StateMachineHfsm 
 		
 		var current_state = game_state_machine._get_active_state()
@@ -38,18 +104,22 @@ func _main_setup() -> void:
 			SAudioMaster.play_music(null)
 			unspawn()
 		else:
-			push_error("当前出现问题: 主菜单场景状态机错误！当前状态名:%s"%[current_state.name])).bind(test_game_button.args)
-	)
+			push_error("主菜单UI: 状态机错误，当前状态: %s" % [current_state.name])
+	).bind(test_game_button.args))
+	
+	# 开始游戏按钮 - 进入开场剧情
 	start_game_button.pressed.connect(Callable(func(_args):
+		print("主菜单UI: 开始新游戏")
 		SAudioMaster.play_music(null)
 		
 		var start_game_ui = _args[0]
-		
 		SUiSpawner._spawn_ui(start_game_ui)
-		).bind(start_game_button.args)
-	)
-	## TODO 游戏存档模块：加载游戏逻辑还有待进步
+	).bind(start_game_button.args))
+	
+	# 加载游戏按钮 - 从存档恢复游戏
+	# TODO: 完善游戏存档模块的加载逻辑
 	load_game_button.pressed.connect(Callable(func(_args):
+		print("主菜单UI: 加载游戏存档")
 		var game_state_machine = SGameState.state_machine
 		
 		var current_state = game_state_machine._get_active_state()
@@ -60,10 +130,13 @@ func _main_setup() -> void:
 			SAudioMaster.play_music(null)
 			unspawn()
 		else:
-			push_error("当前出现问题: 主菜单场景状态机错误！当前状态名:%s"%[current_state.name])).bind(load_game_button.args)
-	)
-	## TODO 游戏设置界面：该怎么实现复杂的配置存储？
+			push_error("主菜单UI: 状态机错误，当前状态: %s" % [current_state.name])
+	).bind(load_game_button.args))
+	
+	# 游戏设置按钮 - 打开设置界面
+	# TODO: 实现复杂的配置存储系统
 	game_setting_button.pressed.connect(func():
+		print("主菜单UI: 打开游戏设置")
 		game_setting_button._execute()
 		get_child(0).hide()
 		game_setting_button.linkage_target.window_closed.connect(func():
@@ -71,6 +144,11 @@ func _main_setup() -> void:
 			game_setting_button.linkage_target.queue_free()
 		)
 	)
+	
+	# 退出游戏按钮 - 关闭应用程序
 	quit_game_button.pressed.connect(func():
+		print("主菜单UI: 退出游戏")
 		get_tree().quit()
 	)
+
+#endregion
