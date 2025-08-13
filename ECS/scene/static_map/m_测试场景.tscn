@@ -1,4 +1,4 @@
-[gd_scene load_steps=37 format=4 uid="uid://nqh6sy3jpxp3"]
+[gd_scene load_steps=38 format=4 uid="uid://nqh6sy3jpxp3"]
 
 [ext_resource type="PackedScene" uid="uid://dx8lfcn7h43ea" path="res://resource/node_template/map/static_map.tscn" id="1_8b7id"]
 [ext_resource type="PackedScene" uid="uid://6dpqakv78nkp" path="res://resource/node_template/map/level.tscn" id="2_kqh3t"]
@@ -24,6 +24,7 @@
 [ext_resource type="PackedScene" uid="uid://chj3kl8gl43h" path="res://component/c_collision/box_collision/interaction_box/interact_box.tscn" id="24_xyu3f"]
 [ext_resource type="Script" uid="uid://dyicjmjyi8vve" path="res://component/c_interaction/interaction/passive_interaction/interaction_collect.gd" id="25_xyu3f"]
 [ext_resource type="Texture2D" uid="uid://kbkgom7sc05c" path="res://asset/item_texture/ItemIcon.png" id="26_7knx6"]
+[ext_resource type="PackedScene" uid="uid://cp3qo45fcw0ix" path="res://resource/custom_resource/item/item_weapon/attack_node/手枪/attack_node_手枪.tscn" id="26_1788p"]
 [ext_resource type="Script" uid="uid://bie3fadk4fwqc" path="res://resource/custom_resource/item/item_weapon/item_weapon.gd" id="27_ta42a"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_p2mf1"]
@@ -64,6 +65,7 @@ region = Rect2(0, 0, 80, 80)
 
 [sub_resource type="Resource" id="Resource_phtbu"]
 script = ExtResource("27_ta42a")
+weapon_node = ExtResource("26_1788p")
 item_nick_name = "pistol"
 item_name = "手枪"
 item_description = "一把手枪，"

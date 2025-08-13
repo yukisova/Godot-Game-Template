@@ -9,7 +9,7 @@ enum ComponentType { ## 组件的状态
 }
 
 enum ComponentName {
-	c_action_queue_trigger = 0, ## 见[C_ActionQueueTrigger]
+	c_action_queue_trigger = 0, ## 见[C_ActionTrigger]
 	c_texture, ## 见[C_Texture]
 	c_camera, ## 见[C_Camera]
 	c_collision, ## 见[C_Collision]

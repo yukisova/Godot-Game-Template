@@ -25,7 +25,7 @@
 [ext_resource type="Script" uid="uid://dc4xbso7xmwvo" path="res://component/c_input_reactor/reactor_extension/e_player/mouse_focus.gd" id="21_04ll1"]
 [ext_resource type="PackedScene" uid="uid://55la10tbk38m" path="res://ui/ui/ui_brain/ui_brain.tscn" id="21_s6qkr"]
 [ext_resource type="Script" uid="uid://bj5wq8iankhmq" path="res://component/c_input_reactor/reactor_extension/e_player/test_check_info.gd" id="22_h8dci"]
-[ext_resource type="PackedScene" uid="uid://b3vbfhugiqyva" path="res://component/c_action/c_action_queue_trigger.tscn" id="23_86vaq"]
+[ext_resource type="PackedScene" uid="uid://b3vbfhugiqyva" path="res://component/c_action/c_action_trigger.tscn" id="23_86vaq"]
 [ext_resource type="Script" uid="uid://cd4xrbwgqs7p0" path="res://component/c_input_reactor/reactor_extension/e_player/ray_interact_confirm.gd" id="23_lxaiq"]
 [ext_resource type="Script" uid="uid://3c3x3bgxinnw" path="res://component/c_collision/box_ray/interact_ray/interact_ray.gd" id="25_3swxj"]
 [ext_resource type="Script" uid="uid://ceknbpsdqqm6d" path="res://component/c_input_reactor/reactor_extension/e_player/ui_panel_open.gd" id="25_r1axf"]

@@ -4,7 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://cq0u8u1qie88t" path="res://entity/entity_template/character_body.tscn" id="2_5ehvm"]
 [ext_resource type="PackedScene" uid="uid://bvjy63fua1sx2" path="res://component/c_texture/c_texture.tscn" id="3_7wfp7"]
 [ext_resource type="PackedScene" uid="uid://dvrvdiy0pquiq" path="res://component/c_movement/c_movement.tscn" id="4_pdel5"]
-[ext_resource type="Script" uid="uid://cn6q2f0x31g2l" path="res://component/c_movement/move_strategy/striangth.gd" id="5_w1a0x"]
+[ext_resource type="Script" uid="uid://ikjlf7gagqap" path="res://component/c_movement/move_strategy/straight_move.gd" id="5_pdel5"]
 
 [sub_resource type="Gradient" id="Gradient_j67t8"]
 colors = PackedColorArray(1, 0, 0, 1, 1, 0, 0, 1)
@@ -24,9 +24,10 @@ component_container = NodePath("CharacterBody/ComponentContainer")
 texture = SubResource("GradientTexture2D_pdel5")
 
 [node name="CMovement" parent="CharacterBody/ComponentContainer" index="1" node_paths=PackedStringArray("move_strategy") instance=ExtResource("4_pdel5")]
-move_strategy = NodePath("Striangth")
+move_strategy = NodePath("StraightMove")
 
-[node name="Striangth" type="Node" parent="CharacterBody/ComponentContainer/CMovement" index="0"]
-script = ExtResource("5_w1a0x")
+[node name="StraightMove" type="Node" parent="CharacterBody/ComponentContainer/CMovement" index="0" node_paths=PackedStringArray("blackboard")]
+script = ExtResource("5_pdel5")
+blackboard = NodePath("../..")
 
 [editable path="CharacterBody"]
