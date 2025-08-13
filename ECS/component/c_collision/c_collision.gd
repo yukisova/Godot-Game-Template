@@ -15,7 +15,7 @@
 ## - 高效的碰撞查询接口
 ## - 与交互系统集成
 @tool
-class_name C_Collision
+class_name CCollision
 extends IComponent
 
 ## 盒子碰撞字典

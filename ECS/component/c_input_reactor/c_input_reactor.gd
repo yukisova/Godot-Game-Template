@@ -10,7 +10,7 @@
 ## - 交互对象管理
 ## - 输入状态检测（按下、持续按住、释放）
 @tool
-class_name C_InputReactor
+class_name CInputReactor
 extends IComponent
 
 ## 输入控制模式枚举

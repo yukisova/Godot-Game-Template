@@ -77,7 +77,7 @@ func _initilize_info(_context: Dictionary) -> void:
 	await ready
 	print("角色状态UI: 开始加载背包数据")
 	
-	var status:C_Status = _context["status"]
+	var status:CStatus = _context["status"]
 	var inventory: InventoryExtension = status.status_extension[StatusExtension.ExtensionType.INVENTORY]
 	
 	grid_inventory.grid_num = inventory.inventory_pack_num

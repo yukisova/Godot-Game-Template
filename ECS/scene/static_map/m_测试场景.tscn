@@ -8,9 +8,9 @@
 [ext_resource type="TileSet" uid="uid://uv8m2iijojh1" path="res://resource/resource_template/tileset/tileset_test_wall_16.tres" id="6_6k0fo"]
 [ext_resource type="PackedScene" uid="uid://de3o6pll5kxdx" path="res://resource/node_template/map/player_spawn.tscn" id="7_05w2q"]
 [ext_resource type="PackedScene" uid="uid://ht3v3wnr5dy" path="res://entity/entity_packed/enemy/测试用的敌人.tscn" id="8_8b7id"]
-[ext_resource type="PackedScene" uid="uid://ceewa82bai01n" path="res://entity/entity_packed/people/出木杉.tscn" id="8_8ghfr"]
-[ext_resource type="PackedScene" uid="uid://dbswip03t13sy" path="res://component/c_interaction/c_interactable.tscn" id="9_h8umv"]
-[ext_resource type="Script" uid="uid://ccu2saj6ovslc" path="res://component/c_interaction/interaction_record.gd" id="10_xyu3f"]
+[ext_resource type="PackedScene" uid="uid://ceewa82bai01n" path="res://entity/entity_packed/people/出木杉.tscn" id="9_8ghfr"]
+[ext_resource type="PackedScene" uid="uid://dbswip03t13sy" path="res://component/c_interaction/c_interactable.tscn" id="10_h8umv"]
+[ext_resource type="Script" uid="uid://ccu2saj6ovslc" path="res://component/c_interaction/interaction_record.gd" id="11_xyu3f"]
 [ext_resource type="Script" uid="uid://djglhr34yxc4x" path="res://component/c_interaction/interaction/initiative_interaction/interaction_dialogue.gd" id="11_1788p"]
 [ext_resource type="PackedScene" uid="uid://shdn4eldwjpu" path="res://ui/ui/ui_dialogue/ui_dialogue.tscn" id="12_7knx6"]
 [ext_resource type="Resource" uid="uid://df5rhoqxwvev4" path="res://resource/plugins_resource/dialogue/test_新功能测试.dialogue" id="14_kqh3t"]
@@ -44,7 +44,7 @@ navigation_layer_0/layers = 1
 sources/0 = SubResource("TileSetAtlasSource_ykcdb")
 
 [sub_resource type="Resource" id="Resource_8ghfr"]
-script = ExtResource("10_xyu3f")
+script = ExtResource("11_xyu3f")
 interact_type = 2
 interaction = NodePath("InteractionDialogue")
 metadata/_custom_type_script = "uid://ccu2saj6ovslc"
@@ -53,7 +53,7 @@ metadata/_custom_type_script = "uid://ccu2saj6ovslc"
 size = Vector2(50, 20)
 
 [sub_resource type="Resource" id="Resource_h8umv"]
-script = ExtResource("10_xyu3f")
+script = ExtResource("11_xyu3f")
 is_passive = true
 interaction = NodePath("InteractionDialogue")
 interact_box = NodePath("../CCollision/InteractionBox")
@@ -117,11 +117,11 @@ position = Vector2(0, -46)
 [node name="测试用的敌人" parent="Levels/Level" index="5" instance=ExtResource("8_8b7id")]
 position = Vector2(-93, 84)
 
-[node name="出木杉" parent="Levels/Level" index="6" instance=ExtResource("8_8ghfr")]
+[node name="出木杉" parent="Levels/Level" index="6" instance=ExtResource("9_8ghfr")]
 position = Vector2(-51, -61)
 
-[node name="CInteractable" parent="Levels/Level/出木杉" index="1" instance=ExtResource("9_h8umv")]
-interactions_resources = Array[ExtResource("10_xyu3f")]([SubResource("Resource_8ghfr")])
+[node name="CInteractable" parent="Levels/Level/出木杉" index="1" instance=ExtResource("10_h8umv")]
+interactions_resources = Array[ExtResource("11_xyu3f")]([SubResource("Resource_8ghfr")])
 
 [node name="InteractionDialogue" type="Node" parent="Levels/Level/出木杉/CInteractable" index="0"]
 script = ExtResource("11_1788p")
@@ -139,7 +139,7 @@ partner_scene = ExtResource("16_p2mf1")
 [node name="源静香" parent="Levels/Level" index="7" instance=ExtResource("14_nfrqy")]
 position = Vector2(-93, -61)
 
-[node name="CInteractable" parent="Levels/Level/源静香" index="1" instance=ExtResource("9_h8umv")]
+[node name="CInteractable" parent="Levels/Level/源静香" index="1" instance=ExtResource("10_h8umv")]
 
 [node name="InteractionDialogue" type="Node" parent="Levels/Level/源静香/CInteractable" index="0"]
 script = ExtResource("11_1788p")
@@ -159,8 +159,8 @@ position = Vector2(324, -5)
 position = Vector2(-25, 16)
 shape = SubResource("RectangleShape2D_7knx6")
 
-[node name="CInteractable" parent="Levels/Level/翁蛾健治/CharacterBody/ComponentContainer" index="4" instance=ExtResource("9_h8umv")]
-interactions_resources = Array[ExtResource("10_xyu3f")]([SubResource("Resource_h8umv")])
+[node name="CInteractable" parent="Levels/Level/翁蛾健治/CharacterBody/ComponentContainer" index="4" instance=ExtResource("10_h8umv")]
+interactions_resources = Array[ExtResource("11_xyu3f")]([SubResource("Resource_h8umv")])
 
 [node name="InteractionDialogue" type="Node" parent="Levels/Level/翁蛾健治/CharacterBody/ComponentContainer/CInteractable" index="0"]
 script = ExtResource("11_1788p")

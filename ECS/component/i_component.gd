@@ -9,19 +9,19 @@ enum ComponentType { ## 组件的状态
 }
 
 enum ComponentName {
-	c_action_queue_trigger = 0, ## 见[C_ActionTrigger]
+	c_action_queue_trigger = 0, ## 见[CActionTrigger]
 	c_texture, ## 见[C_Texture]
-	c_camera, ## 见[C_Camera]
-	c_collision, ## 见[C_Collision]
-	c_input_reactor, ## 见[C_InputReactor]
+	c_camera, ## 见[CCamera]
+	c_collision, ## 见[CCollision]
+	c_input_reactor, ## 见[CInputReactor]
 	c_interaction, ## 见[C_Interactable]
-	c_movement, ## 见[C_Movement]
-	c_state, ## 见[C_State]
-	c_status, ## 见[C_Status]
-	c_navigation, ## 见[C_Navigation]
-	c_balloon, ## 见[C_Balloon]
+	c_movement, ## 见[CMovement]
+	c_state, ## 见[CState]
+	c_status, ## 见[CStatus]
+	c_navigation, ## 见[CNavigation]
+	c_balloon, ## 见[CBalloon]
 	c_event_trigger, ## 见[C_EventTrigger]
-	c_marker ## 见[C_Marker]
+	c_marker ## 见[CMarker]
 }
 
 ## TODO 

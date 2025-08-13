@@ -17,7 +17,7 @@
 ## - 淡入淡出效果
 ## - 可扩展的动画效果
 @tool
-class_name C_Balloon
+class_name CBalloon
 extends IComponent
 
 ## 组合UI字典

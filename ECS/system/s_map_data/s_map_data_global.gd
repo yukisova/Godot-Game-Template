@@ -138,7 +138,7 @@ func _on_level_changed(operate_entity: IEntity, new_level: Level):
 		current_level.process_mode = Node.PROCESS_MODE_DISABLED
 		
 		# 更新相机限制范围
-		var camera = operate_entity.list_base_components.get(IComponent.ComponentName.c_camera) as C_Camera
+		var camera = operate_entity.list_base_components.get(IComponent.ComponentName.c_camera) as CCamera
 		if camera:
 			camera.set_camera_limit(new_level.get_camera_limit())
 		

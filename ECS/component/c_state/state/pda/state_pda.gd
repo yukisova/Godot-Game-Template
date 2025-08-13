@@ -23,7 +23,7 @@
 ## - 嵌套行为：可以嵌套在其他状态中的子行为
 @tool
 @abstract class_name StatePda
-extends State
+extends IState
 
 ## 状态关键词
 ## 用于唯一标识PDA状态的字符串名称

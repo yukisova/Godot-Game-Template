@@ -17,21 +17,21 @@
 ## - 目标跟踪
 ## - 导航状态管理
 @tool
-class_name C_Navigation
+class_name CNavigation
 extends IComponent
 
 ## 导航类型枚举
 ## 定义不同的导航行为模式
 enum NavType { 
-	stop,      ## 停止导航
-	pause,     ## 暂停导航
-	track,     ## 跟踪导航
-	located    ## 定点导航
+	STOP,      ## 停止导航
+	PAUSE,     ## 暂停导航
+	TRACK,     ## 跟踪导航
+	LOCATED    ## 定点导航
 }
 
 ## 当前导航状态
 ## 记录实体当前的导航行为类型
-var current_nav = NavType.stop
+var current_nav = NavType.STOP
 
 ## 导航目标位置
 ## 当前导航的目标位置
@@ -68,7 +68,7 @@ func _initialize(_owner: IEntity):
 ## @param position: 目标位置的世界坐标
 func set_target_position(position: Vector2):
 	target_position = position
-	current_nav = NavType.located
+	current_nav = NavType.LOCATED
 	
 	if nav_agent:
 		nav_agent.target_position = position
@@ -77,24 +77,24 @@ func set_target_position(position: Vector2):
 ## @param entity: 要跟踪的目标实体
 func set_target_entity(entity: IEntity):
 	target_entity = entity
-	current_nav = NavType.track
+	current_nav = NavType.TRACK
 
 ## 开始导航
 ## 启动导航行为
 func start_navigation():
-	if current_nav == NavType.stop:
-		current_nav = NavType.located
+	if current_nav == NavType.STOP:
+		current_nav = NavType.LOCATED
 
 ## 暂停导航
 ## 暂停当前的导航行为
 func pause_navigation():
-	if current_nav != NavType.stop:
-		current_nav = NavType.pause
+	if current_nav != NavType.STOP:
+		current_nav = NavType.PAUSE
 
 ## 停止导航
 ## 完全停止导航行为
 func stop_navigation():
-	current_nav = NavType.stop
+	current_nav = NavType.STOP
 	if nav_agent:
 		nav_agent.target_position = component_owner.global_position
 
@@ -103,9 +103,9 @@ func stop_navigation():
 ## @param _delta: 帧时间间隔
 func _update(_delta: float):
 	match current_nav:
-		NavType.track:
+		NavType.TRACK:
 			_update_tracking_navigation()
-		NavType.located:
+		NavType.LOCATED:
 			_update_location_navigation()
 
 ## 更新跟踪导航
@@ -118,7 +118,7 @@ func _update_tracking_navigation():
 ## 检查是否已到达目标位置
 func _update_location_navigation():
 	if nav_agent and nav_agent.is_navigation_finished():
-		current_nav = NavType.stop
+		current_nav = NavType.STOP
 
 ## 速度计算完成回调
 ## @param safe_velocity: 计算出的安全速度
@@ -129,6 +129,6 @@ func _on_velocity_computed(safe_velocity: Vector2):
 
 ## 目标到达回调
 func _on_target_reached():
-	current_nav = NavType.stop
+	current_nav = NavType.STOP
 	print("导航组件: 实体 ", component_owner.name, " 已到达目标位置")
 	

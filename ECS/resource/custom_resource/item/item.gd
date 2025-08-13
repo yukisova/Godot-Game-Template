@@ -22,11 +22,11 @@ func get_grid_value() -> int:
 	return item_tilesize.x * item_tilesize.y
 
 func _check(...args):
-	var c_status = args[0] as C_Status
+	var c_status = args[0] as CStatus
 	print("玩家的名字 ", c_status.component_owner.name)
 	
 func _use(...args):
-	var c_status = args[0] as C_Status
+	var c_status = args[0] as CStatus
 	
 const STR_NAME = "name"
 const STR_FUNC = "func"

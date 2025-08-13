@@ -22,7 +22,7 @@ extends ReactorExtension
 
 ## 背包扩展组件
 ## 为思维界面提供背包数据支持
-@export var c_status: C_Status
+@export var c_status: CStatus
 
 ## 暂停界面场景
 ## 包含游戏设置、退出游戏等游戏外相关的设置菜单

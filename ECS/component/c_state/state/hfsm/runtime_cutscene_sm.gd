@@ -1,5 +1,5 @@
 @tool
-class_name RuntimeCutsceneState
+class_name RuntimeCutsceneSM
 extends StateMachineAIO
 
 func _setup() -> void:

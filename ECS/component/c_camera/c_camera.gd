@@ -17,7 +17,7 @@
 ## - 平滑相机过渡
 ## - 可配置的跟随参数
 @tool
-class_name C_Camera
+class_name CCamera
 extends IComponent
 
 @export_group("镜头控制策略","camera")

@@ -107,7 +107,7 @@ func confirm_interact_callable(interaction_info: InteractionRecordInfo):
 						interaction_info.interaction.interact_activated.emit(_body.get_parent())
 					else:
 						var entity = _body.owner as IEntity
-						var c_input_reactor: C_InputReactor = entity.list_base_components.get(IComponent.ComponentName.c_input_reactor)
+						var c_input_reactor: CInputReactor = entity.list_base_components.get(IComponent.ComponentName.c_input_reactor)
 						if c_input_reactor:
 							c_input_reactor.interact_obj = interaction_info.interaction )
 			interaction_info.callable_deactived = Callable(func(_body: Node2D):
@@ -115,7 +115,7 @@ func confirm_interact_callable(interaction_info: InteractionRecordInfo):
 					interaction_info.interaction.interact_deactivated.emit()
 					if not interaction_info.is_passive:
 						var entity = _body.owner as IEntity
-						var c_input_reactor: C_InputReactor = entity.list_base_components.get(IComponent.ComponentName.c_input_reactor)
+						var c_input_reactor: CInputReactor = entity.list_base_components.get(IComponent.ComponentName.c_input_reactor)
 						if c_input_reactor:
 							c_input_reactor.interact_obj = null )
 		InteractionRecord.InteractType.AreaEntered:

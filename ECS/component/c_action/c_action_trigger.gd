@@ -17,7 +17,7 @@
 ## - 与输入系统集成
 ## - 可扩展的行为类型
 @tool
-class_name C_ActionTrigger
+class_name CActionTrigger
 extends IComponent
 
 ## 行为搜索信号（已废弃）

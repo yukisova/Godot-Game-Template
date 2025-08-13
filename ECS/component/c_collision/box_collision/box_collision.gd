@@ -21,7 +21,7 @@ extends Area2D
 
 ## 绑定的碰撞组件
 ## 指向拥有此碰撞体的碰撞组件实例
-var c_collision: C_Collision
+var c_collision: CCollision
 
 ## 启用朝向旋转
 ## 当设置为true时，碰撞体会根据实体的移动方向自动旋转

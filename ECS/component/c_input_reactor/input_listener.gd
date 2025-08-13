@@ -21,7 +21,7 @@ extends Node
 
 ## 绑定的输入组件
 ## 指向当前激活的玩家输入响应组件
-var binding_input_component: C_InputReactor = null
+var binding_input_component: CInputReactor = null
 
 ## 主循环处理
 ## 检查输入组件绑定状态并调用输入监听

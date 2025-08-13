@@ -41,7 +41,7 @@ signal hurted(hit_damage: int)
 
 ## 状态组件引用
 ## 用于获取和更新实体的生命值、防御力等状态信息
-@export var c_status: C_Status
+@export var c_status: CStatus
 
 ## 受伤特效行为
 ## 受到伤害时执行的特效或反馈行为

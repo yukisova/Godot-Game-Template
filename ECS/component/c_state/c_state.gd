@@ -16,7 +16,7 @@
 ## - 状态历史记录
 ## - 关键词索引的快速状态访问
 @tool
-class_name C_State
+class_name CState
 extends IComponent
 
 ## 根状态机

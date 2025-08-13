@@ -17,7 +17,7 @@
 ## - 与其他系统的集成接口
 ## - 运行时位置更新
 @tool
-class_name C_Marker
+class_name CMarker
 extends IComponent
 
 ## 标记类型枚举

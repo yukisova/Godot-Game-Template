@@ -20,7 +20,7 @@
 ## - 暂停/恢复机制
 ## - 模糊更新支持
 ## - 可扩展的状态行为
-@abstract class_name State
+@abstract class_name IState
 extends Node
 
 ## 进入状态

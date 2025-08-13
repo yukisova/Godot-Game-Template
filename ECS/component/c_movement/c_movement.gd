@@ -16,7 +16,7 @@
 ## - 支持平滑过渡和插值
 ## - 可配置的移动参数
 @tool
-class_name C_Movement
+class_name CMovement
 extends IComponent
 
 ## 移动策略

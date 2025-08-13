@@ -24,7 +24,7 @@
 ## - 战斗系统：技能释放和状态效果管理
 @tool
 @abstract class_name StateHfsm
-extends State
+extends IState
 
 ## PDA状态弹出信号
 ## 当需要从状态栈中弹出状态时发出
@@ -60,7 +60,7 @@ var confirm_pda_state_dict: Dictionary[String, StatePda]
 ## PDA状态栈
 ## 存储当前状态的状态栈，栈顶状态（最后一个）为当前执行的状态
 ## 初始状态包含自身作为栈底
-var pda_state_stack: Array[State] = [self]
+var pda_state_stack: Array[IState] = [self]
 
 ## 状态设置
 ## 初始化信号连接和PDA状态字典
@@ -163,7 +163,7 @@ func _u(_delta: float) -> void:
 			state_poped.emit()
 	
 	# 执行栈中其他状态的模糊更新
-	for state: State in pda_state_stack:
+	for state: IState in pda_state_stack:
 		# 跳过栈顶状态（已经执行过主更新）和非自身的栈顶状态
 		if state == pda_state_stack[-1] and state != self:
 			continue

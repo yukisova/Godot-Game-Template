@@ -21,6 +21,7 @@ extends ReactorExtension
 ## 交互射线
 ## 用于检测交互目标的射线组件
 @export var interact_ray: InteractRay
+@export var c_status: CStatus
 
 ## 监听射线交互操作
 ## 更新射线朝向并处理交互确认
@@ -36,6 +37,7 @@ func _listen():
 	var vector = interact_ray.global_position.direction_to(interact_ray.get_global_mouse_position())
 	# 设置射线朝向鼠标方向
 	interact_ray.rotation = vector.angle()
+
 	
 	# 检测交互键按下事件
 	if Input.is_action_just_pressed("interact"):

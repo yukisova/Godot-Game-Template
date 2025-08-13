@@ -20,7 +20,7 @@
 ## - 状态变化事件系统
 ## - 状态归零时的特殊处理（如死亡）
 @tool
-class_name C_Status
+class_name CStatus
 extends IComponent
 
 ## 状态超限信号

@@ -66,7 +66,7 @@ extends MarginContainer
 				button_container_popum = v
 			scene.queue_free()
 
-var binding_status: C_Status
+var binding_status: CStatus
 
 var button_container: ButtonContainer: ## 已经存在的ButtonContainer
 	set(v):

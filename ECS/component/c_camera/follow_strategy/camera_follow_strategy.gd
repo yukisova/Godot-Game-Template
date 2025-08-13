@@ -21,7 +21,7 @@ extends Node
 
 ## 绑定的相机组件
 ## 策略将作用于此相机组件，由相机组件在初始化时设置
-var c_camera: C_Camera
+var c_camera: CCamera
 
 ## 执行跟随策略
 ## 每帧调用的核心相机跟随逻辑实现

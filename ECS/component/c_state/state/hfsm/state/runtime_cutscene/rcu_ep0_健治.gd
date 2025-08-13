@@ -1,7 +1,7 @@
 @tool
-extends RuntimeCutsceneState
+extends RuntimeCutsceneSM
 
-@export var c_navigation: C_Navigation
+@export var c_navigation: CNavigation
 @export var movement_speed: int = 3000
 @export var target_marker: Marker2D
 @export var c_interactable: C_Interactable

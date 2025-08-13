@@ -2,7 +2,7 @@
 @tool
 extends StateHfsm
 
-var c_navigation: C_Navigation
+var c_navigation: CNavigation
 var path_refresh_timer: Timer
 var velocity_computed_enable: bool = true
 var follow_speed = 3000

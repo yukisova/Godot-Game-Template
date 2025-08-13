@@ -21,7 +21,7 @@ extends Node
 
 ## 绑定的输入响应组件
 ## 扩展将通过此组件访问输入状态和实体信息
-var c_input_reactor: C_InputReactor
+var c_input_reactor: CInputReactor
 
 ## 监听输入事件
 ## 每帧调用的输入监听逻辑，子类需要实现具体的监听行为

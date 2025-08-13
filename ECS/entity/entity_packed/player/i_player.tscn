@@ -43,7 +43,7 @@ metadata/_custom_type_script = "uid://cpdkw72ahtbjj"
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_qcfhx"]
 size = Vector2(32, 10)
 
-[node name="野比大雄" node_paths=PackedStringArray("main_control", "component_container") instance=ExtResource("1_cpfht")]
+[node name="IPlayer" node_paths=PackedStringArray("main_control", "component_container") instance=ExtResource("1_cpfht")]
 script = ExtResource("2_s6qkr")
 main_control = NodePath("CharacterBody")
 component_container = NodePath("CharacterBody/ComponentContainer")

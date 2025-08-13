@@ -31,7 +31,7 @@ extends BoxCollision
 
 ## 状态组件引用
 ## 用于获取实体的攻击力、暴击率等战斗属性
-@export var status: C_Status
+@export var status: CStatus
 
 ## 碰撞形状组件
 ## 定义攻击判定的具体范围和形状

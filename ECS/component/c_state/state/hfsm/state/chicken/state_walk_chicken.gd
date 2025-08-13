@@ -5,7 +5,7 @@ extends StateHfsm
 
 @export var animated_sprite: AnimatedSprite2D
 @export var vector_move: MoveStrategy
-@export var c_navigation: C_Navigation
+@export var c_navigation: CNavigation
 
 @export var walk_state_time_range: Vector2 = Vector2(3.0, 5.0)
 @export var walk_speed_range: Vector2 = Vector2(5, 10)

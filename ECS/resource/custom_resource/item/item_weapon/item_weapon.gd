@@ -7,12 +7,12 @@ extends Item
 var is_equipped: bool
 
 func _equip(...args):
-	var c_status = args[0] as C_Status
+	var c_status = args[0] as CStatus
 	var equipment: EquipmentExtension = c_status.status_extension[StatusExtension.ExtensionType.EQUIPMENT]
 	equipment.attack_node_changed.emit(self)
 
 func _unequip(...args):
-	var c_status = args[0] as C_Status
+	var c_status = args[0] as CStatus
 	var equipment: EquipmentExtension = c_status.status_extension[StatusExtension.ExtensionType.EQUIPMENT]
 	equipment.attack_node_changed.emit(null)
 

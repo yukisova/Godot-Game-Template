@@ -3,7 +3,7 @@
 extends Action
 
 @export var drop_item: PackedScene
-@export var c_status: C_Status
+@export var c_status: CStatus
 @export var drop_item_data: Item
 
 func _ready() -> void:

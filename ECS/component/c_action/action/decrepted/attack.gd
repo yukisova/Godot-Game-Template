@@ -1,6 +1,6 @@
 extends Action
 
-@export var c_status: C_Status
+@export var c_status: CStatus
 
 func _effect(...args):
     var equipment: EquipmentExtension = c_status.status_extension[StatusExtension.ExtensionType.EQUIPMENT]

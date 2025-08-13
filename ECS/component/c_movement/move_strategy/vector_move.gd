@@ -21,7 +21,7 @@ extends MoveStrategy
 
 ## 输入响应组件引用
 ## 如果设置，将从该组件获取移动输入；如果为null，则需要手动设置move_vector
-@export var c_input: C_InputReactor = null
+@export var c_input: CInputReactor = null
 
 ## 移动向量
 ## 控制实体的移动方向和强度，自动处理输入控制和AI控制两种模式

@@ -3,7 +3,7 @@
 extends StatePda
 
 @export var vector_move: MoveStrategy
-@export var c_navigation: C_Navigation
+@export var c_navigation: CNavigation
 
 ## ZoneRandomPatrol状态下的随机速度
 @export var walk_speed_range: Vector2 = Vector2(5, 10)
