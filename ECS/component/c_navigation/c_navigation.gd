@@ -51,18 +51,20 @@ var target_entity: IEntity
 @export var nav_agent_resource: Array[NavigationAgent2D]
 
 func _enter_tree() -> void:
-	component_name = ComponentName.c_navigation
+	component_name = ComponentName.C_NAVIGATION
 
 ## 组件初始化
 ## 设置导航代理的基本配置
 ## @param _owner: 拥有此组件的实体
-func _initialize(_owner: IEntity):
-	super._initialize(_owner)
+func _initialize(_owner: IEntity, _load_data: Dictionary = {}):
+	super._initialize(_owner, _load_data)
 	
 	# 配置主导航代理
 	if nav_agent:
 		nav_agent.velocity_computed.connect(_on_velocity_computed)
 		nav_agent.target_reached.connect(_on_target_reached)
+	
+	initialize_complete.emit()
 
 ## 设置导航目标位置
 ## @param position: 目标位置的世界坐标

@@ -32,7 +32,7 @@ var c_collision: CCollision
 var enable_rotate_by_award: bool = false:
 	set(v):
 		# 只有拥有移动组件的实体才能启用朝向旋转
-		if c_collision.component_owner.list_base_components.has(IComponent.ComponentName.c_movement):
+		if c_collision.component_owner.list_base_components.has(IComponent.ComponentName.C_MOVEMENT):
 			enable_rotate_by_award = v
 		else:
 			enable_rotate_by_award = false

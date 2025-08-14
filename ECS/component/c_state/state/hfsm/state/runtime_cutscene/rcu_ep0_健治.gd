@@ -4,7 +4,7 @@ extends RuntimeCutsceneSM
 @export var c_navigation: CNavigation
 @export var movement_speed: int = 3000
 @export var target_marker: Marker2D
-@export var c_interactable: C_Interactable
+@export var c_interactable: CInteractable
 
 var true_toward: Vector2
 

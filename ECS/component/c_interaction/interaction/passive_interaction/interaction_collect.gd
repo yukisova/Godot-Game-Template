@@ -43,7 +43,7 @@ func _on_interact_activated(_target_entity: FixedEntity):
 		return
 	
 	# 获取目标实体的状态组件
-	var status_component: CStatus = _target_entity.list_base_components.get(IComponent.ComponentName.c_status)
+	var status_component: CStatus = _target_entity.list_base_components.get(IComponent.ComponentName.C_STATUS)
 	if status_component == null:
 		push_warning("拾取交互: 目标实体没有状态组件，无法拾取物品")
 		return
@@ -100,7 +100,7 @@ func can_pickup(target_entity: FixedEntity) -> bool:
 	if not binding_item:
 		return false
 	
-	var status_component: CStatus = target_entity.list_base_components.get(IComponent.ComponentName.c_status)
+	var status_component: CStatus = target_entity.list_base_components.get(IComponent.ComponentName.C_STATUS)
 	if not status_component:
 		return false
 	

@@ -66,14 +66,14 @@ func _process(delta: float) -> void:
 ## @param data: 存档数据文件
 func _data_saving(_data: SavedDataFile):
 	# TODO: 实现黑板数据的存档逻辑
-	pass	
+	_data.blackboard_info = blackboard_info
 
 ## 存档数据加载
 ## 从存档文件中恢复黑板数据
 ## @param data: 存档数据文件
 func _data_loading(_data: SavedDataFile):
 	# TODO: 实现黑板数据的读档逻辑
-	pass
+	blackboard_info = _data.blackboard_info
 #endregion
 
 #region 黑板数据操作

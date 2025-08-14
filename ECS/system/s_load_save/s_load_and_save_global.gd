@@ -29,15 +29,6 @@ signal saving_started
 ## 触发系统开始加载存档数据，等待所有加载项完成
 signal loading_started
 
-## 游戏加载刷新信号
-## 当存档数据加载完成后触发，传递加载的数据字典
-signal loading_refreshed(data: Dictionary)
-
-## 游戏运行时数据缓存
-## 存储游戏运行时的临时数据，用于全局共享（类似黑板功能）
-## TODO: 考虑是否需要此功能，或用更好的方案替代
-var gaming_data_cache: Dictionary = {}
-
 ## 当前存档数据
 ## 保存最近加载的存档文件引用，用于数据追踪和调试
 var current_saved: SavedDataFile = null
@@ -51,7 +42,6 @@ func _enter_tree() -> void:
 ## 系统重置
 ## 清空运行时缓存数据，准备新的游戏会话
 func _resetup():
-	gaming_data_cache.clear()
 	current_saved = null
 
 ## 执行数据保存
@@ -66,12 +56,8 @@ func _data_saving():
 	SBlackboard._data_saving(data)
 	await SMapData._data_saving(data)
 	
-	# 保存运行时缓存数据
-	if not gaming_data_cache.is_empty():
-		data.add_system_data("LoadAndSave", {"gaming_cache": gaming_data_cache})
-	
 	# 写入存档文件
-	var save_path = "res://test_save.json"
+	var save_path = "res://test_save.tres"
 	var error = ResourceSaver.save(data, save_path)
 	
 	if error == OK:
@@ -84,7 +70,7 @@ func _data_saving():
 func _data_loading():
 	print("存档系统: 开始加载游戏数据...")
 	
-	var save_path = "res://test_save.json"
+	var save_path = "res://test_save.tres"
 	
 	# 检查存档文件是否存在
 	if not FileAccess.file_exists(save_path):
@@ -103,31 +89,4 @@ func _data_loading():
 	SBlackboard._data_loading(data)
 	SMapData._data_loading(data)
 	
-	# 恢复运行时缓存
-	var load_save_data = data.get_system_data("LoadAndSave")
-	if load_save_data.has("gaming_cache"):
-		gaming_data_cache = load_save_data.gaming_cache
-	
-	# 触发加载完成事件
-	loading_refreshed.emit(data.get_all_data())
 	print("存档系统: 数据加载完成")
-
-## 设置运行时缓存数据
-## @param key: 缓存键名
-## @param value: 缓存值
-func set_cache_data(key: String, value: Variant):
-	gaming_data_cache[key] = value
-
-## 获取运行时缓存数据
-## @param key: 缓存键名
-## @param default: 默认值
-## @return: 缓存值或默认值
-func get_cache_data(key: String, default: Variant = null) -> Variant:
-	return gaming_data_cache.get(key, default)
-
-## 检查运行时缓存是否存在
-## @param key: 缓存键名
-## @return: 是否存在
-func has_cache_data(key: String) -> bool:
-	return gaming_data_cache.has(key)
-	

@@ -206,39 +206,22 @@ func _update_inventory_stats():
 			current_pack_num += 1
 			current_weight_num += item.get_weight()
 
-## 获取自定义存档数据
-## @return: 背包数据的存档格式
-func _get_custom_save_data() -> Dictionary:
-	var item_data = []
-	for item in inventory_array:
-		if item != null:
-			item_data.append(item.get_save_data())
-		else:
-			item_data.append(null)
-	
+#region
+func _save() -> Dictionary:
 	return {
-		"inventory_array": item_data,
-		"inventory_pack_num": inventory_pack_num,
-		"inventory_weight_num": inventory_weight_num
+		extention_type:{
+			"inventory_array": inventory_array.duplicate_deep(),
+			"inventory_pack_col": inventory_pack_col,
+			"inventory_pack_num": inventory_pack_num
+		}
 	}
 
-## 设置自定义存档数据
-## @param data: 存档数据
-func _set_custom_save_data(data: Dictionary):
-	if data.has("inventory_pack_num"):
-		inventory_pack_num = data.inventory_pack_num
-	if data.has("inventory_weight_num"):
-		inventory_weight_num = data.inventory_weight_num
+func _load(_data: Dictionary):
+	var _inventory_array: Array = _data["inventory_array"]
+	for item: Item in _inventory_array:
+		if item != null:
+			auto_add_inventory(item)
+	inventory_pack_col = _data["inventory_pack_col"] as int
+	inventory_pack_num = _data["inventory_pack_num"] as int
 	
-	if data.has("inventory_array"):
-		inventory_array.clear()
-		inventory_array.resize(inventory_pack_num)
-		
-		var item_data = data.inventory_array
-		for i in range(min(item_data.size(), inventory_pack_num)):
-			if item_data[i] != null:
-				# TODO: 从存档数据创建Item实例
-				# inventory_array[i] = Item.from_save_data(item_data[i])
-				pass
-	
-	_update_inventory_stats()
+#endregion

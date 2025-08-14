@@ -37,13 +37,13 @@ enum BoxRayName {
 var box_rays: Dictionary[BoxRayName, BoxRay] = {}
 
 func _enter_tree() -> void:
-	component_name = ComponentName.c_collision
+	component_name = ComponentName.C_COLLISION
 
 ## 组件初始化
 ## 收集并注册所有子节点中的碰撞检测器
 ## @param _owner: 拥有此组件的实体
-func _initialize(_owner: IEntity):
-	super._initialize(_owner)
+func _initialize(_owner: IEntity, _load_data: Dictionary = {}):
+	super._initialize(_owner, _load_data)
 	
 	# 遍历子节点，收集碰撞检测器
 	for child in get_children():
@@ -51,6 +51,8 @@ func _initialize(_owner: IEntity):
 			box_collision[child.box_collision_name] = child
 		elif child is BoxRay:
 			box_rays[child.box_ray_name] = child
+	
+	initialize_complete.emit()
 
 func _update(_delta: float):
 	for collision in box_collision.values():

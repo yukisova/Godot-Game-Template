@@ -30,17 +30,19 @@ signal _action_searched
 @export var time_records: Array[TimeRecord]
 
 func _enter_tree() -> void:
-	component_name = ComponentName.c_action_queue_trigger
+	component_name = ComponentName.C_ACTION_TRIGGER
 
 ## 组件初始化
 ## 将所有子节点中的Action绑定到本组件，便于访问实体信息
 ## @param _owner: 拥有此组件的实体
-func _initialize(_owner: IEntity):
-	super._initialize(_owner)
+func _initialize(_owner: IEntity, _load_data: Dictionary = {}):
+	super._initialize(_owner, _load_data)
 	
 	# 绑定所有Action子节点
 	for action: Action in get_children():
 		action.c_action = self
+	
+	initialize_complete.emit()
 
 ## 时间记录比较
 ## 检查当前时间是否匹配任何时间记录，并触发对应的行为

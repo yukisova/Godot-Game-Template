@@ -25,19 +25,21 @@ extends IComponent
 var composites_dict: Dictionary[StringName, Control] = {}
 
 func _enter_tree() -> void:
-	component_name = ComponentName.c_balloon
+	component_name = ComponentName.C_BALLOON
 
 ## 组件初始化
 ## 收集所有子节点中的Control控件作为气泡UI元素
 ## @param _owner: 拥有此组件的实体
-func _initialize(_owner: IEntity):
-	super._initialize(_owner)
+func _initialize(_owner: IEntity, _load_data: Dictionary = {}):
+	super._initialize(_owner, _load_data)
 	
 	# 收集所有Control类型的子节点
 	for control: Control in get_children():
 		composites_dict[control.name] = control
 		# 初始时隐藏所有气泡UI
 		control.visible = false
+	
+	initialize_complete.emit()
 
 ## 目标气泡淡入效果
 ## 使指定名称的气泡UI以淡入效果显示

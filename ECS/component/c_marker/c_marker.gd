@@ -43,17 +43,19 @@ enum MarkerType {
 @export var description: String = ""
 
 func _enter_tree() -> void:
-	component_name = ComponentName.c_marker
+	component_name = ComponentName.C_MARKER
 
 ## 组件初始化
 ## 设置标记的基本属性和注册到相关系统
 ## @param _owner: 拥有此组件的实体
-func _initialize(_owner: IEntity):
-	super._initialize(_owner)
+func _initialize(_owner: IEntity, _load_data: Dictionary = {}):
+	super._initialize(_owner, _load_data)
 	
 	# 如果没有设置标记ID，使用实体名称作为默认ID
 	if marker_id.is_empty():
 		marker_id = component_owner.name + "_marker"
+	
+	initialize_complete.emit()
 
 ## 获取标记位置
 ## @return: 标记在世界坐标系中的位置

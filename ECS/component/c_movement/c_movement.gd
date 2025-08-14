@@ -24,18 +24,20 @@ extends IComponent
 @export var move_strategy: MoveStrategy
 
 func _enter_tree() -> void:
-	component_name = ComponentName.c_movement
+	component_name = ComponentName.C_MOVEMENT
 
 ## 组件初始化
 ## 设置移动策略的绑定实体并执行策略初始化
 ## @param _owner: 拥有此组件的实体
-func _initialize(_owner: IEntity):
-	super._initialize(_owner)
+func _initialize(_owner: IEntity, _load_data: Dictionary = {}):
+	super._initialize(_owner, _load_data)
 
 	# 绑定实体到移动策略
 	move_strategy.binding_entity = component_owner
 	# 执行策略的检查和初始化
 	move_strategy._check_and_init()
+	
+	initialize_complete.emit()
 
 ## 移动逻辑更新
 ## 每帧调用移动策略的更新方法来执行移动逻辑

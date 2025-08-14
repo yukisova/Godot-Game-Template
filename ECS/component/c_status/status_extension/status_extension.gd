@@ -43,32 +43,8 @@ var c_status: CStatus
 ## 扩展的核心逻辑实现，定期或在特定条件下执行
 @abstract func _effect()
 
-## 扩展状态保存
-## 将扩展的当前状态保存为字典格式，用于存档系统
-## @return: 包含扩展状态的字典
-func _save_extension() -> Dictionary:
-	return {
-		"extension_type": extention_type,
-		"custom_data": _get_custom_save_data()
-	}
-
 ## 扩展状态加载
 ## 从存档数据恢复扩展状态
 ## @param data: 包含扩展状态的字典
-func _load_extension(data: Dictionary):
-	if data.has("extension_type"):
-		extention_type = data.extension_type
-	if data.has("custom_data"):
-		_set_custom_save_data(data.custom_data)
-
-## 获取自定义存档数据
-## 子类重写此方法来保存特定的扩展数据
-## @return: 自定义数据字典
-func _get_custom_save_data() -> Dictionary:
-	return {}
-
-## 设置自定义存档数据
-## 子类重写此方法来恢复特定的扩展数据
-## @param data: 自定义数据字典
-func _set_custom_save_data(_data: Dictionary):
-	pass
+@abstract func _save() -> Dictionary
+@abstract func _load(_data: Dictionary)

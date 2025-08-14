@@ -30,13 +30,13 @@ extends IComponent
 @export var camera_source: Camera2D
 
 func _enter_tree() -> void:
-	component_name = ComponentName.c_camera
+	component_name = ComponentName.C_CAMERA
 
 ## 组件初始化
 ## 设置相机策略绑定和相机边界限制
 ## @param _owner: 拥有此组件的实体
-func _initialize(_owner: IEntity):
-	super._initialize(_owner)
+func _initialize(_owner: IEntity, _load_data: Dictionary = {}):
+	super._initialize(_owner, _load_data)
 	
 	# 绑定相机策略到组件
 	camera_strategy.c_camera = self
@@ -46,6 +46,8 @@ func _initialize(_owner: IEntity):
 		set_camera_limit(SMapData.current_level.get_camera_limit())
 	else:
 		push_warning("相机组件: 当前关卡数据不存在，无法设置相机边界")
+	
+	initialize_complete.emit()
 
 ## 设置相机边界限制
 ## 根据关卡数据设置相机的移动边界

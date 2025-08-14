@@ -66,3 +66,17 @@ func _on_equipment_node_changed(item_equipment: ItemEquipment):
 	else:
 		current_equipment = null
 		current_equipment_node = null
+
+#region
+func _save() -> Dictionary:
+	return {
+		extention_type:{
+			"current_weapon": current_weapon.duplicate_deep() if current_weapon else null,
+			"current_equipment": current_equipment.duplicate_deep() if current_equipment else null
+		}
+	}
+
+func _load(_data: Dictionary):
+	attack_node_changed.emit(_data["current_weapon"] as ItemWeapon)
+	equipment_node_changed.emit(_data["current_equipment"] as ItemEquipment)
+#endregion

@@ -54,10 +54,10 @@ var interact_obj: Interaction = null:
 		interact_obj = v
 
 func _enter_tree() -> void:
-	component_name = ComponentName.c_input_reactor
+	component_name = ComponentName.C_INPUT_REACTOR
 
-func _initialize(_owner: IEntity):
-	super._initialize(_owner)
+func _initialize(_owner: IEntity, _load_data: Dictionary = {}):
+	super._initialize(_owner, _load_data)
 	
 	if component_owner == SMainController.player_static:
 		SMainController.input_listener.binding_input_component = self
@@ -67,6 +67,8 @@ func _initialize(_owner: IEntity):
 		if i is ReactorExtension:
 			reactor_extension.append(i)
 			i.c_input_reactor = self
+	
+	initialize_complete.emit()
 			
 
 ## 验证控制输入

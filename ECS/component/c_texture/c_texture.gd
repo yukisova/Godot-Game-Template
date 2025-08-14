@@ -37,17 +37,19 @@ extends IComponent
 @export var sprite_change_list: Dictionary[String, Texture2D]
 
 func _enter_tree() -> void:
-	component_name = ComponentName.c_texture
+	component_name = ComponentName.C_TEXTURE
 
 ## 组件初始化
 ## 验证纹理路径和动画组件的有效性
 ## @param _owner: 拥有此组件的实体
-func _initialize(_owner: IEntity):
-	super._initialize(_owner)
+func _initialize(_owner: IEntity, _load_data: Dictionary = {}):
+	super._initialize(_owner, _load_data)
 	
 	# 验证纹理路径是否有效
 	if not has_node(texture_path):
 		push_warning("纹理组件: 纹理路径无效 - ", texture_path)
+	
+	initialize_complete.emit()
 
 ## 获取纹理节点
 ## 返回当前配置的精灵节点实例

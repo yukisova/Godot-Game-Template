@@ -33,13 +33,13 @@ extends IComponent
 var pda_state_dict: Dictionary[StringName, StatePda]
 
 func _enter_tree() -> void:
-	component_name = ComponentName.c_state
+	component_name = ComponentName.C_STATE
 
 ## 组件初始化
 ## 收集所有下推状态，启动并初始化根状态机
 ## @param _owner: 拥有此组件的实体
-func _initialize(_owner: IEntity):
-	super._initialize(_owner)
+func _initialize(_owner: IEntity, _load_data: Dictionary = {}):
+	super._initialize(_owner, _load_data)
 	
 	# 连接游戏暂停信号
 	SGameState.game_paused.connect(_pause)
@@ -56,6 +56,8 @@ func _initialize(_owner: IEntity):
 		root_state_machine._enter()
 	else:
 		push_warning("状态机组件: 实体 ", component_owner.name, " 缺少根状态机")
+	
+	initialize_complete.emit()
 
 ## 状态机更新
 ## 每帧更新根状态机的逻辑

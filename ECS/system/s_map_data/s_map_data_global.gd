@@ -142,7 +142,7 @@ func _on_level_changed(operate_entity: FixedEntity, new_level: Level):
 		SObjectPool.level_pool_cleared.emit(current_level)
 		
 		# 更新相机限制范围
-		var camera = operate_entity.list_base_components.get(IComponent.ComponentName.c_camera) as CCamera
+		var camera = operate_entity.list_base_components.get(IComponent.ComponentName.C_CAMERA) as CCamera
 		if camera:
 			camera.set_camera_limit(new_level.get_camera_limit())
 		

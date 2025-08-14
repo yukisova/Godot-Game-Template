@@ -45,7 +45,6 @@ size = Vector2(32, 10)
 
 [node name="IPlayer" node_paths=PackedStringArray("main_control", "component_container") instance=ExtResource("1_cpfht")]
 script = ExtResource("2_s6qkr")
-init_data = null
 main_control = NodePath("CharacterBody")
 component_container = NodePath("CharacterBody/ComponentContainer")
 

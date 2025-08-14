@@ -20,7 +20,7 @@
 ## - 可配置的交互条件
 ## - 与输入系统无缝集成
 @tool
-class_name C_Interactable
+class_name CInteractable
 extends IComponent
 
 ## 交互记录资源数组
@@ -61,13 +61,13 @@ class InteractionRecordInfo:
 		interact_type = _interact_type
 
 func _enter_tree() -> void:
-	component_name = ComponentName.c_interaction
+	component_name = ComponentName.C_INTERACTABLE
 
 ## 组件初始化
 ## 解析交互记录资源，创建交互信息对象，并绑定相关的交互目标
 ## @param _owner: 拥有此组件的实体
-func _initialize(_owner: IEntity):
-	super._initialize(_owner)
+func _initialize(_owner: IEntity, _load_data: Dictionary = {}):
+	super._initialize(_owner, _load_data)
 	
 	# 清空现有交互信息
 	interaction_infos.clear()
@@ -94,6 +94,8 @@ func _initialize(_owner: IEntity):
 	# 为每个交互信息确认回调函数
 	for interaction_action in interaction_infos.values():
 		confirm_interact_callable(interaction_action)
+	
+	initialize_complete.emit()
 
 ## 确认交互回调函数
 ## 根据交互类型设置相应的激活和取消激活回调函数
@@ -107,7 +109,7 @@ func confirm_interact_callable(interaction_info: InteractionRecordInfo):
 						interaction_info.interaction.interact_activated.emit(_body.get_parent())
 					else:
 						var entity = _body.owner as FixedEntity
-						var c_input_reactor: CInputReactor = entity.list_base_components.get(IComponent.ComponentName.c_input_reactor)
+						var c_input_reactor: CInputReactor = entity.list_base_components.get(IComponent.ComponentName.C_INPUT_REACTOR)
 						if c_input_reactor:
 							c_input_reactor.interact_obj = interaction_info.interaction )
 			interaction_info.callable_deactived = Callable(func(_body: Node2D):
@@ -115,7 +117,7 @@ func confirm_interact_callable(interaction_info: InteractionRecordInfo):
 					interaction_info.interaction.interact_deactivated.emit()
 					if not interaction_info.is_passive:
 						var entity = _body.owner as FixedEntity
-						var c_input_reactor: CInputReactor = entity.list_base_components.get(IComponent.ComponentName.c_input_reactor)
+						var c_input_reactor: CInputReactor = entity.list_base_components.get(IComponent.ComponentName.C_INPUT_REACTOR)
 						if c_input_reactor:
 							c_input_reactor.interact_obj = null )
 		InteractionRecord.InteractType.AreaEntered:

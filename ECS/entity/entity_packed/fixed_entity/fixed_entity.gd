@@ -54,22 +54,24 @@ func _setup():
 ## @param need_disconnect: 是否需要断开信号连接（用于延迟初始化场景）
 func _initialize(need_disconnect: bool = false):
 	await _init_data_binding(_fixed_context(init_data))
+
+	var load_data_for_components = {}
 	# 如果存在存档数据，先加载存档
 	if SLoadAndSave.current_saved:
-		_load_by(SLoadAndSave.current_saved)
-
+		load_data_for_components = _load_by(SLoadAndSave.current_saved)
+	
 	# 初始化接口组件（直接挂载在实体下的组件）
 	for interface in get_children():
 		if (interface is IComponent):
-			interface._initialize(self)
+			interface._initialize(self, load_data_for_components.get(interface.component_name, {}))
 			list_interface_components[interface.component_name] = interface
 	
 	# 初始化基础组件（挂载在组件容器下的组件）
 	for component in component_container.get_children():
 		if (component is IComponent):
-			component._initialize(self)
+			component._initialize(self, load_data_for_components.get(component.component_name, {}))
 			list_base_components[component.component_name] = component
-	
+
 	# 如果是延迟初始化，断开信号连接
 	if need_disconnect:
 		SSignalBus.entity_initialize_started.disconnect(_initialize)
@@ -105,47 +107,13 @@ func _fixed_update(_delta: float):
 ## 将实体及其所有组件的状态保存到存档数据中
 ## @param _data: 存档数据文件对象（当前未使用，为将来扩展预留）
 ## @return: 包含实体完整信息的存档字典
-func _save_as(_data: SavedDataFile):
-	var result: Dictionary = {}
-	result["type"] = "entity"
-	
-	# 保存实体基础信息
-	result[" "] = {
-		"start_position": global_position,          # 实体初始位置
-		"current_position": main_control.global_position,  # 当前位置
-		"scene_file_path": scene_file_path,         # 场景文件路径
-		"current_level_index": get_parent().get_index()    # 在关卡中的索引
-	}
-	
-	# 保存所有基础组件的数据
-	for component in list_base_components.values():
-		result.merge(component._save_as())
-	
-	# 保存所有接口组件的数据
-	for component in list_interface_components.values():
-		result.merge(component._save_as())
-	
-	return {
-		name: result
-	}
+func _save_as(_data: SavedDataFile) -> Dictionary:
+	return {}
 	
 ## 加载实体数据
 ## 从存档数据中恢复实体及其组件的状态
 ## @param _data: 存档数据文件对象（当前未使用，为将来扩展预留）
 ## @param args: 额外的加载参数
-func _load_by(_data: SavedDataFile, ...args):
-	# 等待实体初始化完成
-	await initialize_complete
-	
-	if args.size() > 0 and args[0] is Dictionary:
-		var dict = args[0]
-		
-		# 恢复实体位置信息
-		global_position = dict[" "]["start_position"]
-		main_control.global_position = dict[" "]["current_position"]
-		
-		# 恢复组件数据
-		for key in dict.keys():
-			if key in IComponent.ComponentName and key in list_base_components:
-				list_base_components[key]._load_by(dict[key])
+func _load_by(_data: SavedDataFile) -> Dictionary:
+	return {}
 #endregion

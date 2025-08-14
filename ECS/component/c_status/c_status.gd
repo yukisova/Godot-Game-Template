@@ -99,13 +99,13 @@ var numinfo_list: Dictionary[SoraConstant.StatusEnum, NumInfo] = {}
 var status_extension: Dictionary[StatusExtension.ExtensionType, StatusExtension] = {}
 
 func _enter_tree() -> void:
-	component_name = ComponentName.c_status
+	component_name = ComponentName.C_STATUS
 
 ## 组件初始化
 ## 负责收集和配置所有状态扩展，并根据基础信息创建对应的状态对象
 ## @param _owner: 拥有此组件的实体
-func _initialize(_owner: IEntity):
-	super._initialize(_owner)
+func _initialize(_owner: IEntity, _load_data: Dictionary = {}):
+	super._initialize(_owner, _load_data)
 	
 	# 收集并初始化所有状态扩展
 	for extension in get_children():
@@ -114,17 +114,24 @@ func _initialize(_owner: IEntity):
 			extension._initialize()
 			extension.c_status = self
 	
+	if SLoadAndSave.current_saved:
 	# 根据基础信息创建状态对象
-	for key in basic_info.keys():
-		var info = basic_info[key]
-		# 根据枚举值的范围确定状态类型（状态信息：0-99，数值信息：100+）
-		match (key / 100):
-			0: # StatusInfo类型（0-99范围）
-				status_list[key] = StatusInfo.new(key, info, info)
-				status_list[key].status_overed.connect(_on_status_overed)
-			1: # NumInfo类型（100+范围）
-				numinfo_list[key] = NumInfo.new(key, info)
+		for key in basic_info.keys():
+			_add_status(key, {
+				"value": basic_info[key]
+			})
+	
+	initialize_complete.emit()
 
+func _add_status(key: int, dict: Dictionary):
+	var value = dict["value"]
+	@warning_ignore("integer_division")
+	match (key / 100):
+		0:
+			status_list[key] = StatusInfo.new(key, value, dict.get("max_value", value))
+			status_list[key].status_overed.connect(_on_status_overed)
+		1:
+			numinfo_list[key] = NumInfo.new(key, value)
 ## 组件更新
 ## 每帧调用所有状态扩展的效果方法
 ## @param _delta: 帧时间间隔
@@ -141,3 +148,53 @@ func _on_status_overed(_status_enum: SoraConstant.StatusEnum):
 		SoraConstant.StatusEnum.Health: # 生命值归零时销毁实体
 			print("%s因生命值归零被销毁" % [component_owner.name])
 			component_owner.queue_free.call_deferred()
+
+func _save() -> Dictionary:
+	var c_status_returned = {}
+	
+	var status_infos = {}
+	for status: StatusInfo in status_list.values():
+		var status_info = {
+			status.status_enum:{
+				"value" : status.value,
+				"max_value": status.max_value
+			}
+		}
+		status_infos.merge(status_info)
+	c_status_returned.merge({
+		"status_infos": status_infos
+	})
+	
+	var num_infos = {}
+	for num: NumInfo in numinfo_list.values():
+		var num_info = {
+			num.status_enum:{
+				"value": num.value
+			}
+		}
+		num_infos.merge(num_info)
+	c_status_returned.merge({
+		"num_infos": num_infos
+	})
+	
+	var extension_infos = {}
+	for extension: StatusExtension in status_extension.values():
+		var extension_info = extension._save()
+		extension_infos.merge(extension_info)
+	c_status_returned.merge({
+		"extension_infos": extension_infos
+	})
+	return {IComponent.ComponentName.C_STATUS: c_status_returned}
+
+func _load(_dict: Dictionary):
+	var status_infos = _dict["status_infos"]
+	for key in status_infos.keys():
+		_add_status(key, status_infos[key])
+	
+	var num_infos = _dict["num_infos"]
+	for key in num_infos.keys():
+		_add_status(key, num_infos[key])
+	
+	var extension_infos = _dict["extension_infos"]
+	for key in extension_infos.keys():
+		status_extension[key]._load(extension_infos[key])

@@ -145,13 +145,14 @@ func _remove_buff_effect(_buff_id: String, _buff_data: Dictionary):
 	# 基类默认无效果，子类应该重写此方法实现Buff移除时的清理
 	pass
 
-## 获取自定义存档数据
-## @return: Buff列表的存档数据
-func _get_custom_save_data() -> Dictionary:
-	return {"current_buff": current_buff}
+#region
+func _save() -> Dictionary:
+	return {
+		extention_type:{
+			
+		}
+	}
 
-## 设置自定义存档数据
-## @param data: 存档数据
-func _set_custom_save_data(data: Dictionary):
-	if data.has("current_buff"):
-		current_buff = data.current_buff
+func _load(_data: Dictionary):
+	pass
+#endregion

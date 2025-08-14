@@ -1,7 +1,10 @@
 ## @editing: Sora [br]
 ## @describe: 组件基类, 分为插件组件和固定组件
+@tool
 @abstract class_name IComponent
 extends Node
+
+signal initialize_complete
 
 enum ComponentType { ## 组件的状态
 	BASE = 0, ## 基础组件，在实体编辑时固定的基础性组件
@@ -9,19 +12,18 @@ enum ComponentType { ## 组件的状态
 }
 
 enum ComponentName {
-	c_action_queue_trigger = 0, ## 见[CActionTrigger]
-	c_texture, ## 见[C_Texture]
-	c_camera, ## 见[CCamera]
-	c_collision, ## 见[CCollision]
-	c_input_reactor, ## 见[CInputReactor]
-	c_interaction, ## 见[C_Interactable]
-	c_movement, ## 见[CMovement]
-	c_state, ## 见[CState]
-	c_status, ## 见[CStatus]
-	c_navigation, ## 见[CNavigation]
-	c_balloon, ## 见[CBalloon]
-	c_event_trigger, ## 见[C_EventTrigger]
-	c_marker ## 见[CMarker]
+	C_ACTION_TRIGGER = 0, ## 见[CActionTrigger]
+	C_TEXTURE, ## 见[C_Texture]
+	C_CAMERA, ## 见[CCamera]
+	C_COLLISION, ## 见[CCollision]
+	C_INPUT_REACTOR, ## 见[CInputReactor]
+	C_INTERACTABLE, ## 见[CInteractable]
+	C_MOVEMENT, ## 见[CMovement]
+	C_STATE, ## 见[CState]
+	C_STATUS, ## 见[CStatus]
+	C_NAVIGATION, ## 见[CNavigation]
+	C_BALLOON, ## 见[CBalloon]
+	C_MARKER ## 见[CMarker]
 }
 
 ## TODO 
@@ -40,12 +42,13 @@ var component_type: ComponentType: ## 实体的类型
 			)
 	get:
 		return component_type
-var component_context: Dictionary = {} ## 组件的上下文
 
-
-func _initialize(_owner: IEntity):
+func _initialize(_owner: IEntity, _load_data: Dictionary = {}):
 	if Engine.is_editor_hint():
 		return
+	if _load_data.size() > 0:
+		initialize_complete.connect(_load.bind(_load_data))
+
 	component_owner = _owner
 	component_body = component_owner.main_control
 
@@ -62,22 +65,11 @@ func _fixed_update(_delta: float):
 	if Engine.is_editor_hint():
 		return
 
-func _trigger_update():
-	if Engine.is_editor_hint():
-		return
-
-
-func get_controller() -> IComponent :
-	var input = component_owner.list_base_components.get(ComponentName.c_input_reactor)
-	return input
-
 #region :存档系统:
-func _save_as() -> Dictionary:
-	return { component_name:_data_to_dict() }
-
-func _data_to_dict() -> Dictionary:
+func _save() -> Dictionary:
 	return {}
 
-func _load_by(_dict: Dictionary):
+## 加载_initialiaze初始化的时候进行调用，但需要等待initialize_complete信号触发后才能进行加载
+func _load(_dict: Dictionary):
 	pass
 #endregion

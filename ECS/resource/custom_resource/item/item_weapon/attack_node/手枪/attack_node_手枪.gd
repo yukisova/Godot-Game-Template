@@ -110,7 +110,7 @@ func _attack():
 		return
 	
 	# 获取角色碰撞组件以计算射击方向
-	var c_collision: CCollision = c_status.component_owner.list_base_components[IComponent.ComponentName.c_collision]
+	var c_collision: CCollision = c_status.component_owner.list_base_components[IComponent.ComponentName.C_COLLISION]
 	if c_collision == null:
 		push_error("手枪攻击节点: 找不到碰撞组件，无法计算射击方向")
 		return
