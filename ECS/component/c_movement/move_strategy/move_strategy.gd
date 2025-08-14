@@ -25,7 +25,7 @@ enum MoveStrategyType {
 }
 
 ## 绑定的实体
-## 由移动组件传入，策略将作用于此实体
+## 由移动组件传入，策略将作用于此实体（支持FixedEntity和TempEntity）
 var binding_entity: IEntity
 
 ## 黑板节点
@@ -35,6 +35,9 @@ var binding_entity: IEntity
 ## 检查和初始化
 ## 验证策略的适用性并进行必要的初始化设置
 @abstract func _check_and_init()
+
+func _reset():
+	pass
 
 ## 更新移动逻辑
 ## 每帧调用的核心移动逻辑实现

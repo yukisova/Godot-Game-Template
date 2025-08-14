@@ -27,7 +27,7 @@ enum ComponentName {
 ## TODO 
 @export var initialize_from: String ## 在初始化的时候如果需要在外部自定义初始化的值，所在ContainerBlackboard中获取的
 
-var component_owner: IEntity ## 组件的拥有者, 即实体
+var component_owner: IEntity ## 组件的拥有者, 即实体（支持FixedEntity和TempEntity）
 var component_body: CollisionObject2D ## 实体的主碰撞体
 var component_name: ComponentName ## 用于实体内组件字典进行识别的类型枚举
 var component_type: ComponentType: ## 实体的类型
@@ -49,6 +49,10 @@ func _initialize(_owner: IEntity):
 	component_owner = _owner
 	component_body = component_owner.main_control
 
+#region :重置系统: 由实现类进行重写
+func _reset():
+	pass
+#endregion
 
 func _update(_delta: float):
 	if Engine.is_editor_hint():

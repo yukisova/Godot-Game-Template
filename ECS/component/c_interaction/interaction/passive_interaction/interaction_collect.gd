@@ -27,7 +27,7 @@
 ## 
 ## TODO: 未来可以增加拾取动画、音效和更丰富的反馈
 class_name InteractionCollect
-extends PassiveInteraction
+extends Interaction
 
 ## 绑定的物品
 ## 这个交互对象所代表的可拾取物品
@@ -36,7 +36,7 @@ extends PassiveInteraction
 ## 交互激活处理
 ## 当拾取交互被触发时尝试将物品添加到目标实体的背包
 ## @param _target_entity: 触发拾取的实体（通常是玩家）
-func _on_interact_activated(_target_entity: IEntity):
+func _on_interact_activated(_target_entity: FixedEntity):
 	# 验证物品是否有效
 	if not binding_item:
 		push_error("拾取交互: 未配置绑定物品")
@@ -55,7 +55,7 @@ func _on_interact_activated(_target_entity: IEntity):
 		return
 	
 	# 尝试添加物品到背包
-	var success = inventory_extension.auto_add_inventory(binding_item)
+	var success = inventory_extension.auto_add_inventory(binding_item.duplicate(true))
 	
 	if success:
 		print("拾取交互: 成功拾取物品 -> ", binding_item.item_name)
@@ -96,7 +96,7 @@ func get_item_info() -> Item:
 ## 检查是否可以拾取
 ## @param target_entity: 目标实体
 ## @return: 是否可以进行拾取操作
-func can_pickup(target_entity: IEntity) -> bool:
+func can_pickup(target_entity: FixedEntity) -> bool:
 	if not binding_item:
 		return false
 	

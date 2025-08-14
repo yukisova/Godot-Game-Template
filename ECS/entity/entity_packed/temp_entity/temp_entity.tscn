@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://co817hl4s2rr7"]
+
+[ext_resource type="Script" uid="uid://cb61h45n7havl" path="res://entity/entity_packed/temp_entity/temp_entity.gd" id="1_d580s"]
+
+[node name="TempEntity" type="Node2D"]
+script = ExtResource("1_d580s")

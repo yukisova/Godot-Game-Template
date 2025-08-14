@@ -51,6 +51,7 @@ func _on_attack_node_changed(item_weapon: ItemWeapon):
 	if item_weapon:
 		current_weapon = item_weapon
 		current_attack_node = item_weapon.weapon_node.instantiate()
+		current_attack_node.c_status = c_status
 		add_child(current_attack_node)
 	else:
 		current_weapon = null
@@ -60,6 +61,7 @@ func _on_equipment_node_changed(item_equipment: ItemEquipment):
 	if item_equipment:
 		current_equipment = item_equipment
 		current_equipment_node = item_equipment.equipment_node.instantiate()
+		current_equipment_node.c_status = c_status
 		add_child(current_equipment_node)
 	else:
 		current_equipment = null

@@ -37,8 +37,10 @@ func _listen():
 	var vector = interact_ray.global_position.direction_to(interact_ray.get_global_mouse_position())
 	# 设置射线朝向鼠标方向
 	interact_ray.rotation = vector.angle()
+	var equipment_extension: EquipmentExtension = c_status.status_extension[StatusExtension.ExtensionType.EQUIPMENT]
+	if equipment_extension.current_attack_node:
+		equipment_extension.current_attack_node.rotation = vector.angle()
 
-	
 	# 检测交互键按下事件
 	if Input.is_action_just_pressed("interact"):
 		print("射线交互: 检测到交互键按下")
@@ -48,3 +50,7 @@ func _listen():
 			interact_ray.interact_target.entity_ray_interact.emit(c_input_reactor.component_owner)
 		else:
 			print("射线交互: 没有检测到交互目标")
+	
+	if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
+		if equipment_extension.current_attack_node:
+			equipment_extension.current_attack_node._attack()

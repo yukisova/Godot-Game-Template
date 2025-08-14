@@ -31,7 +31,7 @@ extends ISystem
 ## 在游戏运行时向当前楼层动态添加新实体
 ## @param new_factor: 要添加的实体
 ## @param start_position: 实体的初始位置
-signal factor_added(new_factor: IEntity, start_position: Vector2)
+signal factor_added(new_factor: FixedEntity, start_position: Vector2)
 
 ## 地图注册信号
 ## 游戏开始前注册要加载的地图场景
@@ -42,7 +42,10 @@ signal map_info_registered(map: PackedScene)
 ## 当实体需要切换到不同楼层时发出
 ## @param operate_entity: 执行切换的实体
 ## @param new_level: 目标楼层
-signal level_changed(operate_entity: IEntity, new_level: Level)
+signal level_changed(operate_entity: FixedEntity, new_level: Level)
+
+## 目标完成交换
+signal level_changed_finished_for_player()
 
 ## 当前激活的楼层
 ## 指向当前玩家所在的活跃楼层
@@ -116,7 +119,7 @@ func _on_map_info_registered(map_scene: PackedScene):
 ## 在当前楼层中动态添加新实体
 ## @param new_factor: 要添加的新实体
 ## @param start_position: 实体的起始位置
-func _on_factor_added(new_factor: IEntity, start_position: Vector2):
+func _on_factor_added(new_factor: FixedEntity, start_position: Vector2):
 	# 延迟添加实体到当前楼层
 	current_level.add_child.call_deferred(new_factor)
 	
@@ -130,12 +133,13 @@ func _on_factor_added(new_factor: IEntity, start_position: Vector2):
 ## 处理实体在不同楼层间的切换
 ## @param operate_entity: 执行切换的实体
 ## @param new_level: 目标楼层
-func _on_level_changed(operate_entity: IEntity, new_level: Level):
+func _on_level_changed(operate_entity: FixedEntity, new_level: Level):
 	# 如果是玩家切换楼层，需要特殊处理
 	if operate_entity.main_control.is_in_group("player"):
 		# 禁用当前楼层
 		current_level.hide()
 		current_level.process_mode = Node.PROCESS_MODE_DISABLED
+		SObjectPool.level_pool_cleared.emit(current_level)
 		
 		# 更新相机限制范围
 		var camera = operate_entity.list_base_components.get(IComponent.ComponentName.c_camera) as CCamera
@@ -146,6 +150,7 @@ func _on_level_changed(operate_entity: IEntity, new_level: Level):
 		new_level.show()
 		new_level.process_mode = Node.PROCESS_MODE_INHERIT
 		current_level = new_level
+		level_changed_finished_for_player.emit.call_deferred()
 	
 	# 将实体重新分配到新楼层
 	operate_entity.reparent(new_level)

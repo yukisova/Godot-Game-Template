@@ -1,6 +1,6 @@
 ## 玩家的实体，重写了某些逻辑为了与其他实体区分开来正确保存在s_main_control当中
 @tool
-extends IEntity
+extends FixedEntity
 
 func _save_as(data: SavedDataFile):
 	data.player_info = {

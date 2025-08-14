@@ -16,7 +16,7 @@
 ## - 激活/取消激活事件系统
 ## - 自动信号连接
 ## - 可扩展的交互逻辑
-@abstract class_name PassiveInteraction
+@abstract class_name Interaction
 extends Node
 
 ## 绑定的实体
@@ -40,7 +40,7 @@ func _enter_tree() -> void:
 ## 交互激活处理
 ## 当交互被激活时的具体逻辑实现，子类需要重写此方法
 ## @param target_entity: 触发交互的目标实体（通常是玩家）
-@abstract func _on_interact_activated(target_entity: IEntity)
+@abstract func _on_interact_activated(target_entity: FixedEntity)
 
 ## 交互取消激活处理
 ## 当交互被取消时的清理逻辑实现，子类需要重写此方法

@@ -1,0 +1,31 @@
+[gd_scene load_steps=2 format=3 uid="uid://bpdyhcsv0q6ou"]
+
+[ext_resource type="Script" uid="uid://dn2h78ybd2446" path="res://ui/ui/ui_brain/composite/list_inventory/list_document.gd" id="1_lupsm"]
+
+[node name="ListDocument" type="MarginContainer"]
+size_flags_horizontal = 3
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_right = 8
+script = ExtResource("1_lupsm")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Button" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 0
+text = "测试用物品"
+alignment = 0
+
+[node name="Label" type="Label" parent="VBoxContainer/Button"]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -14.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "数量，允许叠放且大于1时显示"
+horizontal_alignment = 2
+vertical_alignment = 1

@@ -1,7 +1,7 @@
-[gd_scene load_steps=8 format=3 uid="uid://hxr8vlqtjwii"]
+[gd_scene load_steps=8 format=3 uid="uid://bcto662hlps4f"]
 
-[ext_resource type="PackedScene" uid="uid://6jpwo3n27sj2" path="res://entity/i_entity.tscn" id="1_v3bmw"]
-[ext_resource type="PackedScene" uid="uid://cq0u8u1qie88t" path="res://entity/entity_template/character_body.tscn" id="2_5ehvm"]
+[ext_resource type="PackedScene" uid="uid://co817hl4s2rr7" path="res://entity/entity_packed/temp_entity/temp_entity.tscn" id="1_67jiy"]
+[ext_resource type="PackedScene" uid="uid://cq0u8u1qie88t" path="res://entity/entity_packed/entity_template/character_body.tscn" id="2_5ehvm"]
 [ext_resource type="PackedScene" uid="uid://bvjy63fua1sx2" path="res://component/c_texture/c_texture.tscn" id="3_7wfp7"]
 [ext_resource type="PackedScene" uid="uid://dvrvdiy0pquiq" path="res://component/c_movement/c_movement.tscn" id="4_pdel5"]
 [ext_resource type="Script" uid="uid://ikjlf7gagqap" path="res://component/c_movement/move_strategy/straight_move.gd" id="5_pdel5"]
@@ -9,19 +9,21 @@
 [sub_resource type="Gradient" id="Gradient_j67t8"]
 colors = PackedColorArray(1, 0, 0, 1, 1, 0, 0, 1)
 
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_pdel5"]
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_ihym0"]
 gradient = SubResource("Gradient_j67t8")
 
-[node name="IProjectile" node_paths=PackedStringArray("main_control", "component_container") instance=ExtResource("1_v3bmw")]
+[node name="IProjectile" node_paths=PackedStringArray("main_control", "component_container") instance=ExtResource("1_67jiy")]
+pool_key = &"手枪子弹"
 main_control = NodePath("CharacterBody")
 component_container = NodePath("CharacterBody/ComponentContainer")
 
 [node name="CharacterBody" parent="." index="0" instance=ExtResource("2_5ehvm")]
 
 [node name="CTexture" parent="CharacterBody/ComponentContainer" index="0" instance=ExtResource("3_7wfp7")]
+texture_path = NodePath("Sprite2D")
 
 [node name="Sprite2D" type="Sprite2D" parent="CharacterBody/ComponentContainer/CTexture" index="0"]
-texture = SubResource("GradientTexture2D_pdel5")
+texture = SubResource("GradientTexture2D_ihym0")
 
 [node name="CMovement" parent="CharacterBody/ComponentContainer" index="1" node_paths=PackedStringArray("move_strategy") instance=ExtResource("4_pdel5")]
 move_strategy = NodePath("StraightMove")

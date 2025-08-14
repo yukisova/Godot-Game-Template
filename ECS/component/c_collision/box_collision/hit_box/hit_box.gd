@@ -36,3 +36,6 @@ extends BoxCollision
 ## 碰撞形状组件
 ## 定义攻击判定的具体范围和形状
 var collision: CollisionShape2D
+
+func _enter_tree() -> void:
+	box_collision_name = CCollision.BoxCollisionName.HIT

@@ -1,6 +1,6 @@
 [gd_scene load_steps=20 format=3 uid="uid://ht3v3wnr5dy"]
 
-[ext_resource type="PackedScene" uid="uid://2g3kd2w3tlq6" path="res://entity/entity_packed/enemy/i_enemy.tscn" id="1_e6iff"]
+[ext_resource type="PackedScene" uid="uid://2g3kd2w3tlq6" path="res://entity/entity_packed/fixed_entity/enemy/i_enemy.tscn" id="1_e6iff"]
 [ext_resource type="Script" uid="uid://dwt0prmf31a5" path="res://component/c_movement/move_strategy/vector_move.gd" id="2_b1t4d"]
 [ext_resource type="Texture2D" uid="uid://uyc1xepl4vif" path="res://asset/char_set/测试用char_1.png" id="2_wvlat"]
 [ext_resource type="PackedScene" uid="uid://ca1hb1m2dinl2" path="res://component/c_state/c_state.tscn" id="3_wvlat"]

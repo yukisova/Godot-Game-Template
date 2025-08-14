@@ -24,3 +24,6 @@
 ## 4. 在信号处理函数中实现交互逻辑
 class_name InteractBox
 extends BoxCollision
+
+func _enter_tree() -> void:
+	box_collision_name = CCollision.BoxCollisionName.INTERACT

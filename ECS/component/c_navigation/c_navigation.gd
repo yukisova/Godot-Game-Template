@@ -38,7 +38,7 @@ var current_nav = NavType.STOP
 var target_position: Vector2
 
 ## 导航目标实体
-## 用于跟踪导航的目标实体
+## 用于跟踪导航的目标实体（支持FixedEntity和TempEntity）
 var target_entity: IEntity
 
 @export_subgroup("导航依赖")
@@ -75,7 +75,7 @@ func set_target_position(position: Vector2):
 
 ## 设置跟踪目标实体
 ## @param entity: 要跟踪的目标实体
-func set_target_entity(entity: IEntity):
+func set_target_entity(entity: FixedEntity):
 	target_entity = entity
 	current_nav = NavType.TRACK
 

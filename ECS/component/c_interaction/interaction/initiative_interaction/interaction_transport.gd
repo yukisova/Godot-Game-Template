@@ -25,7 +25,7 @@
 ## - 地铁系统：快速交通网络
 ## - 魔法传送：通过魔法阵进行传送
 class_name InteractionTransport
-extends PassiveInteraction
+extends Interaction
 
 ## 目标楼层
 ## 传送的目标场景或楼层
@@ -33,19 +33,19 @@ extends PassiveInteraction
 
 ## 目标传送点
 ## 传送后实体的具体位置，通过目标实体的初始化数据获取坐标
-@export var target_point: IEntity
+@export var target_point: FixedEntity
 
 ## 交互激活处理
 ## 当传送交互被触发时执行传送操作
 ## @param target_entity: 要进行传送的实体（通常是玩家）
-func _on_interact_activated(target_entity: IEntity):
+func _on_interact_activated(target_entity: FixedEntity):
 	# 验证传送目标的有效性
 	if not target_point or not target_level:
 		push_error("传送交互: 传送目标或楼层配置无效")
 		return
 	
 	# 获取目标传送位置
-	var transport_position = target_point.init_data_variant.get("transported_position") as Vector2
+	var transport_position = target_point.init_data.get("transported_position") as Vector2
 	if transport_position == Vector2.ZERO:
 		push_warning("传送交互: 未找到有效的传送位置，使用目标点位置")
 		transport_position = target_point.global_position
@@ -72,7 +72,7 @@ func _on_interact_deactivated():
 func get_transport_info() -> Dictionary:
 	var transport_position = Vector2.ZERO
 	if target_point:
-		transport_position = target_point.init_data_variant.get("transported_position")
+		transport_position = target_point.init_data.get("transported_position")
 	
 	var point_name = "未知"
 	if target_point:

@@ -21,23 +21,21 @@ extends MoveStrategy
 ## 移动方向向量
 ## 从黑板获取的初始移动方向，保持不变直到销毁
 var direction: Vector2
+var _time: float
 
 ## 策略检查和初始化
 ## 验证实体类型，设置自动销毁定时器，并从黑板获取移动参数
 func _check_and_init():
 	# 验证实体类型兼容性
+	direction = blackboard.get_value("start_direction", Vector2.RIGHT)
 	if binding_entity.main_control is not CharacterBody2D:
 		push_error("直线飞行策略: 只适用于CharacterBody2D类型的实体")
 		return
-	
-	# 设置2秒超时自动销毁机制
-	get_tree().create_timer(2.0).timeout.connect(func():
-		if is_instance_valid(binding_entity):
-			binding_entity.queue_free()
-	)
+	if binding_entity is not TempEntity:
+		push_error("直线飞行策略: 实体不是TempEntity类型")
+		return
 	
 	# 从黑板获取初始移动方向
-	direction = blackboard.get_value("start_direction", Vector2.RIGHT)
 
 ## 移动逻辑更新
 ## 执行高速直线移动，检查是否到达目标位置
@@ -45,16 +43,16 @@ func _check_and_init():
 func _update(_delta: float):
 	# 应用高速直线移动
 	binding_entity.main_control.velocity = direction * 5000 * _delta
-	var current_pos = binding_entity.main_control.global_position
-	
-	# 检查是否到达目标位置
-	var target_pos = blackboard.get_value("target_position", Vector2.ZERO)
-	if current_pos.distance_to(target_pos) < 10:
-		binding_entity.queue_free()
-		return
-	
+	_time += _delta
+	if _time > 2.0:
+		binding_entity.main_control.velocity = Vector2.ZERO
+		(binding_entity as TempEntity).despawn()
 	# 应用物理移动
 	binding_entity.main_control.move_and_slide()
+
+func _reset():
+	direction = blackboard.get_value("start_direction", Vector2.RIGHT)
+	_time = 0
 
 ## 保存策略状态
 ## 直线飞行策略通常为临时对象，不需要存档

@@ -43,6 +43,9 @@ func _initialize(_owner: IEntity):
 func _update(_delta: float):
 	move_strategy._update(_delta)
 
+func _reset():
+	move_strategy._reset()
+
 #region 存档系统
 ## 保存移动组件数据
 ## @return: 移动组件的存档数据字典

@@ -41,7 +41,7 @@ enum InteractType {
 
 ## 交互逻辑节点路径
 ## 指向PassiveInteraction类型的节点，定义交互的具体逻辑
-@export_node_path("PassiveInteraction") var interaction: NodePath
+@export_node_path("Interaction") var interaction: NodePath
 
 ## 交互检测区域节点路径
 ## 指向InteractBox类型的节点，定义交互的触发区域

@@ -19,6 +19,10 @@
 @abstract class_name BoxCollision
 extends Area2D
 
+## 碰撞体名称
+## 碰撞体名称，用于在CCollision中索引碰撞体
+var box_collision_name: CCollision.BoxCollisionName
+
 ## 绑定的碰撞组件
 ## 指向拥有此碰撞体的碰撞组件实例
 var c_collision: CCollision

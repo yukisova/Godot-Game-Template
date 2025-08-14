@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://d0kiagyc2yilx"]
 
-[ext_resource type="PackedScene" uid="uid://b8yjmlfn04hqu" path="res://entity/entity_packed/people/i_people.tscn" id="1_lot8u"]
+[ext_resource type="PackedScene" uid="uid://b8yjmlfn04hqu" path="res://entity/entity_packed/fixed_entity/people/i_people.tscn" id="1_lot8u"]
 [ext_resource type="Texture2D" uid="uid://uyc1xepl4vif" path="res://asset/char_set/测试用char_1.png" id="2_bj3l7"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_lot8u"]

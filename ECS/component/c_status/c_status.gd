@@ -112,6 +112,7 @@ func _initialize(_owner: IEntity):
 		if extension is StatusExtension:
 			status_extension[extension.extention_type] = extension
 			extension._initialize()
+			extension.c_status = self
 	
 	# 根据基础信息创建状态对象
 	for key in basic_info.keys():

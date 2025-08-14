@@ -20,11 +20,21 @@ extends IComponent
 
 ## 盒子碰撞字典
 ## 存储所有BoxCollision区域，通过名称进行索引和快速访问
-var box_collision: Dictionary[StringName, BoxCollision] = {}
+enum BoxCollisionName {
+	INTERACT,
+	HIT,
+	HURT,
+	SIGHT,
+	SEEK,
+}
+var box_collision: Dictionary[BoxCollisionName, BoxCollision] = {}
 
 ## 盒子射线字典
 ## 存储所有BoxRay射线检测器，通过名称进行索引和快速访问
-var box_rays: Dictionary[StringName, BoxRay] = {}
+enum BoxRayName {
+	INTERACT,
+}
+var box_rays: Dictionary[BoxRayName, BoxRay] = {}
 
 func _enter_tree() -> void:
 	component_name = ComponentName.c_collision
@@ -38,9 +48,9 @@ func _initialize(_owner: IEntity):
 	# 遍历子节点，收集碰撞检测器
 	for child in get_children():
 		if child is BoxCollision:
-			box_collision[child.name] = child
+			box_collision[child.box_collision_name] = child
 		elif child is BoxRay:
-			box_rays[child.name] = child
+			box_rays[child.box_ray_name] = child
 
 func _update(_delta: float):
 	for collision in box_collision.values():

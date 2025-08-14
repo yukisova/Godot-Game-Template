@@ -4,19 +4,19 @@ extends ISystem
 
 signal player_located(target_level: Level, target_position: Vector2)
 
-signal partner_joined(_partner: IEntity)
+signal partner_joined(_partner: FixedEntity)
 
 @export var player_scene: PackedScene
 @export_subgroup("依赖")
 @export var input_listener: InputListener
 
-@export var partner: IEntity = null
+@export var partner: FixedEntity = null
 
-var player_static: IEntity
+var player_static: FixedEntity
 
 func _setup():
 	#Input.set_mouse_mode(Input.MOUSE_MODE_CONFINED)
-	partner_joined.connect(func(_partner: IEntity):
+	partner_joined.connect(func(_partner: FixedEntity):
 		if partner:
 			partner.queue_free()
 		partner = _partner

@@ -45,7 +45,7 @@ var reactor_extension: Array[ReactorExtension] = []
 
 ## 当前可交互对象
 ## 当实体接近可交互对象时设置，离开时清空
-var interact_obj: PassiveInteraction = null:
+var interact_obj: Interaction = null:
 	set(v):
 		if v == null:
 			print("可交互对象重置")

@@ -55,6 +55,9 @@ var sight_target: Array[Node2D]
 ## 记录目标离开视野时的最后已知位置，用于AI寻路
 var sight_target_last_position: Vector2
 
+func _enter_tree() -> void:
+	box_collision_name = CCollision.BoxCollisionName.SIGHT
+
 ## 初始化碰撞检测
 ## 根据配置的视野资源生成对应的碰撞形状
 func initialize_collision():

@@ -35,7 +35,7 @@ var interaction_infos: Dictionary[int, InteractionRecordInfo] = {}
 ## 包含交互的完整信息和运行时状态
 class InteractionRecordInfo:
 	## 交互对象
-	var interaction: PassiveInteraction
+	var interaction: Interaction
 	## 交互检测区域
 	var interact_box: InteractBox
 	## 是否为被动交互
@@ -54,7 +54,7 @@ class InteractionRecordInfo:
 	## @param _interact_box: 交互检测区域
 	## @param _is_passive: 是否为被动交互
 	## @param _interact_type: 交互类型
-	func _init(_interaction: PassiveInteraction, _interact_box: InteractBox, _is_passive: bool, _interact_type: InteractionRecord.InteractType) -> void:
+	func _init(_interaction: Interaction, _interact_box: InteractBox, _is_passive: bool, _interact_type: InteractionRecord.InteractType) -> void:
 		interaction = _interaction
 		interact_box = _interact_box
 		is_passive = _is_passive
@@ -79,7 +79,7 @@ func _initialize(_owner: IEntity):
 	for i in range(interactions_resources.size()):
 		var record = interactions_resources[i]
 		var interaction_record_info = InteractionRecordInfo.new(
-			get_node(record.interaction) as PassiveInteraction,
+			get_node(record.interaction) as Interaction,
 			get_node(record.interact_box) as InteractBox if record.interact_type != InteractionRecord.InteractType.RayCasted else null,
 			record.is_passive,
 			record.interact_type
@@ -88,7 +88,7 @@ func _initialize(_owner: IEntity):
 	
 	# 绑定所有被动交互对象到实体
 	for child in get_children():
-		if child is PassiveInteraction:
+		if child is Interaction:
 			child.binding_entity = component_owner
 	
 	# 为每个交互信息确认回调函数
@@ -106,7 +106,7 @@ func confirm_interact_callable(interaction_info: InteractionRecordInfo):
 					if interaction_info.is_passive:
 						interaction_info.interaction.interact_activated.emit(_body.get_parent())
 					else:
-						var entity = _body.owner as IEntity
+						var entity = _body.owner as FixedEntity
 						var c_input_reactor: CInputReactor = entity.list_base_components.get(IComponent.ComponentName.c_input_reactor)
 						if c_input_reactor:
 							c_input_reactor.interact_obj = interaction_info.interaction )
@@ -114,7 +114,7 @@ func confirm_interact_callable(interaction_info: InteractionRecordInfo):
 				if _body.is_in_group("player"):
 					interaction_info.interaction.interact_deactivated.emit()
 					if not interaction_info.is_passive:
-						var entity = _body.owner as IEntity
+						var entity = _body.owner as FixedEntity
 						var c_input_reactor: CInputReactor = entity.list_base_components.get(IComponent.ComponentName.c_input_reactor)
 						if c_input_reactor:
 							c_input_reactor.interact_obj = null )
@@ -126,9 +126,9 @@ func confirm_interact_callable(interaction_info: InteractionRecordInfo):
 				if _area is SeekBox:
 					_area.seek_target.erase(interaction_info.interaction))
 		InteractionRecord.InteractType.RayCasted:
-			interaction_info.callable_actived = Callable(func(interact_source: IEntity):
+			interaction_info.callable_actived = Callable(func(interact_source: FixedEntity):
 				interaction_info.interaction.interact_activated.emit(interact_source))
-			interaction_info.callable_deactived = Callable(func(_interact_source: IEntity):
+			interaction_info.callable_deactived = Callable(func(_interact_source: FixedEntity):
 				push_error("来来来来你告诉我这个方法咋触发")
 				)
 	register_inteactable_area(interaction_info)

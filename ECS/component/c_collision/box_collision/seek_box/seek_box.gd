@@ -3,4 +3,7 @@
 class_name SeekBox
 extends BoxCollision
 
-var seek_target : Array[PassiveInteraction] = []
+var seek_target : Array[Interaction] = []
+
+func _enter_tree() -> void:
+	box_collision_name = CCollision.BoxCollisionName.SEEK

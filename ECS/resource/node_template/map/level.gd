@@ -49,6 +49,10 @@ signal level_entity_fully_initialize
 ## 包含该层级所有房间和区域的碰撞体信息
 @export var room: Node2D
 
+## 层级对象池
+## 用于管理该层级中的临时实体，临时实体只会在当前层级生成，玩家离开当前层级后会将该层级中的临时实体统一销毁
+@export var level_object_pool: Node2D
+
 #endregion
 
 #region 瓦片图层统计
@@ -81,7 +85,7 @@ func _enter_tree() -> void:
 		if layer is TileMapLayer or layer is PolygonTile:
 			layer.ready.connect(_on_layer_ready, CONNECT_DEFERRED)
 			layers_count += 1
-		elif layer is IEntity:
+		elif layer is FixedEntity:
 			layer.initialize_complete.connect(_on_entity_initialize)
 			layer.is_entity_origin_exist = true
 			entity_count += 1

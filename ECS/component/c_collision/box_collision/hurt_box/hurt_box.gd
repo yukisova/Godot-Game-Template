@@ -47,6 +47,9 @@ signal hurted(hit_damage: int)
 ## 受到伤害时执行的特效或反馈行为
 @export var hurt_effect: Action
 
+func _enter_tree() -> void:
+	box_collision_name = CCollision.BoxCollisionName.HURT
+
 ## 初始化受伤系统
 ## 连接碰撞检测和伤害处理信号
 ## TODO: 需要重新实现以适配新的系统架构

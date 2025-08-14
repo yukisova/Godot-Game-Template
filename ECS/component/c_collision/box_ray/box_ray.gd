@@ -18,6 +18,11 @@
 class_name BoxRay
 extends RayCast2D
 
+## 射线名称
+## 射线名称，用于在CCollision中索引射线
+
+var box_ray_name: CCollision.BoxRayName
+
 ## 射线更新逻辑
 ## 每帧调用的射线状态更新，子类可重写实现具体逻辑
 ## @param _delta: 帧时间间隔

@@ -30,7 +30,7 @@ extends IUi
 
 ## 列表容器
 ## 存放各种列表信息的容器组件
-@export var list_container: Control
+@export var list_container: ListDocument
 
 ## 焦点物品图像组
 ## 不同标签页的物品图标显示组件

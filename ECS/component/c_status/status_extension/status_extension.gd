@@ -33,6 +33,7 @@ enum ExtensionType {
 ## 扩展类型标识
 ## 标识当前扩展的具体类型，用于运行时类型检查和分派
 var extention_type: ExtensionType
+var c_status: CStatus
 
 ## 扩展初始化
 ## 扩展被添加到状态组件时调用，用于设置初始状态和配置
