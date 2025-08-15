@@ -150,22 +150,12 @@ func time_change_filter(point: float):
 func _update_filter(time_value: float):
 	if map_filter and filter_gradient:
 		map_filter.color = filter_gradient.gradient.sample(time_value)
-		print("地图滤镜: 时间更新为 ", time_value)
 
 #region :存档系统:
 func _save(data: SavedDataFile):
 	var map_result = {}
-	map_result[" "] = {
-		"fog":fog_image.texture.get_image()
-	}
-
 	for level: Level in levels.get_children():
 		map_result.merge(level._save_as(data))
-	data.map_info = map_result
-
-func _load(data: SavedDataFile):
 	
-	for level: Level in levels.get_children():
-		level._load_by(data)
-	pass
+	data.level_info = map_result
 #endregion

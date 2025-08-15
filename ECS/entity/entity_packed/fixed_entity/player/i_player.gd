@@ -7,7 +7,6 @@ func _save_as(data: SavedDataFile) -> Dictionary:
 		"scene_file_path":scene_file_path, ## 有可能角色不一样
 		"start_position":global_position,
 		"current_position":main_control.global_position,
-		"current_level_index":get_parent().get_index()
 	}
 	var components = {}
 	for base_component:IComponent in list_base_components.values():
@@ -21,8 +20,6 @@ func _save_as(data: SavedDataFile) -> Dictionary:
 
 func _load_by(data: SavedDataFile) -> Dictionary:
 	var player_info = data.player_info
-
-	global_position = player_info["start_position"]
-	main_control.global_position = player_info["current_position"]
+	## 这里不进行任何操作，因为玩家的位置和状态已经在s_main_controller中进行处理了
 	
 	return data.player_info.get("components", {})

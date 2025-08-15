@@ -22,7 +22,7 @@
 ## - 魔法攻击：法术效果的伤害区域判定
 ## - 陷阱伤害：地刺、爆炸等环境伤害判定
 ## - AOE技能：范围攻击技能的伤害判定
-class_name Hitbox
+@abstract class_name IHitbox
 extends BoxCollision
 
 ## 装备组件引用
@@ -39,3 +39,7 @@ var collision: CollisionShape2D
 
 func _enter_tree() -> void:
 	box_collision_name = CCollision.BoxCollisionName.HIT
+
+## 获取攻击效果，由hurtbox调用，用于计算伤害与可能施加给目标的buff
+func get_hitbox_effect():
+	pass

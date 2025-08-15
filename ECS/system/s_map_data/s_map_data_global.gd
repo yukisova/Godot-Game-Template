@@ -37,6 +37,7 @@ signal factor_added(new_factor: FixedEntity, start_position: Vector2)
 ## 游戏开始前注册要加载的地图场景
 ## @param map: 要注册的地图场景
 signal map_info_registered(map: PackedScene)
+signal map_info_register_finished
 
 ## 楼层切换信号
 ## 当实体需要切换到不同楼层时发出
@@ -77,7 +78,7 @@ func _resetup():
 ## 地图场景加载处理
 ## 实例化地图场景并设置初始楼层和玩家位置
 ## @param map_scene: 要加载的地图场景
-func _on_map_info_registered(map_scene: PackedScene):
+func _on_map_info_registered(map_scene: PackedScene, _data: SavedDataFile = null):
 	# 等待一帧确保系统准备就绪
 	await get_tree().process_frame
 	
@@ -94,26 +95,39 @@ func _on_map_info_registered(map_scene: PackedScene):
 	# 等待地图完成加载
 	await SSignalBus.map_info_loaded
 	
-	# 处理玩家出生点
-	var spawn = map.player_spawn
-	if spawn != null:
-		# 禁用所有楼层
-		for level: Node in map.levels.get_children():
-			level.process_mode = Node.PROCESS_MODE_DISABLED
-			level.hide()
-		
-		# 激活玩家出生所在的楼层
-		current_level = spawn.current_level
+	# 禁用所有楼层
+	for level: Node in map.levels.get_children():
+		level.process_mode = Node.PROCESS_MODE_DISABLED
+		level.hide()
+	
+	if _data == null:
+		# 处理玩家出生点
+		var spawn = map.player_spawn
+		if spawn != null:
+			# 激活玩家出生所在的楼层
+			current_level = spawn.current_level
+			current_level.process_mode = Node.PROCESS_MODE_INHERIT
+			current_level.show()
+			
+			# 通知主控制器玩家位置
+			SMainController.player_located.emit.call_deferred(current_level, {
+				"start_position":spawn.global_position,
+				"current_position":spawn.global_position,
+			})
+			
+			# 清理出生点
+			spawn.queue_free()
+		else:
+			push_warning("地图数据: 未检测到玩家出生点，请检查地图配置")
+	else:
+		current_level = current_map.get_node(_data.map_cache["current_level"] as NodePath)
 		current_level.process_mode = Node.PROCESS_MODE_INHERIT
 		current_level.show()
-		
-		# 通知主控制器玩家位置
-		SMainController.player_located.emit.call_deferred(spawn.current_level, spawn.global_position)
-		
-		# 清理出生点
-		spawn.queue_free()
-	else:
-		push_warning("地图数据: 未检测到玩家出生点，请检查地图配置")
+
+		SMainController.player_located.emit.call_deferred(current_level, _data.player_info)
+	
+	map_info_register_finished.emit()
+	
 
 ## 动态实体添加处理
 ## 在当前楼层中动态添加新实体
@@ -184,16 +198,24 @@ func set_map_cache(key: String, value, set_type: int = 0):
 ## 收集当前地图的所有数据用于存档
 ## @param data: 存档数据文件
 func _data_saving(data: SavedDataFile):
-	if current_map:
-		# 保存地图缓存数据
-		data.map_cache = current_map.cache_in_map
-		# 让地图自身保存详细数据
-		current_map._save(data)
+	var map_cache = {
+		"cache_in_map": current_map.cache_in_map,
+		"current_map": current_map.scene_file_path,
+		"current_level": current_map.get_path_to(current_level)
+	}
+	
+	# 保存地图缓存数据
+	data.map_cache = map_cache
+	
+	# 让地图自身保存详细数据
+	current_map._save(data)
+		
 
 ## 数据加载
 ## 从存档中恢复地图数据
 ## @param data: 存档数据文件
 func _data_loading(_data: SavedDataFile):
-	# TODO: 实现地图数据的加载逻辑
-	pass
+	SMapData.map_info_registered.emit(load(_data.map_cache["current_map"]) as PackedScene, _data)
+	await SSignalBus.map_info_loaded
+	current_map.cache_in_map = _data.map_cache["cache_in_map"]
 #endregion

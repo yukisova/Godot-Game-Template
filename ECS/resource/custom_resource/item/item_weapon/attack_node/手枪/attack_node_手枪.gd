@@ -79,7 +79,7 @@ func _register_bullet_pool():
 
 	# 检查对象池是否已经注册
 	var pool_stats = SObjectPool._pools
-	if pool_stats.is_empty():
+	if !pool_stats.has(projectil_pool_key):
 		# 注册新的对象池
 		SObjectPool.register_pool(projectil_pool_key, projectile_scene, initial_pool_size)
 		print("手枪攻击节点: 子弹对象池已注册 - 池标识: %s, 初始大小: %d" % [projectil_pool_key, initial_pool_size])
@@ -122,7 +122,7 @@ func _attack():
 	var bullet_context = {
 		"start_direction": shoot_direction,
 		"source_entity": c_status.component_owner,  # 子弹来源实体
-		# "damage": c_status.get_current_damage(),     # 伤害值（如果状态组件支持）
+		"damage": 10,
 		"speed": 500.0  # 子弹速度（可以根据武器属性调整）
 	}
 	

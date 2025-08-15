@@ -84,8 +84,9 @@ func _resetup():
 ## 创建新的弹窗UI，采用单例模式确保同时只有一个UI存在
 ## @param scene: 要生成的UI场景
 ## @param context: 传递给UI的初始化上下文数据
+## @param is_main: 传入的scene如果是主菜单性质的UI，则可以忽略状态机直接打开
 ## @return: 生成的UI实例，失败则返回null
-func _spawn_ui(scene: PackedScene, context: Dictionary = {}) -> IUi:
+func _spawn_ui(scene: PackedScene, context: Dictionary = {}, is_main: bool = false) -> IUi:
 	if scene == null:
 		push_warning("UI生成器: 尝试生成空的UI场景")
 		return null
@@ -97,6 +98,11 @@ func _spawn_ui(scene: PackedScene, context: Dictionary = {}) -> IUi:
 		if current_ui:
 			current_ui.queue_free()
 		
+		var current_game_state = SGameState.state_machine._get_leaf_state()
+		if current_game_state is GamingStateNormal:
+			current_game_state.game_paused.emit()
+		elif !is_main:
+			return
 		# 设置新UI
 		current_ui = canvas
 		canvas._initilize_info(context)
@@ -104,9 +110,7 @@ func _spawn_ui(scene: PackedScene, context: Dictionary = {}) -> IUi:
 		current_ui._unspawned.connect(_unspawn_ui)
 		
 		# 如果当前处于正常游戏状态，则自动暂停游戏
-		var current_game_state = SGameState.state_machine._get_leaf_state()
-		if current_game_state is GamingStateNormal:
-			current_game_state.game_paused.emit()
+		
 		
 		print("UI生成器: 成功生成UI -> ", scene.resource_path.get_file())
 		return canvas
@@ -154,7 +158,7 @@ func _all_unspawn():
 ## 启动主菜单UI
 ## 当系统完成加载时显示主菜单界面
 func _loading_start_ui():
-	_spawn_ui(main_menu_scene)
+	_spawn_ui(main_menu_scene, {}, true)
 
 ## 获取指定HUD
 ## 根据关键词获取对应的HUD实例

@@ -125,11 +125,5 @@ func _save_as(_data: SavedDataFile) -> Dictionary:
 		if element.has_method("_save_as"):
 			levels_result.merge(element._save_as(_data))
 	return { name:levels_result }
-	
 
-func _load_by(data: SavedDataFile):
-	var dict = data.map_info[name]
-	for element in get_children():
-		if element.has_method("_load_by"):
-			element._load_by(data, dict[element.name])
 #endregion

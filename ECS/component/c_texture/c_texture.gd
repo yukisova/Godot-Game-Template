@@ -68,16 +68,11 @@ func change_texture(texture_key: String):
 	else:
 		push_warning("纹理组件: 未找到纹理键 - ", texture_key)
 
-#region 存档系统
-## 保存纹理组件数据
-## @return: 纹理组件的存档数据字典
-func _save_as() -> Dictionary:
-	# TODO: 实现当前纹理状态和动画状态的存档逻辑
+#region :存档系统:
+func _save() -> Dictionary:
 	return {}
 
-## 加载纹理组件数据
-## @param data: 纹理组件的存档数据
-func _load_by(_data: Dictionary):
-	# TODO: 实现纹理状态和动画状态的读档逻辑
+## 加载_initialiaze初始化的时候进行调用，但需要等待initialize_complete信号触发后才能进行加载
+func _load(_dict: Dictionary):
 	pass
 #endregion

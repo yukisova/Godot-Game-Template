@@ -142,7 +142,7 @@ brain_ui = ExtResource("21_s6qkr")
 c_status = NodePath("../../CStatus")
 pause_ui = ExtResource("19_qvx2r")
 
-[node name="CActionQueueTrigger" parent="CharacterBody/ComponentContainer" index="7" instance=ExtResource("23_86vaq")]
+[node name="CActionTrigger" parent="CharacterBody/ComponentContainer" index="7" instance=ExtResource("23_86vaq")]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody" index="1"]
 position = Vector2(0, 16)

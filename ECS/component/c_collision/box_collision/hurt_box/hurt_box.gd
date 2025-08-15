@@ -25,7 +25,6 @@
 ## - 载具系统：处理载具的耐久度损失
 ## - 建筑物：处理建筑物的破坏判定
 ## 
-## TODO: 当前代码需要更新以匹配新的状态系统
 class_name Hurtbox
 extends BoxCollision
 
@@ -37,7 +36,7 @@ signal hurted(hit_damage: int)
 ## 接受的攻击类型
 ## 定义此受伤盒可以接受的攻击类型（如物理、魔法、火焰等）
 ## 空数组表示接受所有类型的攻击
-@export var hitbox_type: PackedStringArray
+@export var hitbox_effect_type: PackedStringArray
 
 ## 状态组件引用
 ## 用于获取和更新实体的生命值、防御力等状态信息
@@ -64,11 +63,10 @@ func _ready() -> void:
 ## @param area: 进入的碰撞区域
 func _on_area_entered(area: Area2D):
 	# 检查是否为HitBox
-	if area.get_parent() is Hitbox:
-		var hitbox = area.get_parent() as Hitbox
-		
+	if area is IHitbox:
+		var hitbox = area
 		# 验证攻击类型匹配
-		if hitbox_type.size() == 0 or _is_attack_type_valid(hitbox):
+		if hitbox_effect_type.size() == 0 or _is_attack_type_valid(hitbox):
 			# 计算伤害值
 			var damage = _calculate_damage(hitbox)
 			if damage > 0:
@@ -91,7 +89,7 @@ func _on_hurted(hit_damage: int):
 ## 验证攻击类型是否有效
 ## @param _hitbox: 攻击判定盒
 ## @return: 是否为有效的攻击类型
-func _is_attack_type_valid(_hitbox: Hitbox) -> bool:
+func _is_attack_type_valid(_hitbox: IHitbox) -> bool:
 	# TODO: 实现具体的攻击类型验证逻辑
 	# 可以检查武器类型、元素类型等
 	return true
@@ -100,7 +98,7 @@ func _is_attack_type_valid(_hitbox: Hitbox) -> bool:
 ## 结合攻击力和防御力计算最终伤害
 ## @param hitbox: 攻击判定盒
 ## @return: 计算后的伤害值
-func _calculate_damage(hitbox: Hitbox) -> int:
+func _calculate_damage(hitbox: IHitbox) -> int:
 	var base_damage = 0
 	
 	# 获取攻击力

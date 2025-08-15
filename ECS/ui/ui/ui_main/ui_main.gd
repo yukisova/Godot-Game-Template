@@ -113,7 +113,7 @@ func _setup_button_bindings():
 		SAudioMaster.play_music(null)
 		
 		var start_game_ui = _args[0]
-		SUiSpawner._spawn_ui(start_game_ui)
+		SUiSpawner._spawn_ui(start_game_ui, {}, true)
 	).bind(start_game_button.args))
 	
 	# 加载游戏按钮 - 从存档恢复游戏
@@ -126,7 +126,6 @@ func _setup_button_bindings():
 		if current_state is GameStartState:
 			SLoadAndSave.loading_started.emit()
 			current_state.update_trigger = true
-			SMapData.map_info_registered.emit(_args[0] as PackedScene)
 			SAudioMaster.play_music(null)
 			unspawn()
 		else:

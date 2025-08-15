@@ -57,7 +57,7 @@ extends Resource
 ## 地图信息字典
 ## 存储地图的层级结构和配置数据
 ## 包含：关卡进度、解锁状态、传送点信息等
-@export var map_info = {}
+@export var level_info = {}
 
 #endregion
 

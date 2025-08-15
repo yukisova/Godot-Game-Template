@@ -23,13 +23,18 @@ func _setup():
 	)
 	player_located.connect(_on_player_located)
 
-func _on_player_located(target_level: Level, target_position:Vector2):
+func _on_player_located(target_level: Level, _context: Dictionary):
 	if (player_static != null):
 		player_static.reparent(target_level)
-		player_static.main_control.global_position = target_position
+		player_static.global_position = _context["start_position"]
+		player_static.main_control.global_position = _context["current_position"]
 	else:
+		var player_scene_path = _context.get("scene_file_path", null)
+		if player_scene_path != null:
+			player_scene = load(player_scene_path)
 		player_static = player_scene.instantiate()
-		player_static.main_control.global_position = target_position
+		player_static.global_position = _context["start_position"]
+		player_static.main_control.global_position = _context["current_position"]
 		target_level.add_child(player_static)
 	
 	target_level.entity_count += 1 ## 目标的target_level新加了玩家，因此要进行额外的判断
