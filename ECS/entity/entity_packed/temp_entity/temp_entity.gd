@@ -78,6 +78,6 @@ func despawn():
 ## 重置实体
 ## 重置实体的初始化数据和组件状态
 func reset(_new_context: Dictionary):
-	await _init_data_binding(_fixed_context(_new_context))
+	await _init_data_binding(SoraEvent.fixed_dictionary(self, _new_context))
 	for component in list_base_components.values():
 		component._reset()

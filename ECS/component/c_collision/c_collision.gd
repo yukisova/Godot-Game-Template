@@ -49,8 +49,10 @@ func _initialize(_owner: IEntity, _load_data: Dictionary = {}):
 	for child in get_children():
 		if child is BoxCollision:
 			box_collision[child.box_collision_name] = child
+			child.c_collision = self
 		elif child is BoxRay:
 			box_rays[child.box_ray_name] = child
+			child.c_collision = self
 	
 	initialize_complete.emit()
 
@@ -71,33 +73,3 @@ func get_collision(collision_name: StringName) -> BoxCollision:
 ## @return: BoxRay对象，如果不存在则返回null
 func get_ray(ray_name: StringName) -> BoxRay:
 	return box_rays.get(ray_name)
-
-## 启用指定碰撞区域
-## @param collision_name: 要启用的碰撞区域名称
-func enable_collision(collision_name: StringName):
-	var collision = get_collision(collision_name)
-	if collision:
-		collision.set_deferred("monitoring", true)
-		collision.set_deferred("monitorable", true)
-
-## 禁用指定碰撞区域
-## @param collision_name: 要禁用的碰撞区域名称
-func disable_collision(collision_name: StringName):
-	var collision = get_collision(collision_name)
-	if collision:
-		collision.set_deferred("monitoring", false)
-		collision.set_deferred("monitorable", false)
-
-## 启用指定射线检测器
-## @param ray_name: 要启用的射线检测器名称
-func enable_ray(ray_name: StringName):
-	var ray = get_ray(ray_name)
-	if ray:
-		ray.enabled = true
-
-## 禁用指定射线检测器
-## @param ray_name: 要禁用的射线检测器名称
-func disable_ray(ray_name: StringName):
-	var ray = get_ray(ray_name)
-	if ray:
-		ray.enabled = false

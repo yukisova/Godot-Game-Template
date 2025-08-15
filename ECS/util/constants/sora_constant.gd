@@ -34,13 +34,40 @@ enum StatusEnum {
 
 ## 游戏基础设置配置
 ## 包含默认的键位映射、显示设置和音频设置
+## 支持键盘和鼠标按键绑定的多种配置格式
 const BASIC_SETTING: Dictionary = {
 	"keymap": {
+		# 基础移动操作（键盘）
 		"move_l": KEY_A,           # 向左移动
 		"move_r": KEY_D,           # 向右移动
 		"move_u": KEY_W,           # 向上移动
 		"move_d": KEY_S,           # 向下移动
+		
+		# 基础交互操作
 		"interact": KEY_SPACE,     # 交互键
+		
+		# 鼠标按键映射示例
+		"primary_action": {        # 主要动作（鼠标左键）
+			"type": "mouse",
+			"button": MOUSE_BUTTON_LEFT
+		},
+		"secondary_action": {      # 次要动作（鼠标右键）
+			"type": "mouse", 
+			"button": MOUSE_BUTTON_RIGHT
+		},
+		"special_action": {        # 特殊动作（Ctrl+鼠标左键）
+			"type": "mouse",
+			"button": MOUSE_BUTTON_LEFT,
+			"ctrl": true
+		},
+		
+		# 字符串格式的鼠标按键配置示例
+		"context_menu": "mouse:right",          # 右键菜单
+		"zoom_in": "mouse:wheel_up",           # 放大
+		"zoom_out": "mouse:wheel_down",        # 缩小
+		"quick_select": "mouse:middle+ctrl",   # 快速选择（Ctrl+中键）
+		
+		# 其他功能键
 		"test_saving": KEY_O,      # 测试存档键
 		"brain_trigger": KEY_TAB,  # 思维界面触发键
 		"pause_game": KEY_P        # 暂停游戏键

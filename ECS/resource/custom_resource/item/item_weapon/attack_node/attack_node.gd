@@ -53,6 +53,7 @@ extends Node2D
 ## 通常放置在武器的枪口、剑尖或法杖顶端等逻辑攻击位置
 @export var fire_point: Marker2D
 var c_status: CStatus
+var hit_effect_list: Array[IHitEffect]
 
 func _ready() -> void:
 	pass

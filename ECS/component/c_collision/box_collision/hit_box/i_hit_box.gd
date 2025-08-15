@@ -25,6 +25,12 @@
 @abstract class_name IHitbox
 extends BoxCollision
 
+enum HitEffectType { ## 列举攻击所会对目标造成的效果
+	STATUS, ## 动态状态变化，比如血量下降，或者法力值消耗，等等
+	BUFF, ## 持续性效果，比如buff，debuff，护盾，等等
+	COUNTED ## 增加临时属性点，当到达了临界值后，会自动触发效果（可以类比一下黑暗之魂的诅咒点，当累计到一定程度后， 角色会即死）
+}
+
 ## 装备组件引用
 ## 用于获取当前装备的攻击属性和伤害加成
 @export var equipment_extension: EquipmentExtension
@@ -41,5 +47,5 @@ func _enter_tree() -> void:
 	box_collision_name = CCollision.BoxCollisionName.HIT
 
 ## 获取攻击效果，由hurtbox调用，用于计算伤害与可能施加给目标的buff
-func get_hitbox_effect():
-	pass
+func get_hit_effect() -> Array[IHitEffect]:
+	return []

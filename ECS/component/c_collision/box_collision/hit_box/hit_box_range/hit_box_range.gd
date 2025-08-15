@@ -7,5 +7,11 @@
 ## - 伤害计算：基于子弹实体的container_blackboard数据进行最终伤害的计算（由attack_node传入）
 ## - 碰撞检测：与目标实体的HurtBox进行精确碰撞检测
 ## - 攻击范围：完全依赖于子弹实体的逻辑, 根据需要进行变化
+@tool
 class_name HitboxRange
 extends IHitbox
+
+func get_hit_effect() -> Array[IHitEffect]:
+	var blackboard = c_collision.get_blackboard()
+	var result = blackboard.get_value("hit_effect_list", [])
+	return result as Array[IHitEffect]

@@ -44,6 +44,7 @@ extends Item
 ## 定义武器攻击行为的节点场景，装备时会被实例化并挂载到装备系统下
 ## 该节点包含武器的所有攻击逻辑、参数配置和特效处理
 @export var weapon_node: PackedScene
+@export var hit_effect_list: Array[IHitEffect]
 
 ## 装备状态标志
 ## 指示该武器当前是否已被装备

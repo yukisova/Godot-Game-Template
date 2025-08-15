@@ -51,6 +51,6 @@ func _listen():
 		else:
 			print("射线交互: 没有检测到交互目标")
 	
-	if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
+	if Input.is_action_just_pressed("primary_action"):
 		if equipment_extension.current_attack_node:
 			equipment_extension.current_attack_node._attack()

@@ -52,6 +52,7 @@ func _on_attack_node_changed(item_weapon: ItemWeapon):
 		current_weapon = item_weapon
 		current_attack_node = item_weapon.weapon_node.instantiate()
 		current_attack_node.c_status = c_status
+		current_attack_node.hit_effect_list = item_weapon.hit_effect_list.duplicate_deep()
 		add_child(current_attack_node)
 	else:
 		current_weapon = null

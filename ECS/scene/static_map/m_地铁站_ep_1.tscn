@@ -22,7 +22,7 @@
 [ext_resource type="PackedScene" uid="uid://cl2k6r335pke0" path="res://component/c_navigation/c_navigation.tscn" id="17_kia6t"]
 [ext_resource type="Script" uid="uid://c3cklpcfivxlr" path="res://component/c_state/state/hfsm/state/runtime_cutscene/rcu_ep0_健治.gd" id="19_ltsi2"]
 [ext_resource type="PackedScene" uid="uid://cps21xspaovit" path="res://component/c_collision/c_collision.tscn" id="20_2oc23"]
-[ext_resource type="PackedScene" uid="uid://chj3kl8gl43h" path="res://component/c_collision/box_collision/interaction_box/interact_box.tscn" id="21_bpadi"]
+[ext_resource type="Script" uid="uid://dqxey3deyxpb4" path="res://component/c_collision/box_collision/interaction_box/interact_box.gd" id="21_kia6t"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_kia6t"]
 vertices = PackedVector2Array(8, 16, -8, 16, -8, 0, 8, 0)
@@ -141,7 +141,8 @@ position = Vector2(-512, -1)
 
 [node name="CCollision" parent="Levels/Level/翁蛾健治/CharacterBody/ComponentContainer" index="3" instance=ExtResource("20_2oc23")]
 
-[node name="InteractionBox" parent="Levels/Level/翁蛾健治/CharacterBody/ComponentContainer/CCollision" index="0" instance=ExtResource("21_bpadi")]
+[node name="InteractionBox" type="Area2D" parent="Levels/Level/翁蛾健治/CharacterBody/ComponentContainer/CCollision" index="0"]
+script = ExtResource("21_kia6t")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Levels/Level/翁蛾健治/CharacterBody/ComponentContainer/CCollision/InteractionBox" index="0"]
 position = Vector2(-25, 16)

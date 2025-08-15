@@ -33,11 +33,6 @@ extends BoxCollision
 ## @param hit_damage: 实际受到的伤害值
 signal hurted(hit_damage: int)
 
-## 接受的攻击类型
-## 定义此受伤盒可以接受的攻击类型（如物理、魔法、火焰等）
-## 空数组表示接受所有类型的攻击
-@export var hitbox_effect_type: PackedStringArray
-
 ## 状态组件引用
 ## 用于获取和更新实体的生命值、防御力等状态信息
 @export var c_status: CStatus
@@ -66,11 +61,10 @@ func _on_area_entered(area: Area2D):
 	if area is IHitbox:
 		var hitbox = area
 		# 验证攻击类型匹配
-		if hitbox_effect_type.size() == 0 or _is_attack_type_valid(hitbox):
-			# 计算伤害值
-			var damage = _calculate_damage(hitbox)
-			if damage > 0:
-				hurted.emit(damage)
+		# 计算伤害值
+		var damage = _calculate_hit(hitbox)
+		if damage > 0:
+			hurted.emit(damage)
 
 ## 受伤处理
 ## 处理实际的伤害应用和特效触发
@@ -86,29 +80,26 @@ func _on_hurted(hit_damage: int):
 	
 	print("实体受伤: ", hit_damage, " 点伤害")
 
-## 验证攻击类型是否有效
-## @param _hitbox: 攻击判定盒
-## @return: 是否为有效的攻击类型
-func _is_attack_type_valid(_hitbox: IHitbox) -> bool:
-	# TODO: 实现具体的攻击类型验证逻辑
-	# 可以检查武器类型、元素类型等
-	return true
-
 ## 计算实际伤害
 ## 结合攻击力和防御力计算最终伤害
 ## @param hitbox: 攻击判定盒
 ## @return: 计算后的伤害值
-func _calculate_damage(hitbox: IHitbox) -> int:
-	var base_damage = 0
-	
-	# 获取攻击力
-	if hitbox.status and hitbox.status.numinfo_list.has(SoraConstant.StatusEnum.AttackPoint):
-		base_damage = hitbox.status.numinfo_list[SoraConstant.StatusEnum.AttackPoint].value
-	
-	# 获取防御力
-	var defense = 0
-	if c_status and c_status.numinfo_list.has(SoraConstant.StatusEnum.DefendPoint):
-		defense = c_status.numinfo_list[SoraConstant.StatusEnum.DefendPoint].value
-	
+func _calculate_hit(hitbox: IHitbox) -> int:
+	var hit_effect_list: Array[IHitEffect] = hitbox.get_hit_effect()
+
+	var nums_infos = c_status.numinfo_list
+
+	var effective_damage = 0
+	for hit_effect in hit_effect_list:
+		match hit_effect:
+			StatusEffect:
+				if hit_effect.status_effect_target == SoraConstant.StatusEnum.Health:
+					effective_damage = hit_effect.status_effect_value
+					effective_damage -= nums_infos.get(SoraConstant.StatusEnum.DefendPoint, 0)
+			BuffEffect:
+				pass
+			CountedEffect:
+				pass
+
 	# 计算最终伤害（基础伤害 - 防御力，最小为1）
-	return max(1, base_damage - defense)
+	return max(1, effective_damage)

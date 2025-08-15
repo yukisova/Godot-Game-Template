@@ -8,8 +8,13 @@
 ## - 伤害计算：基于角色的status和装备的attack_node计算输出伤害
 ## - 攻击范围：基于装备的attack_node计算攻击范围，并会随着玩家的位移而移动
 ## - 装备集成：支持不同武器和装备的攻击属性
+@tool
 class_name HitboxMelee
 extends IHitbox
 
-func get_hitbox_effect():
-    pass
+@export var hit_effect_list: Array[IHitEffect]
+
+func get_hit_effect() -> Array[IHitEffect]:
+    var blackboard = c_collision.get_blackboard()
+    var result = blackboard.get_value("hit_effect_list", [])
+    return result as Array[IHitEffect]

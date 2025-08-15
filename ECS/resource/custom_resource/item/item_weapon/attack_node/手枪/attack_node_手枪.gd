@@ -122,7 +122,7 @@ func _attack():
 	var bullet_context = {
 		"start_direction": shoot_direction,
 		"source_entity": c_status.component_owner,  # 子弹来源实体
-		"damage": 10,
+		"hit_effect_list": hit_effect_list,
 		"speed": 500.0  # 子弹速度（可以根据武器属性调整）
 	}
 	

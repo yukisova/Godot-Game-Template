@@ -6,11 +6,7 @@ extends Node
 
 signal initialize_complete
 
-enum ComponentType { ## 组件的状态
-	BASE = 0, ## 基础组件，在实体编辑时固定的基础性组件
-	INTERFACE ## 接口组件, 直接挂载在诸如地图一类的实体子场景下，或通过代码动态挂载在目标实体下。主要面向可能会根据地图信息, 角色行为而需要灵活设置信息的场景
-}
-
+## 组件名称
 enum ComponentName {
 	C_ACTION_TRIGGER = 0, ## 见[CActionTrigger]
 	C_TEXTURE, ## 见[C_Texture]
@@ -32,16 +28,6 @@ enum ComponentName {
 var component_owner: IEntity ## 组件的拥有者, 即实体（支持FixedEntity和TempEntity）
 var component_body: CollisionObject2D ## 实体的主碰撞体
 var component_name: ComponentName ## 用于实体内组件字典进行识别的类型枚举
-var component_type: ComponentType: ## 实体的类型
-	set(value):
-		if (Engine.is_editor_hint()):
-			component_type = value
-		else:
-			printerr(
-				"该量运行时不可修改。"
-			)
-	get:
-		return component_type
 
 func _initialize(_owner: IEntity, _load_data: Dictionary = {}):
 	if Engine.is_editor_hint():
@@ -73,3 +59,6 @@ func _save() -> Dictionary:
 func _load(_dict: Dictionary):
 	pass
 #endregion
+
+func get_blackboard() -> ContainerBlackboard:
+	return component_owner.component_container

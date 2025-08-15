@@ -53,7 +53,7 @@ func _setup():
 ## 初始化所有组件并建立组件字典，处理存档数据恢复
 ## @param need_disconnect: 是否需要断开信号连接（用于延迟初始化场景）
 func _initialize(need_disconnect: bool = false):
-	await _init_data_binding(_fixed_context(init_data))
+	await _init_data_binding(SoraEvent.fixed_dictionary(self, init_data))
 
 	var load_data_for_components = {}
 	# 如果存在存档数据，先加载存档

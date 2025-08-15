@@ -40,35 +40,12 @@ func _ready() -> void:
 		return
 	_setup()
 	
-
-## 修正初始化数据
-## 处理初始化数据中的节点路径引用，将NodePath转换为实际节点引用
-## @param data: 原始初始化数据字典
-## @return: 处理后的初始化数据字典
-func _fixed_context(data: Dictionary) -> Dictionary:
-	var fixed_data = data.duplicate_deep()
-	
-	# 遍历所有键值对，处理NodePath类型的值
-	for key in fixed_data:
-		if fixed_data[key] is NodePath:
-			# 将NodePath转换为实际的节点引用
-			fixed_data[key] = get_node(fixed_data[key])
-		elif fixed_data[key] is Dictionary:
-			fixed_data[key] = _fixed_context(fixed_data[key])
-		elif fixed_data[key] is Array:
-			for i in fixed_data[key].size():
-				if fixed_data[key][i] is Dictionary:
-					fixed_data[key][i] = _fixed_context(fixed_data[key][i])
-				elif fixed_data[key][i] is NodePath:
-					fixed_data[key][i] = get_node(fixed_data[key][i])
-	return fixed_data
-
 ## 初始化数据绑定
 ## 处理动态创建实体时的初始化数据配置
 ## @param context_data: 统一的初始化数据字典
 func _init_data_binding(context_data: Dictionary):
 	# 修正数据中的节点路径引用
-	var fixed_data = _fixed_context(context_data)
+	var fixed_data = SoraEvent.fixed_dictionary(self, context_data)
 	
 	# 将修正后的数据传递给组件容器
 	component_container.initilize_data_parse(fixed_data)

@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://ht3v3wnr5dy"]
+[gd_scene load_steps=23 format=3 uid="uid://ht3v3wnr5dy"]
 
 [ext_resource type="PackedScene" uid="uid://2g3kd2w3tlq6" path="res://entity/entity_packed/fixed_entity/enemy/i_enemy.tscn" id="1_e6iff"]
 [ext_resource type="Script" uid="uid://dwt0prmf31a5" path="res://component/c_movement/move_strategy/vector_move.gd" id="2_b1t4d"]
@@ -13,8 +13,10 @@
 [ext_resource type="Script" uid="uid://d3e6ff7wxf0un" path="res://component/c_state/state/pda/state/enemy/watching.gd" id="10_sv75w"]
 [ext_resource type="PackedScene" uid="uid://cps21xspaovit" path="res://component/c_collision/c_collision.tscn" id="11_cnyrn"]
 [ext_resource type="Script" uid="uid://cdj07glc4b6q5" path="res://component/c_state/state/pda/state/enemy/confused.gd" id="11_k3wj4"]
-[ext_resource type="PackedScene" uid="uid://7mixsvyk4krp" path="res://component/c_collision/box_collision/sight_box/sight_box.tscn" id="12_yco6y"]
 [ext_resource type="Script" uid="uid://cf4bsx3i08rsi" path="res://component/c_collision/box_collision/sight_box/sight_collision_resource.gd" id="13_sv75w"]
+[ext_resource type="Script" uid="uid://dv2hokmyuu03y" path="res://component/c_collision/box_collision/sight_box/sight_box.gd" id="14_vgubl"]
+[ext_resource type="Script" uid="uid://g2h7s2qmcn31" path="res://component/c_collision/box_collision/hurt_box/hurt_box.gd" id="16_imnk3"]
+[ext_resource type="PackedScene" uid="uid://caj56l0yail7q" path="res://component/c_status/c_status.tscn" id="17_2r3fw"]
 
 [sub_resource type="Resource" id="Resource_yco6y"]
 script = ExtResource("6_m4qc1")
@@ -36,6 +38,9 @@ script = ExtResource("13_sv75w")
 sight_wide = 90.0
 sight_range = 100.0
 metadata/_custom_type_script = "uid://cf4bsx3i08rsi"
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_imnk3"]
+radius = 16.0
 
 [node name="测试用的敌人" instance=ExtResource("1_e6iff")]
 
@@ -105,9 +110,23 @@ navigation_layers = 2
 
 [node name="CCollision" parent="CharacterBody/ComponentContainer" index="4" instance=ExtResource("11_cnyrn")]
 
-[node name="Sightbox" parent="CharacterBody/ComponentContainer/CCollision" index="0" instance=ExtResource("12_yco6y")]
+[node name="Sightbox" type="Area2D" parent="CharacterBody/ComponentContainer/CCollision" index="0"]
+script = ExtResource("14_vgubl")
 sight_box_resource = Array[ExtResource("13_sv75w")]([SubResource("Resource_qoshy")])
 chase_target_group_name = Array[StringName]([&"player"])
+
+[node name="Hurtbox" type="Area2D" parent="CharacterBody/ComponentContainer/CCollision" index="1" node_paths=PackedStringArray("c_status")]
+script = ExtResource("16_imnk3")
+c_status = NodePath("../../CStatus")
+metadata/_custom_type_script = "uid://g2h7s2qmcn31"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody/ComponentContainer/CCollision/Hurtbox" index="0"]
+shape = SubResource("CircleShape2D_imnk3")
+
+[node name="CStatus" parent="CharacterBody/ComponentContainer" index="5" instance=ExtResource("17_2r3fw")]
+basic_info = Dictionary[int, float]({
+0: 100.0
+})
 
 [editable path="CharacterBody"]
 [editable path="CharacterBody/ComponentContainer/CState"]

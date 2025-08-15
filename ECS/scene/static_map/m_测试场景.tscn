@@ -1,4 +1,4 @@
-[gd_scene load_steps=38 format=4 uid="uid://nqh6sy3jpxp3"]
+[gd_scene load_steps=41 format=4 uid="uid://nqh6sy3jpxp3"]
 
 [ext_resource type="PackedScene" uid="uid://dx8lfcn7h43ea" path="res://resource/node_template/map/static_map.tscn" id="1_8b7id"]
 [ext_resource type="PackedScene" uid="uid://6dpqakv78nkp" path="res://resource/node_template/map/level.tscn" id="2_kqh3t"]
@@ -20,8 +20,10 @@
 [ext_resource type="PackedScene" uid="uid://o6phrnqwl5gh" path="res://entity/entity_packed/fixed_entity/partner/i_partner.tscn" id="16_p2mf1"]
 [ext_resource type="PackedScene" uid="uid://ca1hb1m2dinl2" path="res://component/c_state/c_state.tscn" id="20_6k0fo"]
 [ext_resource type="PackedScene" uid="uid://cl2k6r335pke0" path="res://component/c_navigation/c_navigation.tscn" id="22_05w2q"]
+[ext_resource type="Script" uid="uid://dqxey3deyxpb4" path="res://component/c_collision/box_collision/interaction_box/interact_box.gd" id="22_1788p"]
 [ext_resource type="PackedScene" uid="uid://cps21xspaovit" path="res://component/c_collision/c_collision.tscn" id="23_h8umv"]
-[ext_resource type="PackedScene" uid="uid://chj3kl8gl43h" path="res://component/c_collision/box_collision/interaction_box/interact_box.tscn" id="24_xyu3f"]
+[ext_resource type="Script" uid="uid://56igfb3mcaca" path="res://component/c_collision/box_collision/hit_box/hit_effect/i_hit_effect.gd" id="24_ta42a"]
+[ext_resource type="Script" uid="uid://dprng288c4b2f" path="res://component/c_collision/box_collision/hit_box/hit_effect/status_effect.gd" id="25_nfrqy"]
 [ext_resource type="Script" uid="uid://dyicjmjyi8vve" path="res://component/c_interaction/interaction/passive_interaction/interaction_collect.gd" id="25_xyu3f"]
 [ext_resource type="Texture2D" uid="uid://kbkgom7sc05c" path="res://asset/item_texture/ItemIcon.png" id="26_7knx6"]
 [ext_resource type="PackedScene" uid="uid://cp3qo45fcw0ix" path="res://resource/custom_resource/item/item_weapon/attack_node/手枪/attack_node_手枪.tscn" id="26_1788p"]
@@ -59,6 +61,11 @@ interaction = NodePath("InteractionDialogue")
 interact_box = NodePath("../CCollision/InteractionBox")
 metadata/_custom_type_script = "uid://ccu2saj6ovslc"
 
+[sub_resource type="Resource" id="Resource_1sb6v"]
+script = ExtResource("25_nfrqy")
+status_effect_value = -10
+metadata/_custom_type_script = "uid://dprng288c4b2f"
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_nfrqy"]
 atlas = ExtResource("26_7knx6")
 region = Rect2(0, 0, 80, 80)
@@ -66,6 +73,7 @@ region = Rect2(0, 0, 80, 80)
 [sub_resource type="Resource" id="Resource_phtbu"]
 script = ExtResource("27_ta42a")
 weapon_node = ExtResource("26_1788p")
+hit_effect_list = Array[ExtResource("24_ta42a")]([SubResource("Resource_1sb6v")])
 item_nick_name = "pistol"
 item_name = "手枪"
 item_description = "一把手枪，"
@@ -153,7 +161,8 @@ position = Vector2(324, -5)
 
 [node name="CCollision" parent="Levels/Level/翁蛾健治/CharacterBody/ComponentContainer" index="3" instance=ExtResource("23_h8umv")]
 
-[node name="InteractionBox" parent="Levels/Level/翁蛾健治/CharacterBody/ComponentContainer/CCollision" index="0" instance=ExtResource("24_xyu3f")]
+[node name="InteractionBox" type="Area2D" parent="Levels/Level/翁蛾健治/CharacterBody/ComponentContainer/CCollision" index="0"]
+script = ExtResource("22_1788p")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Levels/Level/翁蛾健治/CharacterBody/ComponentContainer/CCollision/InteractionBox" index="0"]
 position = Vector2(-25, 16)

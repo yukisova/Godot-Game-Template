@@ -44,20 +44,6 @@ extends Interaction
 ## 传递给对话系统的额外数据和配置信息
 @export var dialogue_info: Dictionary[String, Variant]
 
-## 修正对话信息
-## 处理对话信息中的节点路径引用，将NodePath转换为实际节点引用
-## @return: 处理后的对话信息字典
-func _fixed_dialogue_info() -> Dictionary:
-	var dialogue_info_fixed = dialogue_info.duplicate_deep()
-	
-	# 遍历所有键值对，处理NodePath类型的值
-	for key in dialogue_info_fixed:
-		if dialogue_info_fixed[key] is NodePath:
-			# 将NodePath转换为实际的节点引用
-			dialogue_info_fixed[key] = get_node(dialogue_info_fixed[key])
-	
-	return dialogue_info_fixed
-
 ## 交互激活处理
 ## 当对话交互被触发时启动对话系统
 ## @param _target_entity: 触发交互的目标实体（通常是玩家）
@@ -67,7 +53,7 @@ func _on_interact_activated(_target_entity: FixedEntity):
 	
 	# 准备对话上下文数据
 	var context_data = [
-		_fixed_dialogue_info(),           # 修正后的对话配置信息
+		SoraEvent.fixed_dictionary(self, dialogue_info),           # 修正后的对话配置信息
 		{"target_entity": _target_entity} # 触发对话的实体信息
 	]
 	

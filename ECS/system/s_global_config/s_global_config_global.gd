@@ -75,10 +75,10 @@ func _resetup():
 
 #region 键位绑定管理
 ## 更新动作映射
-## 为指定动作设置新的按键绑定
+## 为指定动作设置新的按键绑定，支持键盘和鼠标按键
 ## @param action_name: 动作名称
-## @param key: 新的按键代码
-static func update_action(action_name: String, key):
+## @param input_config: 输入配置（可以是键码或配置字典）
+static func update_action(action_name: String, input_config):
 	# 确保动作存在于输入映射中
 	if not InputMap.has_action(action_name):
 		InputMap.add_action(action_name)
@@ -87,21 +87,442 @@ static func update_action(action_name: String, key):
 	# 清除现有的按键绑定
 	InputMap.action_erase_events(action_name)
 	
-	# 创建新的键盘输入事件
-	var input_event = InputEventKey.new()
-	input_event.keycode = key
+	# 创建输入事件
+	var input_event = _create_input_event(input_config)
+	
+	if input_event == null:
+		push_warning("配置系统: 无法创建输入事件 -> ", action_name, " = ", input_config)
+		return
 	
 	# 添加新的按键绑定
 	InputMap.action_add_event(action_name, input_event)
 	
-	print("配置系统: 设置按键绑定 -> ", action_name, " = ", OS.get_keycode_string(key))
+	var input_desc = _get_input_description(input_config)
+	print("配置系统: 设置按键绑定 -> ", action_name, " = ", input_desc)
 
 ## 重新绑定动作
 ## 为指定动作重新绑定按键（update_action的别名）
 ## @param action_name: 动作名称
-## @param new_key: 新的按键
-static func rebind_action(action_name: String, new_key: Key):
-	update_action(action_name, new_key)
+## @param new_input: 新的输入配置
+static func rebind_action(action_name: String, new_input):
+	update_action(action_name, new_input)
+
+## 创建输入事件
+## 根据输入配置创建对应的输入事件对象
+## @param input_config: 输入配置（键码、配置字典等）
+## @return: InputEvent对象或null
+static func _create_input_event(input_config) -> InputEvent:
+	# 如果是简单的键码（兼容旧配置）
+	if input_config is int:
+		var input_event = InputEventKey.new()
+		input_event.keycode = input_config
+		return input_event
+	
+	# 如果是配置字典
+	if input_config is Dictionary:
+		var input_type = input_config.get("type", "key")
+		
+		match input_type:
+			"key":
+				var input_event = InputEventKey.new()
+				input_event.keycode = input_config.get("keycode", KEY_NONE)
+				# 支持修饰键
+				if input_config.has("ctrl"):
+					input_event.ctrl_pressed = input_config.get("ctrl", false)
+				if input_config.has("alt"):
+					input_event.alt_pressed = input_config.get("alt", false)
+				if input_config.has("shift"):
+					input_event.shift_pressed = input_config.get("shift", false)
+				return input_event
+			
+			"mouse":
+				var input_event = InputEventMouseButton.new()
+				input_event.button_index = input_config.get("button", MOUSE_BUTTON_LEFT)
+				# 支持修饰键
+				if input_config.has("ctrl"):
+					input_event.ctrl_pressed = input_config.get("ctrl", false)
+				if input_config.has("alt"):
+					input_event.alt_pressed = input_config.get("alt", false)
+				if input_config.has("shift"):
+					input_event.shift_pressed = input_config.get("shift", false)
+				return input_event
+			
+			_:
+				push_warning("配置系统: 不支持的输入类型 -> ", input_type)
+				return null
+	
+	# 如果是字符串（支持特殊格式）
+	if input_config is String:
+		return _parse_input_string(input_config)
+	
+	push_warning("配置系统: 无法识别的输入配置格式 -> ", input_config)
+	return null
+
+## 解析输入字符串
+## 解析特殊格式的输入字符串，例如 "mouse:left", "key:space+ctrl"
+## @param input_string: 输入字符串
+## @return: InputEvent对象或null
+static func _parse_input_string(input_string: String) -> InputEvent:
+	var parts = input_string.split(":")
+	if parts.size() != 2:
+		push_warning("配置系统: 输入字符串格式错误 -> ", input_string)
+		return null
+	
+	var input_type = parts[0].strip_edges()
+	var input_value = parts[1].strip_edges()
+	
+	match input_type:
+		"mouse":
+			var input_event = InputEventMouseButton.new()
+			var mouse_parts = input_value.split("+")
+			var button_name = mouse_parts[0].strip_edges()
+			
+			# 解析鼠标按钮
+			match button_name.to_lower():
+				"left":
+					input_event.button_index = MOUSE_BUTTON_LEFT
+				"right":
+					input_event.button_index = MOUSE_BUTTON_RIGHT
+				"middle":
+					input_event.button_index = MOUSE_BUTTON_MIDDLE
+				"wheel_up":
+					input_event.button_index = MOUSE_BUTTON_WHEEL_UP
+				"wheel_down":
+					input_event.button_index = MOUSE_BUTTON_WHEEL_DOWN
+				_:
+					push_warning("配置系统: 不支持的鼠标按钮 -> ", button_name)
+					return null
+			
+			# 解析修饰键
+			for i in range(1, mouse_parts.size()):
+				var modifier = mouse_parts[i].strip_edges().to_lower()
+				match modifier:
+					"ctrl":
+						input_event.ctrl_pressed = true
+					"alt":
+						input_event.alt_pressed = true
+					"shift":
+						input_event.shift_pressed = true
+			
+			return input_event
+		
+		"key":
+			var input_event = InputEventKey.new()
+			var key_parts = input_value.split("+")
+			var key_name = key_parts[0].strip_edges()
+			
+			# 解析按键名称为键码
+			input_event.keycode = _parse_key_name(key_name)
+			if input_event.keycode == KEY_NONE:
+				push_warning("配置系统: 不支持的按键名称 -> ", key_name)
+				return null
+			
+			# 解析修饰键
+			for i in range(1, key_parts.size()):
+				var modifier = key_parts[i].strip_edges().to_lower()
+				match modifier:
+					"ctrl":
+						input_event.ctrl_pressed = true
+					"alt":
+						input_event.alt_pressed = true
+					"shift":
+						input_event.shift_pressed = true
+			
+			return input_event
+		
+		_:
+			push_warning("配置系统: 不支持的输入类型 -> ", input_type)
+			return null
+
+## 解析按键名称
+## 将按键名称字符串转换为对应的键码
+## @param key_name: 按键名称
+## @return: 键码
+static func _parse_key_name(key_name: String) -> Key:
+	match key_name.to_lower():
+		"space":
+			return KEY_SPACE
+		"tab":
+			return KEY_TAB
+		"enter":
+			return KEY_ENTER
+		"escape", "esc":
+			return KEY_ESCAPE
+		"a":
+			return KEY_A
+		"b":
+			return KEY_B
+		"c":
+			return KEY_C
+		"d":
+			return KEY_D
+		"e":
+			return KEY_E
+		"f":
+			return KEY_F
+		"g":
+			return KEY_G
+		"h":
+			return KEY_H
+		"i":
+			return KEY_I
+		"j":
+			return KEY_J
+		"k":
+			return KEY_K
+		"l":
+			return KEY_L
+		"m":
+			return KEY_M
+		"n":
+			return KEY_N
+		"o":
+			return KEY_O
+		"p":
+			return KEY_P
+		"q":
+			return KEY_Q
+		"r":
+			return KEY_R
+		"s":
+			return KEY_S
+		"t":
+			return KEY_T
+		"u":
+			return KEY_U
+		"v":
+			return KEY_V
+		"w":
+			return KEY_W
+		"x":
+			return KEY_X
+		"y":
+			return KEY_Y
+		"z":
+			return KEY_Z
+		"f1":
+			return KEY_F1
+		"f2":
+			return KEY_F2
+		"f3":
+			return KEY_F3
+		"f4":
+			return KEY_F4
+		"f5":
+			return KEY_F5
+		"f6":
+			return KEY_F6
+		"f7":
+			return KEY_F7
+		"f8":
+			return KEY_F8
+		"f9":
+			return KEY_F9
+		"f10":
+			return KEY_F10
+		"f11":
+			return KEY_F11
+		"f12":
+			return KEY_F12
+		_:
+			return KEY_NONE
+
+## 获取输入描述
+## 为输入配置生成可读的描述文本
+## @param input_config: 输入配置
+## @return: 描述字符串
+static func _get_input_description(input_config) -> String:
+	# 如果是简单的键码
+	if input_config is int:
+		return OS.get_keycode_string(input_config)
+	
+	# 如果是配置字典
+	if input_config is Dictionary:
+		var input_type = input_config.get("type", "key")
+		var modifiers = []
+		
+		if input_config.get("ctrl", false):
+			modifiers.append("Ctrl")
+		if input_config.get("alt", false):
+			modifiers.append("Alt")
+		if input_config.get("shift", false):
+			modifiers.append("Shift")
+		
+		var modifier_str = ""
+		if modifiers.size() > 0:
+			modifier_str = "+".join(modifiers) + "+"
+		
+		match input_type:
+			"key":
+				var keycode = input_config.get("keycode", KEY_NONE)
+				return modifier_str + OS.get_keycode_string(keycode)
+			"mouse":
+				var button = input_config.get("button", MOUSE_BUTTON_LEFT)
+				var button_name = _get_mouse_button_name(button)
+				return modifier_str + "Mouse:" + button_name
+			_:
+				return "未知输入类型"
+	
+	# 如果是字符串
+	if input_config is String:
+		return input_config
+	
+	return str(input_config)
+
+## 获取鼠标按钮名称
+## 将鼠标按钮索引转换为可读名称
+## @param button_index: 鼠标按钮索引
+## @return: 按钮名称
+static func _get_mouse_button_name(button_index: MouseButton) -> String:
+	match button_index:
+		MOUSE_BUTTON_LEFT:
+			return "左键"
+		MOUSE_BUTTON_RIGHT:
+			return "右键"
+		MOUSE_BUTTON_MIDDLE:
+			return "中键"
+		MOUSE_BUTTON_WHEEL_UP:
+			return "滚轮上"
+		MOUSE_BUTTON_WHEEL_DOWN:
+			return "滚轮下"
+		_:
+			return "按钮" + str(button_index)
+
+## 创建鼠标按键配置
+## 便捷方法：为鼠标按键创建配置字典
+## @param button: 鼠标按钮索引
+## @param ctrl: 是否需要Ctrl修饰键
+## @param alt: 是否需要Alt修饰键
+## @param shift: 是否需要Shift修饰键
+## @return: 配置字典
+static func create_mouse_config(button: MouseButton, ctrl: bool = false, alt: bool = false, shift: bool = false) -> Dictionary:
+	var config = {
+		"type": "mouse",
+		"button": button
+	}
+	
+	if ctrl:
+		config["ctrl"] = true
+	if alt:
+		config["alt"] = true
+	if shift:
+		config["shift"] = true
+	
+	return config
+
+## 创建键盘按键配置
+## 便捷方法：为键盘按键创建配置字典
+## @param keycode: 键码
+## @param ctrl: 是否需要Ctrl修饰键
+## @param alt: 是否需要Alt修饰键
+## @param shift: 是否需要Shift修饰键
+## @return: 配置字典
+static func create_key_config(keycode: Key, ctrl: bool = false, alt: bool = false, shift: bool = false) -> Dictionary:
+	var config = {
+		"type": "key",
+		"keycode": keycode
+	}
+	
+	if ctrl:
+		config["ctrl"] = true
+	if alt:
+		config["alt"] = true
+	if shift:
+		config["shift"] = true
+	
+	return config
+
+## 获取当前动作的输入配置
+## 返回当前绑定到指定动作的输入事件信息
+## @param action_name: 动作名称
+## @return: 输入配置描述数组
+static func get_action_inputs(action_name: String) -> Array[String]:
+	var descriptions: Array[String] = []
+	
+	if not InputMap.has_action(action_name):
+		return descriptions
+	
+	var events = InputMap.action_get_events(action_name)
+	for event in events:
+		var desc = ""
+		var modifiers: Array[String] = []
+		
+		# 检查修饰键
+		if event.ctrl_pressed:
+			modifiers.append("Ctrl")
+		if event.alt_pressed:
+			modifiers.append("Alt")
+		if event.shift_pressed:
+			modifiers.append("Shift")
+		
+		var modifier_str = ""
+		if modifiers.size() > 0:
+			modifier_str = "+".join(modifiers) + "+"
+		
+		# 根据事件类型生成描述
+		if event is InputEventKey:
+			desc = modifier_str + OS.get_keycode_string(event.keycode)
+		elif event is InputEventMouseButton:
+			var button_name = _get_mouse_button_name(event.button_index)
+			desc = modifier_str + "Mouse:" + button_name
+		else:
+			desc = modifier_str + "未知输入"
+		
+		descriptions.append(desc)
+	
+	return descriptions
+
+## 批量设置键位绑定
+## 便捷方法：一次性设置多个键位绑定
+## @param bindings: 键位绑定字典，格式为 {action_name: input_config}
+static func set_multiple_bindings(bindings: Dictionary):
+	print("配置系统: 开始批量设置键位绑定，共 ", bindings.size(), " 个")
+	
+	for action_name in bindings.keys():
+		var input_config = bindings[action_name]
+		update_action(action_name, input_config)
+	
+	print("配置系统: 批量键位绑定完成")
+
+## 重置动作到默认配置
+## 将指定动作重置为默认配置中的绑定
+## @param action_name: 动作名称
+static func reset_action_to_default(action_name: String):
+	var default_keymap = SoraConstant.BASIC_SETTING.get("keymap", {}) as Dictionary
+	
+	if default_keymap.has(action_name):
+		var default_config = default_keymap[action_name]
+		update_action(action_name, default_config)
+		print("配置系统: 重置动作到默认配置 -> ", action_name)
+	else:
+		push_warning("配置系统: 默认配置中未找到动作 -> ", action_name)
+
+## 导出当前键位配置
+## 返回当前所有键位绑定的配置字典，可用于保存到文件
+## @return: 键位配置字典
+static func export_current_keymap() -> Dictionary:
+	var keymap = {}
+	var actions = InputMap.get_actions()
+	
+	for action in actions:
+		var events = InputMap.action_get_events(action)
+		if events.size() > 0:
+			# 只导出第一个绑定事件（简化处理）
+			var event = events[0]
+			
+			if event is InputEventKey:
+				# 如果没有修饰键，使用简单格式
+				if not event.ctrl_pressed and not event.alt_pressed and not event.shift_pressed:
+					keymap[action] = event.keycode
+				else:
+					# 使用字典格式
+					keymap[action] = create_key_config(event.keycode, event.ctrl_pressed, event.alt_pressed, event.shift_pressed)
+			
+			elif event is InputEventMouseButton:
+				# 使用字典格式
+				keymap[action] = create_mouse_config(event.button_index, event.ctrl_pressed, event.alt_pressed, event.shift_pressed)
+	
+	return keymap
 #endregion
 
 ## 配置文件加载

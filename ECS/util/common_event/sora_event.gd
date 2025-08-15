@@ -14,15 +14,26 @@
 class_name SoraEvent
 extends Node
 
-## 对话气泡UI场景
-## 用于显示对话内容的UI预制体
-const DIALOGUE_BALLOON: PackedScene = preload("res://ui/ui/ui_dialogue/ui_dialogue.tscn")
+## 修复字典中的NodePath值
+## 将字典中的NodePath值转换为实际的节点引用
+## @param node: 节点
+## @param data: 字典
+## @return: 修复后的字典
+static func fixed_dictionary(node: Node, data: Dictionary) -> Dictionary:
+	var fixed_data = data.duplicate_deep()
+	
+	# 遍历所有键值对，处理NodePath类型的值
+	for key in fixed_data:
+		if fixed_data[key] is NodePath:
+			# 将NodePath转换为实际的节点引用
+			fixed_data[key] = node.get_node(fixed_data[key])
+		elif fixed_data[key] is Dictionary:
+			fixed_data[key] = fixed_dictionary(node, fixed_data[key])
+		elif fixed_data[key] is Array:
+			for i in fixed_data[key].size():
+				if fixed_data[key][i] is Dictionary:
+					fixed_data[key][i] = fixed_dictionary(node, fixed_data[key][i])
+				elif fixed_data[key][i] is NodePath:
+					fixed_data[key][i] = node.get_node(fixed_data[key][i])
+	return fixed_data
 
-## 启动对话系统（封装版）
-## 对DialogueManager的封装，提供更简洁的对话启动接口
-## @param dialogue: 对话资源文件
-## @param _label: 对话标签，用于指定对话起始点（可选）
-## @param _context: 对话上下文数据，用于传递变量到对话中（可选）
-static func sora_dialogue_start(dialogue: DialogueResource, _label: String = "", _context: Array = []):
-	var balloon = DIALOGUE_BALLOON.instantiate()
-	DialogueManager._start_balloon(balloon, dialogue, _label, _context)
