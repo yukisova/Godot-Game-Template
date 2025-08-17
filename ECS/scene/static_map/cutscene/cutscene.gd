@@ -1,5 +1,4 @@
-class_name Cutscene
+@abstract class_name ICutscene
 extends Node
 
-func _start():
-	pass
+@abstract func _start()

@@ -1,5 +1,4 @@
-## @editing: Sora [br]
-## @describe: 玩家属性HUD - 显示角色基础信息和快捷操作界面
+## 玩家属性HUD - 显示角色基础信息和快捷操作界面
 ##
 ## 该HUD集成了多个玩家相关的UI元素：
 ## - 时间循环系统的时钟显示
@@ -17,13 +16,22 @@
 ## - 抽屉式背包展开/收起动画
 ## - 可拖拽的物品图标
 ## - 响应式布局适配
+##
+## 架构设计：
+## - 继承自 [IHud] 基类
+## - 与 [FixedEntity] 的玩家实体绑定
+## - 集成 [InventoryExtension] 背包系统
+## - 使用 [DragableItem] 拖拽组件
+##
+## [br][b]编辑者:[/b] Sora
 extends IHud
 
 #region 实体绑定
 
 ## 绑定的实体
-## 通常为玩家角色实体
-var binding_entity: FixedEntity
+## 
+## 通常为玩家角色实体，类型为 [FixedEntity]。
+var binding_fixed_entity: FixedEntity
 
 #endregion
 
@@ -32,11 +40,13 @@ var binding_entity: FixedEntity
 @export_group("时间循环", "time_")
 
 ## 小时指针
-## 用于显示游戏内的小时时间
+## 
+## 用于显示游戏内的小时时间，类型为 [Line2D]。
 @export var hour_pointer: Line2D
 
 ## 分钟指针  
-## 用于显示游戏内的分钟时间
+## 
+## 用于显示游戏内的分钟时间，类型为 [Line2D]。
 @export var minute_pointer: Line2D
 
 #endregion
@@ -46,19 +56,23 @@ var binding_entity: FixedEntity
 @export_group("背包抽屉", "bag_")
 
 ## 背包切换按钮
-## 控制背包抽屉的展开和收起
+## 
+## 控制背包抽屉的展开和收起，类型为 [Button]。
 @export var bag_button: Button
 
 ## 背包槽位容器
-## 存放所有背包槽位的布局容器
+## 
+## 存放所有背包槽位的布局容器，类型为 [HBoxContainer]。
 @export var bag_slot_container: HBoxContainer
 
 ## 背包槽位原型
-## 用于动态创建背包槽位的模板
+## 
+## 用于动态创建背包槽位的模板，类型为 [PanelContainer]。
 @export var bag_slot_prototype: PanelContainer
 
 ## 可拖拽物品原型
-## 用于创建可拖拽物品图标的模板
+## 
+## 用于创建可拖拽物品图标的模板，类型为 [DragableItem]。
 @export var bag_dragable_item_prototype: DragableItem
 
 #endregion
@@ -66,7 +80,8 @@ var binding_entity: FixedEntity
 #region 背包系统集成
 
 ## 玩家背包扩展
-## 引用玩家状态组件中的背包系统
+## 
+## 引用玩家状态组件中的背包系统，类型为 [InventoryExtension]。
 var inventory_in_player: InventoryExtension
 
 #endregion
@@ -98,7 +113,8 @@ func _refresh():
 #region 输入处理
 
 ## 处理未处理的输入事件
-## @param event: 输入事件
+## 
+## [param _event]: 输入事件，类型为 [InputEvent]
 func _unhandled_input(_event: InputEvent) -> void:
 	# 预留拖拽功能的输入处理
 	# TODO: 实现物品拖拽逻辑
@@ -109,7 +125,9 @@ func _unhandled_input(_event: InputEvent) -> void:
 #region 时间显示
 
 ## 旋转时钟指针
-## @param current_timer: 当前时间（分钟数）
+## 
+## 根据当前游戏时间更新时钟指针的显示角度。
+## [param current_timer]: 当前时间（分钟数）
 func rotate_pointer(current_timer: int):
 	# 计算小时和分钟的比例
 	var hour = current_timer / 60.0 / 24
@@ -152,8 +170,10 @@ func drawer_off():
 #region 背包事件处理
 
 ## 处理背包添加物品事件
-## @param item: 添加的物品
-## @param index: 物品在背包中的索引
+## 
+## 当背包中添加物品时创建可拖拽的物品图标。
+## [param item]: 添加的物品，类型为 [Item]
+## [param index]: 物品在背包中的索引
 func _on_add_inventory(item: Item, index: int):
 	var bag_dragable_item = bag_dragable_item_prototype.duplicate() as DragableItem
 	var bag_slot = bag_slot_container.get_child(index)
@@ -166,7 +186,9 @@ func _on_add_inventory(item: Item, index: int):
 	bag_dragable_item.show()
 
 ## 处理背包移除物品事件
-## @param index: 被移除物品的索引
+## 
+## 当背包中移除物品时清理对应的UI元素。
+## [param index]: 被移除物品的索引
 func _on_remove_inventory(index: int):
 	var target_bag_slot = bag_slot_container.get_child(index)
 	# 清理槽位中的所有子节点（物品图标）

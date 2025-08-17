@@ -1,40 +1,50 @@
-## @editing: Sora [br]
-## @describe: 对话框UI - 基于DialogueManager的对话系统界面
+## 对话框UI - 基于DialogueManager的对话系统界面
 ##
-## 该UI组件实现了完整的对话系统界面，基于DialogueManager插件：
-## - 支持角色对话的显示和播放
-## - 提供玩家选择分支的交互
-## - 集成打字机效果和跳过功能
-## - 支持多语言本地化
+## 该UI组件实现了完整的对话系统界面，基于DialogueManager插件。
+## 提供富文本对话显示、打字机效果、选择分支和多语言支持等核心功能。
 ##
-## 主要功能：
+## 核心功能：
 ## - 逐字显示对话文本（打字机效果）
 ## - 处理玩家的对话选择分支
 ## - 支持对话的跳过和快进
-## - 动态语言切换支持
+## - 动态语言切换和本地化
+## - 集成角色名称和头像显示
+##
+## 主要特性：
+## - 基于 [DialogueManager] 插件架构
+## - 事件驱动的对话流控制
+## - 支持临时游戏状态传递
+## - 自动内存管理和生命周期清理
+## - 响应式的UI布局和交互
 ##
 ## 使用场景：
 ## - NPC对话系统
 ## - 剧情过场动画
 ## - 教程指引文本
 ## - 故事叙述界面
+## - 任务提示对话
 ##
-## 技术特性：
-## - 基于DialogueManager插件架构
-## - 事件驱动的对话流控制
-## - 支持临时游戏状态传递
-## - 自动内存管理和清理
+## 架构设计：
+## - 继承自 [IUi] 基类
+## - 集成 [DialogueLabel] 打字机效果
+## - 基于 [DialogueResponsesMenu] 的选择系统
+## - 支持 [DialogueResource] 资源管理
+## - 与 [TranslationServer] 的多语言集成
+##
+## [br][b]编辑者:[/b] Sora
 class_name UiDialogue
 extends IUi
 
 #region 输入配置
 
 ## 推进对话的动作
-## 用于继续到下一句对话的输入动作
+## 
+## 用于继续到下一句对话的输入动作，类型为 [StringName]。
 @export var next_action: StringName = &"ui_accept"
 
 ## 跳过打字效果的动作
-## 用于快速显示完整对话文本的输入动作
+## 
+## 用于快速显示完整对话文本的输入动作，类型为 [StringName]。
 @export var skip_action: StringName = &"ui_cancel"
 
 #endregion
@@ -42,15 +52,18 @@ extends IUi
 #region 对话数据
 
 ## 对话资源
-## 当前正在播放的对话资源文件
+## 
+## 当前正在播放的对话资源文件，类型为 [DialogueResource]。
 var resource: DialogueResource
 
 ## 临时游戏状态
-## 传递给对话系统的临时状态数据
+## 
+## 传递给对话系统的临时状态数据，类型为 [Array]。
 var temporary_game_states: Array = []
 
 ## 本地变量字典
-## 存储对话过程中的临时变量
+## 
+## 存储对话过程中的临时变量，类型为 [Dictionary]。
 var locals: Dictionary = {}
 
 #endregion
@@ -58,20 +71,25 @@ var locals: Dictionary = {}
 #region 对话状态
 
 ## 是否等待玩家输入
-## 标记当前是否在等待玩家操作
+## 
+## 标记当前是否在等待玩家操作。
 var is_waiting_for_input: bool = false
 
 ## 是否将要隐藏气泡
-## 用于处理长时间变化时的界面隐藏
+## 
+## 用于处理长时间变化时的界面隐藏机制。
 var will_hide_balloon: bool = false
 
 ## 当前语言设置
-## 用于检测语言变化并更新显示
+## 
+## 用于检测语言变化并更新显示，类型为 [String]。
 var _locale: String = TranslationServer.get_locale()
 
 #endregion
 
-## The current line
+## 当前对话行
+## 
+## 当前正在显示的对话行，类型为 [DialogueLine]。
 var dialogue_line: DialogueLine:
 	set(value):
 		if value:
@@ -84,19 +102,29 @@ var dialogue_line: DialogueLine:
 	get:
 		return dialogue_line
 
-## A cooldown timer for delaying the balloon hide when encountering a mutation.
+## 冷却定时器
+## 
+## 用于在遇到状态变化时延迟隐藏对话气泡，类型为 [Timer]。
 var mutation_cooldown: Timer = Timer.new()
 
-## The base balloon anchor
+## 对话气泡基础锚点
+## 
+## 对话界面的主容器控件，类型为 [Control]。
 @onready var balloon: Control = %Balloon
 
-## The label showing the name of the currently speaking character
+## 角色名称标签
+## 
+## 显示当前说话角色名称的富文本标签，类型为 [RichTextLabel]。
 @onready var character_label: RichTextLabel = %CharacterLabel
 
-## The label showing the currently spoken dialogue
+## 对话文本标签
+## 
+## 显示当前对话内容的专用标签组件，类型为 [DialogueLabel]。
 @onready var dialogue_label: DialogueLabel = %DialogueLabel
 
-## The menu of responses
+## 回应选择菜单
+## 
+## 玩家对话选择分支的菜单组件，类型为 [DialogueResponsesMenu]。
 @onready var responses_menu: DialogueResponsesMenu = %ResponsesMenu
 
 
@@ -127,7 +155,12 @@ func _notification(what: int) -> void:
 			dialogue_label.skip_typing()
 
 
-## Start some dialogue
+## 开始对话
+## 
+## 启动指定的对话资源，开始对话流程。
+## [param dialogue_resource]: 要播放的对话资源，类型为 [DialogueResource]
+## [param title]: 对话的起始标识符，类型为 [String]
+## [param extra_game_states]: 额外的游戏状态数组，类型为 [Array]
 func start(dialogue_resource: DialogueResource, title: String, extra_game_states: Array = []) -> void:
 	## HACK 个人写的修改部分, 旨在将该节点放入ui_view中
 	if Main.ui_view != null:
@@ -141,7 +174,9 @@ func start(dialogue_resource: DialogueResource, title: String, extra_game_states
 	self.dialogue_line = await resource.get_next_dialogue_line(title, temporary_game_states)
 
 
-## Apply any changes to the balloon given a new [DialogueLine].
+## 应用对话行
+## 
+## 根据新的 [DialogueLine] 更新对话界面的显示。
 func apply_dialogue_line() -> void:
 	mutation_cooldown.stop()
 
@@ -181,7 +216,10 @@ func apply_dialogue_line() -> void:
 		balloon.grab_focus()
 
 
-## Go to the next line
+## 转到下一行
+## 
+## 跳转到指定ID的下一个对话行。
+## [param next_id]: 下一个对话行的标识符，类型为 [String]
 func next(next_id: String) -> void:
 	self.dialogue_line = await resource.get_next_dialogue_line(next_id, temporary_game_states)
 

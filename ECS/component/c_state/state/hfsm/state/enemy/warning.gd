@@ -1,17 +1,65 @@
+## 敌人警戒状态 - 敌人AI的警戒和目标检测状态
+##
+## 该状态表示敌人处于警戒状态，通过视线检测系统监控周围环境，
+## 当发现或失去目标时会触发相应的状态转换。
+##
+## 核心功能：
+## - 持续的视线监控
+## - 目标发现的状态响应
+## - 目标丢失的处理逻辑
+## - PDA状态栈的管理
+##
+## 警戒机制：
+## - 基于 [SightBox] 的视线检测
+## - 目标发现时的锁定状态推送
+## - 目标丢失时的丢失状态推送
+## - 状态转换的条件判断
+##
+## 检测逻辑：
+## - 实时监控视野范围内的目标
+## - 目标进入视野时的即时响应
+## - 目标离开视野时的状态切换
+## - 当前状态的验证机制
+##
+## 应用场景：
+## - 守卫的基础警戒状态
+## - 哨兵的目标监控
+## - 巡逻兵的警觉状态
+## - 防御型敌人的监视
+##
+## 架构设计：
+## - 继承自 [StateHfsm] 基类
+## - 使用 [annotation @tool] 支持编辑器功能
+## - 集成 [SightBox] 视线检测系统
+## - 基于信号的状态响应机制
+##
+## [br][b]编辑者:[/b] Sora
 @tool
 extends StateHfsm
 
+## 视线检测盒
+## 
+## 用于检测视野内目标的组件，类型为 [SightBox]。
 @export var sight_box: SightBox
 
+## 状态设置（重写方法）
+## 
+## 初始化警戒状态并连接视线检测信号。
 func _setup():
 	super()
 	sight_box.target_losed.connect(_on_target_losed)
 	sight_box.target_noticed.connect(_on_target_noticed)
 
-func _on_target_losed(): ## 视野内没有目标时
+## 目标丢失处理
+## 
+## 当视野内没有目标时触发目标丢失状态。
+func _on_target_losed():
 	if belong_state_machine.current_state == self:
 		state_pushed.emit(confirm_pda_state_dict["target_lost"])
 
-func _on_target_noticed(): ## 视野内出现目标时
+## 目标发现处理
+## 
+## 当视野内出现目标时触发目标锁定状态。
+func _on_target_noticed():
 	if belong_state_machine.current_state == self:
 		state_pushed.emit(confirm_pda_state_dict["target_lock"])

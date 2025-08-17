@@ -1,5 +1,4 @@
-## @editing: Sora [br]
-## @describe: 可拖拽物品 - 网格背包系统中的物品显示组件
+## 可拖拽物品 - 网格背包系统中的物品显示组件
 ##
 ## 该组件表示背包系统中的单个物品，提供：
 ## - 物品的可视化显示
@@ -20,19 +19,29 @@
 ## - 物品管理界面的基础组件
 ## - 物品交互的用户界面
 ##
+## 架构设计：
+## - 继承自 [TextureRect] 基类
+## - 与 [Item] 数据模型绑定
+## - 基于 [GridInventorySlot] 的槽位管理
+## - 支持 [Vector2i] 的网格尺寸系统
+##
 ## 设计特点：
 ## - 响应式大小调整
 ## - 数据驱动的显示更新
 ## - 灵活的槽位绑定机制
 ## - 自动的纹理和尺寸同步
+##
+## [br][b]编辑者:[/b] Sora
 class_name DragableItem
 extends TextureRect
 
 #region 物品数据绑定
 
 ## 绑定的物品数据
-## 当设置时自动更新纹理和尺寸信息
-## 包含物品的所有属性：名称、描述、纹理、尺寸、重量等
+## 
+## 当设置时自动更新纹理和尺寸信息。
+## 包含物品的所有属性：名称、描述、纹理、尺寸、重量等。
+## 类型为 [Item]。
 var binding_item: Item:
 	set(v):
 		binding_item = v
@@ -49,23 +58,27 @@ var binding_item: Item:
 #region 物品状态属性
 
 ## 物品在网格中的尺寸
-## 决定物品占用的网格数量，格式为Vector2i(宽度, 高度)
-## 例如：Vector2i(2, 1)表示物品占用2列1行的网格空间
+## 
+## 决定物品占用的网格数量，格式为 [Vector2i](宽度, 高度)。
+## 例如：Vector2i(2, 1) 表示物品占用2列1行的网格空间。
 var item_size: Vector2i = Vector2i(1, 1)
 
 ## 当前所在的网格槽位
-## 表示物品在背包中的当前位置
-## 当物品被拖拽时，此值可能为null
+## 
+## 表示物品在背包中的当前位置。
+## 当物品被拖拽时，此值可能为null。类型为 [GridInventorySlot]。
 var current_slot: GridInventorySlot = null
 
 ## 原始槽位位置
-## 用于拖拽失败时的回退位置
-## 在开始拖拽前保存的原始位置
+## 
+## 用于拖拽失败时的回退位置。
+## 在开始拖拽前保存的原始位置。类型为 [GridInventorySlot]。
 var origin_slot: GridInventorySlot = null
 
 ## 物品是否已旋转
-## 标记物品的旋转状态
-## 影响物品的显示方向和占用网格的计算
+## 
+## 标记物品的旋转状态。
+## 影响物品的显示方向和占用网格的计算。
 var is_rotated: bool = false
 
 #endregion
@@ -95,14 +108,16 @@ func _update_display_size():
 #region 物品状态管理
 
 ## 获取物品的网格价值
-## 用于排序和优先级计算
-## @return: 物品占用的网格面积
+## 
+## 用于排序和优先级计算。
+## [br][br][b]返回:[/b] [int] 物品占用的网格面积
 func get_grid_value() -> int:
 	return item_size.x * item_size.y
 
 ## 检查物品是否可以旋转
-## 某些物品可能不支持旋转（如1x1的物品）
-## @return: 是否可以旋转
+## 
+## 某些物品可能不支持旋转（如1x1的物品）。
+## [br][br][b]返回:[/b] [bool] 是否可以旋转
 func can_rotate() -> bool:
 	# 1x1的物品旋转没有意义
 	return item_size.x != item_size.y

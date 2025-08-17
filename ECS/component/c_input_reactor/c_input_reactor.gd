@@ -1,50 +1,70 @@
-## @editing: Sora [br]
-## @describe: 输入响应组件 - 处理实体的输入控制逻辑
-## 
+## 输入响应组件 - 处理实体的输入控制逻辑
+##
 ## 该组件允许实体响应用户输入，支持多种移动模式和输入控制方式。
 ## 主要用于玩家角色的控制，也可用于其他需要输入响应的实体。
-## 
+##
 ## 功能特性：
 ## - 支持多种移动模式：横版、四向、八向、全向移动
-## - 可扩展的输入响应系统（通过ReactorExtension）
+## - 可扩展的输入响应系统（通过 [ReactorExtension]）
 ## - 交互对象管理
 ## - 输入状态检测（按下、持续按住、释放）
+##
+## 控制模式：
+## - [constant ControlMode.just_pressed]：刚按下触发
+## - [constant ControlMode.pressed]：持续按住
+## - [constant ControlMode.just_release]：刚释放触发
+##
+## 架构设计：
+## - 基于 [Input] 系统的输入检测
+## - 通过 [ReactorExtension] 系统支持功能扩展
+## - 与 [Interaction] 系统集成的交互功能
+##
+## [br][b]编辑者:[/b] Sora
 @tool
 class_name CInputReactor
 extends IComponent
 
 ## 输入控制模式枚举
-## 用于判断按键的不同触发状态
+## 
+## 用于判断按键的不同触发状态，支持精确的输入时机控制。
 enum ControlMode{ 
-	just_pressed = 0,  ## 刚按下
-	pressed,           ## 持续按住
-	just_release       ## 刚释放
+	just_pressed = 0,  ## 刚按下 - 按键被按下的瞬间
+	pressed,           ## 持续按住 - 按键持续被按下的状态
+	just_release       ## 刚释放 - 按键被释放的瞬间
 }
 
 ## 移动方向模式
-## 支持横版（左右）、四向、八向、全向移动
+## 
+## 支持不同的移动控制方式，从简单的横版到复杂的全向移动。
 @export_enum("横版", "四向", "八向", "全向") var award_mode: String = "四向"
 
 ## 功能禁用标志位
-## 位0: 向量监听禁用
-## 位1: 主控禁用
+## 
+## 用于控制组件的特定功能开关：
+## - 位0: 向量监听禁用
+## - 位1: 主控禁用
 @export_flags("向量监听","主控") var disable_flag: int:
 	set(v):
 		disable_flag = v
 		notify_property_list_changed()
 
 ## 输入向量字典
-## 存储不同类型的输入向量，如移动向量等
+## 
+## 存储不同类型的输入向量，键为向量类型名称，值为对应的 [Vector2] 向量。
 var input_vector_dict: Dictionary[String, Vector2] = {
 	"move" : Vector2.ZERO
 }
 
 ## 输入响应扩展组件数组
-## 用于扩展输入功能，如UI触发、特殊操作等
+## 
+## 用于扩展输入功能的扩展组件列表，如UI触发、特殊操作等。
+## 每个扩展都是 [ReactorExtension] 的子类。
 var reactor_extension: Array[ReactorExtension] = []
 
 ## 当前可交互对象
-## 当实体接近可交互对象时设置，离开时清空
+## 
+## 当实体接近可交互对象时设置，离开时清空。
+## 用于处理实体与环境对象的交互。
 var interact_obj: Interaction = null:
 	set(v):
 		if v == null:
@@ -72,9 +92,11 @@ func _initialize(_owner: IEntity, _load_data: Dictionary = {}):
 			
 
 ## 验证控制输入
-## @param key_string: 输入动作名称
-## @param control_mode: 控制模式（刚按下/持续按住/刚释放）
-## @return: 返回该输入是否满足指定的控制模式
+## 
+## 检查指定的输入动作是否满足特定的控制模式条件。
+## [param key_string]: 输入动作名称，必须在输入映射中定义
+## [param control_mode]: 控制模式，参见 [enum ControlMode]
+## [br][br][b]返回:[/b] [bool] 该输入是否满足指定的控制模式
 func validate_control(key_string: StringName, control_mode: ControlMode = ControlMode.just_pressed) -> bool:
 	if (SGlobalConfig.is_initialized):
 		match control_mode:
@@ -88,8 +110,9 @@ func validate_control(key_string: StringName, control_mode: ControlMode = Contro
 
 #region 输入向量处理
 ## 尝试获取输入向量信息
-## 根据当前设置的移动模式返回对应的输入向量数据
-## @return: 包含向量信息的字典，包含"vec"和可能的"pre_vec"
+## 
+## 根据当前设置的移动模式返回对应的输入向量数据。
+## [br][br][b]返回:[/b] [Dictionary] 包含向量信息的字典，包含"vec"和可能的"pre_vec"键
 func try_input_vector() -> Dictionary:
 	if (SGlobalConfig.is_initialized):
 		match award_mode:
@@ -106,8 +129,9 @@ func try_input_vector() -> Dictionary:
 	return {}
 
 ## 获取向量控制输入
-## 内部调用try_input_vector()并提取移动向量
-## @return: 当前帧的移动向量
+## 
+## 内部调用 [method try_input_vector] 并提取移动向量。
+## [br][br][b]返回:[/b] [Vector2] 当前帧的移动向量
 func _try_vector_control() -> Vector2:
 	if (SGlobalConfig.is_initialized):
 		var input_move_info: Dictionary = try_input_vector()

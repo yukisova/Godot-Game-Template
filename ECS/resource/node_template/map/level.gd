@@ -1,5 +1,6 @@
-## @editing: Sora [br]
-## @describe: 地图层级系统 - 静态地图中的单个层级管理
+## 地图层级系统 - 静态地图中的单个层级管理
+##
+## [br][b]编辑者:[/b] Sora
 ##
 ## 该类管理静态地图中的单个层级，负责：
 ## - 瓦片地图图层的加载和协调
@@ -30,11 +31,13 @@ extends Node2D
 #region 层级信号
 
 ## 层级完全加载信号
-## 当前层级的所有瓦片图层加载完毕后发出
+## 
+## 当前层级的所有瓦片图层加载完毕后发出。
 signal level_fully_loaded
 
 ## 层级实体初始化完成信号
-## 当前层级的所有预设实体初始化完毕后发出
+## 
+## 当前层级的所有预设实体初始化完毕后发出。
 signal level_entity_fully_initialize
 
 #endregion
@@ -42,20 +45,29 @@ signal level_entity_fully_initialize
 #region 层级组件
 
 ## 相机限制区域
-## 用于限制玩家在该层级中的相机边界
+## 
+## 用于限制玩家在该层级中的相机边界，类型为 [Control]。
 @export var camera_limit: Control
 
 ## 房间碰撞体集合
-## 包含该层级所有房间和区域的碰撞体信息
+## 
+## 包含该层级所有房间和区域的碰撞体信息，类型为 [Node2D]。
 @export var room: Node2D
 
 ## 层级对象池
-## 用于管理该层级中的临时实体，临时实体只会在当前层级生成，玩家离开当前层级后会将该层级中的临时实体统一销毁
+## 
+## 用于管理该层级中的临时实体，临时实体只会在当前层级生成，
+## 玩家离开当前层级后会将该层级中的临时实体统一销毁。类型为 [Node2D]。
 @export var level_object_pool: Node2D
 
+## 所属静态地图
+## 
+## 指向拥有此层级的静态地图实例，类型为 [StaticMap]。
 var static_map: StaticMap
 
-## 本level内的传送点
+## 本层级内的传送点
+## 
+## 存储该层级中所有传送点的引用，类型为 [Dictionary] of [StringName] to [TransportPoint]。
 var transport_point_list: Dictionary[StringName, TransportPoint] = {}
 
 #endregion

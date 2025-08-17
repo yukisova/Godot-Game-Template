@@ -1,5 +1,4 @@
-## @editing: Sora [br]
-## @describe: 主菜单UI - 游戏的主要入口界面
+## 主菜单UI - 游戏的主要入口界面
 ##
 ## 该UI提供游戏的所有主要入口功能：
 ## - 开始新游戏和继续游戏
@@ -20,12 +19,21 @@
 ## - 加载游戏：从存档文件恢复游戏
 ## - 游戏设置：打开配置和选项界面
 ## - 退出游戏：关闭应用程序
+##
+## 架构设计：
+## - 继承自 [IUi] 基类
+## - 与 [SGameState] 系统的状态机集成
+## - 使用 [FuncButton] 和 [LinkageButton] 组件
+## - 集成 [SAudioMaster] 音频系统
+##
+## [br][b]编辑者:[/b] Sora
 extends IUi
 
 #region 音频配置
 
 ## 主菜单背景音乐
-## 在界面显示时自动播放的BGM
+## 
+## 在界面显示时自动播放的BGM，类型为 [AudioStream]。
 @export var bgm: AudioStream
 
 #endregion
@@ -35,27 +43,33 @@ extends IUi
 @export_subgroup("依赖")
 
 ## 继续游戏按钮
-## 恢复最近的游戏进度
+## 
+## 恢复最近的游戏进度，类型为 [FuncButton]。
 @export var continue_game_button: FuncButton
 
 ## 测试游戏按钮
-## 快速进入测试模式，跳过部分初始化流程
+## 
+## 快速进入测试模式，跳过部分初始化流程，类型为 [FuncButton]。
 @export var test_game_button: FuncButton
 
 ## 开始游戏按钮
-## 创建新的游戏并进入开场剧情
+## 
+## 创建新的游戏并进入开场剧情，类型为 [FuncButton]。
 @export var start_game_button: FuncButton
 
 ## 加载游戏按钮
-## 从存档文件加载游戏状态
+## 
+## 从存档文件加载游戏状态，类型为 [FuncButton]。
 @export var load_game_button: FuncButton
 
 ## 游戏设置按钮
-## 打开配置界面，支持键位、音频、画质等设置
+## 
+## 打开配置界面，支持键位、音频、画质等设置，类型为 [LinkageButton]。
 @export var game_setting_button: LinkageButton
 
 ## 退出游戏按钮
-## 关闭游戏应用程序
+## 
+## 关闭游戏应用程序，类型为 [FuncButton]。
 @export var quit_game_button: FuncButton
 
 #endregion

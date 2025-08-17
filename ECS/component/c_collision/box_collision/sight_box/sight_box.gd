@@ -1,41 +1,51 @@
-## @editing: Sora [br]
-## @describe: 视觉检测盒 - 实现生物角色的视觉感知系统
-## 
+## 视觉检测盒 - 实现生物角色的视觉感知系统
+##
 ## 该类为生物类角色提供视觉检测功能，能够感知视野范围内的目标并触发相应行为。
 ## 支持多种视野形状（扇形、矩形、胶囊形），可配置检测目标和范围。
-## 
+##
 ## 视觉系统特性：
 ## - 多形状支持：扇形、矩形、胶囊形视野
 ## - 目标过滤：基于群组的目标检测过滤
 ## - 实时检测：持续监控视野范围内的目标变化
 ## - 位置记录：记录目标最后出现的位置
 ## - 编辑器集成：在编辑器中实时预览视野范围
-## 
+##
 ## 视野形状类型：
 ## - 扇形：模拟真实的视觉锥形，适合大多数生物
 ## - 矩形：简单的矩形检测区域，适合机械单位
 ## - 胶囊形：椭圆形检测区域，适合特殊的感知需求
-## 
+##
 ## 应用场景：
 ## - 敌人AI：发现玩家并开始追击
 ## - 守卫系统：巡逻守卫的视野检测
 ## - 野生动物：动物的警觉和逃跑行为
 ## - 监控系统：安全摄像头的检测范围
 ## - 感知法术：增强角色感知能力的魔法效果
+##
+## 架构设计：
+## - 继承自 [BoxCollision] 基类
+## - 基于 [SightCollisionResource] 的配置系统
+## - 使用 [annotation @tool] 支持编辑器预览
+## - 通过信号系统通知目标状态变化
+##
+## [br][b]编辑者:[/b] Sora
 @tool
 class_name SightBox
 extends BoxCollision
 
 ## 目标发现信号
-## 当视野范围内首次出现目标时发出
+## 
+## 当视野范围内首次出现目标时发出。
 signal target_noticed
 
 ## 目标丢失信号
-## 当视野范围内的所有目标都离开时发出
+## 
+## 当视野范围内的所有目标都离开时发出。
 signal target_losed
 
 ## 视野配置资源数组
-## 定义不同形状和参数的视野检测区域
+## 
+## 定义不同形状和参数的视野检测区域，类型为 [Array] of [SightCollisionResource]。
 @export var sight_box_resource: Array[SightCollisionResource]:
 	set(v):
 		sight_box_resource = v
@@ -44,15 +54,18 @@ signal target_losed
 			initialize_collision()
 
 ## 追踪目标群组名称
-## 定义需要重点关注和追踪的目标群组
+## 
+## 定义需要重点关注和追踪的目标群组，类型为 [Array] of [StringName]。
 @export var chase_target_group_name: Array[StringName]
 
 ## 当前视野内的目标列表
-## 存储所有在视野范围内的目标实体
+## 
+## 存储所有在视野范围内的目标实体，类型为 [Array] of [Node2D]。
 var sight_target: Array[Node2D]
 
 ## 目标最后位置
-## 记录目标离开视野时的最后已知位置，用于AI寻路
+## 
+## 记录目标离开视野时的最后已知位置，用于AI寻路。类型为 [Vector2]。
 var sight_target_last_position: Vector2
 
 func _enter_tree() -> void:
@@ -93,8 +106,9 @@ func _ready() -> void:
 	body_exited.connect(_on_body_exited)
 
 ## 目标进入视野处理
-## 当目标进入视野范围时触发
-## @param body: 进入视野的刚体
+## 
+## 当目标进入视野范围时触发。
+## [param body]: 进入视野的刚体，类型为 [Node2D]
 func _on_body_entered(body: Node2D):
 	var is_target = false
 	
@@ -115,8 +129,9 @@ func _on_body_entered(body: Node2D):
 		print("当前视野内目标: ", sight_target.map(func(v): return v.get_parent().name if v.get_parent() else v.name))
 
 ## 目标离开视野处理
-## 当目标离开视野范围时触发
-## @param body: 离开视野的刚体
+## 
+## 当目标离开视野范围时触发。
+## [param body]: 离开视野的刚体，类型为 [Node2D]
 func _on_body_exited(body: Node2D):
 	var is_target = false
 	

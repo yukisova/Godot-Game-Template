@@ -1,44 +1,66 @@
-## @editing: Sora [br]
-## @describe: 手枪攻击节点 - 实现手枪的射击攻击逻辑
+## 手枪攻击节点 - 实现手枪的射击攻击逻辑
 ##
-## 该类继承自 WeaponAttackNode，实现了手枪的具体攻击行为。
-## 手枪是典型的远程武器，通过发射子弹实体来造成伤害。
+## 该类继承自 [WeaponAttackNode]，实现了手枪的具体攻击行为。
+## 手枪是典型的远程武器，通过发射子弹实体来造成伤害，集成了对象池系统。
+##
+## 核心功能：
+## - 远程攻击：通过子弹实体实现远距离攻击
+## - 精准射击：子弹基于角色朝向精确发射
+## - 对象池优化：高效的子弹实体管理机制
+## - 自动注册：动态的对象池注册和管理
 ##
 ## 攻击特性：
-## - 远程攻击：通过子弹实体实现远距离攻击
-## - 精准射击：子弹朝向鼠标位置精确发射
-## - 实体系统：子弹作为独立实体，支持复杂的物理和逻辑
-## - 初始化数据：通过 init_data 系统配置子弹属性
+## - 基于角色朝向的射击方向计算
+## - 实体系统：子弹作为 [TempEntity] 独立实体
+## - 初始化数据：通过上下文系统配置子弹属性
+## - 层级管理：子弹自动添加到正确的地图层级
+##
+## 对象池系统：
+## - 自动注册子弹对象池以优化性能
+## - 预分配子弹实体减少运行时开销
+## - 基于池键的高效对象管理
+## - 地图切换时的对象池重新注册
 ##
 ## 攻击流程：
 ## 1. 玩家触发攻击（通常是鼠标点击）
-## 2. 实例化子弹场景
-## 3. 计算从发射点到鼠标位置的方向向量
-## 4. 配置子弹的初始位置和飞行方向
-## 5. 将子弹添加到当前关卡场景
+## 2. 从对象池获取子弹实体
+## 3. 计算基于角色朝向的射击方向
+## 4. 配置子弹的初始化上下文数据
+## 5. 对象池自动将子弹添加到当前层级
 ##
 ## 技术实现：
-## - 使用 PackedScene 加载子弹预制体
+## - 使用 [PackedScene] 加载子弹预制体
 ## - 通过 setter 验证子弹场景的有效性
-## - 利用实体初始化数据系统传递参数
-## - 基于鼠标位置计算射击方向
+## - 利用 [SObjectPool] 系统进行实体管理
+## - 基于 [CCollision] 组件计算射击方向
 ##
 ## 配置说明：
-## - projectile_scene: 子弹实体的场景文件
-## - fire_point: 继承自基类的发射点标记
+## - [member projectile_scene]: 子弹实体的场景文件
+## - [member initial_pool_size]: 对象池的初始大小
+## - [member fire_point]: 继承自基类的发射点标记
 ##
 ## 使用示例：
-## ```gdscript
+## [codeblock]
 ## # 在编辑器中配置
 ## var pistol_node = preload("res://weapons/pistol_attack_node.tscn").instantiate()
 ## pistol_node.projectile_scene = preload("res://projectiles/bullet.tscn")
-## ```
+## pistol_node.initial_pool_size = 50
+## [/codeblock]
+##
+## 架构设计：
+## - 继承自 [WeaponAttackNode] 基类
+## - 使用 [annotation @tool] 支持编辑器功能
+## - 集成 [SObjectPool] 的对象池管理系统
+## - 与 [SMapData] 的地图切换事件集成
+##
+## [br][b]编辑者:[/b] Sora
 @tool
 extends WeaponAttackNode
 
 ## 子弹场景预制体
-## 定义了子弹实体的场景文件，必须是 TempEntity 类型的场景
-## 使用自定义 setter 确保场景的有效性验证
+## 
+## 定义了子弹实体的场景文件，必须是 [TempEntity] 类型的场景。
+## 使用自定义 setter 确保场景的有效性验证，类型为 [PackedScene]。
 @export var projectile_scene: PackedScene:
 	set(v):
 		if v == null:
@@ -54,13 +76,19 @@ extends WeaponAttackNode
 			push_error("攻击节点: 子弹场景必须是TempEntity类型")
 		node.queue_free()
 
+## 子弹对象池键
+## 
+## 用于标识子弹对象池的唯一键，自动从场景生成，类型为 [StringName]。
 var projectil_pool_key: StringName = &""
+
 ## 子弹对象池初始大小
-## 预分配的子弹实体数量，根据游戏需求调整
+## 
+## 预分配的子弹实体数量，根据游戏需求调整。
 @export var initial_pool_size: int = 30
 
-## 初始化手枪攻击系统
-## 注册子弹对象池，确保对象池系统可用
+## 初始化手枪攻击系统（重写方法）
+## 
+## 注册子弹对象池，确保对象池系统可用。
 func _ready():
 	super()
 	if Engine.is_editor_hint():
@@ -72,7 +100,8 @@ func _ready():
 	SMapData.map_changed_finished.connect(_register_bullet_pool)
 
 ## 注册子弹对象池
-## 在对象池系统中注册子弹实体，用于高效的子弹管理
+## 
+## 在对象池系统中注册子弹实体，用于高效的子弹管理。
 func _register_bullet_pool():
 	if projectile_scene == null:
 		push_error("手枪攻击节点: 未设置子弹场景，无法注册对象池")
@@ -87,8 +116,9 @@ func _register_bullet_pool():
 	else:
 		print("手枪攻击节点: 子弹对象池已存在 - %s" % projectil_pool_key)
 
-## 手枪攻击实现（对象池版本）
-## 执行手枪的射击攻击，从对象池获取子弹实体并发射
+## 手枪攻击实现（重写方法）
+## 
+## 执行手枪的射击攻击，从对象池获取子弹实体并发射。
 ## 
 ## 攻击步骤：
 ## 1. 从对象池获取子弹实体
@@ -102,7 +132,7 @@ func _register_bullet_pool():
 ## - 性能优化：预分配对象池减少运行时开销
 ##
 ## 注意事项：
-## - 子弹的具体行为由TempEntity自身定义
+## - 子弹的具体行为由 [TempEntity] 自身定义
 ## - 发射方向基于角色的朝向计算
 ## - 使用全局坐标系确保位置准确性
 func _attack():

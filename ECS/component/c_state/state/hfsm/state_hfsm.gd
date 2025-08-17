@@ -1,65 +1,81 @@
-## @editing: Sora [br]
-## @describe: HFSM状态基类 - 混合层次化和下推自动机的复合状态实现
-## 
+## HFSM状态基类 - 混合层次化和下推自动机的复合状态实现
+##
 ## 该抽象类是HFSM（层次化有限状态机）中的状态基类，同时集成了PDA（下推自动机）
 ## 的功能，实现了既支持层次化状态管理又支持状态栈管理的复合状态系统。
-## 
+##
 ## 核心特性：
 ## - HFSM状态过渡：支持同级状态间的切换和层次化状态管理
 ## - PDA状态栈：支持状态的压入、弹出和回滚操作
 ## - 状态归属：每个状态都归属于特定的状态机
 ## - 上下文管理：状态间的数据传递和共享机制
 ## - 模糊更新：非激活状态的后台更新能力
-## 
+##
 ## 混合架构优势：
 ## - 层次管理：通过HFSM实现复杂行为的分层组织
 ## - 状态记忆：通过PDA实现状态历史的保存和恢复
 ## - 灵活切换：支持平级切换和压栈式状态管理
 ## - 上下文保持：状态切换时保持必要的上下文信息
-## 
+##
 ## 应用场景：
 ## - AI行为：敌人的复杂行为状态管理
 ## - 游戏流程：多步骤的游戏流程控制
 ## - 对话系统：支持中断和恢复的对话状态
 ## - 战斗系统：技能释放和状态效果管理
+##
+## 架构设计：
+## - 抽象基类，继承自 [IState]
+## - 使用 [annotation @tool] 和 [annotation @abstract] 标记
+## - 基于 [StateMachineHfsm] 的状态机管理
+## - 通过 [Array] 实现的PDA状态栈
+##
+## [br][b]编辑者:[/b] Sora
 @tool
 @abstract class_name StateHfsm
 extends IState
 
 ## PDA状态弹出信号
-## 当需要从状态栈中弹出状态时发出
+## 
+## 当需要从状态栈中弹出状态时发出。
 signal state_poped
 
 ## PDA状态压入或回滚信号
-## 当需要压入新状态或回滚到历史状态时发出
-## @param to_state: 目标PDA状态
+## 
+## 当需要压入新状态或回滚到历史状态时发出。
+## [param to_state]: 目标PDA状态，类型为 [StatePda]
 signal state_pushed(to_state: StatePda)
 
 ## HFSM状态过渡信号
-## 当需要进行同级状态切换时发出
-## @param to_state: 目标状态
+## 
+## 当需要进行同级状态切换时发出。
+## [param to_state]: 目标状态
 @warning_ignore("unused_signal")
 signal state_transition(to_state)
 
 ## 状态归属的状态机
-## 指向管理此状态的HFSM状态机实例
+## 
+## 指向管理此状态的HFSM状态机实例，类型为 [StateMachineHfsm]。
 var belong_state_machine: StateMachineHfsm
 
 ## HFSM状态过渡配置
-## 定义当前状态可以过渡到的目标状态列表，键为过渡条件，值为过渡记录
+## 
+## 定义当前状态可以过渡到的目标状态列表，键为过渡条件，值为过渡记录。
+## 类型为 [Dictionary] of [StringName] to [TrainsitionRecord]。
 @export var hfsm_state_transition: Dictionary[StringName, TrainsitionRecord]
 
 ## 可压入的PDA状态列表
-## 定义当前状态可以压入状态栈的PDA状态数组
+## 
+## 定义当前状态可以压入状态栈的PDA状态数组，类型为 [Array] of [StatePda]。
 @export var possible_pda_state_push: Array[StatePda]
 
 ## PDA状态快速查找字典
-## 基于关键词快速查找PDA状态的映射表
+## 
+## 基于关键词快速查找PDA状态的映射表，类型为 [Dictionary] of [String] to [StatePda]。
 var confirm_pda_state_dict: Dictionary[String, StatePda]
 
 ## PDA状态栈
-## 存储当前状态的状态栈，栈顶状态（最后一个）为当前执行的状态
-## 初始状态包含自身作为栈底
+## 
+## 存储当前状态的状态栈，栈顶状态（最后一个）为当前执行的状态。
+## 初始状态包含自身作为栈底。类型为 [Array] of [IState]。
 var pda_state_stack: Array[IState] = [self]
 
 ## 状态设置
@@ -73,8 +89,9 @@ func _setup():
 		confirm_pda_state_dict[pda_state.keyword] = pda_state
 
 ## PDA状态压入或回滚处理
-## 处理状态的压入操作或回滚到历史状态
-## @param to_state: 目标PDA状态，为null时执行回滚操作
+## 
+## 处理状态的压入操作或回滚到历史状态。
+## [param to_state]: 目标PDA状态，为null时执行回滚操作，类型为 [StatePda]
 func _on_state_pushed_rolled(to_state: StatePda = null):
 	var roll_index: int = 0
 	
@@ -143,14 +160,16 @@ func _clear_stack_and_exit():
 		pda_state_stack[-1]._exit()
 
 ## 固定更新（内部方法）
-## 将物理帧更新传递给当前栈顶状态
-## @param _delta: 物理帧时间间隔
+## 
+## 将物理帧更新传递给当前栈顶状态。
+## [param _delta]: 物理帧时间间隔
 func _f_u(_delta: float) -> void:
 	pda_state_stack[-1]._fixed_update(_delta)
 
 ## 主更新（内部方法）
-## 执行状态栈的更新逻辑，包括PDA状态的自动弹出和模糊更新
-## @param _delta: 帧时间间隔
+## 
+## 执行状态栈的更新逻辑，包括PDA状态的自动弹出和模糊更新。
+## [param _delta]: 帧时间间隔
 func _u(_delta: float) -> void:
 	var top_state = pda_state_stack[-1]
 	
@@ -178,9 +197,10 @@ func _p():
 	top_state._continue()
 
 ## 获取过渡目标状态
-## 根据关键词查找可过渡的目标状态
-## @param keyword: 过渡条件关键词
-## @return: 目标状态节点
+## 
+## 根据关键词查找可过渡的目标状态。
+## [param keyword]: 过渡条件关键词，类型为 [StringName]
+## [br][br][b]返回:[/b] [Node] 目标状态节点
 func get_transition_state(keyword: StringName = ""):
 	if hfsm_state_transition.has(keyword):
 		return get_node(hfsm_state_transition[keyword].to_state)
@@ -201,8 +221,9 @@ func _validate_property(property: Dictionary) -> void:
 			property.usage = PROPERTY_USAGE_NO_EDITOR
 
 ## 获取根状态机
-## 递归向上查找并返回根状态机实例
-## @return: 根状态机实例
+## 
+## 递归向上查找并返回根状态机实例。
+## [br][br][b]返回:[/b] [StateMachineHfsm] 根状态机实例
 func _get_root_statemachine():
 	var current = self
 	while current is StateHfsm:

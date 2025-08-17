@@ -1,5 +1,4 @@
-## @editing: Sora [br]
-## @describe: 武器攻击节点基类 - 定义武器攻击行为的核心接口
+## 武器攻击节点基类 - 定义武器攻击行为的核心接口
 ##
 ## 该类是所有武器攻击节点的抽象基类，定义了武器攻击的标准接口和基础结构。
 ## 每个具体的武器类型都需要继承此类并实现具体的攻击逻辑。
@@ -11,21 +10,22 @@
 ## - 组件化：作为独立节点，可以动态挂载和卸载
 ##
 ## 核心功能：
-## - 攻击接口：定义标准的 _attack() 方法
-## - 攻击点管理：通过 fire_point 标记攻击发起位置
-## - 编辑器支持：使用 @tool 标记支持编辑器内预览
+## - 攻击接口：定义标准的 [method _attack] 方法
+## - 攻击点管理：通过 [member fire_point] 标记攻击发起位置
+## - 编辑器支持：使用 [annotation @tool] 标记支持编辑器内预览
 ## - 继承扩展：子类可以扩展实现具体攻击逻辑
+## - 状态集成：与角色状态系统的数据绑定
 ##
 ## 攻击系统架构：
 ## 1. 玩家触发攻击输入
-## 2. 装备系统调用当前武器的 _attack() 方法
+## 2. 装备系统调用当前武器的 [method _attack] 方法
 ## 3. 具体攻击节点执行攻击逻辑
 ## 4. 生成攻击效果（子弹、伤害、特效等）
 ##
 ## 子类实现指南：
-## - 继承 WeaponAttackNode 基类
-## - 重写 _attack() 方法实现具体攻击逻辑
-## - 使用 fire_point 作为攻击发起位置
+## - 继承 [WeaponAttackNode] 基类
+## - 重写 [method _attack] 方法实现具体攻击逻辑
+## - 使用 [member fire_point] 作为攻击发起位置
 ## - 可添加额外的配置参数和功能
 ##
 ## 应用场景：
@@ -35,7 +35,7 @@
 ## - 特殊攻击：技能释放、特殊能力等
 ##
 ## 使用示例：
-## ```gdscript
+## [codeblock]
 ## class_name PistolAttackNode
 ## extends WeaponAttackNode
 ##
@@ -43,30 +43,50 @@
 ##     var bullet = bullet_scene.instantiate()
 ##     bullet.global_position = fire_point.global_position
 ##     get_tree().current_scene.add_child(bullet)
-## ```
+## [/codeblock]
+##
+## 架构设计：
+## - 继承自 [Node2D] 基类
+## - 使用 [annotation @tool] 支持编辑器预览
+## - 集成 [Marker2D] 的攻击点定位系统
+## - 与 [CStatus] 组件的状态管理集成
+## - 支持 [Array] of [IHitEffect] 的击中效果系统
+##
+## [br][b]编辑者:[/b] Sora
 @tool
 class_name WeaponAttackNode
 extends Node2D
 
 ## 攻击发起点
-## 标记武器攻击的起始位置，用于确定子弹发射点、近战攻击范围中心等
-## 通常放置在武器的枪口、剑尖或法杖顶端等逻辑攻击位置
+## 
+## 标记武器攻击的起始位置，用于确定子弹发射点、近战攻击范围中心等。
+## 通常放置在武器的枪口、剑尖或法杖顶端等逻辑攻击位置，类型为 [Marker2D]。
 @export var fire_point: Marker2D
+
+## 角色状态组件
+## 
+## 与此攻击节点关联的角色状态组件，类型为 [CStatus]。
 var c_status: CStatus
+
+## 击中效果列表
+## 
+## 攻击命中时产生的各种效果，类型为 [Array] of [IHitEffect]。
 var hit_effect_list: Array[IHitEffect]
 
 func _ready() -> void:
 	pass
 
-## 攻击方法（抽象）
-## 所有武器攻击节点都必须实现的核心攻击逻辑
-## 子类应重写此方法来实现具体的攻击行为
+## 攻击方法（抽象方法）
+## 
+## 所有武器攻击节点都必须实现的核心攻击逻辑。
+## 子类应重写此方法来实现具体的攻击行为。
 ## 
 ## 实现建议：
-## - 使用 fire_point.global_position 作为攻击起始位置
+## - 使用 [code]fire_point.global_position[/code] 作为攻击起始位置
 ## - 添加攻击冷却时间控制
 ## - 包含音效和视觉特效
 ## - 处理弹药消耗（如适用）
+## - 应用击中效果和伤害计算
 func _attack():
 	# 子类应重写此方法实现具体攻击逻辑
 	pass

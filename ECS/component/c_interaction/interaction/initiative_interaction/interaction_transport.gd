@@ -1,5 +1,6 @@
-## @editing: Sora [br]
-## @describe: 传送交互 - 实现实体在不同场景间的传送功能
+## 传送交互 - 实现实体在不同场景间的传送功能
+##
+## [br][b]编辑者:[/b] Sora
 ## 
 @tool
 class_name InteractionTransport

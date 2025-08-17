@@ -1,31 +1,42 @@
-## @editing: Sora [br]
-## @describe: 网格背包系统 - 高级拖拽式物品管理界面
+## 网格背包系统 - 高级拖拽式物品管理界面
 ##
-## 该组件实现了一个功能完整的网格背包系统：
+## 该组件实现了一个功能完整的网格背包系统，提供直观的拖拽式物品管理体验。
+## 支持复杂的物品布局、智能碰撞检测和丰富的交互功能。
+##
+## 核心功能：
 ## - 基于网格的物品布局和管理
 ## - 支持拖拽、旋转、自动整理等操作
 ## - 智能的碰撞检测和位置验证
 ## - 流畅的交互体验和视觉反馈
+## - 动态网格生成和管理系统
 ##
 ## 设计原则：
 ## - 所有物品为矩形，简化碰撞检测逻辑
-## - 基于状态机的交互管理
+## - 基于状态机的交互管理机制
 ## - 数据驱动的网格布局系统
 ## - 可配置的交互参数和行为
 ##
-## 主要功能：
-## - 动态网格生成和管理
+## 主要特性：
 ## - 物品的拖拽放置操作
 ## - 长按拾取和旋转机制
 ## - 自动整理和优化布局
-## - 实时的可用性检测
-## - 物品放置位置预览
+## - 实时的可用性检测和预览
+## - 物品放置位置预览系统
 ##
 ## 技术特性：
-## - 支持编辑器实时预览
+## - 支持编辑器实时预览（[annotation @tool]）
 ## - 高效的空间查询算法
-## - 流畅的动画和反馈
-## - 灵活的扩展接口
+## - 流畅的动画和视觉反馈
+## - 灵活的扩展接口设计
+##
+## 架构设计：
+## - 继承自 [MarginContainer] 基类
+## - 基于 [GridInventorySlot] 的槽位管理
+## - 集成 [DragableItem] 的物品显示系统
+## - 支持 [ButtonContainer] 的交互菜单
+## - 与 [CStatus] 和 [InventoryExtension] 的数据绑定
+##
+## [br][b]编辑者:[/b] Sora
 @tool
 class_name GridInventory
 extends MarginContainer
@@ -33,7 +44,8 @@ extends MarginContainer
 #region 网格配置
 
 ## 网格槽位总数
-## 决定背包的容量大小，最小值为1
+## 
+## 决定背包的容量大小，最小值为1。
 @export_range(1, 1, 1, "or_greater") var grid_num: int = 1:
 	set(v):
 		grid_num = v
@@ -41,7 +53,8 @@ extends MarginContainer
 			_generate_grid(grid_num)
 
 ## 网格列数
-## 决定背包的布局形状，影响行列数量
+## 
+## 决定背包的布局形状，影响行列数量。
 @export_range(1, 1, 1, "or_greater") var col_num: int = 1:
 	set(v):
 		col_num = v
@@ -51,13 +64,17 @@ extends MarginContainer
 				_recaculate_grid_index()
 
 ## 网格槽位原型
-## 用于生成所有网格槽位的模板组件
+## 
+## 用于生成所有网格槽位的模板组件，类型为 [GridInventorySlot]。
 @export var panel_prototype: GridInventorySlot:
 	set(v):
 		panel_prototype = v
 		if panel_prototype:
 			panel_prototype.hide()
 
+## 按钮容器弹出场景
+## 
+## 用于创建物品交互菜单的场景模板，类型为 [PackedScene]。
 @export var button_container_popum: PackedScene:
 	set(v):
 		if v:
@@ -66,9 +83,15 @@ extends MarginContainer
 				button_container_popum = v
 			scene.queue_free()
 
+## 绑定的状态组件
+## 
+## 与背包系统关联的角色状态组件，类型为 [CStatus]。
 var binding_status: CStatus
 
-var button_container: ButtonContainer: ## 已经存在的ButtonContainer
+## 当前按钮容器
+## 
+## 已经存在的按钮容器实例，类型为 [ButtonContainer]。
+var button_container: ButtonContainer:
 	set(v):
 		if button_container:
 			button_container.queue_free()
@@ -79,15 +102,18 @@ var button_container: ButtonContainer: ## 已经存在的ButtonContainer
 #region 交互配置
 
 ## 是否启用鼠标控制
-## 控制是否响应鼠标拖拽操作
+## 
+## 控制是否响应鼠标拖拽操作。
 @export var mouse_control_enable: bool = true
 
 ## 长按拾取持续时间
-## 玩家需要长按多长时间才能拾取物品（秒）
+## 
+## 玩家需要长按多长时间才能拾取物品（秒）。
 @export var long_press_duration: float = 0.5
 
 ## 物品旋转速度
-## 物品旋转时的角速度（度/秒）
+## 
+## 物品旋转时的角速度（度/秒）。
 @export var rotation_speed: float = 90.0
 
 #endregion
@@ -95,33 +121,42 @@ var button_container: ButtonContainer: ## 已经存在的ButtonContainer
 #region 场景节点引用
 
 ## 网格容器
-## 存放所有网格槽位的GridContainer组件
+## 
+## 存放所有网格槽位的容器组件，类型为 [GridContainer]。
 @onready var grid_container: GridContainer = $GridContainer
 
 ## 可拖拽物品原型
-## 用于创建新物品实例的模板组件
+## 
+## 用于创建新物品实例的模板组件，类型为 [DragableItem]。
 @onready var dragable_item_prototype: DragableItem = $PrototypeList/DragableItemPrototype
 
 ## 物品控制容器
-## 管理所有可拖拽物品显示的容器
+## 
+## 管理所有可拖拽物品显示的容器，类型为 [Control]。
 @onready var item_control: Control = $ItemControl
 
 ## 鼠标指针
-## 显示当前鼠标位置和状态的指示器
+## 
+## 显示当前鼠标位置和状态的指示器，类型为 [Control]。
 @onready var pointer: Control = $Pointer
 
-## button_container生成之后默认所在的位置
+## 按钮容器控制节点
+## 
+## [ButtonContainer] 生成之后的默认父节点，类型为 [Control]。
 @onready var button_container_control: Control = $ButtonContainerControl
 #endregion
 
 #region 信号系统
 
 ## 焦点物品更新信号
-## 当用户选择不同物品时发出，用于更新物品详情显示
+## 
+## 当用户选择不同物品时发出，用于更新物品详情显示。
+## [param item]: 新选中的物品，类型为 [Item]
 signal focus_item_updated(item: Item)
 
 ## 上次聚焦的物品
-## 自动发出焦点更新信号
+## 
+## 自动发出焦点更新信号，类型为 [DragableItem]。
 var last_time_focus_item: DragableItem:
 	set(v):
 		last_time_focus_item = v
@@ -133,11 +168,14 @@ var last_time_focus_item: DragableItem:
 #region 数据存储
 
 ## 网格槽位字典
-## Key: 网格索引(Vector2i), Value: 对应的槽位组件
+## 
+## 存储网格索引与槽位组件的映射关系。
+## 键为网格索引（[Vector2i]），值为对应的槽位组件（[GridInventorySlot]）。
 var dict: Dictionary[Vector2i, GridInventorySlot] = {}
 
 ## 背包中的物品列表
-## 存储当前背包中所有的可拖拽物品
+## 
+## 存储当前背包中所有的可拖拽物品，类型为 [Array] of [DragableItem]。
 var items_in_inventory: Array[DragableItem] = []
 
 #endregion
@@ -145,7 +183,8 @@ var items_in_inventory: Array[DragableItem] = []
 #region 交互状态管理
 
 ## 交互状态枚举
-## 定义用户与背包系统的不同交互模式
+## 
+## 定义用户与背包系统的不同交互模式。
 enum InteractionState {
 	IDLE,      ## 空闲状态：无交互
 	HOVERING,  ## 悬停状态：鼠标悬停在物品上
@@ -154,22 +193,28 @@ enum InteractionState {
 }
 
 ## 当前交互状态
+## 
+## 记录当前的用户交互模式，类型为 [enum InteractionState]。
 var interaction_state: InteractionState = InteractionState.IDLE
 
 ## 当前持有的物品
-## 正在被拖拽的物品实例
+## 
+## 正在被拖拽的物品实例，类型为 [DragableItem]。
 var current_held_item: DragableItem = null
 
 ## 按压时间计时器
-## 用于检测长按操作的累计时间
+## 
+## 用于检测长按操作的累计时间。
 var press_time: float = 0.0
 
 ## 当前旋转角度
-## 物品旋转时的累计角度
+## 
+## 物品旋转时的累计角度（弧度）。
 var current_rotation: float = 0.0
 
 ## 高亮计时器
-## 用于悬停效果的时间累计
+## 
+## 用于悬停效果的时间累计。
 var highlight_timer: float = 0.0
 
 #endregion
@@ -177,11 +222,13 @@ var highlight_timer: float = 0.0
 #region 预览系统
 
 ## 预览高亮槽位列表
-## 存储当前预览状态下需要高亮显示的槽位
+## 
+## 存储当前预览状态下需要高亮显示的槽位，类型为 [Array] of [GridInventorySlot]。
 var preview_highlight_slots: Array[GridInventorySlot] = []
 
 ## 预览状态标志
-## 标记当前是否处于预览模式
+## 
+## 标记当前是否处于预览模式。
 var is_previewing: bool = false
 
 #endregion
@@ -189,7 +236,8 @@ var is_previewing: bool = false
 #region 组件初始化
 
 ## 组件准备就绪
-## 初始化网格布局和原型组件
+## 
+## 初始化网格布局和原型组件。
 func _ready():
 	# 编辑器模式下不执行运行时逻辑
 	if Engine.is_editor_hint(): 
@@ -210,7 +258,9 @@ func _ready():
 #region 网格管理
 
 ## 生成网格槽位
-## @param v: 要生成的槽位数量
+## 
+## 根据指定数量生成网格槽位组件。
+## [param v]: 要生成的槽位数量
 func _generate_grid(v: int):
 	print("网格背包: 生成网格，槽位数量: ", v)
 	
@@ -230,7 +280,8 @@ func _generate_grid(v: int):
 		_recaculate_grid_index()
 
 ## 重新计算网格索引
-## 遍历所有槽位并更新其二维坐标索引
+## 
+## 遍历所有槽位并更新其二维坐标索引。
 func _recaculate_grid_index():
 	print("网格背包: 重新计算网格索引")
 	
@@ -255,10 +306,12 @@ func _recaculate_grid_index():
 
 #region 区域检测和验证
 
-## 检查区域是否可用 
-## @param start_index: 起始网格坐标
-## @param _size: 物品占用的网格尺寸
-## @return: 该区域是否可以放置物品
+## 检查区域是否可用
+## 
+## 判断指定区域是否可以放置物品。
+## [param start_index]: 起始网格坐标，类型为 [Vector2i]
+## [param _size]: 物品占用的网格尺寸，类型为 [Vector2i]
+## [br][br][b]返回:[/b] [bool] 该区域是否可以放置物品
 func is_area_available(start_index: Vector2i, _size: Vector2i) -> bool:
 	# 检查每个被占用的网格槽位
 	for col in range(_size.x):
@@ -273,9 +326,11 @@ func is_area_available(start_index: Vector2i, _size: Vector2i) -> bool:
 	return true
 
 ## 获取区域覆盖的所有槽位
-## @param start_index: 起始网格坐标
-## @param _size: 物品占用的网格尺寸
-## @return: 该区域覆盖的所有槽位列表
+## 
+## 返回指定区域覆盖的所有槽位列表。
+## [param start_index]: 起始网格坐标，类型为 [Vector2i]
+## [param _size]: 物品占用的网格尺寸，类型为 [Vector2i]
+## [br][br][b]返回:[/b] [Array] of [GridInventorySlot] 该区域覆盖的所有槽位列表
 func get_area_slots(start_index: Vector2i, _size: Vector2i) -> Array[GridInventorySlot]:
 	var slots: Array[GridInventorySlot] = []
 	
@@ -292,9 +347,11 @@ func get_area_slots(start_index: Vector2i, _size: Vector2i) -> Array[GridInvento
 #region 物品操作
 
 ## 放置物品
-## @param item: 要放置的可拖拽物品
-## @param start_index: 起始网格坐标
-## @return: 是否成功放置
+## 
+## 将物品放置到指定的网格位置。
+## [param item]: 要放置的可拖拽物品，类型为 [DragableItem]
+## [param start_index]: 起始网格坐标，类型为 [Vector2i]
+## [br][br][b]返回:[/b] [bool] 是否成功放置
 func place_item(item: DragableItem, start_index: Vector2i) -> bool:
 	var _size = item.item_size
 	
@@ -318,7 +375,9 @@ func place_item(item: DragableItem, start_index: Vector2i) -> bool:
 	return true
 
 ## 移除物品
-## @param item: 要移除的可拖拽物品
+## 
+## 从背包中移除指定的物品。
+## [param item]: 要移除的可拖拽物品，类型为 [DragableItem]
 func remove_item(item: DragableItem):
 	if item in items_in_inventory:
 		items_in_inventory.erase(item)
@@ -332,7 +391,8 @@ func remove_item(item: DragableItem):
 	print("网格背包: 移除物品 ", item.binding_item.item_name)
 
 ## 自动整理背包
-## 按照物品大小重新排列所有物品，大物品优先放置
+## 
+## 按照物品大小重新排列所有物品，大物品优先放置。
 func auto_organize():
 	print("网格背包: 开始自动整理")
 	
@@ -358,8 +418,10 @@ func auto_organize():
 	print("网格背包: 自动整理完成")
 
 ## 添加物品到背包
-## @param item_data: 要添加的物品数据
-## @return: 是否成功添加
+## 
+## 尝试将新物品添加到背包中的可用位置。
+## [param item_data]: 要添加的物品数据，类型为 [Item]
+## [br][br][b]返回:[/b] [bool] 是否成功添加
 func add_item(item_data: Item) -> bool:
 	print("网格背包: 尝试添加物品 ", item_data.item_name)
 	
@@ -396,7 +458,9 @@ func add_item(item_data: Item) -> bool:
 #region 鼠标交互检测
 
 ## 获取当前鼠标下的格子
-## @return: 鼠标下方的网格槽位，如果没有则返回null
+## 
+## 检测鼠标位置下方的网格槽位。
+## [br][br][b]返回:[/b] [GridInventorySlot] 鼠标下方的网格槽位，如果没有则返回null
 func get_slot_under_mouse() -> GridInventorySlot:
 	var mouse_pos = get_global_mouse_position()
 	for slot in grid_container.get_children():
@@ -405,8 +469,10 @@ func get_slot_under_mouse() -> GridInventorySlot:
 	return null
 
 ## 获取最近的网格槽位
-## @param mouse_pos: 鼠标位置
-## @return: 距离鼠标最近的网格槽位
+## 
+## 计算距离指定位置最近的网格槽位。
+## [param mouse_pos]: 鼠标位置，类型为 [Vector2]
+## [br][br][b]返回:[/b] [GridInventorySlot] 距离鼠标最近的网格槽位
 func get_nearest_slot(mouse_pos: Vector2) -> GridInventorySlot:
 	# 1. 创建二维KD树索引（提高搜索效率）
 	var slot_positions = []
@@ -434,7 +500,9 @@ func get_nearest_slot(mouse_pos: Vector2) -> GridInventorySlot:
 	return nearest_slot
 
 ## 获取当前鼠标下的物品
-## @return: 鼠标下方的可拖拽物品，如果没有则返回null
+## 
+## 检测鼠标位置下方的可拖拽物品。
+## [br][br][b]返回:[/b] [DragableItem] 鼠标下方的可拖拽物品，如果没有则返回null
 func get_item_under_mouse() -> DragableItem:
 	var mouse_pos = get_global_mouse_position()
 	for item in items_in_inventory:
@@ -447,7 +515,9 @@ func get_item_under_mouse() -> DragableItem:
 #region 拖拽操作
 
 ## 开始拿起物品
-## @param item: 要拿起的可拖拽物品
+## 
+## 开始拖拽指定的物品。
+## [param item]: 要拿起的可拖拽物品，类型为 [DragableItem]
 func pick_up_item(item: DragableItem):
 	if item and item.current_slot:
 		interaction_state = InteractionState.HOLDING
@@ -459,7 +529,8 @@ func pick_up_item(item: DragableItem):
 		print("网格背包: 拿起物品 ", item.binding_item.item_name)
 
 ## 放下物品
-## 尝试将当前持有的物品放置到目标位置
+## 
+## 尝试将当前持有的物品放置到目标位置。
 func drop_item():
 	if not current_held_item: 
 		return
@@ -483,7 +554,8 @@ func drop_item():
 	interaction_state = InteractionState.IDLE
 
 ## 预览目标区域
-## 显示当前物品可以放置的位置预览
+## 
+## 显示当前物品可以放置的位置预览。
 func drop_item_vision():
 	if not current_held_item:
 		return
@@ -519,7 +591,8 @@ func drop_item_vision():
 			is_previewing = true
 
 ## 清除预览效果
-## 恢复所有槽位的正常显示状态
+## 
+## 恢复所有槽位的正常显示状态。
 func clear_preview():
 	if is_previewing:
 		for slot in preview_highlight_slots:
@@ -533,7 +606,8 @@ func clear_preview():
 #region 物品旋转
 
 ## 旋转当前手持物品
-## 在拖拽过程中旋转物品的显示方向
+## 
+## 在拖拽过程中旋转物品的显示方向。
 func rotate_held_item():
 	if not current_held_item: 
 		return
@@ -566,7 +640,8 @@ func rotate_held_item():
 #region 主循环处理
 
 ## 每帧处理
-## 处理用户输入和状态更新
+## 
+## 处理用户输入和状态更新。
 func _process(delta):
 	if not mouse_control_enable or Engine.is_editor_hint():
 		return
@@ -657,7 +732,11 @@ func _process(delta):
 		drop_item()
 		press_time = 0
 
-## 点击物品的时候，会生成一个button_container在当前鼠标所在的位置，并且传入玩家的信息
+## 选择物品
+## 
+## 点击物品时，在指定位置生成按钮容器菜单，传入玩家状态信息。
+## [param item]: 被选中的物品，类型为 [DragableItem]
+## [param at_position]: 菜单显示位置，类型为 [Vector2]
 func _select_item(item: DragableItem, at_position: Vector2):
 	# 清理之前的button_container
 	button_container = null
@@ -669,8 +748,10 @@ func _select_item(item: DragableItem, at_position: Vector2):
 	# 重置按压时间，但保持当前交互状态
 	press_time = 0.0
 
-## 检查鼠标是否在button_container区域内
-## @return: 如果鼠标在button_container区域内则返回true
+## 检查鼠标是否在按钮容器区域内
+## 
+## 判断鼠标是否位于按钮容器的显示区域内。
+## [br][br][b]返回:[/b] [bool] 如果鼠标在按钮容器区域内则返回true
 func _is_mouse_over_button_container() -> bool:
 	if not button_container or not is_instance_valid(button_container) or not button_container.visible:
 		return false
@@ -684,7 +765,9 @@ func _is_mouse_over_button_container() -> bool:
 #region 输入处理
 
 ## 处理未处理的输入事件
-## @param event: 输入事件
+## 
+## 处理系统级的输入事件，主要用于调试功能。
+## [param event]: 输入事件，类型为 [InputEvent]
 func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventKey:
 		if event.keycode == KEY_9 and event.is_pressed():

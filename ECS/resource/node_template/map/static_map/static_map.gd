@@ -1,5 +1,6 @@
-## @editing: Sora [br]
-## @describe: 静态地图系统 - 游戏地图的核心管理组件
+## 静态地图系统 - 游戏地图的核心管理组件
+##
+## [br][b]编辑者:[/b] Sora
 ##
 ## 该类是游戏地图系统的核心，负责管理静态地图的所有方面：
 ## - 多层级地图结构的组织和加载
@@ -35,11 +36,13 @@ extends Node
 #region 玩家配置
 
 ## 玩家出生点
-## 指定玩家在此地图中的初始位置和层级
+## 
+## 指定玩家在此地图中的初始位置和层级，类型为 [PlayerSpawn]。
 @export var player_spawn: PlayerSpawn
 
 ## 地图时间
-## 控制昼夜循环的时间值（0.0-1.0）
+## 
+## 控制昼夜循环的时间值（0.0-1.0），影响地图滤镜效果。
 @export_range(0, 1) var time: float:
 	set(value):
 		if time != value:  # 避免重复设置
@@ -54,31 +57,39 @@ extends Node
 @export_subgroup("依赖")
 
 ## 层级集合
-## 包含所有Level层级的容器节点
+## 
+## 包含所有Level层级的容器节点，类型为 [Node2D]。
 @export var levels: Node2D
 
 ## 自动加载过场事件
-## 地图加载完成后自动播放的过场剧情
+## 
+## 地图加载完成后自动播放的过场剧情，类型为 [Node]。
 @export var autoload_cutscene: Node
 
 ## 地图滤镜
-## 用于实现昼夜循环视觉效果的画布调制器
+## 
+## 用于实现昼夜循环视觉效果的画布调制器，类型为 [CanvasModulate]。
 @export var map_filter: CanvasModulate
 
 ## 迷雾图像
-## 战争迷雾系统的根节点
+## 
+## 战争迷雾系统的根节点，类型为 [Sprite2D]。
 @export var fog_image: Sprite2D
 
 ## 滤镜渐变纹理
-## 定义昼夜循环的颜色变化曲线
+## 
+## 定义昼夜循环的颜色变化曲线，类型为 [GradientTexture1D]。
 @export var filter_gradient: GradientTexture1D
 
 ## 是否启用过场剧情
-## 控制地图加载后是否自动播放过场动画
+## 
+## 控制地图加载后是否自动播放过场动画。
 @export var cutscene_enable: bool = true
 
 ## 导出的传送点列表
-## 在level加载完毕后刷新，可以被其他地图的传送点直接引用
+## 
+## 在level加载完毕后刷新，可以被其他地图的传送点直接引用。
+## 类型为 [Dictionary] of [StringName] to [TransportPoint]。
 var exported_transport_points: Dictionary[StringName, TransportPoint] = {}
 
 #endregion
@@ -86,8 +97,9 @@ var exported_transport_points: Dictionary[StringName, TransportPoint] = {}
 #region 地图数据
 
 ## 地图内临时缓存
-## 存储仅在当前地图有效的临时数据
-## 用途：对话状态、临时标记、局部变量等
+## 
+## 存储仅在当前地图有效的临时数据。
+## 用途：对话状态、临时标记、局部变量等。类型为 [Dictionary]。
 var cache_in_map: Dictionary
 
 #endregion

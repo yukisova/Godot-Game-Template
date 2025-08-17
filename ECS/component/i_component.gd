@@ -1,33 +1,59 @@
-## @editing: Sora [br]
-## @describe: 组件基类, 分为插件组件和固定组件
+## 组件基类 - ECS架构中的功能模块基础类
+##
+## 该抽象类定义了ECS系统中所有组件的基本接口和功能。
+## 组件分为插件组件和固定组件两种类型，为实体提供各种功能模块。
+##
+## 主要特性：
+## - 统一的初始化生命周期管理
+## - 基于信号的初始化完成通知
+## - 存档系统支持
+## - 黑板数据共享机制
+##
+## [br][b]编辑者:[/b] Sora
 @tool
 @abstract class_name IComponent
 extends Node
 
 signal initialize_complete
 
-## 组件名称
+## 组件名称枚举
+## 
+## 定义ECS系统中所有可用组件的标识符，用于组件的注册和管理。
 enum ComponentName {
-	C_ACTION_TRIGGER = 0, ## 见[CActionTrigger]
-	C_TEXTURE, ## 见[C_Texture]
-	C_CAMERA, ## 见[CCamera]
-	C_COLLISION, ## 见[CCollision]
-	C_INPUT_REACTOR, ## 见[CInputReactor]
-	C_INTERACTABLE, ## 见[CInteractable]
-	C_MOVEMENT, ## 见[CMovement]
-	C_STATE, ## 见[CState]
-	C_STATUS, ## 见[CStatus]
-	C_NAVIGATION, ## 见[CNavigation]
-	C_BALLOON, ## 见[CBalloon]
-	C_MARKER ## 见[CMarker]
+	C_ACTION_TRIGGER = 0, ## 见 [CActionTrigger] 行为触发组件
+	C_TEXTURE, ## 见 [CTexture] 纹理渲染组件
+	C_CAMERA, ## 见 [CCamera] 相机控制组件
+	C_COLLISION, ## 见 [CCollision] 碰撞检测组件
+	C_INPUT_REACTOR, ## 见 [CInputReactor] 输入响应组件
+	C_INTERACTABLE, ## 见 [CInteractable] 交互处理组件
+	C_MOVEMENT, ## 见 [CMovement] 移动控制组件
+	C_STATE, ## 见 [CState] 状态机组件
+	C_STATUS, ## 见 [CStatus] 状态管理组件
+	C_NAVIGATION, ## 见 [CNavigation] 导航寻路组件
+	C_BALLOON, ## 见 [CBalloon] 气泡显示组件
+	C_MARKER ## 见 [CMarker] 标记定位组件
 }
 
-## TODO 
-@export var initialize_from: String ## 在初始化的时候如果需要在外部自定义初始化的值，所在ContainerBlackboard中获取的
+## 外部初始化数据来源
+## 
+## 指定在初始化时从 [ContainerBlackboard] 中获取的自定义初始化值的键名。
+## TODO: 完善初始化数据处理机制
+@export var initialize_from: String
 
-var component_owner: IEntity ## 组件的拥有者, 即实体（支持所有IEntity的子类）
-var component_body: CollisionObject2D ## 实体的主碰撞体
-var component_name: ComponentName ## 用于实体内组件字典进行识别的类型枚举
+## 组件拥有者
+## 
+## 指向拥有此组件的实体对象，支持所有 [IEntity] 的子类。
+var component_owner: IEntity
+
+## 实体主碰撞体
+## 
+## 指向实体的主要碰撞检测对象，通常是 [CollisionObject2D] 类型。
+var component_body: CollisionObject2D
+
+## 组件类型标识
+## 
+## 用于在实体的组件字典中进行识别的类型枚举值。
+var component_name: ComponentName
 
 func _initialize(_owner: IEntity, _load_data: Dictionary = {}):
 	if Engine.is_editor_hint():
@@ -55,10 +81,17 @@ func _fixed_update(_delta: float):
 func _save() -> Dictionary:
 	return {}
 
-## 加载_initialiaze初始化的时候进行调用，但需要等待initialize_complete信号触发后才能进行加载
+## 加载组件数据
+## 
+## 在 [method _initialize] 初始化时调用，但需要等待 [signal initialize_complete] 信号触发后才能进行加载。
+## [param _dict]: 包含组件数据的字典
 func _load(_dict: Dictionary):
 	pass
 #endregion
 
+## 获取黑板容器
+## 
+## 返回组件拥有者的黑板容器，用于组件间数据共享和通信。
+## [br][br][b]返回:[/b] [ContainerBlackboard] 黑板容器实例
 func get_blackboard() -> ContainerBlackboard:
 	return component_owner.component_container

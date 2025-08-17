@@ -1,45 +1,56 @@
-## @editing: Sora [br]
-## @describe: 主进程管理器 - 游戏系统的核心启动和协调中心
-## 
+## 主进程管理器 - 游戏系统的核心启动和协调中心
+##
 ## 该类负责管理整个游戏的启动流程、系统初始化和生命周期管理。
 ## 作为所有游戏系统的协调者，确保系统按正确的顺序启动和关闭。
-## 
+##
 ## 核心职责：
 ## - 系统启动顺序管理
 ## - 系统状态重置
 ## - 全局视图管理
 ## - 实体初始化控制
 ## - 物理和导航层级定义
-## 
+##
 ## 系统启动顺序：
-## 1. SBlackboard - 全局数据共享
-## 2. SSignalBus - 事件通信
-## 3. SGameState - 游戏状态
-## 4. SGlobalConfig - 全局配置
-## 5. SLoadAndSave - 存档系统
-## 6. SMapData - 地图数据
-## 7. SMainController - 主控制器
-## 8. SUiSpawner - UI管理
-## 9. SCommandParser - 命令解析
-## 10. SAudioMaster - 音频系统
+## 1. [SBlackboard] - 全局数据共享
+## 2. [SSignalBus] - 事件通信
+## 3. [SGameState] - 游戏状态
+## 4. [SGlobalConfig] - 全局配置
+## 5. [SLoadAndSave] - 存档系统
+## 6. [SMapData] - 地图数据
+## 7. [SMainController] - 主控制器
+## 8. [SUiSpawner] - UI管理
+## 9. [SCommandParser] - 命令解析
+## 10. [SAudioMaster] - 音频系统
+##
+## 架构设计：
+## - 继承自 [Node] 基类
+## - 基于 [signal system_setup_completed] 的系统协调
+## - 通过静态变量提供全局访问
+## - 与 [Launcher] 系统集成
+##
+## [br][b]编辑者:[/b] Sora
 class_name Main
 extends Node
 
 ## 系统注册完成信号
-## 当所有游戏系统初始化完成后发出
+## 
+## 当所有游戏系统初始化完成后发出。
 signal system_setup_completed
 
 ## 实体初始化状态标志
-## 控制实体的创建时机，true表示可以创建实体
-## 实体分为预定义实体和系统加载时定义实体（如玩家静态实体）
+## 
+## 控制实体的创建时机，true表示可以创建实体。
+## 实体分为预定义实体和系统加载时定义实体（如玩家静态实体）。
 static var entity_initialzable: bool = false
 
 ## 游戏视图容器
-## 所有游戏内容（地图、实体、特效等）都放置在此节点下
+## 
+## 所有游戏内容（地图、实体、特效等）都放置在此节点下，类型为 [Node]。
 static var game_view: Node
 
 ## UI视图容器
-## 所有UI界面和HUD元素都放置在此节点下
+## 
+## 所有UI界面和HUD元素都放置在此节点下，类型为 [Node]。
 static var ui_view: Node
 
 ## 节点初始化
@@ -113,15 +124,17 @@ func _main_loop_start():
 		SUiSpawner._loading_start_ui()
 
 ## 游戏设置数据解析
-## 处理游戏设置相关的配置数据
-## @param _setting_info: 设置信息字典
+## 
+## 处理游戏设置相关的配置数据。
+## [param _setting_info]: 设置信息字典，类型为 [Dictionary]
 ## TODO: 实现具体的设置解析逻辑
 func _game_setting_parser(_setting_info: Dictionary):
 	# 待实现：解析和应用游戏设置
 	pass
 
 ## 物理层级枚举
-## 定义游戏中不同类型碰撞体的物理层级，用于碰撞检测的精确控制
+## 
+## 定义游戏中不同类型碰撞体的物理层级，用于碰撞检测的精确控制。
 enum PhysicsLayer {
 	Wall = 1 << 0,         ## 墙壁和固体障碍物的碰撞层
 	Interactable = 1 << 1, ## 可交互对象的碰撞层
@@ -129,8 +142,9 @@ enum PhysicsLayer {
 }
 
 ## 导航层级枚举
-## 定义AI导航系统中的不同导航层级，用于路径规划和区域限制
+## 
+## 定义AI导航系统中的不同导航层级，用于路径规划和区域限制。
 enum NavigationLayer {
-	Normal = 1 << 0, ## 标准导航层，基于地图的Tilemap层生成
-	Zone = 1 << 1,   ## 特殊区域导航层，用于随机移动区域，基于NavigationPolygon
+	Normal = 1 << 0, ## 标准导航层，基于地图的 [TileMapLayer] 层生成
+	Zone = 1 << 1,   ## 特殊区域导航层，用于随机移动区域，基于 [NavigationPolygon]
 }
