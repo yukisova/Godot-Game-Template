@@ -34,7 +34,7 @@ func _listen():
 		return
 	
 	# 计算从射线起点到鼠标位置的方向向量
-	var vector = interact_ray.global_position.direction_to(interact_ray.get_global_mouse_position())
+	var vector = interact_ray.global_position.direction_to(interact_ray.get_global_mouse_position()) if get_viewport() else Vector2.ZERO
 	# 设置射线朝向鼠标方向
 	interact_ray.rotation = vector.angle()
 	var equipment_extension: EquipmentExtension = c_status.status_extension[StatusExtension.ExtensionType.EQUIPMENT]

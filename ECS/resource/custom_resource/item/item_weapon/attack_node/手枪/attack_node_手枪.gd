@@ -69,6 +69,7 @@ func _ready():
 	# 注册子弹对象池
 	_register_bullet_pool()
 	SMapData.level_changed_finished_for_player.connect(_register_bullet_pool)
+	SMapData.map_changed_finished.connect(_register_bullet_pool)
 
 ## 注册子弹对象池
 ## 在对象池系统中注册子弹实体，用于高效的子弹管理

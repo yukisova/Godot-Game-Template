@@ -36,8 +36,11 @@ signal factor_added(new_factor: FixedEntity, start_position: Vector2)
 ## 地图注册信号
 ## 游戏开始前注册要加载的地图场景
 ## @param map: 要注册的地图场景
-signal map_info_registered(map: PackedScene)
-signal map_info_register_finished
+signal map_registered(map: PackedScene, data: SavedDataFile)
+signal map_register_finished
+
+signal map_changed(map: PackedScene, located_info: Dictionary)
+signal map_changed_finished
 
 ## 楼层切换信号
 ## 当实体需要切换到不同楼层时发出
@@ -45,12 +48,19 @@ signal map_info_register_finished
 ## @param new_level: 目标楼层
 signal level_changed(operate_entity: FixedEntity, new_level: Level)
 
-## 目标完成交换
+## 玩家完成层级之间的跳转
 signal level_changed_finished_for_player()
 
 ## 当前激活的楼层
 ## 指向当前玩家所在的活跃楼层
-var current_level: Level
+var current_level: Level:
+	set(value):
+		if value != null or current_level == null:
+			current_level = value
+		elif is_instance_valid(current_level):
+			return
+		else:
+			current_level = null
 
 ## 当前加载的地图
 ## 指向当前加载的静态地图实例
@@ -60,8 +70,9 @@ var current_map: StaticMap
 ## 连接地图管理相关的信号处理
 func _enter_tree() -> void:
 	factor_added.connect(_on_factor_added)
-	map_info_registered.connect(_on_map_info_registered)
+	map_registered.connect(_on_map_registered)
 	level_changed.connect(_on_level_changed)
+	map_changed.connect(_on_map_changed)
 
 ## 系统设置
 ## 地图系统的基础设置（当前无特殊设置需求）
@@ -71,14 +82,15 @@ func _setup():
 ## 系统重置
 ## 清理当前地图数据，准备加载新地图
 func _resetup():
-	current_level = null
+	## 在current_map被释放时，current_level会自动被转换为null
 	if current_map:
 		current_map.queue_free()
 
 ## 地图场景加载处理
 ## 实例化地图场景并设置初始楼层和玩家位置
 ## @param map_scene: 要加载的地图场景
-func _on_map_info_registered(map_scene: PackedScene, _data: SavedDataFile = null):
+## @param _data: 存档数据文件
+func _on_map_registered(map_scene: PackedScene, _data: SavedDataFile = null):
 	# 等待一帧确保系统准备就绪
 	await get_tree().process_frame
 	
@@ -111,6 +123,7 @@ func _on_map_info_registered(map_scene: PackedScene, _data: SavedDataFile = null
 			
 			# 通知主控制器玩家位置
 			SMainController.player_located.emit.call_deferred(current_level, {
+				"type": "Initialize",
 				"start_position":spawn.global_position,
 				"current_position":spawn.global_position,
 			})
@@ -126,7 +139,7 @@ func _on_map_info_registered(map_scene: PackedScene, _data: SavedDataFile = null
 
 		SMainController.player_located.emit.call_deferred(current_level, _data.player_info)
 	
-	map_info_register_finished.emit()
+	map_register_finished.emit()
 	
 
 ## 动态实体添加处理
@@ -146,15 +159,24 @@ func _on_factor_added(new_factor: FixedEntity, start_position: Vector2):
 ## 楼层切换处理
 ## 处理实体在不同楼层间的切换
 ## @param operate_entity: 执行切换的实体
-## @param new_level: 目标楼层
-func _on_level_changed(operate_entity: FixedEntity, new_level: Level):
+## @param new_level: 目标楼层，
+## 在满足一定的条件的情况下，会将指定的
+func _on_level_changed(operate_entity: FixedEntity, new_level: Level, point: TransportPoint):
+	if new_level == current_level:
+		operate_entity.global_position = point.global_position + point.tranported_offset
+		operate_entity.main_control.global_position = point.global_position + point.tranported_offset
+		return
 	# 如果是玩家切换楼层，需要特殊处理
 	if operate_entity.main_control.is_in_group("player"):
 		# 禁用当前楼层
 		current_level.hide()
 		current_level.process_mode = Node.PROCESS_MODE_DISABLED
 		SObjectPool.level_pool_cleared.emit(current_level)
-		
+
+		var start_position: Vector2 = point.global_position + point.tranported_offset
+		operate_entity.global_position = start_position
+		operate_entity.main_control.global_position = start_position
+
 		# 更新相机限制范围
 		var camera = operate_entity.list_base_components.get(IComponent.ComponentName.C_CAMERA) as CCamera
 		if camera:
@@ -168,6 +190,50 @@ func _on_level_changed(operate_entity: FixedEntity, new_level: Level):
 	
 	# 将实体重新分配到新楼层
 	operate_entity.reparent(new_level)
+
+func _on_map_changed(map: PackedScene, located_info: Dictionary):
+	var player_static = SMainController.player_static
+	if player_static:
+		current_level.remove_child(player_static)
+		current_map.queue_free()
+		current_map = map.instantiate()
+		Main.game_view.add_child(current_map)
+		await SSignalBus.map_info_loaded
+			
+		# 禁用所有楼层
+		for level: Node in current_map.levels.get_children():
+			level.process_mode = Node.PROCESS_MODE_DISABLED
+			level.hide()
+
+		var target_point: TransportPoint
+		if located_info.get("target_level_name", &"") != &"" or located_info.get("target_level_index", -1) != -1:
+			## target_level_name 和 target_level_index 有且只会有一个不为空，给current_level赋值空相当于没有赋值
+			current_level = current_map.get_level_by_name(located_info["target_level_name"])
+			current_level = current_map.get_level_by_index(located_info["target_level_index"])
+			if current_level:
+				target_point = current_level.transport_point_list.get(located_info.get("target_key", &""), null)
+			else:
+				push_warning("地图数据: 未检测到目标楼层，请检查地图配置")
+				return
+		else:
+			target_point = current_map.exported_transport_points.get(located_info.get("target_key", &""), null)
+			if target_point:
+				current_level = target_point.get_parent() as Level
+			else:
+				push_warning("地图数据: 未检测到传送点，请检查地图配置")
+				return
+		
+		current_level.process_mode = Node.PROCESS_MODE_INHERIT
+		current_level.show()
+		SMainController.player_located.emit.call_deferred(current_level, {
+			"type": "Transport",
+			"target_level": current_level,
+			"target_point": target_point,
+		})
+
+		map_changed_finished.emit()
+		
+		
 
 ## 获取地图缓存数据
 ## @param key: 缓存键名
@@ -209,13 +275,12 @@ func _data_saving(data: SavedDataFile):
 	
 	# 让地图自身保存详细数据
 	current_map._save(data)
-		
 
 ## 数据加载
 ## 从存档中恢复地图数据
 ## @param data: 存档数据文件
 func _data_loading(_data: SavedDataFile):
-	SMapData.map_info_registered.emit(load(_data.map_cache["current_map"]) as PackedScene, _data)
+	SMapData.map_registered.emit(load(_data.map_cache["current_map"]) as PackedScene, _data)
 	await SSignalBus.map_info_loaded
 	current_map.cache_in_map = _data.map_cache["cache_in_map"]
 #endregion

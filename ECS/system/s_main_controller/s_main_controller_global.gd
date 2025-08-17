@@ -2,21 +2,21 @@
 ## @describe: 游戏的主控系统, 管理玩家的输入信息逻辑, 与主要控制对象(即玩家角色)
 extends ISystem
 
-signal player_located(target_level: Level, target_position: Vector2)
+signal player_located(target_level: Level, _context: Dictionary)
 
-signal partner_joined(_partner: FixedEntity)
+signal partner_joined(_partner: IEntity)
 
 @export var player_scene: PackedScene
 @export_subgroup("依赖")
 @export var input_listener: InputListener
 
-@export var partner: FixedEntity = null
+@export var partner: IEntity = null
 
-var player_static: FixedEntity
+var player_static: IEntity
 
 func _setup():
 	#Input.set_mouse_mode(Input.MOUSE_MODE_CONFINED)
-	partner_joined.connect(func(_partner: FixedEntity):
+	partner_joined.connect(func(_partner: IEntity):
 		if partner:
 			partner.queue_free()
 		partner = _partner
@@ -24,26 +24,40 @@ func _setup():
 	player_located.connect(_on_player_located)
 
 func _on_player_located(target_level: Level, _context: Dictionary):
-	if (player_static != null):
-		player_static.reparent(target_level)
-		player_static.global_position = _context["start_position"]
-		player_static.main_control.global_position = _context["current_position"]
-	else:
-		var player_scene_path = _context.get("scene_file_path", null)
-		if player_scene_path != null:
-			player_scene = load(player_scene_path)
-		player_static = player_scene.instantiate()
-		player_static.global_position = _context["start_position"]
-		player_static.main_control.global_position = _context["current_position"]
-		target_level.add_child(player_static)
-	
-	target_level.entity_count += 1 ## 目标的target_level新加了玩家，因此要进行额外的判断
-	
-	player_static.initialize_complete.connect(func():
-		target_level._on_entity_initialize()
-		SUiSpawner.current_hud[&""].binding_entity = player_static
-		SUiSpawner.current_hud[&""]._initialize()
-	)
+	match _context.get("type", "Initialize"):
+		"Initialize":
+			if (player_static != null):
+				player_static.reparent(target_level)
+				player_static.global_position = _context["start_position"]
+				player_static.main_control.global_position = _context["current_position"]
+			else:
+				var player_scene_path = _context.get("scene_file_path", null)
+				if player_scene_path != null:
+					player_scene = load(player_scene_path)
+				player_static = player_scene.instantiate()
+				player_static.global_position = _context["start_position"]
+				player_static.main_control.global_position = _context["current_position"]
+				target_level.add_child(player_static)
+			
+			target_level.entity_count += 1 ## 目标的target_level新加了玩家，因此要进行额外的判断
+			
+			player_static.initialize_complete.connect(func():
+				target_level._on_entity_initialize()
+				SUiSpawner.current_hud[&""].binding_entity = player_static
+				SUiSpawner.current_hud[&""]._initialize()
+			)
+		"Transport":
+			if (player_static != null):
+				_context["target_level"].add_child(player_static)
+				var target_point: TransportPoint = _context["target_point"]
+				var start_position: Vector2 = target_point.global_position + target_point.tranported_offset
+				player_static.global_position = start_position
+				player_static.main_control.global_position = start_position
+			else:
+				push_error("传送时未检测到玩家，请检查玩家配置")
+				return
+		_:
+			push_error("未知的玩家初始化信息类型: %s" % _context.get("type", "Initialize"))
 	
 	SSignalBus.entity_initialize_started.emit()
 

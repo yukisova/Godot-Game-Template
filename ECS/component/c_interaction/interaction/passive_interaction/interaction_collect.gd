@@ -36,7 +36,7 @@ extends Interaction
 ## 交互激活处理
 ## 当拾取交互被触发时尝试将物品添加到目标实体的背包
 ## @param _target_entity: 触发拾取的实体（通常是玩家）
-func _on_interact_activated(_target_entity: FixedEntity):
+func _on_interact_activated(_target_entity: IEntity):
 	# 验证物品是否有效
 	if not binding_item:
 		push_error("拾取交互: 未配置绑定物品")
@@ -96,7 +96,7 @@ func get_item_info() -> Item:
 ## 检查是否可以拾取
 ## @param target_entity: 目标实体
 ## @return: 是否可以进行拾取操作
-func can_pickup(target_entity: FixedEntity) -> bool:
+func can_pickup(target_entity: IEntity) -> bool:
 	if not binding_item:
 		return false
 	

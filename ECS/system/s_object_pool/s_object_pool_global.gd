@@ -23,13 +23,13 @@ func _resetup():
 ## 放置临时的子弹，_despawn的逻辑由level_object_pool确定
 func _spawn(_pool_key: StringName, _prefab: PackedScene, _context: Dictionary, _position: Vector2) -> TempEntity:
 	var pool_key_name = StringName(_pool_key)
-	if !_pools.has(pool_key_name):
+	if !_pools.has(pool_key_name) or !_pools[pool_key_name]:
 		register_pool(pool_key_name , _prefab, 20)
 	var temp_entity = _pools[pool_key_name].spawn(_position, _context)
 	return temp_entity
 
 func register_pool(_pool_key:StringName, _prefab:PackedScene, _initial_pool_size:int):
-	if _pools.has(_pool_key):
+	if _pools.has(_pool_key) and _pools[_pool_key] != null:
 		print("目前已经存在",_pool_key, "请检查代码")
 		return
 	var new_pool = LevelObjectPool.new(_prefab, _initial_pool_size)

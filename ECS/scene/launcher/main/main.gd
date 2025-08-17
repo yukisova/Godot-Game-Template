@@ -95,6 +95,7 @@ func _on_system_reset_state():
 	SAudioMaster._resetup()
 	
 	print("主进程: 系统重置完成")
+	# 注意：重置时不触发system_setup_completed信号，避免循环引用
 	system_setup_completed.emit()
 
 ## 游戏主循环开始

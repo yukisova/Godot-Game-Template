@@ -12,5 +12,5 @@ func _ready() -> void:
 ## TODO 死亡掉落的逻辑没有写完
 func _effect(..._args):
 	if _args[0] == SoraConstant.StatusEnum.Health:
-		var item = drop_item.instantiate() as FixedEntity
+		var item = drop_item.instantiate() as IEntity
 		SMapData.factor_added.emit(item, c_action.component_owner.main_control.global_position)

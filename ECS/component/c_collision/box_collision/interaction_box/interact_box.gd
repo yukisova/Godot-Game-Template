@@ -27,3 +27,4 @@ extends BoxCollision
 
 func _enter_tree() -> void:
 	box_collision_name = CCollision.BoxCollisionName.INTERACT
+	collision_layer = Main.PhysicsLayer.Interactable

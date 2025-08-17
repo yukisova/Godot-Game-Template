@@ -43,6 +43,8 @@ signal hurted(hit_damage: int)
 
 func _enter_tree() -> void:
 	box_collision_name = CCollision.BoxCollisionName.HURT
+	collision_layer = Main.PhysicsLayer.Breakable
+	collision_mask = Main.PhysicsLayer.Breakable
 
 ## 初始化受伤系统
 ## 连接碰撞检测和伤害处理信号

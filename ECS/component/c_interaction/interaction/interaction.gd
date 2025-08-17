@@ -34,13 +34,16 @@ signal interact_deactivated
 ## 节点进入场景树时的初始化
 ## 自动连接交互信号到对应的处理方法
 func _enter_tree() -> void:
-	interact_activated.connect(_on_interact_activated)
-	interact_deactivated.connect(_on_interact_deactivated)
+	# 避免重复连接信号
+	if not interact_activated.is_connected(_on_interact_activated):
+		interact_activated.connect(_on_interact_activated)
+	if not interact_deactivated.is_connected(_on_interact_deactivated):
+		interact_deactivated.connect(_on_interact_deactivated)
 
 ## 交互激活处理
 ## 当交互被激活时的具体逻辑实现，子类需要重写此方法
 ## @param target_entity: 触发交互的目标实体（通常是玩家）
-@abstract func _on_interact_activated(target_entity: FixedEntity)
+@abstract func _on_interact_activated(target_entity: IEntity)
 
 ## 交互取消激活处理
 ## 当交互被取消时的清理逻辑实现，子类需要重写此方法

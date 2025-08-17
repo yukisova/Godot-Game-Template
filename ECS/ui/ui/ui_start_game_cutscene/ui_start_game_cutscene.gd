@@ -92,7 +92,7 @@ func _transition_to_game():
 	if current_state is GameStartState:
 		print("开场过场UI: 状态机验证通过，开始游戏")
 		current_state.update_trigger = true
-		SMapData.map_info_registered.emit(start_game_scene)
+		SMapData.map_registered.emit(start_game_scene)
 		SAudioMaster.play_music(null)
 		unspawn()
 	else:

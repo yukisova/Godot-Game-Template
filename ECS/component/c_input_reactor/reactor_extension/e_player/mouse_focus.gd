@@ -27,4 +27,4 @@ func _listen():
 	# 遍历所有焦点节点，将其位置设置为鼠标位置
 	for focus_node in mouse_focus:
 		if is_instance_valid(focus_node):
-			focus_node.global_position = focus_node.get_global_mouse_position()
+			focus_node.global_position = focus_node.get_global_mouse_position() if get_viewport() else Vector2.ZERO

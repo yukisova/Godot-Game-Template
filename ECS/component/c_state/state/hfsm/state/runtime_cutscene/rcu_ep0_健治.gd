@@ -40,7 +40,7 @@ func _enter_of_cutscene_running():
 	var target_position = target_marker.global_position
 	nav_agent.target_position = target_position
 	
-	interaction_dialogue.interact_activated.connect(func(entity: FixedEntity):
+	interaction_dialogue.interact_activated.connect(func(entity: IEntity):
 		true_toward = c_interactable.component_body.global_position.direction_to(entity.global_position).normalized()
 		state_transition.emit("cutscene_pause")
 	)

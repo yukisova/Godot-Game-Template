@@ -1,0 +1,25 @@
+[gd_scene load_steps=5 format=3 uid="uid://dofu8tj40v5it"]
+
+[ext_resource type="Script" uid="uid://e1butkekr4if" path="res://entity/entity_packed/object_entity/transport_point/transport_point.gd" id="1_sk685"]
+[ext_resource type="Script" uid="uid://dqxey3deyxpb4" path="res://component/c_collision/box_collision/interaction_box/interact_box.gd" id="2_6x6pv"]
+[ext_resource type="PackedScene" uid="uid://dbswip03t13sy" path="res://component/c_interaction/c_interactable.tscn" id="3_37nqr"]
+[ext_resource type="Script" uid="uid://bd68nk7t7petg" path="res://component/c_interaction/interaction/initiative_interaction/interaction_transport.gd" id="5_bjrqn"]
+
+[node name="TransportPoint" type="Node2D" node_paths=PackedStringArray("c_interactable", "interaction_transport", "main_control")]
+script = ExtResource("1_sk685")
+transport_point_type = 0
+target_map_path = null
+c_interactable = NodePath("InteractBox/CInteractable")
+interaction_transport = NodePath("InteractBox/CInteractable/InteractionTransport")
+main_control = NodePath("InteractBox")
+metadata/_custom_type_script = "uid://e1butkekr4if"
+
+[node name="InteractBox" type="Area2D" parent="."]
+script = ExtResource("2_6x6pv")
+metadata/_custom_type_script = "uid://dqxey3deyxpb4"
+
+[node name="CInteractable" parent="InteractBox" instance=ExtResource("3_37nqr")]
+
+[node name="InteractionTransport" type="Node" parent="InteractBox/CInteractable"]
+script = ExtResource("5_bjrqn")
+target_map_path = null

@@ -77,6 +77,10 @@ extends Node
 ## 控制地图加载后是否自动播放过场动画
 @export var cutscene_enable: bool = true
 
+## 导出的传送点列表
+## 在level加载完毕后刷新，可以被其他地图的传送点直接引用
+var exported_transport_points: Dictionary[StringName, TransportPoint] = {}
+
 #endregion
 
 #region 地图数据
@@ -113,12 +117,13 @@ func _enter_tree() -> void:
 		if level is Level:
 			level.level_fully_loaded.connect(_on_level_fully_loaded)
 			level.level_entity_fully_initialize.connect(_on_level_entity_fully_loaded)
+			level.static_map = self
 			level_count += 1
 	
 	if cutscene_enable:
 		for cutscene in autoload_cutscene.get_children():
 			SSignalBus.game_loop_start.connect(cutscene._start)
-		
+	
 	else:
 		SSignalBus.game_loop_start.connect(func():
 			SUiSpawner._get_hud("transition").fade_in()
@@ -159,3 +164,19 @@ func _save(data: SavedDataFile):
 	
 	data.level_info = map_result
 #endregion
+
+## 工具方法
+func get_level_by_name(_name: StringName) -> Level:
+	for level in levels.get_children():
+		if level is Level and level.name == _name:
+			return level
+	return null
+
+func get_level_by_index(_index: int) -> Level:
+	var i = 0
+	for level in levels.get_children():
+		if level is Level:
+			if i == _index:
+				return level
+			i += 1
+	return null

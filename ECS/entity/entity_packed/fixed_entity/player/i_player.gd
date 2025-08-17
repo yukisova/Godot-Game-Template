@@ -4,6 +4,7 @@ extends FixedEntity
 
 func _save_as(data: SavedDataFile) -> Dictionary:
 	data.player_info = {
+		"type": "Initialize", ## 在传入player_located时，表明是初始化，逻辑会有所不同
 		"scene_file_path":scene_file_path, ## 有可能角色不一样
 		"start_position":global_position,
 		"current_position":main_control.global_position,

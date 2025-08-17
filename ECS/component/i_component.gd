@@ -25,7 +25,7 @@ enum ComponentName {
 ## TODO 
 @export var initialize_from: String ## 在初始化的时候如果需要在外部自定义初始化的值，所在ContainerBlackboard中获取的
 
-var component_owner: IEntity ## 组件的拥有者, 即实体（支持FixedEntity和TempEntity）
+var component_owner: IEntity ## 组件的拥有者, 即实体（支持所有IEntity的子类）
 var component_body: CollisionObject2D ## 实体的主碰撞体
 var component_name: ComponentName ## 用于实体内组件字典进行识别的类型枚举
 

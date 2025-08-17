@@ -34,7 +34,7 @@ enum InteractType {
 
 ## 交互类型
 ## 决定交互的触发方式和检测机制
-@export var interact_type: InteractType:
+@export var interact_type: InteractType = InteractType.BodyEntered:
 	set(v):
 		interact_type = v
 		notify_property_list_changed()
@@ -46,6 +46,12 @@ enum InteractType {
 ## 交互检测区域节点路径
 ## 指向InteractBox类型的节点，定义交互的触发区域
 @export_node_path("InteractBox") var interact_box: NodePath
+
+func _init(_interact_type: InteractType = InteractType.BodyEntered, _is_passive: bool = false, _interact_box: NodePath = NodePath(), _interaction: NodePath = NodePath()) -> void:
+	interact_type = _interact_type
+	is_passive = _is_passive
+	interact_box = _interact_box
+	interaction = _interaction
 
 ## 属性验证
 ## 根据交互类型动态调整编辑器中显示的属性

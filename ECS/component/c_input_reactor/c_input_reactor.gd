@@ -50,7 +50,7 @@ var interact_obj: Interaction = null:
 		if v == null:
 			print("可交互对象重置")
 		else:
-			print("可交互对象更新: ", v.binding.component_owner.name)
+			print("可交互对象更新: ", v.binding_entity.name)
 		interact_obj = v
 
 func _enter_tree() -> void:

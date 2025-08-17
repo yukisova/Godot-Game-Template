@@ -25,5 +25,5 @@ func _update(_delta: float) -> void:
 
 func _exit():
 	super()
-	SSignalBus.ui_main_returned.emit()
 	update_trigger = false
+	SSignalBus.ui_main_returned.emit()

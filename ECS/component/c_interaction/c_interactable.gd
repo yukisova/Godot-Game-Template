@@ -108,7 +108,7 @@ func confirm_interact_callable(interaction_info: InteractionRecordInfo):
 					if interaction_info.is_passive:
 						interaction_info.interaction.interact_activated.emit(_body.get_parent())
 					else:
-						var entity = _body.owner as FixedEntity
+						var entity = _body.owner as IEntity
 						var c_input_reactor: CInputReactor = entity.list_base_components.get(IComponent.ComponentName.C_INPUT_REACTOR)
 						if c_input_reactor:
 							c_input_reactor.interact_obj = interaction_info.interaction )
@@ -116,7 +116,7 @@ func confirm_interact_callable(interaction_info: InteractionRecordInfo):
 				if _body.is_in_group("player"):
 					interaction_info.interaction.interact_deactivated.emit()
 					if not interaction_info.is_passive:
-						var entity = _body.owner as FixedEntity
+						var entity = _body.owner as IEntity
 						var c_input_reactor: CInputReactor = entity.list_base_components.get(IComponent.ComponentName.C_INPUT_REACTOR)
 						if c_input_reactor:
 							c_input_reactor.interact_obj = null )
@@ -128,9 +128,9 @@ func confirm_interact_callable(interaction_info: InteractionRecordInfo):
 				if _area is SeekBox:
 					_area.seek_target.erase(interaction_info.interaction))
 		InteractionRecord.InteractType.RayCasted:
-			interaction_info.callable_actived = Callable(func(interact_source: FixedEntity):
+			interaction_info.callable_actived = Callable(func(interact_source: IEntity):
 				interaction_info.interaction.interact_activated.emit(interact_source))
-			interaction_info.callable_deactived = Callable(func(_interact_source: FixedEntity):
+			interaction_info.callable_deactived = Callable(func(_interact_source: IEntity):
 				push_error("来来来来你告诉我这个方法咋触发")
 				)
 	register_inteactable_area(interaction_info)

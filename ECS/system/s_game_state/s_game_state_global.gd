@@ -36,12 +36,6 @@ func _setup():
 	state_machine._enter()
 	is_setup = true
 
-## 系统重启
-## 重置状态机到初始状态
-func _resetup():
-	# TODO: 实现状态机重置逻辑
-	pass
-
 ## 主循环更新
 ## 每帧更新状态机逻辑
 ## @param delta: 帧时间间隔

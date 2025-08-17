@@ -73,7 +73,7 @@ move_strategy = NodePath("VectorMove")
 [node name="VectorMove" type="Node" parent="CharacterBody/ComponentContainer/CMovement" index="0" node_paths=PackedStringArray("c_input", "blackboard")]
 script = ExtResource("8_s6qkr")
 c_input = NodePath("../../CInputReactor")
-move_speed = 1000.0
+move_speed = 3000.0
 blackboard = NodePath("../..")
 
 [node name="CStatus" parent="CharacterBody/ComponentContainer" index="3" instance=ExtResource("9_r1axf")]

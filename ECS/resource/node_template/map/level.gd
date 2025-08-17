@@ -53,6 +53,11 @@ signal level_entity_fully_initialize
 ## 用于管理该层级中的临时实体，临时实体只会在当前层级生成，玩家离开当前层级后会将该层级中的临时实体统一销毁
 @export var level_object_pool: Node2D
 
+var static_map: StaticMap
+
+## 本level内的传送点
+var transport_point_list: Dictionary[StringName, TransportPoint] = {}
+
 #endregion
 
 #region 瓦片图层统计
@@ -81,13 +86,20 @@ var entity_loaded_count = 0
 
 # 进入场景树: 对接瓦片的加载逻辑和预定义实体的初始化监听逻辑
 func _enter_tree() -> void:
-	for layer in get_children():
-		if layer is TileMapLayer or layer is PolygonTile:
-			layer.ready.connect(_on_layer_ready, CONNECT_DEFERRED)
+	for element in get_children():
+		if element is TileMapLayer or element is PolygonTile:
+			element.ready.connect(_on_layer_ready, CONNECT_DEFERRED)
 			layers_count += 1
-		elif layer is FixedEntity:
-			layer.initialize_complete.connect(_on_entity_initialize)
-			layer.is_entity_origin_exist = true
+		elif element is FixedEntity:
+			element.initialize_complete.connect(_on_entity_initialize)
+			element.is_entity_origin_exist = true
+			entity_count += 1
+		elif element is TransportPoint:
+			if element.enable_export_to_map:
+				static_map.exported_transport_points[element.transport_point_key] = element
+			transport_point_list[element.transport_point_key] = element
+			element.initialize_complete.connect(_on_entity_initialize)
+			element.is_entity_origin_exist = true
 			entity_count += 1
 	_check_all_layers_loaded()
 

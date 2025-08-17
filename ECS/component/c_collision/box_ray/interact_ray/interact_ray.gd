@@ -27,7 +27,7 @@ extends BoxRay
 
 ## 当前交互目标
 ## 射线当前指向的可交互实体，null表示没有有效目标
-var interact_target: FixedEntity
+var interact_target: IEntity
 
 ## 射线初始化
 ## 设置射线的碰撞检测层级，只检测可交互对象
@@ -46,8 +46,8 @@ func _update(_delta: float):
 	if is_colliding():
 		# 检测到碰撞，验证目标是否为有效实体
 		var collider = get_collider()
-		if collider and collider.get_parent() is FixedEntity:
-			interact_target = collider.get_parent() as FixedEntity
+		if collider and collider.get_parent() is IEntity:
+			interact_target = collider.get_parent() as IEntity
 		else:
 			interact_target = null
 	elif interact_target:
@@ -56,7 +56,7 @@ func _update(_delta: float):
 
 ## 获取当前交互目标
 ## @return: 当前可交互的实体，如果没有则返回null
-func get_current_target() -> FixedEntity:
+func get_current_target() -> IEntity:
 	return interact_target
 
 ## 检查是否有有效的交互目标

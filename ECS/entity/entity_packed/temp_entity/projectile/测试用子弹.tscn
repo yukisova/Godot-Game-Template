@@ -1,0 +1,49 @@
+[gd_scene load_steps=11 format=3 uid="uid://bcto662hlps4f"]
+
+[ext_resource type="PackedScene" uid="uid://co817hl4s2rr7" path="res://entity/entity_packed/temp_entity/temp_entity.tscn" id="1_sppb8"]
+[ext_resource type="PackedScene" uid="uid://cq0u8u1qie88t" path="res://entity/entity_packed/entity_template/character_body.tscn" id="2_re1bp"]
+[ext_resource type="PackedScene" uid="uid://bvjy63fua1sx2" path="res://component/c_texture/c_texture.tscn" id="3_vg3gh"]
+[ext_resource type="PackedScene" uid="uid://dvrvdiy0pquiq" path="res://component/c_movement/c_movement.tscn" id="4_x7ax0"]
+[ext_resource type="Script" uid="uid://ikjlf7gagqap" path="res://component/c_movement/move_strategy/straight_move.gd" id="5_l5x8v"]
+[ext_resource type="PackedScene" uid="uid://cps21xspaovit" path="res://component/c_collision/c_collision.tscn" id="6_f8n6g"]
+[ext_resource type="Script" uid="uid://dneeiueh1hgr2" path="res://component/c_collision/box_collision/hit_box/hit_box_range/hit_box_range.gd" id="7_fya08"]
+
+[sub_resource type="Gradient" id="Gradient_j67t8"]
+colors = PackedColorArray(1, 0, 0, 1, 1, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_ihym0"]
+gradient = SubResource("Gradient_j67t8")
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_otxgj"]
+radius = 24.0
+
+[node name="测试用子弹" node_paths=PackedStringArray("main_control", "component_container") instance=ExtResource("1_sppb8")]
+pool_key = &"手枪子弹"
+main_control = NodePath("CharacterBody")
+component_container = NodePath("CharacterBody/ComponentContainer")
+
+[node name="CharacterBody" parent="." index="0" instance=ExtResource("2_re1bp")]
+
+[node name="CTexture" parent="CharacterBody/ComponentContainer" index="0" instance=ExtResource("3_vg3gh")]
+texture_path = NodePath("Sprite2D")
+
+[node name="Sprite2D" type="Sprite2D" parent="CharacterBody/ComponentContainer/CTexture" index="0"]
+texture = SubResource("GradientTexture2D_ihym0")
+
+[node name="CMovement" parent="CharacterBody/ComponentContainer" index="1" node_paths=PackedStringArray("move_strategy") instance=ExtResource("4_x7ax0")]
+move_strategy = NodePath("StraightMove")
+
+[node name="StraightMove" type="Node" parent="CharacterBody/ComponentContainer/CMovement" index="0" node_paths=PackedStringArray("blackboard")]
+script = ExtResource("5_l5x8v")
+blackboard = NodePath("../..")
+
+[node name="CCollision" parent="CharacterBody/ComponentContainer" index="2" instance=ExtResource("6_f8n6g")]
+
+[node name="HitboxRange" type="Area2D" parent="CharacterBody/ComponentContainer/CCollision" index="0"]
+script = ExtResource("7_fya08")
+metadata/_custom_type_script = "uid://dneeiueh1hgr2"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody/ComponentContainer/CCollision/HitboxRange" index="0"]
+shape = SubResource("CircleShape2D_otxgj")
+
+[editable path="CharacterBody"]

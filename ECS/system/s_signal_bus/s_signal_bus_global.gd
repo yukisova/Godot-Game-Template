@@ -22,10 +22,16 @@ signal ui_main_returned ## 因为游戏失败或通过暂停界面结束游戏�
 func _setup():
 	game_data_loaded_compelete.connect(func():
 		var game_state_machine = SGameState.state_machine
-		await game_state_machine.state_transition_finished
-		var current_state = game_state_machine._get_leaf_state()
-		if current_state is GameStartTransition:
-			current_state.update_trigger = true
-		else:
-			printerr("WTF错误: gameloaded触发后按理来说一定是在GameStartTransition下，当前状态", current_state.name)
+		var current_state = game_state_machine._get_active_state()
+		## 进入游戏加载地图的情况
+		if current_state is GameStartState:
+			await game_state_machine.state_transition_finished
+			current_state = game_state_machine._get_active_state()
+			if current_state is GameStartTransition:
+				current_state.update_trigger = true
+			else:
+				printerr("WTF错误: gameloaded触发后按理来说一定是在GameStartTransition下，当前状态", current_state.name)
+		## 切换地图的情况
+		#elif current_state is GamingChildStateMachine:
+		#
 		)

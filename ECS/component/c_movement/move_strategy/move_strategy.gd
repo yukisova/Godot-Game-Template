@@ -25,7 +25,7 @@ enum MoveStrategyType {
 }
 
 ## 绑定的实体
-## 由移动组件传入，策略将作用于此实体（支持FixedEntity和TempEntity）
+## 由移动组件传入，策略将作用于此实体（支持所有IEntity的子类）
 var binding_entity: IEntity
 
 ## 黑板节点

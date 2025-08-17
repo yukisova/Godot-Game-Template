@@ -23,7 +23,7 @@ extends IHud
 
 ## 绑定的实体
 ## 通常为玩家角色实体
-var binding_entity: IEntity
+var binding_entity: FixedEntity
 
 #endregion
 

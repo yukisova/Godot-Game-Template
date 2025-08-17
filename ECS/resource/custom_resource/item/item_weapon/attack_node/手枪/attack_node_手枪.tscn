@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://cp3qo45fcw0ix"]
 
 [ext_resource type="Script" uid="uid://xjklvra480qw" path="res://resource/custom_resource/item/item_weapon/attack_node/手枪/attack_node_手枪.gd" id="1_47x43"]
-[ext_resource type="PackedScene" uid="uid://bcto662hlps4f" path="res://entity/entity_packed/temp_entity/projectile/i_projectile.tscn" id="2_1naj7"]
+[ext_resource type="PackedScene" uid="uid://bcto662hlps4f" path="res://entity/entity_packed/temp_entity/projectile/测试用子弹.tscn" id="2_1naj7"]
 [ext_resource type="Texture2D" uid="uid://kbkgom7sc05c" path="res://asset/item_texture/ItemIcon.png" id="2_q2f1f"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_unu6f"]

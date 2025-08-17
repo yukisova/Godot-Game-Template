@@ -100,7 +100,7 @@ func _setup_button_bindings():
 		var current_state = game_state_machine._get_active_state()
 		if current_state is GameStartState:
 			current_state.update_trigger = true
-			SMapData.map_info_registered.emit(_args[0] as PackedScene)
+			SMapData.map_registered.emit(_args[0] as PackedScene)
 			SAudioMaster.play_music(null)
 			unspawn()
 		else:

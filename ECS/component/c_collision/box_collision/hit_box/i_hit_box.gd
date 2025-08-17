@@ -45,6 +45,8 @@ var collision: CollisionShape2D
 
 func _enter_tree() -> void:
 	box_collision_name = CCollision.BoxCollisionName.HIT
+	collision_layer = Main.PhysicsLayer.Breakable
+	collision_mask = Main.PhysicsLayer.Wall | Main.PhysicsLayer.Breakable
 
 ## 获取攻击效果，由hurtbox调用，用于计算伤害与可能施加给目标的buff
 func get_hit_effect() -> Array[IHitEffect]:
