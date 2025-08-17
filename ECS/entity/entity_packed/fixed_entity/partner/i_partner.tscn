@@ -2,13 +2,13 @@
 
 [ext_resource type="PackedScene" uid="uid://6jpwo3n27sj2" path="res://entity/entity_packed/fixed_entity/fixed_entity.tscn" id="1_fw2go"]
 [ext_resource type="PackedScene" uid="uid://cq0u8u1qie88t" path="res://entity/entity_packed/entity_template/character_body.tscn" id="2_voych"]
-[ext_resource type="PackedScene" uid="uid://caj56l0yail7q" path="res://component/c_status/c_status.tscn" id="3_5g7lq"]
-[ext_resource type="PackedScene" uid="uid://ca1hb1m2dinl2" path="res://component/c_state/c_state.tscn" id="4_juero"]
-[ext_resource type="Script" uid="uid://bcra6te86xkrn" path="res://component/c_state/state/hfsm/state/partner/sm_partner_root.gd" id="5_x06ls"]
-[ext_resource type="Script" uid="uid://chldj252rada0" path="res://component/c_state/state/hfsm/state/partner/partner_follow.gd" id="8_x0gje"]
-[ext_resource type="PackedScene" uid="uid://cl2k6r335pke0" path="res://component/c_navigation/c_navigation.tscn" id="9_8wt6s"]
-[ext_resource type="Script" uid="uid://6psh074mfq4r" path="res://component/c_state/state/hfsm/state/partner/partner_idle.gd" id="9_pe1fs"]
-[ext_resource type="Script" uid="uid://6wajeg5aut1l" path="res://component/c_state/state/hfsm/state/partner/partner_fight.gd" id="10_p060j"]
+[ext_resource type="PackedScene" uid="uid://caj56l0yail7q" path="res://component/c_status_list/c_status_list.tscn" id="3_5g7lq"]
+[ext_resource type="PackedScene" uid="uid://ca1hb1m2dinl2" path="res://component/c_state_machine/c_state_machine.tscn" id="4_juero"]
+[ext_resource type="Script" uid="uid://bcra6te86xkrn" path="res://component/c_state_machine/state/hfsm/state/partner/sm_partner_root.gd" id="5_x06ls"]
+[ext_resource type="Script" uid="uid://chldj252rada0" path="res://component/c_state_machine/state/hfsm/state/partner/partner_follow.gd" id="8_x0gje"]
+[ext_resource type="PackedScene" uid="uid://cl2k6r335pke0" path="res://component/c_navigation_agent/c_navigation_agent.tscn" id="9_8wt6s"]
+[ext_resource type="Script" uid="uid://6psh074mfq4r" path="res://component/c_state_machine/state/hfsm/state/partner/partner_idle.gd" id="9_pe1fs"]
+[ext_resource type="Script" uid="uid://6wajeg5aut1l" path="res://component/c_state_machine/state/hfsm/state/partner/partner_fight.gd" id="10_p060j"]
 
 [node name="IPartner" node_paths=PackedStringArray("main_control", "component_container") instance=ExtResource("1_fw2go")]
 main_control = NodePath("CharacterBody")

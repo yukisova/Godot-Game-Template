@@ -1,0 +1,32 @@
+[gd_scene load_steps=2 format=3 uid="uid://cxedfarn7rer4"]
+
+[ext_resource type="Script" uid="uid://da7pxxrjiyjvd" path="res://component/c_texture_controller/packed_texture/packed_man/packed_man.gd" id="1_38ejw"]
+
+[node name="PackedMan" type="Node2D" node_paths=PackedStringArray("body", "head", "hand_left", "hand_right")]
+script = ExtResource("1_38ejw")
+body = NodePath("Whole/BH/Body")
+head = NodePath("Whole/BH/Head")
+hand_left = NodePath("Whole/Left/Sprite2D")
+hand_right = NodePath("Whole/Right/Sprite2D")
+
+[node name="Whole" type="Node2D" parent="."]
+
+[node name="BH" type="Node2D" parent="Whole"]
+
+[node name="Body" type="Sprite2D" parent="Whole/BH"]
+unique_name_in_owner = true
+
+[node name="Head" type="Sprite2D" parent="Whole/BH"]
+unique_name_in_owner = true
+
+[node name="Left" type="Node2D" parent="Whole"]
+
+[node name="Sprite2D" type="Sprite2D" parent="Whole/Left"]
+
+[node name="Right" type="Node2D" parent="Whole"]
+
+[node name="Sprite2D" type="Sprite2D" parent="Whole/Right"]
+
+[node name="Edit" type="Node" parent="."]
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]

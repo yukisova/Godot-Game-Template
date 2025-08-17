@@ -67,9 +67,9 @@ var is_equipped: bool
 ## 装备武器
 ## 
 ## 当玩家选择装备该武器时调用此方法。
-## [param args]: 参数数组，第一个参数应为 [CStatus] 组件
+## [param args]: 参数数组，第一个参数应为 [CStatusList] 组件
 func _equip(...args):
-	var c_status = args[0] as CStatus
+	var c_status = args[0] as CStatusList
 	var equipment: EquipmentExtension = c_status.status_extension[StatusExtension.ExtensionType.EQUIPMENT]
 	# 发出攻击节点变化信号，通知装备系统处理武器装备逻辑
 	equipment.attack_node_changed.emit(self)
@@ -77,9 +77,9 @@ func _equip(...args):
 ## 卸下武器
 ## 
 ## 当玩家选择卸下该武器时调用此方法。
-## [param args]: 参数数组，第一个参数应为 [CStatus] 组件
+## [param args]: 参数数组，第一个参数应为 [CStatusList] 组件
 func _unequip(...args):
-	var c_status = args[0] as CStatus
+	var c_status = args[0] as CStatusList
 	var equipment: EquipmentExtension = c_status.status_extension[StatusExtension.ExtensionType.EQUIPMENT]
 	# 发出武器移除信号，传递 null 表示移除当前武器
 	equipment.attack_node_changed.emit(null)

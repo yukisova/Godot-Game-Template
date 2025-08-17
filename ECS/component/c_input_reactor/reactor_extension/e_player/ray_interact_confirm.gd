@@ -31,7 +31,7 @@
 ## 架构设计：
 ## - 继承自 [ReactorExtension] 基类
 ## - 集成 [InteractRay] 射线检测系统
-## - 与 [CStatus] 和 [EquipmentExtension] 装备系统集成
+## - 与 [CStatusList] 和 [EquipmentExtension] 装备系统集成
 ## - 基于输入映射的动作处理
 ##
 ## [br][b]编辑者:[/b] Sora
@@ -45,8 +45,8 @@ extends ReactorExtension
 
 ## 状态组件
 ## 
-## 角色的状态组件，用于访问装备系统，类型为 [CStatus]。
-@export var c_status: CStatus
+## 角色的状态组件，用于访问装备系统，类型为 [CStatusList]。
+@export var c_status: CStatusList
 
 ## 监听射线交互操作（重写方法）
 ## 

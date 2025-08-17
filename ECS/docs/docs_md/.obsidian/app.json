@@ -1,0 +1,65 @@
+{
+  "legacyEditor": false,
+  "livePreview": true,
+  "readableLineLength": false,
+  "strictLineBreaks": false,
+  "showFrontmatter": true,
+  "defaultViewMode": "source",
+  "attachmentFolderPath": "attachments",
+  "newLinkFormat": "shortest",
+  "useMarkdownLinks": false,
+  "newFileLocation": "current",
+  "promptDelete": false,
+  "alwaysUpdateLinks": true,
+  "showUnsupportedFiles": false,
+  "showLineNumber": true,
+  "spellcheck": false,
+  "foldHeading": true,
+  "foldIndent": true,
+  "showIndentGuide": true,
+  "enabledPlugins": [
+    "graph",
+    "file-explorer",
+    "global-search",
+    "switcher",
+    "outline",
+    "page-preview",
+    "note-composer",
+    "command-palette",
+    "markdown-importer",
+    "word-count",
+    "open-with-default-app",
+    "file-recovery"
+  ],
+  "communityPluginSortOrder": "download",
+  "hotkeys": {
+    "graph:open": [
+      {
+        "modifiers": [
+          "Mod"
+        ],
+        "key": "g"
+      }
+    ],
+    "switcher:open": [
+      {
+        "modifiers": [
+          "Mod"
+        ],
+        "key": "o"
+      }
+    ],
+    "global-search:open": [
+      {
+        "modifiers": [
+          "Mod",
+          "Shift"
+        ],
+        "key": "f"
+      }
+    ]
+  },
+  "vimMode": false,
+  "showInlineTitle": true,
+  "rightToLeft": false
+}

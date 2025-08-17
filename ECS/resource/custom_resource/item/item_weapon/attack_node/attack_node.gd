@@ -49,7 +49,7 @@
 ## - 继承自 [Node2D] 基类
 ## - 使用 [annotation @tool] 支持编辑器预览
 ## - 集成 [Marker2D] 的攻击点定位系统
-## - 与 [CStatus] 组件的状态管理集成
+## - 与 [CStatusList] 组件的状态管理集成
 ## - 支持 [Array] of [IHitEffect] 的击中效果系统
 ##
 ## [br][b]编辑者:[/b] Sora
@@ -65,8 +65,8 @@ extends Node2D
 
 ## 角色状态组件
 ## 
-## 与此攻击节点关联的角色状态组件，类型为 [CStatus]。
-var c_status: CStatus
+## 与此攻击节点关联的角色状态组件，类型为 [CStatusList]。
+var c_status: CStatusList
 
 ## 击中效果列表
 ## 

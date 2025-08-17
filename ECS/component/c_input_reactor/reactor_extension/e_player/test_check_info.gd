@@ -49,3 +49,7 @@ func _listen():
 		# 手动触发存档保存
 		print("测试: 手动触发存档保存")
 		SLoadAndSave.saving_started.emit()
+	elif Input.is_key_pressed(KEY_2):
+		var action_trigger: CActionTrigger = c_input_reactor.component_owner.list_base_components.get(IComponent.ComponentName.C_ACTION_TRIGGER, null)
+		if action_trigger:
+			print("当前行为: ", action_trigger.current_action_list)

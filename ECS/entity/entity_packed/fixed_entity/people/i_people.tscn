@@ -2,7 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://6jpwo3n27sj2" path="res://entity/entity_packed/fixed_entity/fixed_entity.tscn" id="1_pxmpk"]
 [ext_resource type="PackedScene" uid="uid://cq0u8u1qie88t" path="res://entity/entity_packed/entity_template/character_body.tscn" id="2_i6qha"]
-[ext_resource type="PackedScene" uid="uid://bvjy63fua1sx2" path="res://component/c_texture/c_texture.tscn" id="3_qxk08"]
+[ext_resource type="PackedScene" uid="uid://bvjy63fua1sx2" path="res://component/c_texture_controller/c_texture_controller.tscn" id="3_qxk08"]
 
 [node name="IPeople" node_paths=PackedStringArray("main_control", "component_container") instance=ExtResource("1_pxmpk")]
 main_control = NodePath("CharacterBody")

@@ -34,7 +34,7 @@
 ## - 基于 [GridInventorySlot] 的槽位管理
 ## - 集成 [DragableItem] 的物品显示系统
 ## - 支持 [ButtonContainer] 的交互菜单
-## - 与 [CStatus] 和 [InventoryExtension] 的数据绑定
+## - 与 [CStatusList] 和 [InventoryExtension] 的数据绑定
 ##
 ## [br][b]编辑者:[/b] Sora
 @tool
@@ -85,8 +85,8 @@ extends MarginContainer
 
 ## 绑定的状态组件
 ## 
-## 与背包系统关联的角色状态组件，类型为 [CStatus]。
-var binding_status: CStatus
+## 与背包系统关联的角色状态组件，类型为 [CStatusList]。
+var binding_status: CStatusList
 
 ## 当前按钮容器
 ## 

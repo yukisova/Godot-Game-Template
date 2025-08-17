@@ -21,15 +21,14 @@ signal initialize_complete
 ## 定义ECS系统中所有可用组件的标识符，用于组件的注册和管理。
 enum ComponentName {
 	C_ACTION_TRIGGER = 0, ## 见 [CActionTrigger] 行为触发组件
-	C_TEXTURE, ## 见 [CTexture] 纹理渲染组件
+	C_TEXTURE_CONTROLLER, ## 见 [CTextureController] 纹理渲染组件
 	C_CAMERA, ## 见 [CCamera] 相机控制组件
-	C_COLLISION, ## 见 [CCollision] 碰撞检测组件
+	C_COLLISION_BOX, ## 见 [CCollisionBox] 碰撞检测组件
 	C_INPUT_REACTOR, ## 见 [CInputReactor] 输入响应组件
 	C_INTERACTABLE, ## 见 [CInteractable] 交互处理组件
-	C_MOVEMENT, ## 见 [CMovement] 移动控制组件
-	C_STATE, ## 见 [CState] 状态机组件
-	C_STATUS, ## 见 [CStatus] 状态管理组件
-	C_NAVIGATION, ## 见 [CNavigation] 导航寻路组件
+	C_STATE_MACHINE, ## 见 [CStateMachine] 状态机组件
+	C_STATUS_LIST, ## 见 [CStatusList] 状态管理组件
+	C_NAVIGATION_AGENT, ## 见 [CNavigationAgent] 导航寻路组件
 	C_BALLOON, ## 见 [CBalloon] 气泡显示组件
 	C_MARKER ## 见 [CMarker] 标记定位组件
 }

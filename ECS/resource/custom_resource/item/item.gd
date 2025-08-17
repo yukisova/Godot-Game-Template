@@ -25,7 +25,7 @@
 ## - 继承自 [Resource] 基类
 ## - 基于 [Vector2i] 的网格尺寸系统
 ## - 提供 [Callable] 的动态功能接口
-## - 与 [CStatus] 系统集成
+## - 与 [CStatusList] 系统集成
 ##
 ## [br][b]注意:[/b] 文档（Document）类应该是独立的资源类，不应归属于物品
 ##
@@ -79,17 +79,17 @@ func get_grid_value() -> int:
 ## 检查物品
 ## 
 ## 物品的检查功能，显示物品相关信息。
-## [param args]: 可变参数，第一个参数应为 [CStatus] 类型
+## [param args]: 可变参数，第一个参数应为 [CStatusList] 类型
 func _check(...args):
-	var c_status = args[0] as CStatus
+	var c_status = args[0] as CStatusList
 	print("玩家的名字 ", c_status.component_owner.name)
 
 ## 使用物品
 ## 
 ## 物品的使用功能，执行物品的主要效果。
-## [param args]: 可变参数，第一个参数应为 [CStatus] 类型
+## [param args]: 可变参数，第一个参数应为 [CStatusList] 类型
 func _use(...args):
-	var c_status = args[0] as CStatus
+	var c_status = args[0] as CStatusList
 	
 ## 物品功能字典键名常量
 const STR_NAME = "name"  ## 功能名称键

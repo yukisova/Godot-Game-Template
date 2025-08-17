@@ -28,7 +28,7 @@
 ## - 集成 [GridInventory] 网格背包系统
 ## - 基于 [TabContainer] 的多页面管理
 ## - 与 [InventoryExtension] 的数据绑定
-## - 支持 [CStatus] 组件的状态管理
+## - 支持 [CStatusList] 组件的状态管理
 ##
 ## [br][b]编辑者:[/b] Sora
 extends IUi
@@ -99,7 +99,7 @@ func _initilize_info(_context: Dictionary) -> void:
 	await ready
 	print("角色状态UI: 开始加载背包数据")
 	
-	var status:CStatus = _context["status"]
+	var status:CStatusList = _context["status"]
 	var inventory: InventoryExtension = status.status_extension[StatusExtension.ExtensionType.INVENTORY]
 	
 	grid_inventory.grid_num = inventory.inventory_pack_num

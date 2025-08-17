@@ -17,7 +17,7 @@
 ## - 继承自 [ReactorExtension] 基类
 ## - 与 [SUiSpawner] 系统集成
 ## - 基于 [PackedScene] 的UI预制体管理
-## - 通过 [CStatus] 传递状态数据
+## - 通过 [CStatusList] 传递状态数据
 ##
 ## [br][b]编辑者:[/b] Sora
 class_name UIPanelOpenExtension
@@ -30,8 +30,8 @@ extends ReactorExtension
 
 ## 状态组件引用
 ## 
-## 为思维界面提供角色状态和背包数据支持，类型为 [CStatus]。
-@export var c_status: CStatus
+## 为思维界面提供角色状态和背包数据支持，类型为 [CStatusList]。
+@export var c_status: CStatusList
 
 ## 暂停界面场景
 ## 

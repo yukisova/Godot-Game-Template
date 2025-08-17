@@ -32,7 +32,7 @@
 ## - 使用 [PackedScene] 加载子弹预制体
 ## - 通过 setter 验证子弹场景的有效性
 ## - 利用 [SObjectPool] 系统进行实体管理
-## - 基于 [CCollision] 组件计算射击方向
+## - 基于 [CCollisionBox] 组件计算射击方向
 ##
 ## 配置说明：
 ## - [member projectile_scene]: 子弹实体的场景文件
@@ -141,13 +141,13 @@ func _attack():
 		return
 	
 	# 获取角色碰撞组件以计算射击方向
-	var c_collision: CCollision = c_status.component_owner.list_base_components[IComponent.ComponentName.C_COLLISION]
+	var c_collision: CCollisionBox = c_status.component_owner.list_base_components[IComponent.ComponentName.C_COLLISION_BOX]
 	if c_collision == null:
 		push_error("手枪攻击节点: 找不到碰撞组件，无法计算射击方向")
 		return
 	
 	# 计算射击方向（基于角色朝向）
-	var shoot_direction = (Vector2.RIGHT).rotated(c_collision.box_rays[CCollision.BoxRayName.INTERACT].rotation)
+	var shoot_direction = (Vector2.RIGHT).rotated(c_collision.box_rays[CCollisionBox.BoxRayName.INTERACT].rotation)
 	
 	# 准备子弹初始化上下文数据
 	var bullet_context = {
