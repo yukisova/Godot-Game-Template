@@ -46,7 +46,7 @@ signal map_changed_finished
 ## 当实体需要切换到不同楼层时发出
 ## @param operate_entity: 执行切换的实体
 ## @param new_level: 目标楼层
-signal level_changed(operate_entity: FixedEntity, new_level: Level)
+signal level_changed(operate_entity: FixedEntity, new_level: Level, point: Vector2)
 
 ## 玩家完成层级之间的跳转
 signal level_changed_finished_for_player()
@@ -108,18 +108,19 @@ func _on_map_registered(map_scene: PackedScene, _data: SavedDataFile = null):
 	await SSignalBus.map_info_loaded
 	
 	# 禁用所有楼层
-	for level: Node in map.levels.get_children():
-		level.process_mode = Node.PROCESS_MODE_DISABLED
-		level.hide()
+	for level in map.levels.get_children():
+		# 先初始化并保存原始状态，然后禁用楼层碰撞和导航
+		if level is Level:
+			level.initialize_collision_navigation_states()
+			level.disable_all_collision_navigation()
 	
 	if _data == null:
 		# 处理玩家出生点
 		var spawn = map.player_spawn
 		if spawn != null:
-			# 激活玩家出生所在的楼层
 			current_level = spawn.current_level
-			current_level.process_mode = Node.PROCESS_MODE_INHERIT
-			current_level.show()
+			# 启用当前楼层的碰撞和导航
+			current_level.enable_all_collision_navigation()
 			
 			# 通知主控制器玩家位置
 			SMainController.player_located.emit.call_deferred(current_level, {
@@ -134,8 +135,8 @@ func _on_map_registered(map_scene: PackedScene, _data: SavedDataFile = null):
 			push_warning("地图数据: 未检测到玩家出生点，请检查地图配置")
 	else:
 		current_level = current_map.get_node(_data.map_cache["current_level"] as NodePath)
-		current_level.process_mode = Node.PROCESS_MODE_INHERIT
-		current_level.show()
+		# 启用当前楼层的碰撞和导航
+		current_level.enable_all_collision_navigation()
 
 		SMainController.player_located.emit.call_deferred(current_level, _data.player_info)
 	
@@ -159,37 +160,36 @@ func _on_factor_added(new_factor: FixedEntity, start_position: Vector2):
 ## 楼层切换处理
 ## 处理实体在不同楼层间的切换
 ## @param operate_entity: 执行切换的实体
-## @param new_level: 目标楼层，
-## 在满足一定的条件的情况下，会将指定的
-func _on_level_changed(operate_entity: FixedEntity, new_level: Level, point: TransportPoint):
+## @param new_level: 目标楼层
+## @param point: 传送点
+func _on_level_changed(operate_entity: FixedEntity, new_level: Level, point: Vector2):
 	if new_level == current_level:
-		operate_entity.global_position = point.global_position + point.tranported_offset
-		operate_entity.main_control.global_position = point.global_position + point.tranported_offset
+		operate_entity.global_position = point
+		operate_entity.main_control.global_position = point
 		return
 	# 如果是玩家切换楼层，需要特殊处理
 	if operate_entity.main_control.is_in_group("player"):
-		# 禁用当前楼层
-		current_level.hide()
-		current_level.process_mode = Node.PROCESS_MODE_DISABLED
+		# 禁用当前楼层的碰撞和导航
+		current_level.disable_all_collision_navigation()
 		SObjectPool.level_pool_cleared.emit(current_level)
 
-		var start_position: Vector2 = point.global_position + point.tranported_offset
-		operate_entity.global_position = start_position
-		operate_entity.main_control.global_position = start_position
+		operate_entity.global_position = point
+		operate_entity.main_control.global_position = point
 
 		# 更新相机限制范围
 		var camera = operate_entity.list_base_components.get(IComponent.ComponentName.C_CAMERA) as CCamera
 		if camera:
 			camera.set_camera_limit(new_level.get_camera_limit())
 		
-		# 激活新楼层
-		new_level.show()
-		new_level.process_mode = Node.PROCESS_MODE_INHERIT
+		# 启用新楼层的碰撞和导航
+		new_level.enable_all_collision_navigation()
 		current_level = new_level
 		level_changed_finished_for_player.emit.call_deferred()
 	
 	# 将实体重新分配到新楼层
 	operate_entity.reparent(new_level)
+	new_level._process_all_collision_navigation_recursive(operate_entity, true)
+
 
 func _on_map_changed(map: PackedScene, located_info: Dictionary):
 	var player_static = SMainController.player_static
@@ -201,9 +201,10 @@ func _on_map_changed(map: PackedScene, located_info: Dictionary):
 		await SSignalBus.map_info_loaded
 			
 		# 禁用所有楼层
-		for level: Node in current_map.levels.get_children():
-			level.process_mode = Node.PROCESS_MODE_DISABLED
-			level.hide()
+		for level in current_map.levels.get_children():
+			if level is Level:
+				level.initialize_collision_navigation_states()
+				level.disable_all_collision_navigation()
 
 		var target_point: TransportPoint
 		if located_info.get("target_level_name", &"") != &"" or located_info.get("target_level_index", -1) != -1:
@@ -223,8 +224,14 @@ func _on_map_changed(map: PackedScene, located_info: Dictionary):
 				push_warning("地图数据: 未检测到传送点，请检查地图配置")
 				return
 		
-		current_level.process_mode = Node.PROCESS_MODE_INHERIT
-		current_level.show()
+		# 启用当前楼层的碰撞和导航
+		current_level.enable_all_collision_navigation()
+
+		var camera = player_static.list_base_components.get(IComponent.ComponentName.C_CAMERA) as CCamera
+		if camera:
+			camera.set_camera_limit(current_level.get_camera_limit())
+
+
 		SMainController.player_located.emit.call_deferred(current_level, {
 			"type": "Transport",
 			"target_level": current_level,

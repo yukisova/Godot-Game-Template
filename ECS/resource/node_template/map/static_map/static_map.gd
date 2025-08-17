@@ -180,3 +180,42 @@ func get_level_by_index(_index: int) -> Level:
 				return level
 			i += 1
 	return null
+
+#region :楼层碰撞导航统一管理:
+
+## 禁用所有楼层的碰撞导航
+## 用于初始化或切换地图时确保所有楼层碰撞导航都被禁用
+func disable_all_levels_collision_navigation():
+	for level in levels.get_children():
+		if level is Level:
+			level.disable_all_collision_navigation()
+	print("静态地图: 已禁用所有楼层的碰撞导航")
+
+## 启用指定楼层的碰撞导航
+## @param target_level: 要启用的楼层
+func enable_level_collision_navigation_only(target_level: Level):
+	# 先禁用所有楼层
+	disable_all_levels_collision_navigation()
+	# 然后只启用指定楼层
+	if target_level and target_level.get_parent() == levels:
+		target_level.enable_all_collision_navigation()
+		print("静态地图: 仅楼层 ", target_level.level_id, " 的碰撞导航已启用")
+	else:
+		push_warning("静态地图: 无效的目标楼层，无法启用碰撞导航")
+
+## 获取当前启用碰撞导航的楼层列表
+## @return: 启用碰撞导航的楼层数组
+func get_collision_navigation_enabled_levels() -> Array[Level]:
+	var enabled_levels: Array[Level] = []
+	for level in levels.get_children():
+		if level is Level and level.is_collision_navigation_enabled():
+			enabled_levels.append(level)
+	return enabled_levels
+
+## 检查是否只有一个楼层启用碰撞导航
+## @return: true表示只有一个楼层启用，false表示有多个或没有楼层启用
+func is_single_level_collision_navigation_enabled() -> bool:
+	var enabled_count = get_collision_navigation_enabled_levels().size()
+	return enabled_count == 1
+
+#endregion

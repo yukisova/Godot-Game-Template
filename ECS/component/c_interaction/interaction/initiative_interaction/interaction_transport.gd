@@ -47,7 +47,7 @@ func _on_interact_activated(interactor: IEntity) -> void:
 			target_level = SMapData.current_level
 
 		if target_level != null:
-			SMapData.level_changed.emit(interactor, target_level)
+			SMapData.level_changed.emit(interactor, target_level, binding_entity.global_position)
 		else:
 			push_error("传送时未检测到目标楼层，请检查传送点配置")
 
