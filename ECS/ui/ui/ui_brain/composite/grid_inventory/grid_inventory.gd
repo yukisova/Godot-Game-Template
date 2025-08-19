@@ -115,7 +115,6 @@ var button_container: ButtonContainer:
 ## 
 ## 物品旋转时的角速度（度/秒）。
 @export var rotation_speed: float = 90.0
-
 #endregion
 
 #region 场景节点引用
@@ -238,7 +237,7 @@ var is_previewing: bool = false
 ## 组件准备就绪
 ## 
 ## 初始化网格布局和原型组件。
-func _ready():
+func _ready() -> void:
 	# 编辑器模式下不执行运行时逻辑
 	if Engine.is_editor_hint(): 
 		return
@@ -249,7 +248,8 @@ func _ready():
 	item_control.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	panel_prototype.hide()
 	dragable_item_prototype.hide()
-	pointer.hide()	
+	pointer.hide()
+	
 	
 	print("网格背包: 初始化完成，网格数量: ", grid_num, ", 列数: ", col_num)
 

@@ -1,73 +1,54 @@
 ## 地图层级系统 - 静态地图中的单个层级管理
-##
+## 该类管理静态地图中的单个层级，负责瓦片地图图层的加载和协调、预设实体的初始化管理
+## 相机边界的限制设置、房间碰撞体的组织
+## 主要功能：异步加载瓦片图层和多边形瓦片、监控预设实体的初始化状态、提供相机限制的边界信息
+## 设计特点：基于信号的异步加载机制、统计驱动的完成度检测、灵活的组件依赖管理
+## 使用场景：多层建筑的楼层划分、地下城的区域分割、大型地图的区块管理
 ## [br][b]编辑者:[/b] Sora
-##
-## 该类管理静态地图中的单个层级，负责：
-## - 瓦片地图图层的加载和协调
-## - 预设实体的初始化管理
-## - 相机边界的限制设置
-## - 房间碰撞体的组织
-##
-## 主要功能：
-## - 异步加载瓦片图层和多边形瓦片
-## - 监控预设实体的初始化状态
-## - 提供相机限制的边界信息
-## - 支持层级数据的存档和读档
-##
-## 设计特点：
-## - 基于信号的异步加载机制
-## - 统计驱动的完成度检测
-## - 灵活的组件依赖管理
-## - 层次化的数据组织结构
-##
-## 使用场景：
-## - 多层建筑的楼层划分
-## - 地下城的区域分割
-## - 大型地图的区块管理
-## - 不同高度层的视觉分离
 class_name Level
 extends Node2D
 
 #region 层级信号
 
 ## 层级完全加载信号
-## 
-## 当前层级的所有瓦片图层加载完毕后发出。
+## 当前层级的所有瓦片图层加载完毕后发出
 signal level_fully_loaded
 
 ## 层级实体初始化完成信号
-## 
-## 当前层级的所有预设实体初始化完毕后发出。
+## 当前层级的所有预设实体初始化完毕后发出
 signal level_entity_fully_initialize
 
 #endregion
 
 #region 层级组件
 
+@export var is_need_fog: bool
+
+@export_group("依赖")
 ## 相机限制区域
-## 
-## 用于限制玩家在该层级中的相机边界，类型为 [Control]。
+## 用于限制玩家在该层级中的相机边界，类型为 [Control]
 @export var camera_limit: Control
 
 ## 房间碰撞体集合
-## 
-## 包含该层级所有房间和区域的碰撞体信息，类型为 [Node2D]。
-@export var room: Node2D
+## 包含该层级所有房间和区域的碰撞体信息，类型为 [Node2D]
+## 只有在房间碰撞体内，才会显示房间内的实体，房间碰撞体外的实体不会显示，但会保持活动。
+@export var rooms: Rooms
 
 ## 层级对象池
-## 
-## 用于管理该层级中的临时实体，临时实体只会在当前层级生成，
-## 玩家离开当前层级后会将该层级中的临时实体统一销毁。类型为 [Node2D]。
+## 用于管理该层级中的临时实体，玩家离开当前层级后会将该层级中的临时实体统一销毁
 @export var level_object_pool: Node2D
 
+## 层级迷雾
+## 用于管理该层级中的迷雾，类型为 [Fog]
+## 用于实现一些恐怖效果，但可以选择关闭
+@export var level_fog: Fog
+
 ## 所属静态地图
-## 
-## 指向拥有此层级的静态地图实例，类型为 [StaticMap]。
+## 指向拥有此层级的静态地图实例，类型为 [StaticMap]
 var static_map: StaticMap
 
 ## 本层级内的传送点
-## 
-## 存储该层级中所有传送点的引用，类型为 [Dictionary] of [StringName] to [TransportPoint]。
+## 存储该层级中所有传送点的引用
 var transport_point_list: Dictionary[StringName, TransportPoint] = {}
 
 #endregion
@@ -132,6 +113,11 @@ func _check_all_entity_initialize():
 	if entity_loaded_count == entity_count:
 		level_entity_fully_initialize.emit()
 
+func _late_initialize():
+	if !is_need_fog:
+		level_fog.hide()
+	level_fog._initialize()
+	rooms._initialize()
 
 func get_camera_limit() -> Dictionary:
 	var limit_dict = {}
@@ -164,13 +150,11 @@ var collision_navigation_enabled: bool = true
 
 # 简化版本：只记录节点的禁用状态，不修改layer/mask
 
-## 初始化碰撞导航状态
 ## 简化版本：不保存状态，只标记已初始化
 func initialize_collision_navigation_states():
 	print("=== 楼层 ", level_id, " (", name, ") 碰撞导航已初始化 ===")
 	collision_navigation_enabled = true
 
-## 启用楼层所有碰撞和导航
 ## 递归启用该楼层下所有子节点的碰撞检测和导航功能
 func enable_all_collision_navigation():
 	print("=== 开始启用楼层 ", level_id, " (", name, ") 的碰撞和导航 ===")
@@ -179,7 +163,6 @@ func enable_all_collision_navigation():
 	collision_navigation_enabled = true
 	print("=== 完成启用楼层 ", level_id, " (", name, ") 的碰撞和导航 ===")
 
-## 禁用楼层所有碰撞和导航
 ## 递归禁用该楼层下所有子节点的碰撞检测和导航功能，防止跨层级干扰
 func disable_all_collision_navigation():
 	print("=== 开始禁用楼层 ", level_id, " (", name, ") 的碰撞和导航 ===")
@@ -189,15 +172,15 @@ func disable_all_collision_navigation():
 	print("=== 完成禁用楼层 ", level_id, " (", name, ") 的碰撞和导航 ===")
 
 ## 检查楼层碰撞导航状态
-## @return: true表示已启用，false表示已禁用
+## [br][br][b]返回:[/b] [bool] true表示已启用，false表示已禁用
 func is_collision_navigation_enabled() -> bool:
 	return collision_navigation_enabled
 
 # 已删除状态保存函数，使用简化版本
 
 ## 递归处理所有碰撞和导航节点
-## @param node: 当前处理的节点
-## @param enabled: true为启用，false为禁用
+## [param node]: 当前处理的节点
+## [param enabled]: true为启用，false为禁用
 func _process_all_collision_navigation_recursive(node: Node, enabled: bool):
 	var action = "启用" if enabled else "禁用"
 	print("正在处理节点: ", node.name, " (", node.get_class(), ") - ", action)
@@ -244,8 +227,8 @@ func _process_all_collision_navigation_recursive(node: Node, enabled: bool):
 		_process_all_collision_navigation_recursive(child, enabled)
 
 ## 处理物理刚体：通过禁用碰撞形状而不是修改layer/mask
-## @param node: 节点
-## @param enabled: true为启用，false为禁用
+## [param node]: 节点
+## [param enabled]: true为启用，false为禁用
 func _process_physics_body(node: Node, enabled: bool):
 	if node is CharacterBody2D or node is RigidBody2D or node is StaticBody2D:
 		# 查找并处理所有碰撞形状子节点
@@ -258,8 +241,8 @@ func _process_physics_body(node: Node, enabled: bool):
 					print("禁用物理体碰撞形状: ", node.name, "/", child.name)
 
 ## 处理Area2D：只禁用监听功能，不修改layer/mask
-## @param area: Area2D节点
-## @param enabled: true为启用，false为禁用
+## [param area]: Area2D节点
+## [param enabled]: true为启用，false为禁用
 func _process_area2d(area: Area2D, enabled: bool):
 	if enabled:
 		area.monitoring = true
@@ -271,8 +254,8 @@ func _process_area2d(area: Area2D, enabled: bool):
 		print("禁用Area2D: ", area.name, " monitoring=false monitorable=false")
 
 ## 处理碰撞形状节点
-## @param shape: CollisionShape2D或CollisionPolygon2D节点
-## @param enabled: true为启用，false为禁用
+## [param shape]: CollisionShape2D或CollisionPolygon2D节点
+## [param enabled]: true为启用，false为禁用
 func _process_collision_shape(shape: Node, enabled: bool):
 	if shape is CollisionShape2D or shape is CollisionPolygon2D:
 		shape.disabled = !enabled
@@ -282,8 +265,8 @@ func _process_collision_shape(shape: Node, enabled: bool):
 			print("禁用碰撞形状: ", shape.name)
 
 ## 处理瓦片地图层
-## @param tilemap: TileMapLayer节点
-## @param enabled: true为启用，false为禁用
+## [param tilemap]: TileMapLayer节点
+## [param enabled]: true为启用，false为禁用
 func _process_tilemap_layer(tilemap: TileMapLayer, enabled: bool):
 	tilemap.enabled = enabled
 	if enabled:
@@ -292,8 +275,8 @@ func _process_tilemap_layer(tilemap: TileMapLayer, enabled: bool):
 		print("禁用瓦片地图层: ", tilemap.name)
 
 ## 处理导航区域
-## @param region: NavigationRegion2D节点
-## @param enabled: true为启用，false为禁用
+## [param region]: NavigationRegion2D节点
+## [param enabled]: true为启用，false为禁用
 func _process_navigation_region(region: NavigationRegion2D, enabled: bool):
 	region.enabled = enabled
 	if enabled:
@@ -302,8 +285,8 @@ func _process_navigation_region(region: NavigationRegion2D, enabled: bool):
 		print("禁用导航区域: ", region.name)
 
 ## 处理导航代理
-## @param agent: NavigationAgent2D节点
-## @param enabled: true为启用，false为禁用
+## [param agent]: NavigationAgent2D节点
+## [param enabled]: true为启用，false为禁用
 func _process_navigation_agent(agent: NavigationAgent2D, enabled: bool):
 	if enabled:
 		agent.process_mode = Node.PROCESS_MODE_INHERIT
@@ -317,8 +300,8 @@ func _process_navigation_agent(agent: NavigationAgent2D, enabled: bool):
 			agent.target_position = parent_node.global_position
 
 ## 处理导航障碍物
-## @param obstacle: NavigationObstacle2D节点
-## @param enabled: true为启用，false为禁用
+## [param obstacle]: NavigationObstacle2D节点
+## [param enabled]: true为启用，false为禁用
 func _process_navigation_obstacle(obstacle: NavigationObstacle2D, enabled: bool):
 	if enabled:
 		obstacle.process_mode = Node.PROCESS_MODE_INHERIT
@@ -330,7 +313,7 @@ func _process_navigation_obstacle(obstacle: NavigationObstacle2D, enabled: bool)
 		print("禁用导航障碍物: ", obstacle.name)
 
 ## 获取碰撞导航状态信息
-## @return: 返回楼层的碰撞导航状态信息
+## [br][br][b]返回:[/b] [Dictionary] 返回楼层的碰撞导航状态信息
 func get_collision_navigation_info() -> Dictionary:
 	return {
 		"level_id": level_id,

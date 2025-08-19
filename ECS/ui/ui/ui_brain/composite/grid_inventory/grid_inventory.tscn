@@ -42,12 +42,14 @@ offset_bottom = 80.0
 size_flags_horizontal = 4
 size_flags_vertical = 4
 script = ExtResource("2_flkpl")
+grid_size = 80
 
 [node name="DragableItemPrototype" type="TextureRect" parent="PrototypeList"]
 visible = false
 layout_mode = 0
 stretch_mode = 5
 script = ExtResource("3_t5n40")
+grid_size = 80
 
 [node name="ButtonContainerControl" type="Control" parent="."]
 layout_mode = 2

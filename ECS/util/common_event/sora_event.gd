@@ -53,3 +53,21 @@ static func fixed_dictionary(node: Node, data: Dictionary) -> Dictionary:
 					fixed_data[key][i] = node.get_node(fixed_data[key][i])
 	return fixed_data
 
+
+#region 相机特效相关
+static var camera_tween: Tween
+## 相机抖动
+static func camera_shake(node: Node2D, effect_strength: float = 1.0, effect_time: float = 0.5):
+	var camera = node.get_viewport().get_camera_2d()
+	if camera_tween: camera_tween.kill()
+	
+	camera_tween = node.get_tree().create_tween()
+	camera_tween.set_pause_mode(Tween.TWEEN_PAUSE_PROCESS)
+	for i in effect_strength:
+		var offset_strength = Vector2(randf_range(-effect_strength, effect_strength), randf_range(-effect_strength, effect_strength))
+		camera_tween.stop()
+		camera_tween.tween_property(camera, "offset", offset_strength, effect_time/(effect_strength+3))
+		camera_tween.play()
+		await camera_tween.finished
+		camera.offset = Vector2.ZERO
+#endregion

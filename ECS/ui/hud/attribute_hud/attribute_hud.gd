@@ -1,36 +1,16 @@
 ## 玩家属性HUD - 显示角色基础信息和快捷操作界面
-##
-## 该HUD集成了多个玩家相关的UI元素：
-## - 时间循环系统的时钟显示
-## - 背包抽屉式快捷栏
-## - 物品拖拽和交互功能
-## - 玩家状态的实时更新
-##
-## 主要功能：
-## - 实时显示游戏内时间（小时/分钟指针）
-## - 提供背包物品的快速访问
-## - 支持物品的拖拽操作
-## - 动态同步玩家背包变化
-##
-## UI特性：
-## - 抽屉式背包展开/收起动画
-## - 可拖拽的物品图标
-## - 响应式布局适配
-##
-## 架构设计：
-## - 继承自 [IHud] 基类
-## - 与 [FixedEntity] 的玩家实体绑定
-## - 集成 [InventoryExtension] 背包系统
-## - 使用 [DragableItem] 拖拽组件
-##
+## 该HUD集成了多个玩家相关的UI元素：时间循环系统的时钟显示、背包抽屉式快捷栏
+## 物品拖拽和交互功能、玩家状态的实时更新
+## 主要功能：实时显示游戏内时间、提供背包物品的快速访问、支持物品的拖拽操作
+## UI特性：抽屉式背包展开/收起动画、可拖拽的物品图标、响应式布局适配
+## 架构设计：继承自 [IHud] 基类，与 [FixedEntity] 的玩家实体绑定，集成 [InventoryExtension] 背包系统
 ## [br][b]编辑者:[/b] Sora
 extends IHud
 
 #region 实体绑定
 
 ## 绑定的实体
-## 
-## 通常为玩家角色实体，类型为 [FixedEntity]。
+## 通常为玩家角色实体，类型为 [FixedEntity]
 var binding_fixed_entity: FixedEntity
 
 #endregion
@@ -40,13 +20,11 @@ var binding_fixed_entity: FixedEntity
 @export_group("时间循环", "time_")
 
 ## 小时指针
-## 
-## 用于显示游戏内的小时时间，类型为 [Line2D]。
+## 用于显示游戏内的小时时间，类型为 [Line2D]
 @export var hour_pointer: Line2D
 
 ## 分钟指针  
-## 
-## 用于显示游戏内的分钟时间，类型为 [Line2D]。
+## 用于显示游戏内的分钟时间，类型为 [Line2D]
 @export var minute_pointer: Line2D
 
 #endregion
@@ -56,23 +34,19 @@ var binding_fixed_entity: FixedEntity
 @export_group("背包抽屉", "bag_")
 
 ## 背包切换按钮
-## 
-## 控制背包抽屉的展开和收起，类型为 [Button]。
+## 控制背包抽屉的展开和收起，类型为 [Button]
 @export var bag_button: Button
 
 ## 背包槽位容器
-## 
-## 存放所有背包槽位的布局容器，类型为 [HBoxContainer]。
+## 存放所有背包槽位的布局容器，类型为 [HBoxContainer]
 @export var bag_slot_container: HBoxContainer
 
 ## 背包槽位原型
-## 
-## 用于动态创建背包槽位的模板，类型为 [PanelContainer]。
+## 用于动态创建背包槽位的模板，类型为 [PanelContainer]
 @export var bag_slot_prototype: PanelContainer
 
 ## 可拖拽物品原型
-## 
-## 用于创建可拖拽物品图标的模板，类型为 [DragableItem]。
+## 用于创建可拖拽物品图标的模板，类型为 [DragableItem]
 @export var bag_dragable_item_prototype: DragableItem
 
 #endregion
@@ -80,8 +54,7 @@ var binding_fixed_entity: FixedEntity
 #region 背包系统集成
 
 ## 玩家背包扩展
-## 
-## 引用玩家状态组件中的背包系统，类型为 [InventoryExtension]。
+## 引用玩家状态组件中的背包系统，类型为 [InventoryExtension]
 var inventory_in_player: InventoryExtension
 
 #endregion
@@ -89,7 +62,6 @@ var inventory_in_player: InventoryExtension
 
 #region HUD生命周期
 
-## HUD初始化
 ## 设置时间循环、背包系统和UI交互
 func _initialize():
 	# 当前暂时禁用，等待系统完善
@@ -103,7 +75,6 @@ func _initialize():
 	# - 初始化背包槽位
 	# - 连接背包变化事件
 
-## HUD刷新
 ## 更新显示内容（预留接口）
 func _refresh():
 	pass
@@ -113,7 +84,6 @@ func _refresh():
 #region 输入处理
 
 ## 处理未处理的输入事件
-## 
 ## [param _event]: 输入事件，类型为 [InputEvent]
 func _unhandled_input(_event: InputEvent) -> void:
 	# 预留拖拽功能的输入处理
@@ -124,9 +94,7 @@ func _unhandled_input(_event: InputEvent) -> void:
 
 #region 时间显示
 
-## 旋转时钟指针
-## 
-## 根据当前游戏时间更新时钟指针的显示角度。
+## 根据当前游戏时间更新时钟指针的显示角度
 ## [param current_timer]: 当前时间（分钟数）
 func rotate_pointer(current_timer: int):
 	# 计算小时和分钟的比例

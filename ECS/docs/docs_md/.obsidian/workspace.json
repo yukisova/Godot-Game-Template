@@ -8,7 +8,7 @@
         "type": "tabs",
         "children": [
           {
-            "id": "8f2a1b3c4d5e6f7g",
+            "id": "fb71f463ede77dec",
             "type": "leaf",
             "state": {
               "type": "kanban",
@@ -56,7 +56,7 @@
             "state": {
               "type": "search",
               "state": {
-                "query": "",
+                "query": "tag:#StateMachine",
                 "matchingCase": false,
                 "explainSearch": false,
                 "collapseAll": false,
@@ -167,16 +167,16 @@
       "obsidian-excalidraw-plugin:新建绘图文件": false
     }
   },
-  "active": "8f2a1b3c4d5e6f7g",
+  "active": "fb71f463ede77dec",
   "lastOpenFiles": [
-    "project-management/TODO Lists.md",
+    "project-management/Project Milestones.md",
     "kanban_excalidraw/current_advanced.md",
+    "references/Component Catalog.md",
+    "project-management/TODO Lists.md",
     "README.md",
     "kanban_excalidraw",
     "architecture/Component System Architecture.md",
     "architecture/ECS Architecture Overview.md",
-    "development/Collaboration Guidelines.md",
-    "project-management/Project Milestones.md",
-    "references/Component Catalog.md"
+    "development/Collaboration Guidelines.md"
   ]
 }

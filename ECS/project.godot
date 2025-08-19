@@ -47,10 +47,16 @@ editor/translations/default_csv_locale="zh"
 window/size/window_width_override=1920
 window/size/window_height_override=1080
 window/stretch/mode="canvas_items"
+window/dpi/allow_hidpi=false
 
 [dotnet]
 
 project/assembly_name="昨日之影"
+
+[editor]
+
+movie_writer/mix_rate=8000
+movie_writer/movie_file="/Users/sora/GitLocal/Godot-2D-Game-ECS-Template/ECS/movie.avi"
 
 [editor_plugins]
 

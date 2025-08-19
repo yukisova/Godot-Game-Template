@@ -1,45 +1,17 @@
 ## 地图数据管理系统 - 统一管理游戏地图和楼层切换
-##
-## 该系统负责游戏中所有地图和楼层的加载、管理和切换逻辑，
-## 取代了传统的scene_change模式，提供了更灵活的地图管理方案。
-##
-## 核心功能：
-## - 地图加载：动态加载和实例化地图场景
-## - 楼层管理：处理不同楼层间的切换和激活
-## - 实体放置：动态在地图中添加实体
-## - 缓存管理：地图级别的数据缓存系统
-## - 存档集成：与存档系统集成保存地图状态
-##
-## 地图层次结构：
-## - [StaticMap]：静态地图容器，包含多个楼层
-## - [Level]：具体的游戏楼层，可独立激活/禁用
-## - [PlayerSpawn]：玩家出生点，定义初始位置
-##
-## 性能优化：
-## - 楼层按需激活：只激活当前楼层，其他楼层禁用
-## - 延迟加载：使用call_deferred优化加载性能
-## - 内存管理：自动清理不需要的地图数据
-##
-## 应用场景：
-## - 开放世界：大型游戏世界的分区管理
-## - 建筑内部：房屋、地下城的楼层切换
-## - 场景传送：不同场景间的无缝切换
-##
+## 负责地图加载、楼层管理、实体放置和缓存管理等功能
+## 支持楼层按需激活、延迟加载和与存档系统集成
 ## [br][b]编辑者:[/b] Sora
 extends ISystem
 
 ## 实体动态添加信号
-## 
-## 在游戏运行时向当前楼层动态添加新实体。
-## [param new_factor]: 要添加的实体，类型为 [FixedEntity]
+## [param new_factor]: 要添加的实体
 ## [param start_position]: 实体的初始位置
 signal factor_added(new_factor: FixedEntity, start_position: Vector2)
 
 ## 地图注册信号
-## 
-## 游戏开始前注册要加载的地图场景。
-## [param map]: 要注册的地图场景，类型为 [PackedScene]
-## [param data]: 存档数据文件，类型为 [SavedDataFile]
+## [param map]: 要注册的地图场景
+## [param data]: 存档数据文件
 signal map_registered(map: PackedScene, data: SavedDataFile)
 signal map_register_finished
 
@@ -47,10 +19,8 @@ signal map_changed(map: PackedScene, located_info: Dictionary)
 signal map_changed_finished
 
 ## 楼层切换信号
-## 
-## 当实体需要切换到不同楼层时发出。
-## [param operate_entity]: 执行切换的实体，类型为 [FixedEntity]
-## [param new_level]: 目标楼层，类型为 [Level]
+## [param operate_entity]: 执行切换的实体
+## [param new_level]: 目标楼层
 ## [param point]: 传送点位置
 signal level_changed(operate_entity: FixedEntity, new_level: Level, point: Vector2)
 
@@ -58,7 +28,6 @@ signal level_changed(operate_entity: FixedEntity, new_level: Level, point: Vecto
 signal level_changed_finished_for_player()
 
 ## 当前激活的楼层
-## 指向当前玩家所在的活跃楼层
 var current_level: Level:
 	set(value):
 		if value != null or current_level == null:
@@ -69,10 +38,8 @@ var current_level: Level:
 			current_level = null
 
 ## 当前加载的地图
-## 指向当前加载的静态地图实例
 var current_map: StaticMap
 
-## 系统初始化
 ## 连接地图管理相关的信号处理
 func _enter_tree() -> void:
 	factor_added.connect(_on_factor_added)
@@ -80,23 +47,19 @@ func _enter_tree() -> void:
 	level_changed.connect(_on_level_changed)
 	map_changed.connect(_on_map_changed)
 
-## 系统设置
-## 地图系统的基础设置（当前无特殊设置需求）
+## 地图系统的基础设置
 func _setup():
 	pass
 
-## 系统重置
 ## 清理当前地图数据，准备加载新地图
 func _resetup():
 	## 在current_map被释放时，current_level会自动被转换为null
 	if current_map:
 		current_map.queue_free()
 
-## 地图场景加载处理
-## 
-## 实例化地图场景并设置初始楼层和玩家位置。
-## [param map_scene]: 要加载的地图场景，类型为 [PackedScene]
-## [param _data]: 存档数据文件，类型为 [SavedDataFile]，可为null
+## 实例化地图场景并设置初始楼层和玩家位置
+## [param map_scene]: 要加载的地图场景
+## [param _data]: 存档数据文件
 func _on_map_registered(map_scene: PackedScene, _data: SavedDataFile = null):
 	# 等待一帧确保系统准备就绪
 	await get_tree().process_frame
@@ -150,10 +113,8 @@ func _on_map_registered(map_scene: PackedScene, _data: SavedDataFile = null):
 	map_register_finished.emit()
 	
 
-## 动态实体添加处理
-## 
-## 在当前楼层中动态添加新实体。
-## [param new_factor]: 要添加的新实体，类型为 [FixedEntity]
+## 在当前楼层中动态添加新实体
+## [param new_factor]: 要添加的新实体
 ## [param start_position]: 实体的起始位置
 func _on_factor_added(new_factor: FixedEntity, start_position: Vector2):
 	# 延迟添加实体到当前楼层
@@ -165,11 +126,9 @@ func _on_factor_added(new_factor: FixedEntity, start_position: Vector2):
 	# 初始化实体
 	new_factor._initialize()
 
-## 楼层切换处理
-## 
-## 处理实体在不同楼层间的切换。
-## [param operate_entity]: 执行切换的实体，类型为 [FixedEntity]
-## [param new_level]: 目标楼层，类型为 [Level]
+## 处理实体在不同楼层间的切换
+## [param operate_entity]: 执行切换的实体
+## [param new_level]: 目标楼层
 ## [param point]: 传送点位置
 func _on_level_changed(operate_entity: FixedEntity, new_level: Level, point: Vector2):
 	if new_level == current_level:
@@ -252,10 +211,8 @@ func _on_map_changed(map: PackedScene, located_info: Dictionary):
 		
 
 ## 获取地图缓存数据
-## 
 ## [param key]: 缓存键名
 ## [param default]: 默认值
-## [br][br][b]返回:[/b] 缓存值或默认值
 func get_map_cache(key: String, default):
 	if current_map:
 		return current_map.cache_in_map.get_or_add(key, default)
@@ -263,10 +220,9 @@ func get_map_cache(key: String, default):
 		return default
 
 ## 设置地图缓存数据
-## 
 ## [param key]: 缓存键名
 ## [param value]: 要设置的值
-## [param set_type]: 设置类型（0=赋值，1=加法，2=减法）
+## [param set_type]: 设置类型
 func set_map_cache(key: String, value, set_type: int = 0):
 	if current_map:
 		match set_type:
@@ -278,10 +234,8 @@ func set_map_cache(key: String, value, set_type: int = 0):
 				current_map.cache_in_map[key] -= value
 
 #region 存档系统集成
-## 数据保存
-## 
-## 收集当前地图的所有数据用于存档。
-## [param data]: 存档数据文件，类型为 [SavedDataFile]
+## 收集当前地图的所有数据用于存档
+## [param data]: 存档数据文件
 func _data_saving(data: SavedDataFile):
 	var map_cache = {
 		"cache_in_map": current_map.cache_in_map,
@@ -295,10 +249,8 @@ func _data_saving(data: SavedDataFile):
 	# 让地图自身保存详细数据
 	current_map._save(data)
 
-## 数据加载
-## 
-## 从存档中恢复地图数据。
-## [param _data]: 存档数据文件，类型为 [SavedDataFile]
+## 从存档中恢复地图数据
+## [param _data]: 存档数据文件
 func _data_loading(_data: SavedDataFile):
 	SMapData.map_registered.emit(load(_data.map_cache["current_map"]) as PackedScene, _data)
 	await SSignalBus.map_info_loaded

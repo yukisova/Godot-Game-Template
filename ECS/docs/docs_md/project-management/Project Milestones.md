@@ -168,8 +168,8 @@ gantt
 ```mermaid
 quadrantChart
     title 风险分析矩阵
-    x-axis 低影响 --> 高影响
-    y-axis 低概率 --> 高概率
+    x_axis 低影响 --> 高影响
+    y_axis 低概率 --> 高概率
     
     战斗平衡性: [0.7, 0.4]
     技术复杂度: [0.8, 0.6]

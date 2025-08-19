@@ -36,7 +36,6 @@ class_name DragableItem
 extends TextureRect
 
 #region 物品数据绑定
-
 ## 绑定的物品数据
 ## 
 ## 当设置时自动更新纹理和尺寸信息。
@@ -81,6 +80,9 @@ var origin_slot: GridInventorySlot = null
 ## 影响物品的显示方向和占用网格的计算。
 var is_rotated: bool = false
 
+## 网格单位，默认为32
+@export_range(16, 80, 16, "or_greater") var grid_size: int = 32
+
 #endregion
 
 #region 组件初始化
@@ -100,7 +102,7 @@ func _ready():
 func _update_display_size():
 	# 每个网格单元为80x80像素
 	# 根据物品的网格尺寸计算实际显示尺寸
-	custom_minimum_size = Vector2(80, 80) * Vector2(item_size)
+	custom_minimum_size = Vector2(grid_size, grid_size) * Vector2(item_size)
 	size = custom_minimum_size
 
 #endregion

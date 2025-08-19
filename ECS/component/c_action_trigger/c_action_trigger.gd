@@ -1,57 +1,32 @@
 ## 行动队列触发组件 - 管理实体的定时行为和特殊动作
-##
-## 该组件以模组化的方式为实体绑定各种行为逻辑，如死亡掉落、技能释放、
-## 定时行为等。支持基于时间的自动触发和手动激活机制。
-##
-## 行为类型：
-## - 定时行为：基于游戏时间自动执行的行为
-## - 触发行为：响应特定事件的行为
-## - 特殊动作：玩家输入或AI决策触发的行为
-## - 状态行为：基于实体状态变化的行为
-##
-## 功能特性：
-## - 模组化行为设计
-## - 时间记录系统集成
-## - 行为队列管理
-## - 与输入系统集成
-## - 可扩展的行为类型
-##
-## 架构设计：
-## - 基于 [IAction] 的行为封装
-## - 通过 [TimeRecord] 管理定时触发
-## - 支持运行时行为动态管理
-##
+## 该组件以模组化的方式为实体绑定各种行为逻辑，如死亡掉落、技能释放、定时行为等
+## 支持基于时间的自动触发和手动激活机制
+## 行为类型：定时行为、触发行为、特殊动作、状态行为
+## 功能特性：模组化行为设计、时间记录系统集成、行为队列管理
+## 架构设计：基于 [IAction] 的行为封装，通过 [TimeRecord] 管理定时触发
 ## [br][b]编辑者:[/b] Sora
 @tool
 class_name CActionTrigger
 extends IComponent
 
 ## 当前动作列表
-## 
-## 当前动作列表，用于记录当前动作的列表, 供状态机[CStateMachine]与纹理控制器[CTextureController]使用
-## 注意: 所有IUpdateAction都会被添加进current_action_list中，全程不会被移除，因此最好确保可能被添加进行该列表的动作状态表里有复数个状态[StringName]
-## 格式: [动作节点, 动作状态]
+## 用于记录当前动作的列表, 供状态机[CStateMachine]与纹理控制器[CTextureController]使用
 var current_action_list: Dictionary[IAction, StringName] = {}
 
 
 @export_group("动作逻辑注册表", "action_list_")
 ## 定时触发动作列表
-## 
-## 会在特定时间点触发的动作逻辑，比如在某一个时刻，目标在实现特定条件的时候，会触发指定的动作
-## 详见 [TimeRecord] 类。
+## 会在特定时间点触发的动作逻辑，详见 [TimeRecord] 类
 @export var _action_list_time_record: Array[TimeRecord]
 
 func _enter_tree() -> void:
 	component_name = ComponentName.C_ACTION_TRIGGER
 
 ## 持续监听动作列表
-## 
 ## 需要进行持续监听的动作逻辑，比如被合并的移动逻辑
 var _action_list_update: Array[IUpdateAction]
 
-## 组件初始化
-## 
-## 将所有子节点中的Action绑定到本组件，便于访问实体信息。
+## 将所有子节点中的Action绑定到本组件，便于访问实体信息
 ## [param _owner]: 拥有此组件的实体，类型为 [IEntity]
 ## [param _load_data]: 可选的加载数据，用于恢复保存的状态
 func _initialize(_owner: IEntity, _load_data: Dictionary = {}):
@@ -61,7 +36,6 @@ func _initialize(_owner: IEntity, _load_data: Dictionary = {}):
 	# 绑定所有Action子节点
 	for action: IAction in get_children():
 		action.c_action = self
-		action._initialize()
 		if action is IUpdateAction:
 			_action_list_update.append(action)
 			action.binding_entity = component_owner
@@ -70,7 +44,8 @@ func _initialize(_owner: IEntity, _load_data: Dictionary = {}):
 			action.binding_entity = component_owner
 			action.action_triggered.connect(_on_action_triggered)
 			action.action_triggered_finished.connect(_on_action_triggered_finished)
-
+		action._initialize()
+		
 	initialize_complete.emit()
 
 #region 触发监听相关
@@ -85,7 +60,7 @@ func _on_action_triggered_finished(action: TriggerAction):
 
 
 #region 持续监听相关
-func _fixed_update(_delta: float):
+func _update(_delta: float):
 	for action in _action_list_update:
 		action._update(_delta)
 
@@ -95,9 +70,7 @@ func _reset():
 #endregion
 
 #region 时间记录相关
-## 时间记录比较
-## 
-## 检查当前时间是否匹配任何时间记录，并触发对应的行为。
+## 检查当前时间是否匹配任何时间记录，并触发对应的行为
 ## [param current_time]: 当前游戏时间（分钟为单位）
 func compare_time_record(current_time: int):
 	for record in _action_list_time_record:
@@ -108,25 +81,19 @@ func compare_time_record(current_time: int):
 		if record.target_hour == target_hour and record.target_minute == target_minute:
 			_execute_timed_behavior(record)
 
-## 执行定时行为
-## 
-## 执行指定时间记录对应的行为。
+## 执行指定时间记录对应的行为
 ## [param record]: 时间记录对象，类型为 [TimeRecord]
 func _execute_timed_behavior(record: TimeRecord):
 	print("实体 ", component_owner.name, " 的定时行为已激活: ", record.target_event_keyword)
 	# TODO: 实现具体的行为执行逻辑
 	# time_important_coming.emit(record.target_event_keyword)
 
-## 添加时间记录
-## 
-## 动态添加新的定时行为记录。
+## 动态添加新的定时行为记录
 ## [param record]: 要添加的时间记录，类型为 [TimeRecord]
 func add_time_record(record: TimeRecord):
 	_action_list_time_record.append(record)
 
-## 移除时间记录
-## 
-## 移除指定的定时行为记录。
+## 移除指定的定时行为记录
 ## [param record]: 要移除的时间记录，类型为 [TimeRecord]
 func remove_time_record(record: TimeRecord):
 	_action_list_time_record.erase(record)
@@ -135,7 +102,6 @@ func remove_time_record(record: TimeRecord):
 #endregion
 
 ## 获取所有可用行为
-## 
 ## [br][br][b]返回:[/b] [Array] 包含所有 [IAction] 子节点的数组
 func get_available_actions() -> Array[IAction]:
 	var actions: Array[IAction] = []

@@ -1,52 +1,20 @@
 ## 一体化状态机 - 将状态机与子状态逻辑合并的极简实现
-##
-## 该类是 [StateMachineHfsm] 的极简化版本，将状态机与子状态的逻辑全部整合
-## 在一个脚本中。特别适用于只能在 [StaticMap] 中创建的状态机（如NPC的过场行为）。
-##
-## 设计特点：
-## - 单脚本集成：所有状态逻辑集中在一个文件中
-## - 基于字典的状态管理：使用 [Dictionary] 存储状态方法
-## - [Callable] 封装：过场逻辑用可调用对象包装
-## - 灵活切换：状态间切换无严格限制
-##
-## 核心特性：
-## - 极简的状态定义方式
-## - 运行时动态状态方法调用
-## - 减少节点树复杂度
-## - 适合简单的状态逻辑
-##
-## 应用场景：
-## - NPC的简单行为状态机
-## - 过场剧情的状态控制
-## - 临时性的状态管理需求
-## - 需要快速原型开发的场景
-##
-## 架构设计：
-## - 继承自 [StateMachineHfsm] 基类
-## - 使用 [annotation @tool] 和 [annotation @abstract] 标记
-## - 基于 [Dictionary] 的状态方法存储
-## - 通过字符串标识符管理状态
-##
+## StateMachineHfsm的极简化版本，将状态机与子状态逻辑全部整合在一个脚本中
+## 设计特点：单脚本集成、基于字典的状态管理、Callable封装、灵活切换
+## 应用场景：NPC简单行为状态机、过场剧情状态控制、临时状态管理
 ## [br][b]编辑者:[/b] Sora
 @tool
 @abstract class_name StateMachineAIO
 extends StateMachineHfsm
 
 
-## 状态方法字典
-## 
-## 存储所有状态的方法实现，键为状态名，值为包含enter、update、exit方法的字典。
-## 类型为 [Dictionary] of [String] to [Variant]。
+## 状态方法字典，存储所有状态的方法实现
 var state_method_dict: Dictionary[String, Variant]
 
-## 当前状态字符串标识符
-## 
-## 与 [member current_state] 变量进行区分，用于确定当前状态的字符串名称。
+## 当前状态字符串标识符，与 current_state 变量进行区分
 var current_state_str: String
 
-## 初始状态字符串标识符
-## 
-## 与 [member init_state] 变量进行区分，用于初始化时的状态名称。
+## 初始状态字符串标识符，与 init_state 变量进行区分
 var init_state_str: String
 
 func _enter_tree() -> void:

@@ -1,35 +1,24 @@
 ## 传送交互 - 实现实体在不同场景间的传送功能
-##
+## 支持地图间传送和楼层间传送，可使用索引或名称指定目标位置
 ## [br][b]编辑者:[/b] Sora
 ## 
 @tool
 class_name InteractionTransport
 extends Interaction
 
-@export var target_level_index: int = -1 ## 目标传送层级索引，-1表示不使用，此时显示target_level_name
-@export var target_level_name: StringName = &"" ## 目标传送层级名称，空串表示不使用，此时显示target_level_index
-@export var target_key: String
+@export var target_level_index: int = -1 ## 目标传送层级索引，-1表示不使用
+@export var target_level_name: StringName = &"" ## 目标传送层级名称，空串表示不使用
+@export var target_key: String ## 目标传送点的标识键
 
-## 如果为空的话，则是基于当前场景进行传送，重点在于level和key
+## 如果为空的话，则是基于当前场景进行传送
 @export_group("选填参数")
-@export_file_path("*.tscn") var target_map_path: String = "" ## 目标地图路径（用于避免循环引用）
-@export var target_map: PackedScene:
-	set(value):
-		if value != null:
-			var node = value.instantiate()
-			if node is StaticMap:
-				target_map = value
-			else:
-				node.queue_free()
-		else:
-			target_map = value
-
+@export_file_path("*.tscn") var target_map_path: String = "" ## 目标地图路径
 
 func _on_interact_activated(interactor: IEntity) -> void:
-	var map_to_load: PackedScene = target_map
+	var map_to_load: PackedScene 
 	
 	# 如果没有直接引用但有路径，则动态加载
-	if map_to_load == null and target_map_path != "":
+	if target_map_path != "":
 		map_to_load = load(target_map_path)
 	
 	if map_to_load != null:

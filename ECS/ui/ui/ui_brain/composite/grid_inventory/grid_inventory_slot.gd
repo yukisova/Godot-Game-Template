@@ -45,7 +45,7 @@ extends PanelContainer
 ## 
 ## 用于标识槽位在背包网格中的位置。
 ## 格式为 [Vector2i](行, 列)，从(0,0)开始。
-## 例如：Vector2i(1, 2)表示第1行第2列的槽位。
+## 例如：Vector2i(1, 2)表示第1行第2列的槽位
 var current_index: Vector2i = Vector2i(-1, -1)
 
 ## 关联的可拖拽物品
@@ -55,6 +55,9 @@ var current_index: Vector2i = Vector2i(-1, -1)
 ## [br][b]注意:[/b] 一个物品可能占用多个槽位，但只有起始槽位会关联该物品。
 var linkage_dragable: DragableItem = null
 
+
+## 网格单位，默认为32
+@export_range(16, 80, 16, "or_greater") var grid_size: int = 32
 #endregion
 
 #region 槽位初始化
@@ -65,9 +68,9 @@ var linkage_dragable: DragableItem = null
 func _ready():
 	# 设置标准槽位尺寸（80x80像素）
 	# 这个尺寸与网格背包系统的设计保持一致
-	custom_minimum_size = Vector2(80, 80)
-	
 	# 添加高频率定时器用于状态检测
+	custom_minimum_size = Vector2(grid_size, grid_size)
+	
 	# TODO: 优化为事件驱动方式以提高性能
 	# 当前使用定时器来检测状态变化，未来可以改为信号驱动
 	var timer = Timer.new()

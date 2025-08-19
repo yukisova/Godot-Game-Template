@@ -1,167 +1,53 @@
 ## 手枪攻击节点 - 实现手枪的射击攻击逻辑
-##
-## 该类继承自 [WeaponAttackNode]，实现了手枪的具体攻击行为。
-## 手枪是典型的远程武器，通过发射子弹实体来造成伤害，集成了对象池系统。
-##
-## 核心功能：
-## - 远程攻击：通过子弹实体实现远距离攻击
-## - 精准射击：子弹基于角色朝向精确发射
-## - 对象池优化：高效的子弹实体管理机制
-## - 自动注册：动态的对象池注册和管理
-##
-## 攻击特性：
-## - 基于角色朝向的射击方向计算
-## - 实体系统：子弹作为 [TempEntity] 独立实体
-## - 初始化数据：通过上下文系统配置子弹属性
-## - 层级管理：子弹自动添加到正确的地图层级
-##
-## 对象池系统：
-## - 自动注册子弹对象池以优化性能
-## - 预分配子弹实体减少运行时开销
-## - 基于池键的高效对象管理
-## - 地图切换时的对象池重新注册
-##
-## 攻击流程：
-## 1. 玩家触发攻击（通常是鼠标点击）
-## 2. 从对象池获取子弹实体
-## 3. 计算基于角色朝向的射击方向
-## 4. 配置子弹的初始化上下文数据
-## 5. 对象池自动将子弹添加到当前层级
-##
-## 技术实现：
-## - 使用 [PackedScene] 加载子弹预制体
-## - 通过 setter 验证子弹场景的有效性
-## - 利用 [SObjectPool] 系统进行实体管理
-## - 基于 [CCollisionBox] 组件计算射击方向
-##
-## 配置说明：
-## - [member projectile_scene]: 子弹实体的场景文件
-## - [member initial_pool_size]: 对象池的初始大小
-## - [member fire_point]: 继承自基类的发射点标记
-##
-## 使用示例：
-## [codeblock]
-## # 在编辑器中配置
-## var pistol_node = preload("res://weapons/pistol_attack_node.tscn").instantiate()
-## pistol_node.projectile_scene = preload("res://projectiles/bullet.tscn")
-## pistol_node.initial_pool_size = 50
-## [/codeblock]
-##
-## 架构设计：
-## - 继承自 [WeaponAttackNode] 基类
-## - 使用 [annotation @tool] 支持编辑器功能
-## - 集成 [SObjectPool] 的对象池管理系统
-## - 与 [SMapData] 的地图切换事件集成
-##
+## 该类继承自 [AttackNode]，实现了手枪的具体攻击行为
+## 手枪是典型的远程武器，通过发射子弹实体来造成伤害，集成了对象池系统
+## 核心功能：远程攻击、精准射击、对象池优化、自动注册
+## 攻击特性：基于角色朝向的射击方向计算、实体系统、初始化数据、层级管理
+## 架构设计：继承自 [AttackNode] 基类，使用 [SObjectPool] 系统进行实体管理
 ## [br][b]编辑者:[/b] Sora
 @tool
-extends WeaponAttackNode
+class_name PistolAttackNode 
+extends AttackNode
 
-## 子弹场景预制体
-## 
-## 定义了子弹实体的场景文件，必须是 [TempEntity] 类型的场景。
-## 使用自定义 setter 确保场景的有效性验证，类型为 [PackedScene]。
+#region 射弹配置
+## 子弹场景
+## 手枪发射的子弹实体预制体
 @export var projectile_scene: PackedScene:
-	set(v):
-		if v == null:
-			projectile_scene = v
-			projectil_pool_key = &""
-			return
-		# 验证场景是否为有效的TempEntity场景
-		var node = v.instantiate()
-		if node is TempEntity:
-			projectile_scene = v
-			projectil_pool_key = node.pool_key
-		else:
-			push_error("攻击节点: 子弹场景必须是TempEntity类型")
-		node.queue_free()
+	set(value):
+		if value:
+			var instance = value.instantiate()
+			projectile_scene = value
+			instance.queue_free()
 
-## 子弹对象池键
-## 
-## 用于标识子弹对象池的唯一键，自动从场景生成，类型为 [StringName]。
-var projectil_pool_key: StringName = &""
+## 对象池初始大小
+## 预分配的子弹实体数量，用于性能优化
+@export var initial_pool_size: int = 20
 
-## 子弹对象池初始大小
-## 
-## 预分配的子弹实体数量，根据游戏需求调整。
-@export var initial_pool_size: int = 30
+#endregion
 
-## 初始化手枪攻击系统（重写方法）
-## 
-## 注册子弹对象池，确保对象池系统可用。
-func _ready():
-	super()
-	if Engine.is_editor_hint():
-		return
-	
-	# 注册子弹对象池
-	_register_bullet_pool()
-	SMapData.level_changed_finished_for_player.connect(_register_bullet_pool)
-	SMapData.map_changed_finished.connect(_register_bullet_pool)
-
-## 注册子弹对象池
-## 
-## 在对象池系统中注册子弹实体，用于高效的子弹管理。
-func _register_bullet_pool():
-	if projectile_scene == null:
-		push_error("手枪攻击节点: 未设置子弹场景，无法注册对象池")
-		return
-
-	# 检查对象池是否已经注册
-	var pool_stats = SObjectPool._pools
-	if !pool_stats.has(projectil_pool_key):
-		# 注册新的对象池
-		SObjectPool.register_pool(projectil_pool_key, projectile_scene, initial_pool_size)
-		print("手枪攻击节点: 子弹对象池已注册 - 池标识: %s, 初始大小: %d" % [projectil_pool_key, initial_pool_size])
-	else:
-		print("手枪攻击节点: 子弹对象池已存在 - %s" % projectil_pool_key)
-
-## 手枪攻击实现（重写方法）
-## 
-## 执行手枪的射击攻击，从对象池获取子弹实体并发射。
-## 
-## 攻击步骤：
-## 1. 从对象池获取子弹实体
-## 2. 计算射击方向（基于碰撞组件的朝向）
-## 3. 配置子弹的初始化上下文数据
-## 4. 对象池自动将子弹添加到当前层级
-##
-## 优势：
-## - 高效的内存管理：避免频繁创建/销毁子弹
-## - 自动层级管理：子弹自动添加到正确的地图层级
-## - 性能优化：预分配对象池减少运行时开销
-##
-## 注意事项：
-## - 子弹的具体行为由 [TempEntity] 自身定义
-## - 发射方向基于角色的朝向计算
-## - 使用全局坐标系确保位置准确性
+#region 攻击实现
+## 实现具体的手枪攻击逻辑
+## 从对象池获取子弹，配置射击方向和初始化数据
 func _attack():
-	if projectile_scene == null:
-		push_error("手枪攻击节点: 未设置子弹场景")
+	if not projectile_scene:
 		return
 	
-	# 获取角色碰撞组件以计算射击方向
-	var c_collision: CCollisionBox = c_status.component_owner.list_base_components[IComponent.ComponentName.C_COLLISION_BOX]
-	if c_collision == null:
-		push_error("手枪攻击节点: 找不到碰撞组件，无法计算射击方向")
-		return
+	# 获取角色朝向
+	var direction: Vector2 = Vector2.RIGHT
+	var collision_box = get_parent().get_parent().get_node("CCollisionBox") as CCollisionBox
+	if collision_box and collision_box.hit_box:
+		direction = collision_box.hit_box.get_toward_direction()
 	
-	# 计算射击方向（基于角色朝向）
-	var shoot_direction = (Vector2.RIGHT).rotated(c_collision.box_rays[CCollisionBox.BoxRayName.INTERACT].rotation)
-	
-	# 准备子弹初始化上下文数据
-	var bullet_context = {
-		"start_direction": shoot_direction,
-		"source_entity": c_status.component_owner,  # 子弹来源实体
-		"hit_effect_list": hit_effect_list,
-		"speed": 500.0  # 子弹速度（可以根据武器属性调整）
-	}
-	
-	# 从对象池生成子弹实体
-	SObjectPool._spawn(
-		projectil_pool_key,
-		projectile_scene,
-		bullet_context,
-		fire_point.global_position
-	)
-	
+	# 从对象池获取子弹
+	var context = {"direction": direction}
+	SObjectPool.get_object(projectile_scene, global_position, context)
+
+#endregion
+
+#region 对象池管理
+## 注册子弹到对象池系统
+func _register_to_pool():
+	if projectile_scene:
+		SObjectPool.register_object(projectile_scene, initial_pool_size)
+
+#endregion

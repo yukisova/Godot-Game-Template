@@ -1,30 +1,10 @@
 ## 静态地图系统 - 游戏地图的核心管理组件
-##
+## 该类是游戏地图系统的核心，负责管理静态地图的所有方面
+## 多层级地图结构的组织和加载、昼夜循环和视觉滤镜系统、玩家出生点和传送点管理
+## 主要功能：协调多个Level的加载和初始化、管理地图的视觉效果、处理地图内的临时数据缓存
+## 技术特性：异步的多层级加载机制、基于信号的加载状态协调、可编辑器预览的工具支持
+## 应用场景：游戏关卡和场景的基础容器、世界地图的区域划分、副本和特殊场景的管理
 ## [br][b]编辑者:[/b] Sora
-##
-## 该类是游戏地图系统的核心，负责管理静态地图的所有方面：
-## - 多层级地图结构的组织和加载
-## - 昼夜循环和视觉滤镜系统
-## - 玩家出生点和传送点管理
-## - 地图相关的过场剧情控制
-## - 地图数据的存档和读档
-##
-## 主要功能：
-## - 协调多个Level的加载和初始化
-## - 管理地图的视觉效果（滤镜、迷雾）
-## - 处理地图内的临时数据缓存
-## - 集成过场剧情的自动播放
-##
-## 技术特性：
-## - 异步的多层级加载机制
-## - 基于信号的加载状态协调
-## - 可编辑器预览的工具支持
-## - 模块化的存档系统集成
-##
-## 应用场景：
-## - 游戏关卡和场景的基础容器
-## - 世界地图的区域划分
-## - 副本和特殊场景的管理
 @tool
 class_name StaticMap
 extends Node
@@ -36,13 +16,11 @@ extends Node
 #region 玩家配置
 
 ## 玩家出生点
-## 
-## 指定玩家在此地图中的初始位置和层级，类型为 [PlayerSpawn]。
+## 指定玩家在此地图中的初始位置和层级，类型为 [PlayerSpawn]
 @export var player_spawn: PlayerSpawn
 
 ## 地图时间
-## 
-## 控制昼夜循环的时间值（0.0-1.0），影响地图滤镜效果。
+## 控制昼夜循环的时间值（0.0-1.0），影响地图滤镜效果
 @export_range(0, 1) var time: float:
 	set(value):
 		if time != value:  # 避免重复设置
@@ -57,39 +35,27 @@ extends Node
 @export_subgroup("依赖")
 
 ## 层级集合
-## 
-## 包含所有Level层级的容器节点，类型为 [Node2D]。
+## 包含所有Level层级的容器节点，类型为 [Node2D]
 @export var levels: Node2D
 
 ## 自动加载过场事件
-## 
-## 地图加载完成后自动播放的过场剧情，类型为 [Node]。
+## 地图加载完成后自动播放的过场剧情，类型为 [Node]
 @export var autoload_cutscene: Node
 
 ## 地图滤镜
-## 
-## 用于实现昼夜循环视觉效果的画布调制器，类型为 [CanvasModulate]。
+## 用于实现昼夜循环视觉效果的画布调制器，类型为 [CanvasModulate]
 @export var map_filter: CanvasModulate
 
-## 迷雾图像
-## 
-## 战争迷雾系统的根节点，类型为 [Sprite2D]。
-@export var fog_image: Sprite2D
-
 ## 滤镜渐变纹理
-## 
-## 定义昼夜循环的颜色变化曲线，类型为 [GradientTexture1D]。
+## 定义昼夜循环的颜色变化曲线，类型为 [GradientTexture1D]
 @export var filter_gradient: GradientTexture1D
 
 ## 是否启用过场剧情
-## 
-## 控制地图加载后是否自动播放过场动画。
+## 控制地图加载后是否自动播放过场动画
 @export var cutscene_enable: bool = true
 
 ## 导出的传送点列表
-## 
-## 在level加载完毕后刷新，可以被其他地图的传送点直接引用。
-## 类型为 [Dictionary] of [StringName] to [TransportPoint]。
+## 在level加载完毕后刷新，可以被其他地图的传送点直接引用
 var exported_transport_points: Dictionary[StringName, TransportPoint] = {}
 
 #endregion
@@ -97,9 +63,7 @@ var exported_transport_points: Dictionary[StringName, TransportPoint] = {}
 #region 地图数据
 
 ## 地图内临时缓存
-## 
-## 存储仅在当前地图有效的临时数据。
-## 用途：对话状态、临时标记、局部变量等。类型为 [Dictionary]。
+## 存储仅在当前地图有效的临时数据，如对话状态、临时标记、局部变量等
 var cache_in_map: Dictionary
 
 #endregion
@@ -132,17 +96,16 @@ func _enter_tree() -> void:
 			level.static_map = self
 			level_count += 1
 	
+	# 确保所有level的后期初始化始终被执行（修复迷雾系统bug）
+	SMapData.map_register_finished.connect(_initialize_all_levels)
+	
 	if cutscene_enable:
 		for cutscene in autoload_cutscene.get_children():
 			SSignalBus.game_loop_start.connect(cutscene._start)
-	
 	else:
 		SSignalBus.game_loop_start.connect(func():
 			SUiSpawner._get_hud("transition").fade_in()
 		)
-	SSignalBus.game_loop_start.connect(func():
-		fog_image._initialize()
-	)
 
 ## 所有楼层的信息全部完成加载后发出
 func _on_level_fully_loaded():
@@ -156,14 +119,14 @@ func _on_level_entity_fully_loaded():
 	if level_initialized_count == level_count:
 		SSignalBus.game_data_loaded_compelete.emit.call_deferred()
 
-## 时间变化滤镜更新（外部调用）
 ## 由外部系统（如时间子系统）调用来更新地图时间
+## [param point]: 时间点值
 func time_change_filter(point: float):
 	# 直接更新滤镜，不通过time属性setter避免循环
 	_update_filter(point)
 
-## 内部滤镜更新方法
 ## 直接更新地图滤镜颜色，避免递归调用
+## [param time_value]: 时间值
 func _update_filter(time_value: float):
 	if map_filter and filter_gradient:
 		map_filter.color = filter_gradient.gradient.sample(time_value)
@@ -229,5 +192,13 @@ func get_collision_navigation_enabled_levels() -> Array[Level]:
 func is_single_level_collision_navigation_enabled() -> bool:
 	var enabled_count = get_collision_navigation_enabled_levels().size()
 	return enabled_count == 1
+
+## 初始化所有层级的后期组件—确保迷雾和房间系统正确初始化
+func _initialize_all_levels():
+	print("静态地图: 开始初始化所有层级的后期组件...")
+	for level in levels.get_children():
+		if level is Level:
+			level._late_initialize()
+			print("静态地图: 层级 %s 后期初始化完成" % level.name)
 
 #endregion

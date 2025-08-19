@@ -6,7 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://bvjy63fua1sx2" path="res://component/c_texture_controller/c_texture_controller.tscn" id="3_10by5"]
 [ext_resource type="PackedScene" uid="uid://bo5de2ow6bqjo" path="res://component/c_camera/c_camera.tscn" id="3_qlyid"]
 [ext_resource type="Script" uid="uid://b1kgwv70jiajt" path="res://component/c_camera/follow_strategy/cfs_mouse_follow.gd" id="4_d1eba"]
-[ext_resource type="Texture2D" uid="uid://uyc1xepl4vif" path="res://asset/char_set/测试用char_1.png" id="6_3swxj"]
+[ext_resource type="PackedScene" uid="uid://d2tk65us0wyr0" path="res://component/c_texture_controller/packed_texture/packed_man2/packed_man_se.tscn" id="7_3x7w1"]
 [ext_resource type="Script" uid="uid://dwt0prmf31a5" path="res://component/c_action_trigger/action/update_action/move_vector.gd" id="8_s6qkr"]
 [ext_resource type="PackedScene" uid="uid://caj56l0yail7q" path="res://component/c_status_list/c_status_list.tscn" id="9_r1axf"]
 [ext_resource type="Script" uid="uid://0y7pq6c8rex1" path="res://component/c_status_list/status_extension/inventory/inventory.gd" id="10_ddqps"]
@@ -40,7 +40,7 @@ to_state = NodePath("../Idle")
 metadata/_custom_type_script = "uid://cpdkw72ahtbjj"
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_qcfhx"]
-size = Vector2(32, 10)
+size = Vector2(8, 8)
 
 [node name="IPlayer" node_paths=PackedStringArray("main_control", "component_container") instance=ExtResource("1_cpfht")]
 script = ExtResource("2_s6qkr")
@@ -54,17 +54,15 @@ y_sort_enabled = true
 camera_strategy = NodePath("MouseFollow")
 
 [node name="Camera2D" parent="CharacterBody/ComponentContainer/CCamera" index="0"]
-zoom = Vector2(2, 2)
+zoom = Vector2(4, 4)
 
 [node name="MouseFollow" type="Node" parent="CharacterBody/ComponentContainer/CCamera" index="1"]
 script = ExtResource("4_d1eba")
 
-[node name="CTextureController" parent="CharacterBody/ComponentContainer" index="1" instance=ExtResource("3_10by5")]
+[node name="CTextureController" parent="CharacterBody/ComponentContainer" index="1" node_paths=PackedStringArray("packed_sprite") instance=ExtResource("3_10by5")]
+packed_sprite = NodePath("PackedManSe")
 
-[node name="Sprite2D" type="Sprite2D" parent="CharacterBody/ComponentContainer/CTextureController" index="0"]
-position = Vector2(0, 12)
-texture = ExtResource("6_3swxj")
-offset = Vector2(0, -12)
+[node name="PackedManSe" parent="CharacterBody/ComponentContainer/CTextureController" index="0" instance=ExtResource("7_3x7w1")]
 
 [node name="CStatusList" parent="CharacterBody/ComponentContainer" index="2" instance=ExtResource("9_r1axf")]
 
@@ -103,7 +101,6 @@ hfsm_state_transition = Dictionary[StringName, ExtResource("14_3syqy")]({
 [node name="SeekBox" parent="CharacterBody/ComponentContainer/CCollisionBox" index="0" instance=ExtResource("17_68kku")]
 
 [node name="InteractRay" type="RayCast2D" parent="CharacterBody/ComponentContainer/CCollisionBox" index="1"]
-position = Vector2(0, 15)
 target_position = Vector2(30, 0)
 collision_mask = 2
 script = ExtResource("25_3swxj")
@@ -142,7 +139,6 @@ movement_threshold = 100.0
 blackboard = NodePath("../..")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody" index="1"]
-position = Vector2(0, 16)
 shape = SubResource("RectangleShape2D_qcfhx")
 
 [editable path="CharacterBody"]

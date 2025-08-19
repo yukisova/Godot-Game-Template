@@ -60,12 +60,16 @@ func _listen():
 		return
 	
 	# 计算从射线起点到鼠标位置的方向向量
-	var vector = interact_ray.global_position.direction_to(interact_ray.get_global_mouse_position()) if get_viewport() else Vector2.ZERO
+	var vector = interact_ray.global_position.direction_to(interact_ray.get_global_mouse_position()).normalized() if get_viewport() else Vector2.ZERO
 	# 设置射线朝向鼠标方向
 	interact_ray.rotation = vector.angle()
+
+	# 设置武器攻击节点的朝向
+	var c_texture_controller: CTextureController = c_status.component_owner.list_base_components[IComponent.ComponentName.C_TEXTURE_CONTROLLER]
+	if c_texture_controller and c_texture_controller.packed_sprite:
+		c_texture_controller.packed_sprite.texture_toward = vector
+
 	var equipment_extension: EquipmentExtension = c_status.status_extension[StatusExtension.ExtensionType.EQUIPMENT]
-	if equipment_extension.current_attack_node:
-		equipment_extension.current_attack_node.rotation = vector.angle()
 
 	# 检测交互键按下事件
 	if Input.is_action_just_pressed("interact"):

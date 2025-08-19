@@ -1,0 +1,38 @@
+[gd_resource type="Resource" script_class="SavedDataFile" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://resource/custom_resource/item/item.gd" id="1_upbj7"]
+[ext_resource type="Script" path="res://resource/custom_resource/save_resource.gd" id="2_2iplm"]
+
+[resource]
+script = ExtResource("2_2iplm")
+player_info = {
+"components": {
+7: {
+"extension_infos": {
+0: {
+"inventory_array": Array[ExtResource("1_upbj7")]([null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null]),
+"inventory_pack_col": 4,
+"inventory_pack_num": 20
+},
+2: {
+"current_equipment": null,
+"current_weapon": null
+}
+},
+"num_infos": {},
+"status_infos": {}
+}
+},
+"current_position": Vector2(27.924011, 10.877533),
+"scene_file_path": "res://entity/entity_packed/fixed_entity/player/i_player.tscn",
+"start_position": Vector2(-248, -248),
+"type": "Initialize"
+}
+map_cache = {
+"cache_in_map": {},
+"current_level": NodePath("Levels/Level"),
+"current_map": "res://scene/static_map/m_测试场景3.tscn"
+}
+level_info = {
+&"Level": {}
+}

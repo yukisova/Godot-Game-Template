@@ -1,20 +1,50 @@
-[gd_scene load_steps=2 format=3 uid="uid://6dpqakv78nkp"]
+[gd_scene load_steps=8 format=3 uid="uid://6dpqakv78nkp"]
 
 [ext_resource type="Script" uid="uid://cdnd3coaj1drm" path="res://resource/node_template/map/level.gd" id="1_o3xit"]
+[ext_resource type="Shader" uid="uid://8g3lxhjc26wl" path="res://resource/node_template/map/war_fog.gdshader" id="2_bm21c"]
+[ext_resource type="Script" uid="uid://b36hyix3bkmtb" path="res://resource/node_template/map/static_map/fog.gd" id="2_wvb50"]
+[ext_resource type="Script" uid="uid://dvbhjxtkp7mpl" path="res://resource/node_template/map/rooms.gd" id="4_thopi"]
 
-[node name="Level" type="Node2D" node_paths=PackedStringArray("camera_limit", "room", "level_object_pool")]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_thopi"]
+shader = ExtResource("2_bm21c")
+shader_parameter/fog_color = Color(0, 0, 0, 1)
+
+[sub_resource type="Gradient" id="Gradient_wvb50"]
+interpolation_mode = 1
+offsets = PackedFloat32Array(0, 0.7267857)
+colors = PackedColorArray(0, 0, 0, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_bm21c"]
+gradient = SubResource("Gradient_wvb50")
+width = 48
+height = 48
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+metadata/_snap_enabled = true
+
+[node name="Level" type="Node2D" node_paths=PackedStringArray("camera_limit", "rooms", "level_object_pool", "level_fog")]
 y_sort_enabled = true
 script = ExtResource("1_o3xit")
 camera_limit = NodePath("CameraLimit")
-room = NodePath("Room")
+rooms = NodePath("Rooms")
 level_object_pool = NodePath("ObjectPool")
+level_fog = NodePath("CameraLimit/Fog")
 
 [node name="CameraLimit" type="Control" parent="."]
 custom_minimum_size = Vector2(50, 50)
 layout_mode = 3
 anchors_preset = 0
 
-[node name="Room" type="Node2D" parent="."]
+[node name="Fog" type="TextureRect" parent="CameraLimit" node_paths=PackedStringArray("camera_limit")]
+z_index = 10
+material = SubResource("ShaderMaterial_thopi")
+layout_mode = 0
+script = ExtResource("2_wvb50")
+camera_limit = NodePath("..")
+light_texture = SubResource("GradientTexture2D_bm21c")
+
+[node name="Rooms" type="Node2D" parent="."]
+script = ExtResource("4_thopi")
 
 [node name="ObjectPool" type="Node2D" parent="."]
 y_sort_enabled = true

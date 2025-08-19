@@ -1,63 +1,34 @@
 ## 实体状态组件 - 管理实体的各种状态和数值信息
-##
-## 该组件负责管理实体的所有状态相关数据，支持扩展系统。
-## 分为两种主要状态类型：
-##
-## 1. [class StatusInfo]（状态信息）：
-##    - 如血量、魔力等需要时刻监控的动态信息
-##    - 具有最大值限制和临界值触发机制
-##    - 当值达到边界时会触发相应信号
-##
-## 2. [class NumInfo]（数值信息）：
-##    - 如攻击力、防御力等影响游戏体验的基础数值
-##    - 相对稳定，不会频繁变化
-##    - 主要用作属性修饰和计算基础
-##
-## 功能特性：
-## - 支持状态扩展系统（如Buff/Debuff）
-## - 自动处理状态边界检查
-## - 状态变化事件系统
-## - 状态归零时的特殊处理（如死亡）
-##
+## 分为StatusInfo（动态状态如血量）和NumInfo（基础数值如攻击力）
+## 支持状态扩展系统、边界检查、变化事件和扩展管理
 ## [br][b]编辑者:[/b] Sora
 @tool
 class_name CStatusList
 extends IComponent
 
 ## 状态超限信号
-## 
-## 当 [class StatusInfo] 类型的状态值达到临界值（如生命值归零）时触发。
-## [param type]: 触发超限的状态类型，参见 [enum SoraConstant.StatusEnum]
+## [param type]: 触发超限的状态类型
 signal status_overred(type: SoraConstant.StatusEnum)
 
 ## 初始状态信息配置
-## 
-## 定义实体的基础状态数值，未明确设置的状态默认为零。
-## 键为 [enum SoraConstant.StatusEnum]，值为对应的初始数值。
+## 定义实体的基础状态数值
 @export var basic_info: Dictionary[SoraConstant.StatusEnum, float]
 
 ## 状态信息类
-## 
-## 用于管理动态变化的状态值，如生命值、魔力值等。
-## 具有自动边界检查和事件触发功能。
+## 管理动态状态值，具有边界检查和事件触发
 class StatusInfo:
 	## 状态超限信号
-	## 
-	## 当状态值降至0或超过最大值时触发。
 	## [param status_enum]: 触发超限的状态类型
 	signal status_overed(status_enum: SoraConstant.StatusEnum)
 	
 	## 状态值变化信号
-	## 
-	## 当状态值发生任何变化时触发。
 	## [param status]: 发生变化的状态信息对象
 	signal status_changed(status: StatusInfo)
 	
 	## 状态类型标识
 	var status_enum: SoraConstant.StatusEnum
 	
-	## 当前状态值
-	## 自动处理边界检查，确保值在0到max_value之间
+	## 当前状态值，自动边界检查
 	var value: float:
 		get:
 			return value
@@ -74,10 +45,8 @@ class StatusInfo:
 	## 状态最大值
 	var max_value: float
 	
-	## 构造函数
-	## 
-	## 创建新的状态信息对象。
-	## [param _status_enum]: 状态类型，参见 [enum SoraConstant.StatusEnum]
+	## 创建新的状态信息对象
+	## [param _status_enum]: 状态类型
 	## [param _value]: 状态的初始值
 	## [param _max_value]: 状态的最大值限制
 	func _init(_status_enum: SoraConstant.StatusEnum, _value: float, _max_value: float) -> void:
@@ -86,24 +55,16 @@ class StatusInfo:
 		value = _value
 
 ## 数值信息类
-## 
-## 用于管理相对稳定的数值属性，如攻击力、防御力等。
-## 不具有边界检查和事件触发功能。
+## 管理相对稳定的数值属性，无边界检查
 class NumInfo:
 	## 数值类型标识
-	## 
-	## 标识数值的类型，参见 [enum SoraConstant.StatusEnum]。
 	var status_enum: SoraConstant.StatusEnum
 	
 	## 数值大小
-	## 
-	## 存储具体的数值。
 	var value: int
 	
-	## 构造函数
-	## 
-	## 创建新的数值信息对象。
-	## [param _status_enum]: 数值类型，参见 [enum SoraConstant.StatusEnum]
+	## 创建新的数值信息对象
+	## [param _status_enum]: 数值类型
 	## [param _value]: 数值的大小
 	func _init(_status_enum: SoraConstant.StatusEnum, _value: int) -> void:
 		status_enum = _status_enum
@@ -124,11 +85,9 @@ var status_extension: Dictionary[StatusExtension.ExtensionType, StatusExtension]
 func _enter_tree() -> void:
 	component_name = ComponentName.C_STATUS_LIST
 
-## 组件初始化
-## 
-## 负责收集和配置所有状态扩展，并根据基础信息创建对应的状态对象。
-## [param _owner]: 拥有此组件的实体，必须是 [IEntity] 类型
-## [param _load_data]: 可选的加载数据，用于恢复保存的状态
+## 收集状态扩展并创建状态对象
+## [param _owner]: 拥有此组件的实体
+## [param _load_data]: 可选的加载数据
 func _initialize(_owner: IEntity, _load_data: Dictionary = {}):
 	super._initialize(_owner, _load_data)
 	
@@ -157,18 +116,14 @@ func _add_status(key: int, dict: Dictionary):
 			status_list[key].status_overed.connect(_on_status_overed)
 		1:
 			numinfo_list[key] = NumInfo.new(key, value)
-## 组件更新
-## 
-## 每帧调用所有状态扩展的效果方法，处理持续性的状态变化。
-## [param _delta]: 帧时间间隔，用于时间相关的计算
+## 每帧调用所有状态扩展的效果方法
+## [param _delta]: 帧时间间隔
 func _update(_delta: float):
 	for extension in status_extension.values():
 		extension._effect()
 
-## 状态超限处理
-## 
-## 当状态值达到临界值时的回调处理，执行相应的游戏逻辑。
-## [param _status_enum]: 触发超限的状态类型，参见 [enum SoraConstant.StatusEnum]
+## 状态值达到临界值时的回调处理
+## [param _status_enum]: 触发超限的状态类型
 func _on_status_overed(_status_enum: SoraConstant.StatusEnum):
 	status_overred.emit(_status_enum)
 	match _status_enum:

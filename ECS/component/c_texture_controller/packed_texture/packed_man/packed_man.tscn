@@ -1,13 +1,30 @@
-[gd_scene load_steps=2 format=3 uid="uid://cxedfarn7rer4"]
+[gd_scene load_steps=9 format=3 uid="uid://cxedfarn7rer4"]
 
 [ext_resource type="Script" uid="uid://da7pxxrjiyjvd" path="res://component/c_texture_controller/packed_texture/packed_man/packed_man.gd" id="1_38ejw"]
+[ext_resource type="Script" uid="uid://borj824dr1kti" path="res://component/c_texture_controller/packed_texture/packed_man/packed_part.gd" id="2_eopvt"]
+[ext_resource type="Texture2D" uid="uid://cgskrhioe1826" path="res://asset/char_set/野比大雄.png" id="2_o2jci"]
+[ext_resource type="Script" uid="uid://b22bewae7u4dq" path="res://component/c_texture_controller/packed_texture/packed_man/packed_sprite_editor.gd" id="4_jew8c"]
 
-[node name="PackedMan" type="Node2D" node_paths=PackedStringArray("body", "head", "hand_left", "hand_right")]
+[sub_resource type="AtlasTexture" id="AtlasTexture_jew8c"]
+atlas = ExtResource("2_o2jci")
+region = Rect2(0, 32, 64, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ivlhp"]
+atlas = ExtResource("2_o2jci")
+region = Rect2(0, 0, 64, 32)
+
+[sub_resource type="Gradient" id="Gradient_eopvt"]
+offsets = PackedFloat32Array(0)
+colors = PackedColorArray(1, 0.54509807, 1, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_o2jci"]
+gradient = SubResource("Gradient_eopvt")
+width = 16
+height = 16
+
+[node name="PackedMan" type="Node2D" node_paths=PackedStringArray("packed_sprite_editor")]
 script = ExtResource("1_38ejw")
-body = NodePath("Whole/BH/Body")
-head = NodePath("Whole/BH/Head")
-hand_left = NodePath("Whole/Left/Sprite2D")
-hand_right = NodePath("Whole/Right/Sprite2D")
+packed_sprite_editor = NodePath("PackedSpriteEditor")
 
 [node name="Whole" type="Node2D" parent="."]
 
@@ -15,18 +32,50 @@ hand_right = NodePath("Whole/Right/Sprite2D")
 
 [node name="Body" type="Sprite2D" parent="Whole/BH"]
 unique_name_in_owner = true
+position = Vector2(0, -16)
+texture = SubResource("AtlasTexture_jew8c")
+hframes = 2
 
 [node name="Head" type="Sprite2D" parent="Whole/BH"]
 unique_name_in_owner = true
+position = Vector2(0, -45)
+texture = SubResource("AtlasTexture_ivlhp")
+hframes = 2
 
 [node name="Left" type="Node2D" parent="Whole"]
+z_index = 1
+position = Vector2(19.571617, -17.941374)
+rotation = -2.9342475
+script = ExtResource("2_eopvt")
+default_texture = SubResource("GradientTexture2D_o2jci")
+metadata/_custom_type_script = "uid://borj824dr1kti"
 
 [node name="Sprite2D" type="Sprite2D" parent="Whole/Left"]
+texture = SubResource("GradientTexture2D_o2jci")
 
 [node name="Right" type="Node2D" parent="Whole"]
+z_index = -1
+position = Vector2(-19.571617, -22.058626)
+rotation = -6.07584
+script = ExtResource("2_eopvt")
+default_texture = SubResource("GradientTexture2D_o2jci")
+metadata/_custom_type_script = "uid://borj824dr1kti"
 
 [node name="Sprite2D" type="Sprite2D" parent="Whole/Right"]
+texture = SubResource("GradientTexture2D_o2jci")
 
-[node name="Edit" type="Node" parent="."]
+[node name="PackedSpriteEditor" type="Node" parent="." node_paths=PackedStringArray("control_parts")]
+script = ExtResource("4_jew8c")
+rotation_angle = -0.28300000000000003
+control_parts = {
+&"": NodePath(".."),
+&"Body": NodePath("../Whole/BH/Body"),
+&"Head": NodePath("../Whole/BH/Head"),
+&"Left": NodePath("../Whole/Left"),
+&"Right": NodePath("../Whole/Right")
+}
+hand_offset = Vector2(0, -20)
+ellipse_body_radius_x = 20.0
+ellipse_body_radius_y = 10.0
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]

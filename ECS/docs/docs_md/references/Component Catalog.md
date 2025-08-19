@@ -287,22 +287,72 @@ func set_texture(texture: Texture2D) -> void
 
 ##### IPackedSprite - 打包精灵接口 #PackedSprite
 - **文件路径**: `packed_texture/i_packed_sprite.gd`
-- **功能**: 定义打包纹理的统一接口
-- **特性**: 标准化的精灵处理接口
+- **功能**: 定义打包纹理的统一接口，提供高级纹理管理和动态动画切换
+- **特性**: 多纹理管理、状态驱动纹理切换、复杂动画序列控制
 
 ```gdscript
-## 打包精灵接口
-class_name IPackedSprite extends Resource
+## 打包精灵接口 - 提供高级纹理管理功能
+class_name IPackedSprite extends Node2D
 
-## 获取精灵纹理
-func get_sprite_texture() -> Texture2D:
-    # 子类实现
-    return null
+## 纹理部件字典 - 存储各部位的PackedPart节点
+@export var sprite_part: Dictionary[StringName, PackedPart]
+```
 
-## 获取精灵区域
-func get_sprite_region() -> Rect2:
-    # 子类实现
-    return Rect2()
+##### PackedPart - 打包纹理部件 #PackedPart
+- **文件路径**: `packed_texture/packed_man/packed_part.gd`
+- **功能**: 管理角色身体各部位的纹理组件
+- **特性**: 编辑器实时预览、运行时动态纹理切换、自动Sprite2D管理
+
+```gdscript
+## 打包纹理部件类
+class_name PackedPart extends Node2D
+
+## 默认纹理资源 - 支持编辑器预览和运行时切换
+@export var default_texture: Texture2D
+var sprite: Sprite2D  # 内部管理的Sprite2D节点
+```
+
+##### PackedSpriteEditor - 精灵编辑器工具 #PackedSpriteEditor
+- **文件路径**: `packed_texture/packed_man/packed_sprite_editor.gd`
+- **功能**: 编辑器预览和调试工具，支持椭圆运动和深度管理
+- **特性**: 角色朝向控制、椭圆运动轨迹、动态z_index深度
+
+**核心参数:**
+```gdscript
+## 角色朝向角度 (范围: -1到1)
+@export_range(-1,1) var rotation_angle: float = 0.0
+
+## 椭圆参数 - 控制手臂运动轨迹
+@export var ellipse_body_radius_x: float = 100.0
+@export var ellipse_body_radius_y: float = 50.0
+
+## 手部偏移量
+@export var hand_offset: Vector2 = Vector2(0,-50)
+```
+
+**椭圆运动系统:**
+- X坐标 = `ellipse_body_radius_x * cos(angle)`
+- Y坐标 = `ellipse_body_radius_y * sin(angle)`
+- 左手相对朝向逆时针偏移90度，右手顺时针偏移90度
+
+**z_index深度管理:**
+- 椭圆上半部分 (Y < 0): 手臂在身体**后面** (z_index-1)
+- 椭圆下半部分 (Y ≥ 0): 手臂在身体**前面** (z_index+1)
+- 基于椭圆几何位置实现自然的深度层次效果
+
+##### PackedMan - 人物精灵实现 #PackedMan
+- **文件路径**: `packed_texture/packed_man/packed_man.gd`
+- **功能**: 具体的人物精灵动画控制实现
+- **特性**: 节拍驱动动画系统、状态管理、与CActionTrigger集成
+
+```gdscript
+## 打包人物精灵实现类
+extends IPackedSprite
+
+var status_code: int = 0      # 状态控制变量
+var rhythm: float = 5.0       # 动画节奏速度
+var beat: float = 0.0         # 当前节拍位置
+var peak_valley: float = 1.0  # 峰值谷值控制
 ```
 
 #### 📝 使用示例
@@ -1480,6 +1530,226 @@ trigger_area.trigger_on_enter = true
 # 连接区域进入信号
 trigger_area.area_entered.connect(_on_level_exit_entered)
 ```
+
+---
+
+## 🗺️ 地图系统组件 #MapSystem
+
+### 概述
+
+虽然地图系统主要由系统级组件组成，但它们与ECS组件密切协作，提供世界管理、视野控制和空间导航功能。
+
+### StaticMap - 静态地图系统 #StaticMap
+
+#### 基本信息
+
+- **文件路径**: `resource/node_template/map/static_map/static_map.gd`
+- **继承关系**: `Node → StaticMap`
+- **功能描述**: 游戏地图的核心管理组件，协调多层级地图加载和管理
+
+#### ⚙️ 核心功能
+
+```gdscript
+## 地图核心配置
+@export var player_spawn: PlayerSpawn        # 玩家出生点
+@export_range(0, 1) var time: float         # 昼夜循环时间
+@export var levels: Node2D                  # 层级集合
+@export var map_filter: CanvasModulate      # 昼夜滤镜
+@export var filter_gradient: GradientTexture1D  # 渐变纹理
+```
+
+#### 🔗 与组件的协作
+
+- **C_Camera**: 提供相机边界信息
+- **C_NavigationAgent**: 协调跨层级导航
+- **C_ActionTrigger**: 处理地图事件触发
+- **C_StatusList**: 存储地图相关的持久化数据
+
+#### 📝 使用示例
+
+```gdscript
+## 地图初始化配置
+var static_map = StaticMap.new()
+static_map.time = 0.5  # 设置为正午
+static_map.cutscene_enable = true
+
+# 监听地图加载完成
+SSignalBus.map_info_loaded.connect(_on_map_loaded)
+SSignalBus.game_data_loaded_complete.connect(_on_all_loaded)
+```
+
+---
+
+### Level - 层级管理系统 #Level
+
+#### 基本信息
+
+- **文件路径**: `resource/node_template/map/level.gd`
+- **继承关系**: `Node2D → Level`
+- **功能描述**: 单个地图层级的管理，提供楼层级碰撞导航控制
+
+#### ⚙️ 层级组件
+
+```gdscript
+## 层级核心组件
+@export var camera_limit: Control           # 相机限制区域
+@export var room: Node2D                   # 房间碰撞体集合
+@export var level_object_pool: Node2D      # 层级对象池
+@export var level_fog: Fog                 # 层级迷雾
+@export var level_id: int = 0              # 楼层ID标识
+```
+
+#### 🔧 碰撞导航管理
+
+Level系统提供了完整的楼层级碰撞导航管理API：
+
+```gdscript
+## 碰撞导航控制API
+func enable_all_collision_navigation() -> void    # 启用楼层碰撞导航
+func disable_all_collision_navigation() -> void   # 禁用楼层碰撞导航
+func is_collision_navigation_enabled() -> bool    # 查询启用状态
+func get_collision_navigation_info() -> Dictionary # 获取状态信息
+func get_camera_limit() -> Dictionary              # 获取相机边界
+```
+
+#### 🎯 组件集成优势
+
+- **性能优化**: 只启用当前楼层的物理计算
+- **状态管理**: 与C_StateMachine集成的楼层状态
+- **对象池**: 与SObjectPool协作的临时实体管理
+- **存档支持**: 完整的层级状态持久化
+
+---
+
+### Fog - 战争迷雾系统 #FogOfWar
+
+#### 基本信息
+
+- **文件路径**: `resource/node_template/map/static_map/fog.gd`
+- **继承关系**: `TextureRect → Fog`
+- **功能描述**: 类似RTS的战争迷雾效果，基于玩家位置的动态视野管理
+
+#### ⚙️ 迷雾配置
+
+```gdscript
+## 迷雾系统配置
+@export var camera_limit: Control          # 相机限制区域
+@export var light_texture: Texture2D       # 光源纹理
+
+## 运行时数据
+var fog_image: Image                        # 迷雾图像数据
+var fog_texture: ImageTexture              # 迷雾纹理对象
+var light_image: Image                     # 光源图像数据
+var player: CharacterBody2D               # 玩家引用
+```
+
+#### 🔗 与ECS组件协作
+
+**与移动系统集成**：
+```gdscript
+## 智能更新机制
+func _process(_delta: float) -> void:
+    if !player.velocity.is_equal_approx(Vector2.ZERO):
+        update_fog()
+```
+
+**与相机系统协作**：
+- 基于camera_limit确定迷雾范围
+- 与C_Camera组件的边界设置保持一致
+- 支持动态相机边界调整
+
+**性能优化特性**：
+- **按需更新**: 只在玩家移动时更新迷雾
+- **内存优化**: 图像数据复用和高效管理
+- **着色器加速**: 使用GPU进行实时渲染
+
+#### 📝 使用示例
+
+```gdscript
+## 迷雾系统配置示例
+var fog = Fog.new()
+fog.camera_limit = level.camera_limit
+fog.light_texture = radial_gradient_texture
+
+# 在Level中初始化
+level.level_fog = fog
+level._initialize_fog()  # 在地图加载完成后调用
+```
+
+---
+
+### 地图着色器系统 #MapShaders
+
+#### WarFog Shader - 迷雾着色器
+
+**文件路径**: `resource/node_template/map/war_fog.gdshader`
+
+```glsl
+shader_type canvas_item;
+
+uniform vec4 fog_color: source_color;
+uniform sampler2D current_texture;
+
+void fragment(){
+    COLOR.rgb = fog_color.rgb;
+    COLOR.a = (texture(TEXTURE, UV).r + texture(current_texture, UV).r) / 2.0;
+}
+```
+
+**技术特性**：
+- **双纹理混合**: 持久迷雾 + 当前光照
+- **高性能**: 简化的fragment shader实现
+- **实时更新**: 支持动态纹理参数
+
+#### 与组件系统集成
+
+```gdscript
+## 着色器参数更新（Fog系统中）
+material.set_shader_parameter("current_texture", current_texture)
+material.set_shader_parameter("fog_color", Color.BLACK)
+```
+
+---
+
+### 🎯 地图系统与ECS的设计模式
+
+#### 1. 系统级组件模式
+
+地图系统采用系统级组件设计，不继承IComponent，但提供类似的接口：
+
+```gdscript
+## 系统级组件特征
+- 独立的生命周期管理
+- 信号驱动的状态同步  
+- 与ECS组件的松耦合集成
+- 完整的存档支持
+```
+
+#### 2. 组合协作模式
+
+```mermaid
+graph TD
+    A[Player Entity] --> B[C_InputReactor]
+    A --> C[C_Movement via ActionTrigger]
+    A --> D[C_Camera]
+    
+    E[StaticMap] --> F[Level]
+    F --> G[Fog]
+    
+    C -.->|移动数据| G
+    D -.->|相机边界| F
+    B -.->|输入事件| E
+    
+    style A fill:#e1f5fe
+    style E fill:#f3e5f5
+    style G fill:#e8f5e8
+```
+
+#### 3. 数据流模式
+
+- **上行数据流**: Entity组件 → 地图系统
+- **下行数据流**: 地图系统 → Entity组件  
+- **横向数据流**: 地图系统内部组件间协作
 
 ---
 

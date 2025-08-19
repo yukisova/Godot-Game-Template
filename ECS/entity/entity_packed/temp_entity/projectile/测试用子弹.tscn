@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://bcto662hlps4f"]
+[gd_scene load_steps=14 format=3 uid="uid://bcto662hlps4f"]
 
 [ext_resource type="PackedScene" uid="uid://co817hl4s2rr7" path="res://entity/entity_packed/temp_entity/temp_entity.tscn" id="1_sppb8"]
 [ext_resource type="PackedScene" uid="uid://cq0u8u1qie88t" path="res://entity/entity_packed/entity_template/character_body.tscn" id="2_re1bp"]
@@ -6,13 +6,20 @@
 [ext_resource type="Script" uid="uid://ikjlf7gagqap" path="res://component/c_action_trigger/action/update_action/move_straight.gd" id="5_l5x8v"]
 [ext_resource type="PackedScene" uid="uid://cps21xspaovit" path="res://component/c_collision_box/c_collision.tscn" id="6_f8n6g"]
 [ext_resource type="PackedScene" uid="uid://b3vbfhugiqyva" path="res://component/c_action_trigger/c_action_trigger.tscn" id="6_sppb8"]
+[ext_resource type="Script" uid="uid://56igfb3mcaca" path="res://component/c_collision_box/box_collision/hit_box/hit_effect/i_hit_effect.gd" id="6_vg3gh"]
 [ext_resource type="Script" uid="uid://dneeiueh1hgr2" path="res://component/c_collision_box/box_collision/hit_box/hit_box_range/hit_box_range.gd" id="7_fya08"]
+[ext_resource type="Script" uid="uid://dprng288c4b2f" path="res://component/c_collision_box/box_collision/hit_box/hit_effect/status_effect.gd" id="7_x7ax0"]
 
 [sub_resource type="Gradient" id="Gradient_j67t8"]
 colors = PackedColorArray(1, 0, 0, 1, 1, 0, 0, 1)
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_ihym0"]
 gradient = SubResource("Gradient_j67t8")
+
+[sub_resource type="Resource" id="Resource_l5x8v"]
+script = ExtResource("7_x7ax0")
+status_effect_value = -20
+metadata/_custom_type_script = "uid://dprng288c4b2f"
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_otxgj"]
 radius = 24.0
@@ -25,7 +32,6 @@ component_container = NodePath("CharacterBody/ComponentContainer")
 [node name="CharacterBody" parent="." index="0" instance=ExtResource("2_re1bp")]
 
 [node name="CTexture" parent="CharacterBody/ComponentContainer" index="0" instance=ExtResource("3_vg3gh")]
-texture_path = NodePath("Sprite2D")
 
 [node name="Sprite2D" type="Sprite2D" parent="CharacterBody/ComponentContainer/CTexture" index="0"]
 texture = SubResource("GradientTexture2D_ihym0")
@@ -36,6 +42,7 @@ texture = SubResource("GradientTexture2D_ihym0")
 collision_layer = 4
 collision_mask = 5
 script = ExtResource("7_fya08")
+hit_effects = Array[ExtResource("6_vg3gh")]([SubResource("Resource_l5x8v")])
 metadata/_custom_type_script = "uid://dneeiueh1hgr2"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody/ComponentContainer/CCollision/HitboxRange" index="0"]

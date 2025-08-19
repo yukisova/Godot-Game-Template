@@ -1,66 +1,33 @@
 ## 背包系统扩展 - 提供物品存储和管理功能
-##
-## 该扩展为实体提供完整的背包管理系统，包括物品存储、容量管理、
-## 重量限制、物品合成等功能。支持动态调整背包大小和物品操作。
-##
-## 背包系统特性：
-## - 容量管理：支持可配置的背包容量限制
-## - 重量系统：基于物品重量的承重限制
-## - 物品操作：添加、移除、查找、移动物品
-## - 自动整理：自动寻找空位放置物品
-## - 物品合成：支持可叠加物品的合并机制
-## - 事件通知：物品变化的实时事件通知
-##
-## 应用场景：
-## - 玩家背包：存储玩家收集的物品
-## - 商店库存：NPC商店的物品管理
-## - 容器存储：箱子、柜子等容器的物品存储
-## - 物品交易：交易系统中的物品转移
-##
-## 架构设计：
-## - 继承自 [StatusExtension] 基类
-## - 基于 [Array] 的物品存储结构
-## - 通过信号系统通知物品变化
-## - 与 [Item] 系统深度集成
-##
+## 完整的背包管理系统，支持容量管理、重量限制、自动整理
+## 提供物品操作、事件通知和与Item系统的深度集成
 ## [br][b]编辑者:[/b] Sora
 class_name InventoryExtension
 extends StatusExtension
 
 ## 物品添加信号
-## 
-## 当成功添加物品到背包时发出。
-## [param new_item]: 新添加的物品，类型为 [Item]
-## [param target_index]: 物品在背包中的索引位置
+## [param new_item]: 新添加的物品
+## [param target_index]: 物品索引位置
 signal inventory_added(new_item: Item, target_index: int)
 
 ## 物品移除信号
-## 
-## 当物品从背包中被移除时发出。
-## [param item_origin_index]: 被移除物品的原始索引位置
+## [param item_origin_index]: 被移除物品的索引位置
 signal inventory_removed(item_origin_index: int)
 
 ## 背包容量已满信号
-## 
-## 当尝试添加物品但背包已满时发出。
 signal inventory_full
 
 ## 背包重量超限信号
-## 
-## 当添加物品会导致背包超重时发出。
 ## [param current_weight]: 当前重量
 ## [param max_weight]: 最大承重
 signal weight_exceeded(current_weight: float, max_weight: float)
 
 @export_group("背包信息", "inventory_")
 ## 背包物品数组
-## 
-## 存储当前背包中的所有物品，null表示空槽位。类型为 [Array] of [Item]。
+## 存储所有物品，null表示空槽位
 @export var inventory_array: Array[Item]
 
 ## 背包总容量
-## 
-## 背包可以存储的最大物品数量。
 @export_range(1, 25, 1, "or_greater") var inventory_pack_num: int = 20
 
 ## 背包列数
@@ -100,11 +67,8 @@ func _effect():
 	# 背包系统主要响应事件，不需要每帧更新
 	pass
 
-## 自动添加物品到背包
-## 
-## 自动寻找第一个空位放置物品。
-## [param target]: 要添加的物品，类型为 [Item]
-## [br][br][b]返回:[/b] [bool] 是否成功添加
+## 自动寻找空位放置物品
+## [param target]: 要添加的物品
 func auto_add_inventory(target: Item) -> bool:
 	# 检查重量限制
 	if current_weight_num + target.get_weight() > inventory_weight_num:
