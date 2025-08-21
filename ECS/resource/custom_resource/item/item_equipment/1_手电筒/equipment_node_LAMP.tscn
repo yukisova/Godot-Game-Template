@@ -1,0 +1,27 @@
+[gd_scene load_steps=5 format=3 uid="uid://7ubnaq03crte"]
+
+[ext_resource type="Script" uid="uid://jmwgu1jrb22r" path="res://resource/custom_resource/item/item_equipment/1_手电筒/equipment_node_LAMP.gd" id="1_my0h4"]
+[ext_resource type="PackedScene" uid="uid://bcto662hlps4f" path="res://entity/entity_packed/temp_entity/projectile/测试用子弹.tscn" id="2_va880"]
+
+[sub_resource type="Gradient" id="Gradient_dso8c"]
+offsets = PackedFloat32Array(0)
+colors = PackedColorArray(0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_v5oex"]
+gradient = SubResource("Gradient_dso8c")
+width = 16
+height = 16
+
+[node name="手电筒" type="Node2D" node_paths=PackedStringArray("fire_point", "texture")]
+script = ExtResource("1_my0h4")
+projectile_scene = ExtResource("2_va880")
+fire_point = NodePath("FirePoint")
+texture = NodePath("Sprite2D")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+rotation = 1.5707964
+scale = Vector2(0.5, 0.5)
+texture = SubResource("GradientTexture2D_v5oex")
+
+[node name="FirePoint" type="Marker2D" parent="."]
+position = Vector2(4, 0)

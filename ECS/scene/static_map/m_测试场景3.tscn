@@ -26,7 +26,7 @@
 [ext_resource type="Script" uid="uid://dprng288c4b2f" path="res://component/c_collision_box/box_collision/hit_box/hit_effect/status_effect.gd" id="24_rw2nw"]
 [ext_resource type="Texture2D" uid="uid://kbkgom7sc05c" path="res://asset/item_texture/ItemIcon.png" id="25_lh8ta"]
 [ext_resource type="Script" uid="uid://bie3fadk4fwqc" path="res://resource/custom_resource/item/item_weapon/item_weapon.gd" id="26_p2qfc"]
-[ext_resource type="PackedScene" uid="uid://cp3qo45fcw0ix" path="res://resource/custom_resource/item/item_weapon/attack_node/手枪/attack_node_手枪.tscn" id="27_wn6w5"]
+[ext_resource type="PackedScene" uid="uid://cp3qo45fcw0ix" path="res://resource/custom_resource/item/item_weapon/1_木剑/attack_node_WOODS.tscn" id="27_wn6w5"]
 [ext_resource type="PackedScene" uid="uid://dofu8tj40v5it" path="res://entity/entity_packed/object_entity/transport_point/transport_point.tscn" id="28_h0dd5"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_p2mf1"]

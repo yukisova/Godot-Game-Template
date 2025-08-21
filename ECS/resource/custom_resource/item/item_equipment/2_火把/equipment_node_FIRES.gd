@@ -1,13 +1,12 @@
 ## 手枪攻击节点 - 实现手枪的射击攻击逻辑
-## 该类继承自 [AttackNode]，实现了手枪的具体攻击行为
+## 该类继承自 [WeaponNode]，实现了手枪的具体攻击行为
 ## 手枪是典型的远程武器，通过发射子弹实体来造成伤害，集成了对象池系统
 ## 核心功能：远程攻击、精准射击、对象池优化、自动注册
 ## 攻击特性：基于角色朝向的射击方向计算、实体系统、初始化数据、层级管理
-## 架构设计：继承自 [AttackNode] 基类，使用 [SObjectPool] 系统进行实体管理
+## 架构设计：继承自 [WeaponNode] 基类，使用 [SObjectPool] 系统进行实体管理
 ## [br][b]编辑者:[/b] Sora
 @tool
-class_name PistolAttackNode 
-extends AttackNode
+extends EquipmentNode
 
 #region 射弹配置
 ## 子弹场景

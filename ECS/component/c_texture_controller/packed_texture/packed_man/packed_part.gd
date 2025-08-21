@@ -58,7 +58,7 @@ extends Node2D
 ## 
 ## 实际显示纹理的[color=blue]Sprite2D[/color]节点，由本类自动创建和管理。[br]
 ## [color=red]无需手动操作[/color]，纹理更新通过[code]default_texture[/code]属性进行。
-var sprite: Node2D:
+@export var sprite: Node2D:
 	set(value):
 		if value == null:
 			return

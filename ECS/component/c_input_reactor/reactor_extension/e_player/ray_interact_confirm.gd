@@ -83,4 +83,4 @@ func _listen():
 	
 	if Input.is_action_just_pressed("primary_action"):
 		if equipment_extension.current_attack_node:
-			equipment_extension.current_attack_node._attack()
+			equipment_extension.current_attack_node._trigger_effect()

@@ -1,4 +1,4 @@
-[gd_scene load_steps=40 format=4 uid="uid://b86jtakcjjmr0"]
+[gd_scene load_steps=29 format=4 uid="uid://b86jtakcjjmr0"]
 
 [ext_resource type="PackedScene" uid="uid://dx8lfcn7h43ea" path="res://resource/node_template/map/static_map/static_map.tscn" id="1_ktlj6"]
 [ext_resource type="PackedScene" uid="uid://6dpqakv78nkp" path="res://resource/node_template/map/level.tscn" id="2_he3wi"]
@@ -21,12 +21,6 @@
 [ext_resource type="PackedScene" uid="uid://ca1hb1m2dinl2" path="res://component/c_state_machine/c_state_machine.tscn" id="20_0kt6x"]
 [ext_resource type="PackedScene" uid="uid://cps21xspaovit" path="res://component/c_collision_box/c_collision.tscn" id="21_xhqjp"]
 [ext_resource type="Script" uid="uid://dqxey3deyxpb4" path="res://component/c_collision_box/box_collision/interaction_box/interact_box.gd" id="22_0cmt1"]
-[ext_resource type="Script" uid="uid://dyicjmjyi8vve" path="res://component/c_interactable/interaction/interaction_collect.gd" id="23_3qdks"]
-[ext_resource type="Script" uid="uid://56igfb3mcaca" path="res://component/c_collision_box/box_collision/hit_box/hit_effect/i_hit_effect.gd" id="24_dqn83"]
-[ext_resource type="Script" uid="uid://dprng288c4b2f" path="res://component/c_collision_box/box_collision/hit_box/hit_effect/status_effect.gd" id="25_6l7m5"]
-[ext_resource type="Texture2D" uid="uid://kbkgom7sc05c" path="res://asset/item_texture/ItemIcon.png" id="26_p5ots"]
-[ext_resource type="Script" uid="uid://bie3fadk4fwqc" path="res://resource/custom_resource/item/item_weapon/item_weapon.gd" id="27_uwg6p"]
-[ext_resource type="PackedScene" uid="uid://cp3qo45fcw0ix" path="res://resource/custom_resource/item/item_weapon/attack_node/手枪/attack_node_手枪.tscn" id="28_sv1cj"]
 [ext_resource type="PackedScene" uid="uid://dofu8tj40v5it" path="res://entity/entity_packed/object_entity/transport_point/transport_point.tscn" id="29_he3wi"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_p2mf1"]
@@ -47,38 +41,6 @@ sources/0 = SubResource("TileSetAtlasSource_ykcdb")
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_7knx6"]
 size = Vector2(50, 20)
-
-[sub_resource type="Resource" id="Resource_1sb6v"]
-script = ExtResource("25_6l7m5")
-status_effect_value = -10
-metadata/_custom_type_script = "uid://dprng288c4b2f"
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_nfrqy"]
-atlas = ExtResource("26_p5ots")
-region = Rect2(0, 0, 80, 80)
-
-[sub_resource type="Resource" id="Resource_phtbu"]
-script = ExtResource("27_uwg6p")
-weapon_node = ExtResource("28_sv1cj")
-hit_effect_list = Array[ExtResource("24_dqn83")]([SubResource("Resource_1sb6v")])
-item_nick_name = "pistol"
-item_name = "手枪"
-item_description = "一把手枪，"
-item_texture = SubResource("AtlasTexture_nfrqy")
-metadata/_custom_type_script = "uid://bie3fadk4fwqc"
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_xyu3f"]
-atlas = ExtResource("26_p5ots")
-region = Rect2(160, 400, 160, 80)
-
-[sub_resource type="Resource" id="Resource_1788p"]
-script = ExtResource("27_uwg6p")
-item_nick_name = "sniper"
-item_name = "狙击枪"
-item_description = "不存在的武器"
-item_texture = SubResource("AtlasTexture_xyu3f")
-item_tilesize = Vector2i(2, 1)
-metadata/_custom_type_script = "uid://bie3fadk4fwqc"
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_8b7id"]
 vertices = PackedVector2Array(129.49219, 225.4375, -242.14844, 287.22656, -245.86719, 5.7109375, 143.35938, -5.6796875)
@@ -155,26 +117,6 @@ script = ExtResource("22_0cmt1")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Levels/Level/翁蛾健治/CharacterBody/ComponentContainer/CCollision/InteractionBox" index="0"]
 position = Vector2(-25, 16)
 shape = SubResource("RectangleShape2D_7knx6")
-
-[node name="CInteractable" parent="Levels/Level/翁蛾健治/CharacterBody/ComponentContainer" index="4" instance=ExtResource("10_awqwx")]
-
-[node name="InteractionDialogue" type="Node" parent="Levels/Level/翁蛾健治/CharacterBody/ComponentContainer/CInteractable" index="0"]
-script = ExtResource("12_rxujv")
-test_dialogue_ui = ExtResource("13_1nofj")
-test_dialogue = ExtResource("14_jqfrg")
-test_dialogue_label = &"武器测试_翁蛾健治"
-dialogue_info = Dictionary[String, Variant]({
-"interaction_collect": NodePath("../InteractionCollect"),
-"interaction_collect2": NodePath("../InteractionCollect2")
-})
-
-[node name="InteractionCollect" type="Node" parent="Levels/Level/翁蛾健治/CharacterBody/ComponentContainer/CInteractable" index="1"]
-script = ExtResource("23_3qdks")
-binding_item = SubResource("Resource_phtbu")
-
-[node name="InteractionCollect2" type="Node" parent="Levels/Level/翁蛾健治/CharacterBody/ComponentContainer/CInteractable" index="2"]
-script = ExtResource("23_3qdks")
-binding_item = SubResource("Resource_1788p")
 
 [node name="NavigationRegion2D" type="NavigationRegion2D" parent="Levels/Level" index="9"]
 navigation_polygon = SubResource("NavigationPolygon_8b7id")

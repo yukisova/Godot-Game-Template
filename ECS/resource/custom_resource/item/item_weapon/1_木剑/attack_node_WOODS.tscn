@@ -1,0 +1,24 @@
+[gd_scene load_steps=5 format=3 uid="uid://cp3qo45fcw0ix"]
+
+[ext_resource type="Script" uid="uid://xjklvra480qw" path="res://resource/custom_resource/item/item_weapon/1_木剑/attack_node_WOODS.gd" id="1_ummem"]
+[ext_resource type="PackedScene" uid="uid://bcto662hlps4f" path="res://entity/entity_packed/temp_entity/projectile/测试用子弹.tscn" id="2_8mbs6"]
+[ext_resource type="Texture2D" uid="uid://ewy7amr1phx8" path="res://asset/item_texture/new_icon_set.png" id="3_tmsum"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kvec8"]
+atlas = ExtResource("3_tmsum")
+region = Rect2(12, 0, 8, 32)
+
+[node name="手枪" type="Node2D" node_paths=PackedStringArray("fire_point", "texture")]
+script = ExtResource("1_ummem")
+projectile_scene = ExtResource("2_8mbs6")
+fire_point = NodePath("FirePoint")
+texture = NodePath("Sprite2D")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+rotation = 1.5707964
+scale = Vector2(0.5, 0.5)
+texture = SubResource("AtlasTexture_kvec8")
+offset = Vector2(0, -11)
+
+[node name="FirePoint" type="Marker2D" parent="."]
+position = Vector2(13, 0)

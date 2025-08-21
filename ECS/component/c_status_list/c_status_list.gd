@@ -94,9 +94,9 @@ func _initialize(_owner: IEntity, _load_data: Dictionary = {}):
 	# 收集并初始化所有状态扩展
 	for extension in get_children():
 		if extension is StatusExtension:
+			extension.c_status = self
 			status_extension[extension.extention_type] = extension
 			extension._initialize()
-			extension.c_status = self
 	
 	if SLoadAndSave.current_saved:
 	# 根据基础信息创建状态对象

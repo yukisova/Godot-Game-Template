@@ -1,4 +1,4 @@
-[gd_scene load_steps=32 format=3 uid="uid://chcm2vu8h6bs1"]
+[gd_scene load_steps=39 format=3 uid="uid://chcm2vu8h6bs1"]
 
 [ext_resource type="PackedScene" uid="uid://6jpwo3n27sj2" path="res://entity/entity_packed/fixed_entity/fixed_entity.tscn" id="1_cpfht"]
 [ext_resource type="PackedScene" uid="uid://cq0u8u1qie88t" path="res://entity/entity_packed/entity_template/character_body.tscn" id="2_10by5"]
@@ -9,12 +9,17 @@
 [ext_resource type="PackedScene" uid="uid://d2tk65us0wyr0" path="res://component/c_texture_controller/packed_texture/packed_man2/packed_man_se.tscn" id="7_3x7w1"]
 [ext_resource type="Script" uid="uid://dwt0prmf31a5" path="res://component/c_action_trigger/action/update_action/move_vector.gd" id="8_s6qkr"]
 [ext_resource type="PackedScene" uid="uid://caj56l0yail7q" path="res://component/c_status_list/c_status_list.tscn" id="9_r1axf"]
+[ext_resource type="Script" uid="uid://0y58wickfubb" path="res://resource/custom_resource/item/item.gd" id="10_7phgt"]
 [ext_resource type="Script" uid="uid://0y7pq6c8rex1" path="res://component/c_status_list/status_extension/inventory/inventory.gd" id="10_ddqps"]
 [ext_resource type="PackedScene" uid="uid://ca1hb1m2dinl2" path="res://component/c_state_machine/c_state_machine.tscn" id="11_gg8ev"]
+[ext_resource type="Script" uid="uid://56igfb3mcaca" path="res://component/c_collision_box/box_collision/hit_box/hit_effect/i_hit_effect.gd" id="11_ue1b5"]
 [ext_resource type="Script" uid="uid://dnmlb5kw5y7u3" path="res://component/c_state_machine/state/hfsm/state/player/sm_player_root.gd" id="12_8yxan"]
+[ext_resource type="Texture2D" uid="uid://ewy7amr1phx8" path="res://asset/item_texture/new_icon_set.png" id="12_40k7d"]
 [ext_resource type="Script" uid="uid://lkyrqci5j6qw" path="res://component/c_status_list/status_extension/equipment/equipment.gd" id="12_ddqps"]
 [ext_resource type="Script" uid="uid://b3dlfvhs4o6ii" path="res://component/c_state_machine/state/hfsm/state/player/state_idle_player.gd" id="13_jeuop"]
+[ext_resource type="Script" uid="uid://bie3fadk4fwqc" path="res://resource/custom_resource/item/item_weapon/item_weapon.gd" id="13_rw4nq"]
 [ext_resource type="Script" uid="uid://cpdkw72ahtbjj" path="res://component/c_state_machine/transition_record.gd" id="14_3syqy"]
+[ext_resource type="PackedScene" uid="uid://cp3qo45fcw0ix" path="res://resource/custom_resource/item/item_weapon/1_木剑/attack_node_WOODS.tscn" id="14_k2mub"]
 [ext_resource type="Script" uid="uid://dj1d6vr2iy6ds" path="res://component/c_state_machine/state/hfsm/state/player/state_move_player.gd" id="15_bw1gr"]
 [ext_resource type="PackedScene" uid="uid://cps21xspaovit" path="res://component/c_collision_box/c_collision.tscn" id="16_74hs8"]
 [ext_resource type="PackedScene" uid="uid://culm6jk4g06ro" path="res://component/c_collision_box/box_collision/seek_box/seek_box.tscn" id="17_68kku"]
@@ -28,6 +33,19 @@
 [ext_resource type="Script" uid="uid://cd4xrbwgqs7p0" path="res://component/c_input_reactor/reactor_extension/e_player/ray_interact_confirm.gd" id="23_lxaiq"]
 [ext_resource type="Script" uid="uid://3c3x3bgxinnw" path="res://component/c_collision_box/box_ray/interact_ray/interact_ray.gd" id="25_3swxj"]
 [ext_resource type="Script" uid="uid://ceknbpsdqqm6d" path="res://component/c_input_reactor/reactor_extension/e_player/ui_panel_open.gd" id="25_r1axf"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ls5m0"]
+atlas = ExtResource("12_40k7d")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="Resource" id="Resource_k1cn3"]
+script = ExtResource("13_rw4nq")
+weapon_node = ExtResource("14_k2mub")
+item_nick_name = "SWORD"
+item_name = "剑"
+item_description = "你好"
+item_texture = SubResource("AtlasTexture_ls5m0")
+metadata/_custom_type_script = "uid://bie3fadk4fwqc"
 
 [sub_resource type="Resource" id="Resource_r1axf"]
 script = ExtResource("14_3syqy")
@@ -54,7 +72,7 @@ y_sort_enabled = true
 camera_strategy = NodePath("MouseFollow")
 
 [node name="Camera2D" parent="CharacterBody/ComponentContainer/CCamera" index="0"]
-zoom = Vector2(4, 4)
+zoom = Vector2(6, 6)
 
 [node name="MouseFollow" type="Node" parent="CharacterBody/ComponentContainer/CCamera" index="1"]
 script = ExtResource("4_d1eba")
@@ -68,6 +86,7 @@ packed_sprite = NodePath("PackedManSe")
 
 [node name="Inventory" type="Node2D" parent="CharacterBody/ComponentContainer/CStatusList" index="0"]
 script = ExtResource("10_ddqps")
+inventory_array = Array[ExtResource("10_7phgt")]([SubResource("Resource_k1cn3")])
 
 [node name="Equipment" type="Node2D" parent="CharacterBody/ComponentContainer/CStatusList" index="1"]
 script = ExtResource("12_ddqps")

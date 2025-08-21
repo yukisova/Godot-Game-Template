@@ -24,7 +24,7 @@ var current_weapon: ItemWeapon:
 
 ## 当前装备的攻击节点
 ## 设置时自动清理旧节点
-var current_attack_node: AttackNode:
+var current_attack_node: WeaponNode:
 	set(v):
 		if current_attack_node:
 			current_attack_node.queue_free()

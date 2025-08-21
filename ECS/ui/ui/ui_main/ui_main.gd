@@ -114,7 +114,9 @@ func _setup_button_bindings():
 		var current_state = game_state_machine._get_active_state()
 		if current_state is GameStartState:
 			current_state.update_trigger = true
-			SMapData.map_registered.emit(_args[0] as PackedScene)
+			# 动态加载测试场景，避免循环引用
+			var test_scene = load(_args[0] as String) as PackedScene
+			SMapData.map_registered.emit(test_scene)
 			SAudioMaster.play_music(null)
 			unspawn()
 		else:
@@ -126,7 +128,7 @@ func _setup_button_bindings():
 		print("主菜单UI: 开始新游戏")
 		SAudioMaster.play_music(null)
 		
-		var start_game_ui = _args[0]
+		var start_game_ui = load(_args[0] as String) as PackedScene
 		SUiSpawner._spawn_ui(start_game_ui, {}, true)
 	).bind(start_game_button.args))
 	
