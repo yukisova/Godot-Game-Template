@@ -40,8 +40,7 @@ func _initialize(_owner: IEntity, _load_data: Dictionary = {}):
 			_action_list_update.append(action)
 			action.binding_entity = component_owner
 			current_action_list[action] = action.current_action_state
-		elif action is TriggerAction:
-			action.binding_entity = component_owner
+		elif action is ITriggerAction:
 			action.action_triggered.connect(_on_action_triggered)
 			action.action_triggered_finished.connect(_on_action_triggered_finished)
 		action._initialize()
@@ -50,10 +49,10 @@ func _initialize(_owner: IEntity, _load_data: Dictionary = {}):
 
 #region 触发监听相关
 
-func _on_action_triggered(action: TriggerAction):
+func _on_action_triggered(action: ITriggerAction):
 	current_action_list[action as IAction] = action.current_action_state
 
-func _on_action_triggered_finished(action: TriggerAction):
+func _on_action_triggered_finished(action: ITriggerAction):
 	current_action_list.erase(action as IAction)
 
 #endregion

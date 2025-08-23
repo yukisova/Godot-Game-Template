@@ -143,7 +143,7 @@ func _on_display_item_info(item: Item):
 ## [param _delta]: 帧时间间隔
 func _process(_delta: float) -> void:
 	# 检测脑图触发键（通常是Tab键）
-	if Input.is_action_just_pressed("brain_trigger"):
+	if SGlobalConfig.is_action_triggered(SoraConstant.InputTarget.COMMON, "brain_trigger", SoraConstant.InputType.JUST_PRESSED):
 		print("角色状态UI: 关闭界面")
 		unspawn()
 

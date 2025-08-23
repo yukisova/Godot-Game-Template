@@ -4,12 +4,9 @@
 ## 功能特性：策略模式设计、与相机组件无缝集成、可配置的跟随参数、平滑过渡支持
 ## [br][b]编辑者:[/b] Sora
 @abstract class_name CameraFollowStrategy
-extends Node
-
-## 绑定的相机组件
-## 策略将作用于此相机组件，由相机组件在初始化时设置
-var c_camera: CCamera
+extends Resource
 
 ## 执行跟随策略，每帧调用的核心相机跟随逻辑实现
+## [param c_camera]: 相机组件
 ## [param _delta]: 帧时间间隔
-@abstract func _strategy(_delta: float) -> void
+@abstract func _strategy(c_camera: CCamera, _delta: float) -> void

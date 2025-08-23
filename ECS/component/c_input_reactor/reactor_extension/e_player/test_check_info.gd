@@ -37,6 +37,9 @@
 ## [br][b]编辑者:[/b] Sora
 extends ReactorExtension
 
+func _setup():
+	pass
+
 ## 监听调试输入（重写方法）
 ## 
 ## 处理开发调试相关的输入操作。
@@ -45,7 +48,7 @@ func _listen():
 		# 查看全局状态机现在的状态
 		var state = SGameState.state_machine._get_leaf_state()
 		print("当前游戏状态: ", state.name)
-	elif Input.is_action_just_pressed("test_saving"):
+	elif c_input_reactor.validate_control("test_saving", SoraConstant.InputType.JUST_PRESSED, true):
 		# 手动触发存档保存
 		print("测试: 手动触发存档保存")
 		SLoadAndSave.saving_started.emit()

@@ -14,3 +14,10 @@ var texture_toward: Vector2 = Vector2.RIGHT:
 
 func _initialize():
 	packed_sprite_editor._initialize()
+
+func _update(_delta: float) -> void:
+	packed_sprite_editor._update(_delta)
+
+## 尝试播放动画
+func try_animation(animation_name: String) -> bool:
+	return false

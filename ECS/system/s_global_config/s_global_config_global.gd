@@ -455,6 +455,59 @@ static func reset_action_to_default(action_name: String):
 	else:
 		push_warning("配置系统: 默认配置中未找到动作 -> ", action_name)
 
+# 使用SoraConstant中定义的枚举
+# enum InputTarget -> SoraConstant.InputTarget 
+# enum ListenType -> SoraConstant.InputType
+
+## 检查是否触发指定动作，根据输入目标和输入类型检查动作是否被触发
+## [param input_target]: 输入目标，类型为 [SoraConstant.InputTarget]
+## [param action_name]: 动作名称
+## [param action_type]: 输入类型，类型为 [SoraConstant.InputType]
+## [br][br][b]返回:[/b] 是否触发
+static func is_action_triggered(input_target: SoraConstant.InputTarget, action_name: String, action_type: SoraConstant.InputType) -> bool:
+	match input_target:
+		SoraConstant.InputTarget.COMMON:
+			var fixed_action_name = "common_" + action_name
+			match action_type:
+				SoraConstant.InputType.JUST_PRESSED:
+					return Input.is_action_just_pressed(fixed_action_name)
+				SoraConstant.InputType.PRESSED:
+					return Input.is_action_pressed(fixed_action_name)
+				SoraConstant.InputType.JUST_RELEASED:
+					return Input.is_action_just_released(fixed_action_name)
+				_:
+					push_warning("配置系统: 不支持的输入类型 -> ", action_type)
+					return false
+		SoraConstant.InputTarget.PLAYER1:
+			var fixed_action_name = "player1_" + action_name
+			match action_type:
+				SoraConstant.InputType.JUST_PRESSED:
+					return Input.is_action_just_pressed(fixed_action_name)
+				SoraConstant.InputType.PRESSED:
+					return Input.is_action_pressed(fixed_action_name)
+				SoraConstant.InputType.JUST_RELEASED:
+					return Input.is_action_just_released(fixed_action_name)
+				_:
+					push_warning("配置系统: 不支持的输入类型 -> ", action_type)
+					return false
+		SoraConstant.InputTarget.PLAYER2:
+			var fixed_action_name = "player2_" + action_name
+			match action_type:
+				SoraConstant.InputType.JUST_PRESSED:
+					return Input.is_action_just_pressed(fixed_action_name)
+				SoraConstant.InputType.PRESSED:
+					return Input.is_action_pressed(fixed_action_name)
+				SoraConstant.InputType.JUST_RELEASED:
+					return Input.is_action_just_released(fixed_action_name)
+				_:
+					push_warning("配置系统: 不支持的输入类型 -> ", action_type)
+					return false
+		_:
+			push_warning("配置系统: 不支持的输入目标 -> ", input_target)
+			return false
+
+
+
 ## 导出当前键位配置，返回当前所有键位绑定的配置字典，可用于保存到文件
 ## [br][br][b]返回:[/b] 键位配置字典
 static func export_current_keymap() -> Dictionary:
@@ -518,11 +571,31 @@ func _config_info_parser(_setting: Dictionary):
 	var keymap = _setting.get("keymap", {}) as Dictionary
 	var _display = _setting.get("display", {}) as Dictionary
 	
-	print("配置系统: 找到 ", keymap.size(), " 个键位绑定")
+	print("配置系统: 找到 ", keymap.size(), " 个键位集合")
 	
-	# 应用所有键位绑定
-	for keyword in keymap.keys():
-		update_action(keyword, keymap[keyword])
+	# 应用分层键位绑定
+	for keymap_id in keymap.keys():
+		var bindings = keymap[keymap_id] as Dictionary
+		print("配置系统: 处理键位集合 ", keymap_id, " - ", bindings.size(), " 个绑定")
+		
+		# 根据键位集合ID确定前缀
+		var prefix = ""
+		match keymap_id:
+			0:
+				prefix = "common_"
+			1:
+				prefix = "player1_"
+			2:
+				prefix = "player2_"
+			_:
+				push_warning("配置系统: 未知的键位集合ID -> ", keymap_id)
+				continue
+		
+		# 应用该集合中的所有键位绑定
+		for action_name in bindings.keys():
+			var input_config = bindings[action_name]
+			var full_action_name = prefix + action_name
+			update_action(full_action_name, input_config)
 	
 	# TODO: 应用显示设置
 	# 例如：分辨率、全屏模式、垂直同步等
@@ -530,11 +603,6 @@ func _config_info_parser(_setting: Dictionary):
 	# TODO: 应用音频设置
 	# 例如：主音量、音效音量、背景音乐音量等
 	
-	# 验证关键按键是否正确设置
-	if InputMap.has_action("interact"):
-		print("配置系统: 'interact' 动作已正确创建")
-	else:
-		push_warning("配置系统: 'interact' 动作未能创建")
 	
 	# 标记配置系统已初始化
 	is_initialized = true

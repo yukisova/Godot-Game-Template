@@ -1,0 +1,16 @@
+[remap]
+
+importer="dialogue_manager"
+importer_version=15
+type="Resource"
+uid="uid://wicece74x0ym"
+path="res://.godot/imported/sight_light_索拉的世界.dialogue-f75ecd745ce2731bc3f54fbad7690990.tres"
+
+[deps]
+
+source_file="res://resource/plugins_resource/dialogue/sight_light_索拉的世界.dialogue"
+dest_files=["res://.godot/imported/sight_light_索拉的世界.dialogue-f75ecd745ce2731bc3f54fbad7690990.tres"]
+
+[params]
+
+defaults=true

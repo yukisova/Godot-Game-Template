@@ -7,7 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://tufppmw8gluy" path="res://resource/node_template/map/tilemap/floating/wall.tscn" id="5_kx13j"]
 [ext_resource type="TileSet" uid="uid://uv8m2iijojh1" path="res://resource/resource_template/tileset/tileset_test_wall_16.tres" id="6_al1pc"]
 [ext_resource type="PackedScene" uid="uid://de3o6pll5kxdx" path="res://resource/node_template/map/player_spawn.tscn" id="7_u2pkt"]
-[ext_resource type="PackedScene" uid="uid://ht3v3wnr5dy" path="res://entity/entity_packed/fixed_entity/enemy/测试用的敌人.tscn" id="8_xtmdv"]
+[ext_resource type="PackedScene" uid="uid://ht3v3wnr5dy" path="res://entity/entity_packed/fixed_entity/enemy/哥布林.tscn" id="8_xtmdv"]
 [ext_resource type="PackedScene" uid="uid://ceewa82bai01n" path="res://entity/entity_packed/fixed_entity/people/出木杉.tscn" id="9_ufdh5"]
 [ext_resource type="PackedScene" uid="uid://dbswip03t13sy" path="res://component/c_interactable/c_interactable.tscn" id="10_jimvk"]
 [ext_resource type="Script" uid="uid://djglhr34yxc4x" path="res://component/c_interactable/interaction/interaction_dialogue.gd" id="11_woci2"]
@@ -26,7 +26,7 @@
 [ext_resource type="Script" uid="uid://dprng288c4b2f" path="res://component/c_collision_box/box_collision/hit_box/hit_effect/status_effect.gd" id="24_rw2nw"]
 [ext_resource type="Texture2D" uid="uid://kbkgom7sc05c" path="res://asset/item_texture/ItemIcon.png" id="25_lh8ta"]
 [ext_resource type="Script" uid="uid://bie3fadk4fwqc" path="res://resource/custom_resource/item/item_weapon/item_weapon.gd" id="26_p2qfc"]
-[ext_resource type="PackedScene" uid="uid://cp3qo45fcw0ix" path="res://resource/custom_resource/item/item_weapon/1_木剑/attack_node_WOODS.tscn" id="27_wn6w5"]
+[ext_resource type="PackedScene" uid="uid://cp3qo45fcw0ix" path="res://resource/custom_resource/item/item_weapon/1_剑/attack_node_SWORD.tscn" id="27_wn6w5"]
 [ext_resource type="PackedScene" uid="uid://dofu8tj40v5it" path="res://entity/entity_packed/object_entity/transport_point/transport_point.tscn" id="28_h0dd5"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_p2mf1"]

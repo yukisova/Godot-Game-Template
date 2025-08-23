@@ -1,0 +1,466 @@
+[gd_scene load_steps=52 format=3 uid="uid://chcm2vu8h6bs1"]
+
+[ext_resource type="PackedScene" uid="uid://6jpwo3n27sj2" path="res://entity/entity_packed/fixed_entity/fixed_entity.tscn" id="1_sndhc"]
+[ext_resource type="Script" uid="uid://815l8mjrysw1" path="res://entity/entity_packed/fixed_entity/player/i_player.gd" id="2_ptxrt"]
+[ext_resource type="PackedScene" uid="uid://cq0u8u1qie88t" path="res://entity/entity_packed/entity_template/character_body.tscn" id="3_5rdkg"]
+[ext_resource type="PackedScene" uid="uid://bvjy63fua1sx2" path="res://component/c_texture_controller/c_texture_controller.tscn" id="4_8syy5"]
+[ext_resource type="PackedScene" uid="uid://d2tk65us0wyr0" path="res://component/c_texture_controller/packed_texture/packed_man2/packed_man_se.tscn" id="5_0s3qs"]
+[ext_resource type="Texture2D" uid="uid://y5p4oy8wj6es" path="res://asset/sightlight_gj/人物身体.png" id="6_lxubv"]
+[ext_resource type="PackedScene" uid="uid://c53e5fli1nuy2" path="res://resource/custom_resource/item/item_weapon/2_杖/attack_node_POE.tscn" id="7_1b2i3"]
+[ext_resource type="PackedScene" uid="uid://caj56l0yail7q" path="res://component/c_status_list/c_status_list.tscn" id="8_rjfa5"]
+[ext_resource type="Script" uid="uid://0y7pq6c8rex1" path="res://component/c_status_list/status_extension/inventory/inventory.gd" id="9_8f22p"]
+[ext_resource type="Script" uid="uid://0y58wickfubb" path="res://resource/custom_resource/item/item.gd" id="10_cgq0m"]
+[ext_resource type="Script" uid="uid://56igfb3mcaca" path="res://component/c_collision_box/box_collision/hit_box/hit_effect/i_hit_effect.gd" id="11_080mj"]
+[ext_resource type="Texture2D" uid="uid://ewy7amr1phx8" path="res://asset/item_texture/new_icon_set.png" id="12_e42fk"]
+[ext_resource type="Script" uid="uid://bie3fadk4fwqc" path="res://resource/custom_resource/item/item_weapon/item_weapon.gd" id="13_r4d1f"]
+[ext_resource type="PackedScene" uid="uid://cp3qo45fcw0ix" path="res://resource/custom_resource/item/item_weapon/1_剑/attack_node_SWORD.tscn" id="14_ohiiy"]
+[ext_resource type="Script" uid="uid://lkyrqci5j6qw" path="res://component/c_status_list/status_extension/equipment/equipment.gd" id="15_y5tah"]
+[ext_resource type="PackedScene" uid="uid://ca1hb1m2dinl2" path="res://component/c_state_machine/c_state_machine.tscn" id="16_iyakk"]
+[ext_resource type="Script" uid="uid://dnmlb5kw5y7u3" path="res://component/c_state_machine/state/hfsm/state/player/sm_player_root.gd" id="17_bpy5q"]
+[ext_resource type="Script" uid="uid://b3dlfvhs4o6ii" path="res://component/c_state_machine/state/hfsm/state/player/state_idle_player.gd" id="18_nhubg"]
+[ext_resource type="Script" uid="uid://cpdkw72ahtbjj" path="res://component/c_state_machine/transition_record.gd" id="19_ir6hb"]
+[ext_resource type="Script" uid="uid://dj1d6vr2iy6ds" path="res://component/c_state_machine/state/hfsm/state/player/state_move_player.gd" id="20_duqih"]
+[ext_resource type="PackedScene" uid="uid://cps21xspaovit" path="res://component/c_collision_box/c_collision.tscn" id="21_0jgkx"]
+[ext_resource type="Script" uid="uid://3c3x3bgxinnw" path="res://component/c_collision_box/box_ray/interact_ray/interact_ray.gd" id="22_8ww0r"]
+[ext_resource type="PackedScene" uid="uid://lu3gu1tfxdey" path="res://component/c_input_reactor/c_input_reactor.tscn" id="23_5hp74"]
+[ext_resource type="Script" uid="uid://bj5wq8iankhmq" path="res://component/c_input_reactor/reactor_extension/e_player/test_check_info.gd" id="24_wjvv2"]
+[ext_resource type="Script" uid="uid://cd4xrbwgqs7p0" path="res://component/c_input_reactor/reactor_extension/e_player/ray_interact_confirm.gd" id="25_21b1q"]
+[ext_resource type="Script" uid="uid://ceknbpsdqqm6d" path="res://component/c_input_reactor/reactor_extension/e_player/ui_panel_open.gd" id="26_wftp7"]
+[ext_resource type="PackedScene" uid="uid://55la10tbk38m" path="res://ui/ui/ui_brain/ui_brain.tscn" id="27_b8220"]
+[ext_resource type="PackedScene" uid="uid://dyxr8eofrj3pw" path="res://ui/ui/ui_pause/ui_pause.tscn" id="28_w252g"]
+[ext_resource type="Script" uid="uid://dgr6bmwmusu73" path="res://component/c_input_reactor/reactor_extension/action_input/action_input.gd" id="29_5rdkg"]
+[ext_resource type="PackedScene" uid="uid://b3vbfhugiqyva" path="res://component/c_action_trigger/c_action_trigger.tscn" id="29_jwfpk"]
+[ext_resource type="Script" uid="uid://05a7wc4gf3hk" path="res://component/c_input_reactor/reactor_extension/action_input/action_input_record.gd" id="30_8syy5"]
+[ext_resource type="Script" uid="uid://dwt0prmf31a5" path="res://component/c_action_trigger/action/update_action/move_vector.gd" id="30_d08t6"]
+[ext_resource type="Script" uid="uid://diltrhqx66gvc" path="res://component/c_action_trigger/action/trigger_action/skill_release_wizard.gd" id="31_oikwr"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_w85nv"]
+atlas = ExtResource("6_lxubv")
+region = Rect2(0, 40, 80, 40)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1wida"]
+atlas = ExtResource("6_lxubv")
+region = Rect2(0, 0, 80, 40)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sndhc"]
+atlas = ExtResource("6_lxubv")
+region = Rect2(80, 40, 40, 40)
+
+[sub_resource type="Animation" id="Animation_1wida"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Whole/Right:x_高度偏移")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Whole/Left:x_高度偏移")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Whole/Left:x_竖握")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Whole/Left:x_自转偏移")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0.0009999999),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Whole/Right:x_公转偏移")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("Whole/Left:x_公转偏移")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("Whole/Left:x_突刺进度")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("Whole/Right:x_突刺进度")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
+[sub_resource type="Animation" id="Animation_52tld"]
+resource_name = "快速魔法"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Whole/Left:x_突刺进度")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.4, 0.53333336, 1),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [0.0, -10.0, 20.0, 0.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Whole/Right:x_突刺进度")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.4, 0.53333336, 1),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [0.0, -10.0, 20.0, 0.0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Whole/Right:x_公转偏移")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [180.0]
+}
+
+[sub_resource type="Animation" id="Animation_w85nv"]
+resource_name = "魔法咏唱"
+length = 1.6
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Whole/Right:x_高度偏移")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [-13.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Whole/Left:x_高度偏移")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [-13.0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Whole/Left:x_竖握")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Whole/Left:x_自转偏移")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.4, 0.8, 1.2, 1.6),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [0.0, 10.0, 0.0, -10.0, 0.0]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Whole/Right:x_公转偏移")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [-140.0]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("Whole/Left:x_公转偏移")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [40.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_1wida"]
+_data = {
+&"RESET": SubResource("Animation_1wida"),
+&"快速魔法": SubResource("Animation_52tld"),
+&"魔法咏唱": SubResource("Animation_w85nv")
+}
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ls5m0"]
+atlas = ExtResource("12_e42fk")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="Resource" id="Resource_k1cn3"]
+script = ExtResource("13_r4d1f")
+weapon_node = ExtResource("14_ohiiy")
+item_nick_name = "SWORD"
+item_name = "剑"
+item_description = "你好"
+item_texture = SubResource("AtlasTexture_ls5m0")
+metadata/_custom_type_script = "uid://bie3fadk4fwqc"
+
+[sub_resource type="Resource" id="Resource_r1axf"]
+script = ExtResource("19_ir6hb")
+to_state = NodePath("../Move")
+metadata/_custom_type_script = "uid://cpdkw72ahtbjj"
+
+[sub_resource type="Resource" id="Resource_ddqps"]
+script = ExtResource("19_ir6hb")
+to_state = NodePath("../Idle")
+metadata/_custom_type_script = "uid://cpdkw72ahtbjj"
+
+[sub_resource type="Resource" id="Resource_0s3qs"]
+script = ExtResource("30_8syy5")
+input_name = "primary_action"
+linkage_node = NodePath("../../CActionTrigger/SkillReleaseWizard")
+input_parameter = Array[int]([0])
+metadata/_custom_type_script = "uid://05a7wc4gf3hk"
+
+[sub_resource type="Resource" id="Resource_lxubv"]
+script = ExtResource("30_8syy5")
+input_name = "secondary_action"
+linkage_node = NodePath("../../CActionTrigger/SkillReleaseWizard")
+input_parameter = Array[int]([1])
+metadata/_custom_type_script = "uid://05a7wc4gf3hk"
+
+[sub_resource type="Resource" id="Resource_1b2i3"]
+script = ExtResource("30_8syy5")
+input_name = "special_action"
+linkage_node = NodePath("../../CActionTrigger/SkillReleaseWizard")
+input_parameter = Array[int]([2])
+metadata/_custom_type_script = "uid://05a7wc4gf3hk"
+
+[sub_resource type="Resource" id="Resource_rjfa5"]
+script = ExtResource("30_8syy5")
+input_name = "skill_0"
+linkage_node = NodePath("../../CActionTrigger/SkillReleaseWizard")
+input_parameter = Array[int]([3])
+metadata/_custom_type_script = "uid://05a7wc4gf3hk"
+
+[sub_resource type="Resource" id="Resource_8f22p"]
+script = ExtResource("30_8syy5")
+input_name = "skill_1"
+linkage_node = NodePath("../../CActionTrigger/SkillReleaseWizard")
+input_parameter = Array[int]([4])
+metadata/_custom_type_script = "uid://05a7wc4gf3hk"
+
+[sub_resource type="Resource" id="Resource_5rdkg"]
+script = ExtResource("30_8syy5")
+input_name = "skill_2"
+linkage_node = NodePath("../../CActionTrigger/SkillReleaseWizard")
+input_parameter = Array[int]([5])
+metadata/_custom_type_script = "uid://05a7wc4gf3hk"
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_qcfhx"]
+size = Vector2(8, 8)
+
+[node name="德利米亚" node_paths=PackedStringArray("main_control", "component_container") instance=ExtResource("1_sndhc")]
+script = ExtResource("2_ptxrt")
+main_control = NodePath("CharacterBody")
+component_container = NodePath("CharacterBody/ComponentContainer")
+
+[node name="CharacterBody" parent="." index="0" groups=["player"] instance=ExtResource("3_5rdkg")]
+y_sort_enabled = true
+
+[node name="CTextureController" parent="CharacterBody/ComponentContainer" index="0" node_paths=PackedStringArray("packed_sprite") instance=ExtResource("4_8syy5")]
+packed_sprite = NodePath("PackedManSe")
+
+[node name="PackedManSe" parent="CharacterBody/ComponentContainer/CTextureController" index="0" instance=ExtResource("5_0s3qs")]
+
+[node name="Body" parent="CharacterBody/ComponentContainer/CTextureController/PackedManSe/Whole/BH" index="0"]
+texture = SubResource("AtlasTexture_w85nv")
+frame = 1
+
+[node name="Head" parent="CharacterBody/ComponentContainer/CTextureController/PackedManSe/Whole/BH" index="1"]
+texture = SubResource("AtlasTexture_1wida")
+frame = 1
+
+[node name="Right" parent="CharacterBody/ComponentContainer/CTextureController/PackedManSe/Whole" index="1" node_paths=PackedStringArray("sprite")]
+z_index = -1
+position = Vector2(-2.6312869, -29.95654)
+default_texture = SubResource("AtlasTexture_sndhc")
+sprite = NodePath("@Sprite2D@81639")
+
+[node name="Left" parent="CharacterBody/ComponentContainer/CTextureController/PackedManSe/Whole" index="2" node_paths=PackedStringArray("sprite")]
+position = Vector2(-2.6312885, -29.95654)
+rotation = -0.1319469
+sprite = NodePath("杖")
+
+[node name="杖" parent="CharacterBody/ComponentContainer/CTextureController/PackedManSe/Whole/Left" index="0" instance=ExtResource("7_1b2i3")]
+
+[node name="PackedSpriteEditor" parent="CharacterBody/ComponentContainer/CTextureController/PackedManSe" index="2" node_paths=PackedStringArray("control_parts")]
+rotation_angle = 0.02100000000000002
+control_parts = {
+&"": NodePath(".."),
+&"Body": NodePath("../Whole/BH/Body"),
+&"Head": NodePath("../Whole/BH/Head"),
+&"Left": NodePath("../Whole/Left"),
+&"Right": NodePath("../Whole/Right")
+}
+
+[node name="AnimationPlayer" parent="CharacterBody/ComponentContainer/CTextureController/PackedManSe" index="3"]
+libraries = {
+&"": SubResource("AnimationLibrary_1wida")
+}
+
+[node name="CStatusList" parent="CharacterBody/ComponentContainer" index="1" instance=ExtResource("8_rjfa5")]
+
+[node name="Inventory" type="Node2D" parent="CharacterBody/ComponentContainer/CStatusList" index="0"]
+script = ExtResource("9_8f22p")
+inventory_array = Array[ExtResource("10_cgq0m")]([SubResource("Resource_k1cn3")])
+
+[node name="Equipment" type="Node2D" parent="CharacterBody/ComponentContainer/CStatusList" index="1"]
+script = ExtResource("15_y5tah")
+
+[node name="CStateMachine" parent="CharacterBody/ComponentContainer" index="2" node_paths=PackedStringArray("root_state_machine") instance=ExtResource("16_iyakk")]
+root_state_machine = NodePath("PlayerSM")
+
+[node name="PlayerSM" type="Node" parent="CharacterBody/ComponentContainer/CStateMachine" index="0"]
+script = ExtResource("17_bpy5q")
+init_state = NodePath("Idle")
+metadata/_custom_type_script = "uid://b5ywitjyd2ccg"
+
+[node name="Idle" type="Node" parent="CharacterBody/ComponentContainer/CStateMachine/PlayerSM" index="0" node_paths=PackedStringArray("vector_move", "c_texture")]
+script = ExtResource("18_nhubg")
+vector_move = NodePath("../../../CActionTrigger/VectorMove")
+c_texture = NodePath("../../../CTextureController")
+hfsm_state_transition = Dictionary[StringName, ExtResource("19_ir6hb")]({
+&"move": SubResource("Resource_r1axf")
+})
+
+[node name="Move" type="Node" parent="CharacterBody/ComponentContainer/CStateMachine/PlayerSM" index="1" node_paths=PackedStringArray("vector_move", "c_texture")]
+script = ExtResource("20_duqih")
+vector_move = NodePath("../../../CActionTrigger/VectorMove")
+c_texture = NodePath("../../../CTextureController")
+hfsm_state_transition = Dictionary[StringName, ExtResource("19_ir6hb")]({
+&"idle": SubResource("Resource_ddqps")
+})
+
+[node name="CCollisionBox" parent="CharacterBody/ComponentContainer" index="3" instance=ExtResource("21_0jgkx")]
+
+[node name="InteractRay" type="RayCast2D" parent="CharacterBody/ComponentContainer/CCollisionBox" index="0"]
+target_position = Vector2(30, 0)
+collision_mask = 2
+script = ExtResource("22_8ww0r")
+
+[node name="CInputReactor" parent="CharacterBody/ComponentContainer" index="4" instance=ExtResource("23_5hp74")]
+
+[node name="TestCheckInfo" type="Node" parent="CharacterBody/ComponentContainer/CInputReactor" index="0"]
+script = ExtResource("24_wjvv2")
+disabled = true
+
+[node name="RayInteractConfirm" type="Node" parent="CharacterBody/ComponentContainer/CInputReactor" index="1" node_paths=PackedStringArray("interact_ray", "c_status")]
+script = ExtResource("25_21b1q")
+interact_ray = NodePath("../../CCollisionBox/InteractRay")
+c_status = NodePath("../../CStatusList")
+
+[node name="UiPanelOpen" type="Node" parent="CharacterBody/ComponentContainer/CInputReactor" index="2" node_paths=PackedStringArray("c_status")]
+script = ExtResource("26_wftp7")
+brain_ui = ExtResource("27_b8220")
+c_status = NodePath("../../CStatusList")
+pause_ui = ExtResource("28_w252g")
+
+[node name="ActionInput" type="Node" parent="CharacterBody/ComponentContainer/CInputReactor" index="3"]
+script = ExtResource("29_5rdkg")
+input_parameter = Array[ExtResource("30_8syy5")]([SubResource("Resource_0s3qs"), SubResource("Resource_lxubv"), SubResource("Resource_1b2i3"), SubResource("Resource_rjfa5"), SubResource("Resource_8f22p"), SubResource("Resource_5rdkg")])
+
+[node name="CActionTrigger" parent="CharacterBody/ComponentContainer" index="5" instance=ExtResource("29_jwfpk")]
+
+[node name="VectorMove" type="Node2D" parent="CharacterBody/ComponentContainer/CActionTrigger" index="0" node_paths=PackedStringArray("c_input", "blackboard")]
+script = ExtResource("30_d08t6")
+c_input = NodePath("../../CInputReactor")
+move_speed = 1000.0
+movement_threshold = 100.0
+blackboard = NodePath("../..")
+
+[node name="SkillReleaseWizard" type="Node2D" parent="CharacterBody/ComponentContainer/CActionTrigger" index="1" node_paths=PackedStringArray("c_texture_controller")]
+script = ExtResource("31_oikwr")
+c_texture_controller = NodePath("../../CTextureController")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody" index="1"]
+shape = SubResource("RectangleShape2D_qcfhx")
+
+[editable path="CharacterBody"]
+[editable path="CharacterBody/ComponentContainer/CTextureController/PackedManSe"]
+[editable path="CharacterBody/ComponentContainer/CStateMachine"]

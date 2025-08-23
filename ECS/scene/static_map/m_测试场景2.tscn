@@ -7,7 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://tufppmw8gluy" path="res://resource/node_template/map/tilemap/floating/wall.tscn" id="5_porm1"]
 [ext_resource type="TileSet" uid="uid://uv8m2iijojh1" path="res://resource/resource_template/tileset/tileset_test_wall_16.tres" id="6_rj3cl"]
 [ext_resource type="PackedScene" uid="uid://de3o6pll5kxdx" path="res://resource/node_template/map/player_spawn.tscn" id="7_2w34n"]
-[ext_resource type="PackedScene" uid="uid://ht3v3wnr5dy" path="res://entity/entity_packed/fixed_entity/enemy/测试用的敌人.tscn" id="8_hpyxi"]
+[ext_resource type="PackedScene" uid="uid://ht3v3wnr5dy" path="res://entity/entity_packed/fixed_entity/enemy/哥布林.tscn" id="8_hpyxi"]
 [ext_resource type="PackedScene" uid="uid://ceewa82bai01n" path="res://entity/entity_packed/fixed_entity/people/出木杉.tscn" id="9_c8elq"]
 [ext_resource type="PackedScene" uid="uid://dbswip03t13sy" path="res://component/c_interactable/c_interactable.tscn" id="10_awqwx"]
 [ext_resource type="Script" uid="uid://djglhr34yxc4x" path="res://component/c_interactable/interaction/interaction_dialogue.gd" id="12_rxujv"]

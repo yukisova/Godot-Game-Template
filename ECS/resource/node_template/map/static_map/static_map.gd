@@ -17,7 +17,18 @@ extends Node
 
 ## 玩家出生点
 ## 指定玩家在此地图中的初始位置和层级，类型为 [PlayerSpawn]
-@export var player_spawn: PlayerSpawn
+@export var player_spawn: PlayerSpawn:
+	set(value):
+		if value == null or value == player_spawn_2:
+			return
+		player_spawn = value
+
+
+@export var player_spawn_2: PlayerSpawn:
+	set(value):
+		if value == null or value == player_spawn:
+			return
+		player_spawn_2 = value
 
 ## 地图时间
 ## 控制昼夜循环的时间值（0.0-1.0），影响地图滤镜效果
@@ -88,9 +99,14 @@ func _enter_tree() -> void:
 	
 	# 移除了filter_changed信号连接，改为直接方法调用避免递归
 	print("静态地图: 初始化完成，层级数量: ", level_count)
-	
+
 	for level in levels.get_children():
 		if level is Level:
+			# 创建一个子视口，用于隔离level的渲染
+			var viewport = SubViewport.new()
+			levels.add_child(viewport)
+			level.reparent(viewport)
+
 			level.level_fully_loaded.connect(_on_level_fully_loaded)
 			level.level_entity_fully_initialize.connect(_on_level_entity_fully_loaded)
 			level.static_map = self

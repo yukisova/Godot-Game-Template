@@ -27,9 +27,6 @@ func _enter_tree() -> void:
 func _initialize(_owner: IEntity, _load_data: Dictionary = {}):
 	super._initialize(_owner, _load_data)
 	
-	# 绑定相机策略到组件
-	camera_strategy.c_camera = self
-	
 	# 设置当前关卡的相机边界
 	if SMapData.current_level:
 		set_camera_limit(SMapData.current_level.get_camera_limit())
@@ -51,7 +48,7 @@ func set_camera_limit(limit_dict: Dictionary):
 ## [param _delta]: 帧时间间隔
 func _update(_delta: float):
 	if camera_strategy:
-		camera_strategy._strategy(_delta)
+		camera_strategy._strategy(self, _delta)
 
 ## 获取相机位置，返回相机在世界坐标系中的位置
 func get_camera_position() -> Vector2:

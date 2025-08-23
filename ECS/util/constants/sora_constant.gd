@@ -52,40 +52,85 @@ enum StatusEnum {
 ## 支持键盘和鼠标按键绑定的多种配置格式。类型为 [Dictionary]。
 const BASIC_SETTING: Dictionary = {
 	"keymap": {
-		# 基础移动操作（键盘）
-		"move_l": KEY_A,           # 向左移动
-		"move_r": KEY_D,           # 向右移动
-		"move_u": KEY_W,           # 向上移动
-		"move_d": KEY_S,           # 向下移动
-		
-		# 基础交互操作
-		"interact": KEY_SPACE,     # 交互键
-		
-		# 鼠标按键映射示例
-		"primary_action": {        # 主要动作（鼠标左键）
-			"type": "mouse",
-			"button": MOUSE_BUTTON_LEFT
+		## 通用的操作: 按键的映射是
+		0: {
+		# 字符串格式的鼠标按键配置示例
+			"context_menu": "mouse:right",          # 右键菜单
+			"zoom_in": "mouse:wheel_up",           # 放大
+			"zoom_out": "mouse:wheel_down",        # 缩小
+			"quick_select": "mouse:middle+ctrl",   # 快速选择（Ctrl+中键）
+			"brain_trigger": KEY_TAB,
+			"pause_game": KEY_P,
+			"test_saving": KEY_O,
 		},
-		"secondary_action": {      # 次要动作（鼠标右键）
+
+		## 最终的按键映射是以"1"+"_"+"move_l"的形式来获取的
+		1: {
+			"move_l": KEY_A,           # 向左移动
+			"move_r": KEY_D,           # 向右移动
+			"move_u": KEY_W,           # 向上移动
+			"move_d": KEY_S,           # 向下移动
+			"interact": KEY_SPACE,     # 交互键
+			"primary_action": {        # 主要动作（鼠标左键）
+				"type": "mouse",
+				"button": MOUSE_BUTTON_LEFT
+			},
+			"secondary_action": {      # 次要动作（鼠标右键）
 			"type": "mouse", 
 			"button": MOUSE_BUTTON_RIGHT
+			},
+			"special_action": {        # 特殊动作（Ctrl+鼠标左键）
+				"type": "mouse",
+				"button": MOUSE_BUTTON_LEFT,
+				"ctrl": true
+			},
+			"skill_0": {
+				"type": "key",
+				"button": KEY_1
+			},
+			"skill_1": {
+				"type": "key",
+				"button": KEY_2
+			},
+			"skill_2": {
+				"type": "key",
+				"button": KEY_3
+			},
 		},
-		"special_action": {        # 特殊动作（Ctrl+鼠标左键）
-			"type": "mouse",
-			"button": MOUSE_BUTTON_LEFT,
-			"ctrl": true
+
+		2: {
+			"move_l": KEY_LEFT,           # 向左移动
+			"move_r": KEY_RIGHT,          # 向右移动
+			"move_u": KEY_UP,             # 向上移动
+			"move_d": KEY_DOWN,           # 向下移动
+			"interact": KEY_ENTER,        # 交互键
+			"primary_action": {        # 主要动作（鼠标左键）
+				"type": "key",
+				"button": KEY_SPACE
+			},
+			"secondary_action": {      # 次要动作（鼠标右键）
+				"type": "key", 
+				"button": KEY_SPACE
+			},
+			"special_action": {        # 特殊动作（Ctrl+鼠标左键）
+				"type": "mouse",
+				"button": MOUSE_BUTTON_LEFT,
+				"ctrl": true
+			},
+			"skill_0": {
+				"type": "key",
+				"button": KEY_1
+			},
+			"skill_1": {
+				"type": "key",
+				"button": KEY_2
+			},
+			"skill_2": {
+				"type": "key",
+				"button": KEY_3
+			},
 		},
-		
-		# 字符串格式的鼠标按键配置示例
-		"context_menu": "mouse:right",          # 右键菜单
-		"zoom_in": "mouse:wheel_up",           # 放大
-		"zoom_out": "mouse:wheel_down",        # 缩小
-		"quick_select": "mouse:middle+ctrl",   # 快速选择（Ctrl+中键）
-		
-		# 其他功能键
-		"test_saving": KEY_O,      # 测试存档键
-		"brain_trigger": KEY_TAB,  # 思维界面触发键
-		"pause_game": KEY_P        # 暂停游戏键
+	
 	},
 	"display": {
 		"window": WINDOWED,        # 窗口模式
@@ -120,8 +165,13 @@ enum {
 ## 
 ## 定义不同的输入检测方式，用于精确的输入时机控制。
 enum InputType {
-	Pressed = 0,     ## 持续按住 - 按键保持按下状态
-	Released,        ## 释放按键 - 按键被释放的状态
-	JustPressed,     ## 刚按下 - 按键刚被按下的瞬间
+	PRESSED = 0,     ## 持续按住 - 按键保持按下状态
+	JUST_RELEASED,        ## 释放按键 - 按键刚被释放的状态
+	JUST_PRESSED,     ## 刚按下 - 按键刚被按下的瞬间
+}
+enum InputTarget {
+	COMMON,
+	PLAYER1,
+	PLAYER2
 }
 

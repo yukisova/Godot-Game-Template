@@ -9,9 +9,22 @@ extends ReactorExtension
 ## 所有节点都会跟随鼠标位置移动
 @export var mouse_focus: Array[Node2D]
 
+func _setup():
+	pass
+
 ## 每帧更新所有焦点节点位置到鼠标位置
 func _listen():
+	# 获取视口宽度
+	var viewport_width = get_viewport().size.x
+	
 	# 遍历所有焦点节点，将其位置设置为鼠标位置
 	for focus_node in mouse_focus:
 		if is_instance_valid(focus_node):
-			focus_node.global_position = focus_node.get_global_mouse_position() if get_viewport() else Vector2.ZERO
+			# 获取当前鼠标位置
+			var mouse_pos = focus_node.get_global_mouse_position()
+			
+			# 限制鼠标位置在右半边屏幕
+			mouse_pos.x = max(viewport_width / 2, mouse_pos.x)
+			
+			# 更新节点位置
+			focus_node.global_position = mouse_pos if get_viewport() else Vector2.ZERO

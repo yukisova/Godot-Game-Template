@@ -4,7 +4,7 @@
 [ext_resource type="Script" uid="uid://56igfb3mcaca" path="res://component/c_collision_box/box_collision/hit_box/hit_effect/i_hit_effect.gd" id="2_fi1m6"]
 [ext_resource type="Texture2D" uid="uid://ewy7amr1phx8" path="res://asset/item_texture/new_icon_set.png" id="3_03clg"]
 [ext_resource type="Script" uid="uid://bie3fadk4fwqc" path="res://resource/custom_resource/item/item_weapon/item_weapon.gd" id="4_4ut3u"]
-[ext_resource type="PackedScene" uid="uid://cp3qo45fcw0ix" path="res://resource/custom_resource/item/item_weapon/1_木剑/attack_node_WOODS.tscn" id="5_i5xxf"]
+[ext_resource type="PackedScene" uid="uid://cp3qo45fcw0ix" path="res://resource/custom_resource/item/item_weapon/1_剑/attack_node_SWORD.tscn" id="5_i5xxf"]
 [ext_resource type="Script" uid="uid://wcevel5e7d2p" path="res://resource/custom_resource/save_resource.gd" id="6_yv7q5"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ajmlm"]

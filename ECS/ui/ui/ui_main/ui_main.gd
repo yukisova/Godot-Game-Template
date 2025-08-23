@@ -36,11 +36,13 @@ extends IUi
 ## 在界面显示时自动播放的BGM，类型为 [AudioStream]。
 @export var bgm: AudioStream
 
+@export var play_type : SMainController.PlayType = SMainController.PlayType.SINGLE
 #endregion
 
 #region UI按钮组件
 
 @export_subgroup("依赖")
+
 
 ## 继续游戏按钮
 ## 
@@ -72,6 +74,8 @@ extends IUi
 ## 关闭游戏应用程序，类型为 [FuncButton]。
 @export var quit_game_button: FuncButton
 
+@export var two_player: Node2D
+
 #endregion
 
 #region UI初始化
@@ -87,10 +91,12 @@ func _main_setup() -> void:
 	# 设置淡入动画效果
 	var control = get_child(0) as Control
 	control.modulate.a = 0
+	two_player.modulate.a = 0
 	var tween: Tween = get_tree().create_tween()
 	tween.set_ease(Tween.EASE_IN)
 	tween.set_trans(Tween.TRANS_CUBIC)
 	tween.tween_property(control, "modulate:a", 1.0, 1.0)
+	tween.parallel().tween_property(two_player, "modulate:a", 1.0, 1.0)
 	
 	# 绑定各按钮的点击事件
 	_setup_button_bindings()
@@ -109,6 +115,7 @@ func _setup_button_bindings():
 	# 测试游戏按钮 - 快速进入测试模式
 	test_game_button.pressed.connect(Callable(func(_args):
 		print("主菜单UI: 启动测试游戏")
+		SMainController.play_type = play_type
 		var game_state_machine = SGameState.state_machine as StateMachineHfsm 
 		
 		var current_state = game_state_machine._get_active_state()
@@ -124,13 +131,17 @@ func _setup_button_bindings():
 	).bind(test_game_button.args))
 	
 	# 开始游戏按钮 - 进入开场剧情
-	start_game_button.pressed.connect(Callable(func(_args):
-		print("主菜单UI: 开始新游戏")
-		SAudioMaster.play_music(null)
+	# start_game_button.pressed.connect(Callable(func(_args):
+	# 	print("主菜单UI: 开始新游戏")
+	# 	SAudioMaster.play_music(null)
 		
-		var start_game_ui = load(_args[0] as String) as PackedScene
-		SUiSpawner._spawn_ui(start_game_ui, {}, true)
-	).bind(start_game_button.args))
+	# 	var start_game_ui = load(_args[0] as String) as PackedScene
+	# 	SUiSpawner._spawn_ui(start_game_ui, {}, true)
+	# ).bind(start_game_button.args))
+	## 进入一个小过场，让两个玩家自行选择要操控的角色
+	start_game_button.pressed.connect(func():
+		__start_game_cutscene()
+	)
 	
 	# 加载游戏按钮 - 从存档恢复游戏
 	# TODO: 完善游戏存档模块的加载逻辑
@@ -167,3 +178,15 @@ func _setup_button_bindings():
 	)
 
 #endregion
+
+@export var animation_player: AnimationPlayer
+@export var texture_rect: TextureRect
+## 点击开始游戏后的过场
+func __start_game_cutscene():
+	var tween: Tween = get_tree().create_tween()
+	var margin_container: MarginContainer = start_game_button.get_parent().get_parent()
+	tween.tween_property(margin_container, "modulate:a", 0, 1.0)
+	tween.tween_callback(func():
+		animation_player.play("start_game_cutscene")
+	)
+	await animation_player.animation_finished

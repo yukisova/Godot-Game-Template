@@ -6,13 +6,6 @@
 class_name CInputReactor
 extends IComponent
 
-## 输入控制模式枚举
-## 判断按键的不同触发状态
-enum ControlMode{ 
-	just_pressed = 0,  ## 刚按下
-	pressed,           ## 持续按住
-	just_release       ## 刚释放
-}
 
 ## 移动方向模式
 ## 支持不同的移动控制方式
@@ -20,7 +13,7 @@ enum ControlMode{
 
 ## 功能禁用标志位
 ## 控制组件的特定功能开关
-@export_flags("向量监听","主控") var disable_flag: int:
+@export_flags("向量监听") var disable_flag: int:
 	set(v):
 		disable_flag = v
 		notify_property_list_changed()
@@ -28,7 +21,8 @@ enum ControlMode{
 ## 输入向量字典
 ## 存储不同类型的输入向量
 var input_vector_dict: Dictionary[String, Vector2] = {
-	"move" : Vector2.ZERO
+	"move" : Vector2.ZERO,
+	"toward" : Vector2.ZERO
 }
 
 ## 输入响应扩展组件数组
@@ -53,12 +47,14 @@ func _initialize(_owner: IEntity, _load_data: Dictionary = {}):
 	
 	if component_owner == SMainController.player_static:
 		SMainController.input_listener.binding_input_component = self
-		disable_flag |= 0b010
+	elif component_owner == SMainController.player_static_2:
+		SMainController.input_listener_2.binding_input_component = self
 	
 	for i in get_children():
 		if i is ReactorExtension:
 			reactor_extension.append(i)
 			i.c_input_reactor = self
+			i._setup()
 	
 	initialize_complete.emit()
 			
@@ -69,15 +65,12 @@ func _initialize(_owner: IEntity, _load_data: Dictionary = {}):
 ## [param key_string]: 输入动作名称，必须在输入映射中定义
 ## [param control_mode]: 控制模式，参见 [enum ControlMode]
 ## [br][br][b]返回:[/b] [bool] 该输入是否满足指定的控制模式
-func validate_control(key_string: StringName, control_mode: ControlMode = ControlMode.just_pressed) -> bool:
+func validate_control(basic_key: StringName, control_mode: SoraConstant.InputType = SoraConstant.InputType.JUST_PRESSED, is_common: bool = false) -> bool:
 	if (SGlobalConfig.is_initialized):
-		match control_mode:
-			ControlMode.just_pressed:
-				return Input.is_action_just_pressed(key_string)
-			ControlMode.pressed:
-				return Input.is_action_pressed(key_string)
-			ControlMode.just_release:
-				return Input.is_action_just_released(key_string)
+		if is_common:
+			return SGlobalConfig.is_action_triggered(SoraConstant.InputTarget.COMMON, basic_key, control_mode)
+		else:
+			return SGlobalConfig.is_action_triggered(SMainController.get_input_target(component_owner), basic_key, control_mode)
 	return false
 
 #region 输入向量处理
@@ -86,16 +79,17 @@ func validate_control(key_string: StringName, control_mode: ControlMode = Contro
 ## 根据当前设置的移动模式返回对应的输入向量数据。
 ## [br][br][b]返回:[/b] [Dictionary] 包含向量信息的字典，包含"vec"和可能的"pre_vec"键
 func try_input_vector() -> Dictionary:
+	var entity_input_target: SoraConstant.InputTarget = SMainController.get_input_target(component_owner)
 	if (SGlobalConfig.is_initialized):
 		match award_mode:
 			"横版":
-				return SMainController._vec_input_2_toward()
+				return SMainController._vec_input_2_toward(entity_input_target)
 			"四向":
-				return SMainController._vec_input_4_toward()
+				return SMainController._vec_input_4_toward(entity_input_target)
 			"八向":
-				return SMainController._vec_input_8_toward()
+				return SMainController._vec_input_8_toward(entity_input_target)
 			"全向":
-				return SMainController._vec_input_a_toward()
+				return SMainController._vec_input_a_toward(entity_input_target)
 			_:
 				push_error("输入模式配置错误: " + award_mode)
 	return {}
@@ -104,13 +98,12 @@ func try_input_vector() -> Dictionary:
 ## 
 ## 内部调用 [method try_input_vector] 并提取移动向量。
 ## [br][br][b]返回:[/b] [Vector2] 当前帧的移动向量
-func _try_vector_control() -> Vector2:
+func _try_vector_control() -> Dictionary:
 	if (SGlobalConfig.is_initialized):
 		var input_move_info: Dictionary = try_input_vector()
-		var input_move_vector: Vector2 = input_move_info.get("vec", Vector2.ZERO) as Vector2
-		return input_move_vector
+		return input_move_info
 	else:
-		return Vector2.ZERO
+		return {}
 #endregion
 
 #region 测试功能
@@ -128,22 +121,24 @@ func _try_save_game():
 ## 同时调用所有扩展组件的监听功能
 func _avaliable_in_gaming():
 	# 更新移动向量
-	input_vector_dict.move = _try_vector_control()
+	var input_vector_dict_update: Dictionary = _try_vector_control()
+	input_vector_dict.move = input_vector_dict_update.get("vec", Vector2.ZERO) as Vector2
+	if input_vector_dict_update.has("pre_vec"):
+		input_vector_dict.toward = input_vector_dict_update.get("pre_vec", Vector2.ZERO) as Vector2
+	
 
 	# 处理交互输入
-	if validate_control("interact", ControlMode.just_pressed):
+	if validate_control("interact", SoraConstant.InputType.JUST_PRESSED):
 		if interact_obj != null:
 			interact_obj.interact_activated.emit(component_owner)
 	
 	# 调用扩展组件的监听功能
 	for extension in reactor_extension:
-		extension._listen()
+		if !extension.disabled:
+			extension._listen()
 #endregion
 
 func _validate_property(property: Dictionary) -> void:
-	if disable_flag & 0b010 != 0:
-		if property.name == "brain_ui" or property.name == "pause_ui":
-			property.usage = PROPERTY_USAGE_NO_EDITOR
 	if disable_flag & 0b001 != 0:
 		if property.name == "award_mode":
 			property.usage = PROPERTY_USAGE_NO_EDITOR

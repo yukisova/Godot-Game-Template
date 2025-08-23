@@ -9,5 +9,11 @@ extends Node
 ## 扩展通过此组件访问输入状态
 var c_input_reactor: CInputReactor
 
+## 
+@export var disabled: bool = false
+
 ## 每帧调用的输入监听逻辑
+@abstract func _setup()
+
 @abstract func _listen()
+

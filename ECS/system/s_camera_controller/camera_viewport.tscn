@@ -1,0 +1,26 @@
+[gd_scene load_steps=2 format=3 uid="uid://bt6ugweawmepr"]
+
+[ext_resource type="Script" uid="uid://dhhe83ywn3067" path="res://system/s_camera_controller/camera_viewport.gd" id="1_gpenl"]
+
+[node name="SubViewportContainer" type="SubViewportContainer" node_paths=PackedStringArray("camera", "viewport")]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("1_gpenl")
+camera = NodePath("SubViewport/Node2D/Camera2D")
+viewport = NodePath("SubViewport")
+
+[node name="SubViewport" type="SubViewport" parent="."]
+handle_input_locally = false
+canvas_item_default_texture_filter = 0
+render_target_update_mode = 4
+
+[node name="Node2D" type="Node2D" parent="SubViewport"]
+
+[node name="Camera2D" type="Camera2D" parent="SubViewport/Node2D"]
+zoom = Vector2(1.5, 1.5)
+position_smoothing_enabled = true

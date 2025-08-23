@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://56igfb3mcaca" path="res://component/c_collision_box/box_collision/hit_box/hit_effect/i_hit_effect.gd" id="1_jq0ft"]
 [ext_resource type="Script" uid="uid://bie3fadk4fwqc" path="res://resource/custom_resource/item/item_weapon/item_weapon.gd" id="2_ekayf"]
-[ext_resource type="PackedScene" uid="uid://cp3qo45fcw0ix" path="res://resource/custom_resource/item/item_weapon/1_木剑/attack_node_WOODS.tscn" id="3_l2t05"]
+[ext_resource type="PackedScene" uid="uid://cp3qo45fcw0ix" path="res://resource/custom_resource/item/item_weapon/1_剑/attack_node_SWORD.tscn" id="3_l2t05"]
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_jq0ft"]
 load_path = "res://.godot/imported/new_icon_set.png-a43c24d191d88a9292420a40662b406f.ctex"

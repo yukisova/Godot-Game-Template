@@ -1,32 +1,13 @@
-
-@tool
-class_name PackedPart
-extends Node2D
-
 ## [b]打包纹理部件类[/b]
 ##
 ## 用于管理角色身体各个部位的纹理组件。[br]
 ## 支持编辑器实时预览和运行时动态纹理管理。
-##
-## [b]主要功能:[/b]
-## [color=green]•[/color] 自动创建和管理[color=blue]Sprite2D[/color]节点[br]
-## [color=green]•[/color] 编辑器中的[b]实时纹理预览[/b][br]
-## [color=green]•[/color] 运行时[b]纹理动态切换[/b][br]
-## [color=green]•[/color] 纹理资源的[b]延迟加载[/b]
-##
-## [b]设计特点:[/b]
-## [color=yellow]•[/color] [b]轻量级[/b]的纹理容器[br]
-## [color=yellow]•[/color] 支持[color=orange]编辑器工具模式[/color][br]
-## [color=yellow]•[/color] 自动处理[color=blue]节点生命周期[/color][br]
-## [color=yellow]•[/color] 兼容[color=purple]打包精灵系统[/color]
-##
-## [b]使用场景:[/b]
-## [color=red]•[/color] 角色身体部位（头部、身体、手臂等）[br]
-## [color=red]•[/color] 装备外观切换[br]
-## [color=red]•[/color] 动态纹理组合
-##
-## [br][b]编辑者:[/b] [color=purple]Sora[/color]
+## [br][b]编辑者:[/b] Sora
 
+
+@tool
+class_name PackedPart
+extends Node2D
 ## [b]默认纹理资源[/b]
 ## 
 ## 部件的默认纹理，设置时会自动更新Sprite2D的纹理显示。[br]
@@ -37,22 +18,17 @@ extends Node2D
 			return
 		default_texture = value
 		# 编辑器模式下立即更新纹理显示
-		if Engine.is_editor_hint():
-			if sprite == null:
-				sprite = Sprite2D.new()
-				add_child(sprite)
+		if sprite == null:
+			sprite = Sprite2D.new()
+			add_child(sprite)
 			sprite.texture = default_texture
-@export var is_flip: bool:
-	set(value):
-		is_flip = value
-		if sprite is Sprite2D:
-			sprite.flip_h = is_flip
-
 @export_range(1,2) var hframes: int:
 	set(value):
 		hframes = value
 		if sprite is Sprite2D:
 			sprite.hframes = value
+
+
 
 ## [b]内部Sprite2D节点[/b]
 ## 
@@ -75,9 +51,95 @@ func _ready() -> void:
 	if Engine.is_editor_hint(): 
 		return
 
-	# 运行时模式下创建精灵节点并设置纹理
-	if default_texture != null:
-		if sprite == null:
-			sprite = Sprite2D.new()
-			add_child(sprite)
-		sprite.texture = default_texture
+#region 武器动作
+@export var packed_sprite_editor: PackedSpriteEditor
+
+@export_group("武器动作", "x_")
+## 将武器的握法固定在-90度
+@export var x_竖握: bool = false:
+	set(value):
+		x_竖握 = value
+		if x_竖握:
+			sprite.rotation = deg_to_rad(-90)
+		else:
+			sprite.rotation = 0
+
+## 将武器的握法固定在90度
+@export var x_反握: bool = false:
+	set(value):
+		x_反握 = value
+		if !is_node_ready():
+			return
+		if x_反握:
+			sprite.rotation = deg_to_rad(90)
+		else:
+			sprite.rotation = 0
+
+## 武器挥舞的纹理反转(flip_h)
+var x_纹理反转: bool:
+	set(value):
+		x_纹理反转 = value
+		if !is_node_ready():
+			return
+		if sprite is Sprite2D:
+			sprite.flip_h = x_纹理反转
+		elif sprite is EquipmentNode:
+			sprite.fixed_flip_h(x_纹理反转)
+
+## 默认是逆时针挥舞，如果为true则顺时针挥舞
+@export var x_挥舞方向: bool
+	
+## 武器的强制高度偏移
+@export var x_高度偏移: float
+	
+## 武器挥舞的轨道偏移，对应pse的椭圆
+@export var x_轨道偏移: Vector2 = Vector2(0, 0)
+	
+## 武器挥舞的自转偏移(相对于当前的朝向,分为顺时针和逆时针)
+@export var x_自转偏移: float
+	
+## 武器挥舞的公转偏移(相对于玩家body的朝向,分为顺时针和逆时针)
+## 单位为度
+@export var x_公转偏移: float
+
+
+@export var x_突刺进度: float
+
+var x_基础位置: Vector2
+var x_基础长轴: float
+var x_基础短轴: float
+var x_基础轨道旋转: float
+var x_基础纹理旋转: float
+var x_基础方向: Vector2
+var x_身体z轴: int
+ 
+#endregion
+
+
+func _fixed_transform() -> void:
+	var angle = x_基础轨道旋转 + deg_to_rad(x_公转偏移)
+	var ellipse_x = (x_基础长轴 + x_轨道偏移.x) * cos(angle)
+	var ellipse_y = (x_基础短轴 + x_轨道偏移.y) * sin(angle)
+
+	position = Vector2(ellipse_x, ellipse_y) + x_基础位置 + Vector2(0, x_高度偏移) + x_突刺进度 * x_基础方向
+	var rotation_offset = deg_to_rad(x_自转偏移)
+	if !x_竖握 and !x_反握:
+		if x_纹理反转:
+			rotation_offset = -deg_to_rad(x_自转偏移)
+		rotation = x_基础纹理旋转 + rotation_offset
+	else:
+		if x_纹理反转:
+			rotation_offset = -deg_to_rad(x_自转偏移)
+		rotation = rotation_offset
+	
+	if ellipse_y < 0:
+		z_index = x_身体z轴 - 1  # 在身体后面
+	else:
+		z_index = x_身体z轴 + 1  # 在身体前面
+
+func _update(_delta: float) -> void:
+	_fixed_transform()
+
+func _physics_process(_delta: float) -> void:
+	if Engine.is_editor_hint():
+		_fixed_transform()

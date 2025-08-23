@@ -1,0 +1,24 @@
+[gd_scene load_steps=5 format=3 uid="uid://c53e5fli1nuy2"]
+
+[ext_resource type="Script" uid="uid://cliri1rws7a1l" path="res://resource/custom_resource/item/item_weapon/2_杖/attack_node_POE.gd" id="1_b5tcx"]
+[ext_resource type="PackedScene" uid="uid://bcto662hlps4f" path="res://entity/entity_packed/temp_entity/projectile/测试用子弹.tscn" id="2_e0m26"]
+[ext_resource type="Texture2D" uid="uid://dn6wkba457nce" path="res://asset/sightlight_gj/手部装备.png" id="3_3mxx7"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kvec8"]
+atlas = ExtResource("3_3mxx7")
+region = Rect2(0, 0, 32, 128)
+
+[node name="杖" type="Node2D" node_paths=PackedStringArray("fire_point", "texture")]
+script = ExtResource("1_b5tcx")
+projectile_scene = ExtResource("2_e0m26")
+fire_point = NodePath("FirePoint")
+rotate_able = true
+texture = NodePath("Sprite2D")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+rotation = 1.5707964
+texture = SubResource("AtlasTexture_kvec8")
+offset = Vector2(0, -30)
+
+[node name="FirePoint" type="Marker2D" parent="."]
+position = Vector2(17, -1)

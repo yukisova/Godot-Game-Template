@@ -17,6 +17,11 @@
                 "kanbanViewState": {
                   "kanban-plugin": "board",
                   "list-collapse": [
+                    false,
+                    false,
+                    false,
+                    false,
+                    false,
                     false
                   ]
                 }
@@ -153,7 +158,8 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300
+    "width": 200,
+    "collapsed": true
   },
   "left-ribbon": {
     "hiddenItems": {
@@ -169,8 +175,9 @@
   },
   "active": "fb71f463ede77dec",
   "lastOpenFiles": [
-    "project-management/Project Milestones.md",
+    "kanban_excalidraw/未命名看板.md",
     "kanban_excalidraw/current_advanced.md",
+    "project-management/Project Milestones.md",
     "references/Component Catalog.md",
     "project-management/TODO Lists.md",
     "README.md",

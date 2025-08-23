@@ -20,6 +20,7 @@ enum HandMoveType {
 
 ## 控制部件字典，存储角色各个部位的Node2D引用，常用键名：Body、Head、Left、Right
 @export var control_parts: Dictionary[StringName, Node2D]
+@export var animation_player: AnimationPlayer
 
 ## 手部偏移量，手臂椭圆运动的基础偏移位置，相对于身体中心的偏移量
 @export var hand_offset_y: float = -50
@@ -68,7 +69,8 @@ func fixed_packed_sprite():
 @export var hand_offset_x_left: float = 0
 @export var hand_offset_x_right: float = 0
 
-
+func _ready() -> void:
+	rotation_angle = 0.0
 
 ## 初始化方法，在节点准备就绪时调用，初始化主精灵部件的引用
 func _initialize():
@@ -93,11 +95,11 @@ func toward(direction: Vector2) -> void:
 	sprite_head.frame = 0 if direction.y >= -0.1 else 1
 
 	if hand_move_type == HandMoveType.ELLIPSE:
-		update_hands_rotation(Vector2(0, hand_offset_y), control_parts.get(&"Left", null), direction.rotated(-PI / 2.0).angle(), true)
-		update_hands_rotation(Vector2(0, hand_offset_y), control_parts.get(&"Right", null), direction.rotated(PI / 2.0).angle(), false)
+		update_hands_rotation(direction, Vector2(0, hand_offset_y), control_parts.get(&"Left", null), direction.rotated(-PI / 2.0).angle(), true)
+		update_hands_rotation(direction, Vector2(0, hand_offset_y), control_parts.get(&"Right", null), direction.rotated(PI / 2.0).angle(), false)
 	elif hand_move_type == HandMoveType.LINE:
-		update_hands_rotation(Vector2(hand_offset_x_left, hand_offset_y), control_parts.get(&"Left", null), direction.angle(), true)
-		update_hands_rotation(Vector2(hand_offset_x_right, hand_offset_y), control_parts.get(&"Right", null), direction.angle(), false)
+		update_hands_rotation(direction, Vector2(hand_offset_x_left, hand_offset_y), control_parts.get(&"Left", null), direction.angle(), true)
+		update_hands_rotation(direction, Vector2(hand_offset_x_right, hand_offset_y), control_parts.get(&"Right", null), direction.angle(), false)
 
 
 	
@@ -106,72 +108,63 @@ func toward(direction: Vector2) -> void:
 ## [param base]: 目标手臂节点，要更新的PackedPart对象
 ## [param angle]: 椭圆运动角度（弧度），决定手臂在椭圆轨迹上的位置
 ## [param left_or_right]: 是否是左手，true为左手，false为右手
-func update_hands_rotation(offset: Vector2, base: PackedPart, angle: float, left_or_right: bool = true) -> void:
+func update_hands_rotation(direction: Vector2, offset: Vector2, base: PackedPart, angle: float, left_or_right: bool = true) -> void:
 	if base == null:
 		printerr("base node is null")
 		return
 
 	match hand_move_type:
 		HandMoveType.ELLIPSE:
-			# 根据椭圆参数计算手臂在椭圆轨迹上的位置
-			var ellipse_x = ellipse_body_radius_x * cos(angle)
-			var ellipse_y = ellipse_body_radius_y * sin(angle)
-			var ellipse_position = Vector2(ellipse_x, ellipse_y)
-			
-			# 应用基础偏移量和椭圆位置，确定手臂最终位置
-			base.position = offset + ellipse_position
-			
+			base.x_基础长轴 = ellipse_body_radius_x
+			base.x_基础短轴 = ellipse_body_radius_y
+			base.x_基础轨道旋转 = angle
+			base.x_基础位置 = offset
+			base.x_基础方向 = direction
 			# 根据椭圆位置动态调整z_index实现深度层次
 			var sprite_body: Sprite2D = control_parts.get(&"Body", null)
 			if sprite_body != null:
-				var body_z_index = sprite_body.z_index
-				
-				# 计算手臂在椭圆轨迹上的Y坐标
-				var hand_ellipse_y = ellipse_body_radius_y * sin(angle)
-				
-				# 基于椭圆Y坐标判断手臂的深度层次
-				# 上半椭圆(向上)：手臂在身体后面，下半椭圆(向下)：手臂在身体前面
-				if hand_ellipse_y < 0:
-					base.z_index = body_z_index - 1  # 在身体后面
-				else:
-					base.z_index = body_z_index + 1  # 在身体前面
-				
-							# 根据角度和精灵类型设置翻转状态
-			
+				base.x_身体z轴 = sprite_body.z_index
+
+	
 			if base.sprite is EquipmentNode:
 				# EquipmentNode类型：根据角度阈值设置垂直翻转
-				base.sprite.fixed_flip_h(abs(rotation_angle) > 0.25)
-				if base.sprite.rotate_able:
-					base.sprite.rotation = angle + PI / 2.0 if left_or_right else angle - PI / 2.0
+				var should_flip = abs(rotation_angle) > 0.25
+				base.x_纹理反转 = should_flip == left_or_right
+				if ! base.x_竖握 and ! base.x_反握:
+					base.x_基础纹理旋转 = direction.angle()
 			else:
 				# 普通精灵：根据角度和手部位置设置水平翻转
 				var should_flip = rotation_angle < 0
-				base.is_flip = should_flip == left_or_right
+				base.x_纹理反转 = should_flip == left_or_right
 		HandMoveType.LINE:
-			var line_x = line_body_offset_x * cos(angle)
-			var line_y = line_body_offset_y if sin(angle) > 0 else -line_body_offset_y
-			var line_position = Vector2(line_x, line_y)
+			pass
+			# var line_x = line_body_offset_x * cos(angle)
+			# var line_y = line_body_offset_y if sin(angle) > 0 else -line_body_offset_y
+			# var line_position = Vector2(line_x, line_y)
 
-			base.position = offset + line_position
+			# base.x_基础位置 = offset + line_position
 
-			var sprite_body: Sprite2D = control_parts.get(&"Body", null)
-			if sprite_body != null:
-				var body_z_index = sprite_body.z_index
+			# var sprite_body: Sprite2D = control_parts.get(&"Body", null)
+			# if sprite_body != null:
+			# 	var body_z_index = sprite_body.z_index
 
-				if sin(angle) < 0:
-					base.z_index = body_z_index - 1  # 在身体后面
-				else:
-					base.z_index = body_z_index + 1  # 在身体前面
+			# 	if sin(angle) < 0:
+			# 		base.z_index = body_z_index - 1  # 在身体后面
+			# 	else:
+			# 		base.z_index = body_z_index + 1  # 在身体前面
 			
-			if base.sprite is EquipmentNode:
-				# EquipmentNode类型：根据角度阈值设置垂直翻转
-				base.sprite.fixed_flip_h(abs(rotation_angle) > 0.25)
-				if base.sprite.rotate_able:
-					base.sprite.rotation = angle
-			else:
-				# 普通精灵：根据角度和手部位置设置水平翻转
-				var should_flip = rotation_angle < 0
-				base.is_flip = should_flip == left_or_right
+			# if base.sprite is EquipmentNode:
+			# 	# EquipmentNode类型：根据角度阈值设置垂直翻转
+			# 	base.sprite.fixed_flip_h(abs(rotation_angle) > 0.25)
+			# 	if ! base.x_竖握 and ! base.x_反握:
+			# 		base.sprite.rotation = angle
+
+			# 	base._fixed_transform()
+				
+			# else:
+			# 	# 普通精灵：根据角度和手部位置设置水平翻转
+			# 	var should_flip = rotation_angle < 0
+			# 	base.is_flip = should_flip == left_or_right
 
 
 ## 验证属性，根据手部移动类型，禁用或启用相应的属性编辑器
@@ -185,3 +178,9 @@ func _validate_property(property: Dictionary) -> void:
 		HandMoveType.ELLIPSE:
 			if property.name == "line_body_offset_x" or property.name == "line_body_offset_y" or property.name == "hand_offset_x_left" or property.name == "hand_offset_x_right":
 				property.usage = PROPERTY_USAGE_NO_EDITOR
+	
+func _update(_delta: float) -> void:
+	for part in control_parts.values():
+		if part is PackedPart:
+			part._update(_delta)
+			

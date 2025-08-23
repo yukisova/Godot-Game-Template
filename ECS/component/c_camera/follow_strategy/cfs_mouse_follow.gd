@@ -3,7 +3,7 @@
 ## 策略特性：鼠标位置感应、静态区域设定（避免微小抖动）、平滑过渡效果、可配置的响应速度
 ## 适用场景：射击游戏、探索游戏、需要精确瞄准的游戏、动作冒险游戏
 ## [br][b]编辑者:[/b] Sora
-class_name CameraFollowMouseStrategy
+class_name CFSMouseFollow
 extends CameraFollowStrategy
 
 ## 平滑度参数
@@ -15,10 +15,11 @@ extends CameraFollowStrategy
 const STATIC_ZONE = 20.0
 
 ## 执行鼠标跟随策略，根据鼠标相对于实体的位置计算相机偏移，并应用平滑过渡
+## [param c_camera]: 相机组件
 ## [param _delta]: 帧时间间隔
-func _strategy(_delta: float) -> void:
+func _strategy(c_camera: CCamera, _delta: float) -> void:
 	# 获取鼠标相对于实体的本地位置
-	var mouse_offset = c_camera.component_body.get_local_mouse_position()
+	var mouse_offset = c_camera.component_owner.get_local_mouse_position()
 	
 	# 当鼠标在静态区域内时，相机回到中心位置
 	if mouse_offset.length() < STATIC_ZONE:

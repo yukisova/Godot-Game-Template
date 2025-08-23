@@ -159,7 +159,7 @@ func initialize_collision_navigation_states():
 func enable_all_collision_navigation():
 	print("=== 开始启用楼层 ", level_id, " (", name, ") 的碰撞和导航 ===")
 	_process_all_collision_navigation_recursive(self, true)
-	show()
+	# show()
 	collision_navigation_enabled = true
 	print("=== 完成启用楼层 ", level_id, " (", name, ") 的碰撞和导航 ===")
 
@@ -167,7 +167,7 @@ func enable_all_collision_navigation():
 func disable_all_collision_navigation():
 	print("=== 开始禁用楼层 ", level_id, " (", name, ") 的碰撞和导航 ===")
 	_process_all_collision_navigation_recursive(self, false)
-	hide()
+	# hide()
 	collision_navigation_enabled = false
 	print("=== 完成禁用楼层 ", level_id, " (", name, ") 的碰撞和导航 ===")
 

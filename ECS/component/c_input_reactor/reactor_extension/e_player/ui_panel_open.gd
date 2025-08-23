@@ -17,13 +17,17 @@ extends ReactorExtension
 ## 包含游戏设置、退出游戏等界面
 @export var pause_ui: PackedScene
 
+func _setup():
+	if c_input_reactor.component_owner != SMainController.player_static:
+		disabled = true
+
 ## 检测思维界面和暂停界面的触发按键
 func _listen():
 	# 监听思维界面触发键（默认为Tab键）
-	if c_input_reactor.validate_control("brain_trigger", c_input_reactor.ControlMode.just_pressed):
+	if c_input_reactor.validate_control("brain_trigger", SoraConstant.InputType.JUST_PRESSED, true):
 		# 传递背包数据作为上下文信息
 		SUiSpawner._spawn_ui(brain_ui, {"status": c_status})
 	
 	# 监听暂停界面触发键（默认为P键）
-	elif c_input_reactor.validate_control("pause_game", c_input_reactor.ControlMode.just_pressed):
+	elif c_input_reactor.validate_control("pause_game", SoraConstant.InputType.JUST_PRESSED, true):
 		SUiSpawner._spawn_ui(pause_ui)

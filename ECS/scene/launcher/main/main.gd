@@ -26,6 +26,7 @@ static var ui_view: Node
 ## 节点初始化—设置游戏和UI视图的引用
 func _enter_tree() -> void:
 	game_view = $GameView
+	
 	ui_view = $UiView
 
 ## 主进程准备—连接系统事件并启动系统初始化流程
@@ -51,7 +52,7 @@ func setup_system():
 	SUiSpawner._setup()       # UI管理器
 	SCommandParser._setup()   # 命令解析器
 	SAudioMaster._setup()     # 音频管理器
-
+	SCameraController._setup()# 镜头调度控制器
 	print("主进程: 系统初始化完成")
 	system_setup_completed.emit()
 
@@ -70,7 +71,7 @@ func _on_system_reset_state():
 	SUiSpawner._resetup()
 	SCommandParser._resetup()
 	SAudioMaster._resetup()
-	
+	SCameraController._resetup()
 	print("主进程: 系统重置完成")
 	# 注意：重置时不触发system_setup_completed信号，避免循环引用
 	system_setup_completed.emit()

@@ -25,6 +25,7 @@ buses/default_bus_layout="uid://dipqogdumys7a"
 [autoload]
 
 DialogueManager="*res://addons/dialogue_manager/dialogue_manager.gd"
+SCameraController="*res://system/s_camera_controller/s_camera_controller_global.tscn"
 SAudioMaster="*res://system/s_audio_master/s_audio_master_global.tscn"
 SGameState="*res://system/s_game_state/s_game_state_global.tscn"
 SLoadAndSave="*res://system/s_load_save/s_load_and_save_global.tscn"
@@ -71,7 +72,7 @@ partner=""
 
 [internationalization]
 
-locale/translations_pot_files=PackedStringArray("res://resource/plugins_resource/dialogue/item_seek_dialogue.dialogue", "res://resource/plugins_resource/dialogue/act_1.dialogue", "res://resource/plugins_resource/dialogue/ui_cutscene.dialogue", "res://resource/plugins_resource/dialogue/ep0_暴雨之中.dialogue", "res://resource/plugins_resource/dialogue/test_新功能测试.dialogue")
+locale/translations_pot_files=PackedStringArray("res://resource/plugins_resource/dialogue/item_seek_dialogue.dialogue", "res://resource/plugins_resource/dialogue/act_1.dialogue", "res://resource/plugins_resource/dialogue/ui_cutscene.dialogue", "res://resource/plugins_resource/dialogue/ep0_暴雨之中.dialogue", "res://resource/plugins_resource/dialogue/test_新功能测试.dialogue", "res://resource/plugins_resource/dialogue/sight_light_索拉的世界.dialogue")
 
 [layer_names]
 

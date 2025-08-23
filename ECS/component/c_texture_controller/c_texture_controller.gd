@@ -26,6 +26,8 @@ func _initialize(_owner: IEntity, _load_data: Dictionary = {}):
 	
 	initialize_complete.emit()
 
+func _update(_delta: float):
+	packed_sprite._update(_delta)
 
 #region :存档系统:
 func _save() -> Dictionary:
