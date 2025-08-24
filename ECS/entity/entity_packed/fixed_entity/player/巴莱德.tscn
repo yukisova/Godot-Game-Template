@@ -148,6 +148,18 @@ tracks/8/keys = {
 "update": 0,
 "values": [0.0]
 }
+tracks/9/type = "value"
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/path = NodePath("Whole:position")
+tracks/9/interp = 1
+tracks/9/loop_wrap = true
+tracks/9/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
 
 [sub_resource type="Animation" id="Animation_bsw3x"]
 resource_name = "上挑"
@@ -559,7 +571,7 @@ input_parameter = Array[ExtResource("29_7ry0g")]([SubResource("Resource_hn80f"),
 [node name="VectorMove" type="Node2D" parent="CharacterBody/ComponentContainer/CActionTrigger" index="0" node_paths=PackedStringArray("c_input", "blackboard")]
 script = ExtResource("33_jandi")
 c_input = NodePath("../../CInputReactor")
-move_speed = 1000.0
+move_speed = 2000.0
 movement_threshold = 100.0
 blackboard = NodePath("../..")
 

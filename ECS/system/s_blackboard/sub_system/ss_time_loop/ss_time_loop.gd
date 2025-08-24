@@ -4,10 +4,10 @@
 ## 核心功能：游戏内时间的实时更新和管理、基于游戏状态的时间流速控制、日夜循环的视觉效果切换
 ## 主要特性：24小时制时间系统（1440分钟）、与游戏状态机的集成控制、自动的地图滤镜效果更新
 ## 时间计算：使用分钟为基础单位（0-1439）、每秒游戏时间对应1分钟游戏内时间
-## 架构设计：继承自 [SubSystem] 基类，使用 [signal time_updated] 进行时间广播
+## 架构设计：继承自 [ISubSystem] 基类，使用 [signal time_updated] 进行时间广播
 ## [br][b]编辑者:[/b] Sora
 class_name SSTimeLoop
-extends SubSystem
+extends ISubSystem
 
 ## 时间更新信号
 ## 当游戏内时间发生变化时发出
@@ -36,7 +36,7 @@ var real_time: int:
 
 ## 设置子系统的关键字标识符
 func _enter_tree() -> void:
-	keyword = &"time_loop"
+	keyword = SubSystemType.TIME_LOOP
 
 #region 时间系统的实现
 

@@ -85,7 +85,7 @@ func _on_attack_node_changed(item_weapon: ItemWeapon):
 		current_attack_node.c_status = c_status
 		current_attack_node.hit_effect_list = item_weapon.hit_effect_list.duplicate_deep()
 
-		var texture_controller: CTextureController = c_status.component_owner.list_base_components.get(IComponent.ComponentName.C_TEXTURE_CONTROLLER, null)
+		var texture_controller: CTextureController = c_status.get_other_component(IComponent.ComponentName.C_TEXTURE_CONTROLLER)
 		if texture_controller:
 			var right_part: PackedPart = texture_controller.packed_sprite.packed_sprite_editor.control_parts.get(&"Right", null)
 			if right_part:

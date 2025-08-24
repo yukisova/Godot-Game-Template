@@ -72,3 +72,9 @@ func _load(_dict: Dictionary):
 ## [br][br][b]返回:[/b] 黑板容器实例
 func get_blackboard() -> ContainerBlackboard:
 	return component_owner.component_container
+
+func get_other_component(target_component_name: ComponentName) -> IComponent:
+	var result: IComponent = component_owner.list_base_components.get(target_component_name)
+	if result == null and component_owner is FixedEntity:
+		result = component_owner.list_interface_components.get(target_component_name)
+	return result

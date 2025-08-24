@@ -4,8 +4,12 @@
 [ext_resource type="PackedScene" uid="uid://dbswip03t13sy" path="res://component/c_interactable/c_interactable.tscn" id="3_dsgcy"]
 [ext_resource type="Script" uid="uid://bd68nk7t7petg" path="res://component/c_interactable/interaction/interaction_transport.gd" id="4_ah70y"]
 
-[node name="OneshotPoint" type="Node2D"]
+[node name="OneshotPoint" type="Node2D" node_paths=PackedStringArray("c_interactable")]
 script = ExtResource("1_8o4ao")
+interaction_box = 2
+interaction_disable = null
+interact_is_passive = null
+c_interactable = NodePath("CInteractable")
 
 [node name="CInteractable" parent="." instance=ExtResource("3_dsgcy")]
 

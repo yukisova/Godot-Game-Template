@@ -124,11 +124,12 @@ func _try_save_game():
 func _avaliable_in_gaming():
 	# 更新移动向量
 	var input_vector_dict_update: Dictionary = _try_vector_control()
-	input_vector_dict.move = input_vector_dict_update.get("vec", Vector2.ZERO) as Vector2
-	if input_vector_dict_update.has("pre_vec"):
-		input_vector_dict.toward = input_vector_dict_update.get("pre_vec", Vector2.ZERO) as Vector2
+	var current_move = input_vector_dict_update.get("vec", Vector2.ZERO) as Vector2
 
-	# 处理交互输入
+	input_vector_dict.move = lerp(input_vector_dict.move, current_move, 0.3)
+	if input_vector_dict_update.has("pre_vec"):
+		var current_toward = input_vector_dict_update.get("pre_vec", Vector2.ZERO) as Vector2
+		input_vector_dict.toward = lerp(input_vector_dict.toward, current_toward, 0.3)
 	if validate_control("interact", SoraConstant.InputType.JUST_PRESSED):
 		if interact_obj != null:
 			interact_obj.interact_activated.emit(component_owner)

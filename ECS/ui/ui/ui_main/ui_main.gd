@@ -129,18 +129,13 @@ func _setup_button_bindings():
 		else:
 			push_error("主菜单UI: 状态机错误，当前状态: %s" % [current_state.name])
 	).bind(test_game_button.args))
-	# 开始游戏按钮 - 进入开场剧情
-	#start_game_button.pressed.connect(Callable(func(_args):
-		#print("主菜单UI: 开始新游戏")
-		#SAudioMaster.play_music(null)
-		#
-		#var start_game_ui = load(_args[0] as String) as PackedScene
-		#SUiSpawner._spawn_ui(start_game_ui, {}, true)
-	#).bind(start_game_button.args))
-	# 进入一个小过场，让两个玩家自行选择要操控的角色
-	start_game_button.pressed.connect(func():
-		__start_game_cutscene()
-	)
+	start_game_button.pressed.connect(Callable(func(_args):
+		print("主菜单UI: 开始新游戏")
+		SAudioMaster.play_music(null)
+		
+		var start_game_ui = load(_args[0] as String) as PackedScene
+		SUiSpawner._spawn_ui(start_game_ui, {}, true)
+	).bind(start_game_button.args))
 	
 	# 加载游戏按钮 - 从存档恢复游戏
 	# TODO: 完善游戏存档模块的加载逻辑
@@ -177,72 +172,3 @@ func _setup_button_bindings():
 	)
 
 #endregion
-
-@export var animation_player: AnimationPlayer
-@export var animation_player_a: AnimationPlayer
-@export var animation_player_b: AnimationPlayer
-@export var texture_rect: TextureRect
-@export var start_game_scene: PackedScene
-## 点击开始游戏后的过场
-func __start_game_cutscene():
-	var tween: Tween = get_tree().create_tween()
-	var margin_container: MarginContainer = start_game_button.get_parent().get_parent()
-	tween.tween_property(margin_container, "modulate:a", 0, 1.0)
-	tween.set_parallel().tween_property($Control/TextureRect, "modulate:a", 0, 1.0)
-	tween.tween_callback(func():
-		animation_player.play("start_game_cutscene")
-	)
-	await animation_player.animation_finished
-	
-	animation_player_a.play("过场1_德米利亚醒来")
-	
-	await animation_player_a.animation_finished
-	# 创建并启动对话系统
-	var dialog_panel = dialog_panel_pack.instantiate()
-	add_child(dialog_panel)
-	DialogueManager._start_balloon(dialog_panel, dialog_resource, dialog_label, [])
-	print("开场过场UI: 对话系统已启动")
-	
-	# 等待对话结束
-	await DialogueManager.dialogue_ended
-	print("开场过场UI: 对话流程完成")
-	
-	# 验证并切换游戏状态
-	_transition_to_game()
-
-## 对话面板预制体
-## 
-## 用于显示剧情对话的UI组件预制体。
-const dialog_panel_pack = preload("res://ui/ui_composite/canvas/dialogue_panel/dialog_panel.tscn")
-
-## 对话资源文件
-## 
-## 包含开场剧情对话内容的 [DialogueResource] 资源。
-const dialog_resource = preload("res://resource/plugins_resource/dialogue/sight_light_索拉的世界.dialogue")
-
-## 对话标签
-## 
-## 指定要播放的对话起始点标识符。
-const dialog_label = "开场"
-
-#endregion
-
-
-	
-
-## 过渡到主游戏
-## 
-## 验证状态机并启动主游戏流程。
-func _transition_to_game():
-	SMainController.play_type = play_type
-	var game_state_machine = SGameState.state_machine as StateMachineHfsm 
-	var current_state = game_state_machine._get_active_state()
-	
-	if current_state is GameStartState:
-		print("开场过场UI: 状态机验证通过，开始游戏")
-		current_state.update_trigger = true
-		SMapData.map_registered.emit(start_game_scene)
-		SAudioMaster.play_music(null)
-		unspawn()
-	else:
-		push_error("开场过场UI: 状态机错误，当前状态: %s" % [current_state.name])

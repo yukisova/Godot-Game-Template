@@ -28,7 +28,7 @@ func _trigger_effect(..._args):
 
 	# 获取角色朝向
 	var direction: Vector2 = Vector2.RIGHT
-	var collision_box : CCollisionBox = c_status.component_owner.list_base_components.get(IComponent.ComponentName.C_COLLISION_BOX, null) as CCollisionBox
+	var collision_box : CCollisionBox = c_status.get_other_component(IComponent.ComponentName.C_COLLISION_BOX) as CCollisionBox
 	var interact_ray:InteractRay = collision_box.box_rays.get(CCollisionBox.BoxRayName.INTERACT)
 	if interact_ray:
 		direction = direction.rotated(interact_ray.rotation)

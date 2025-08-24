@@ -4,7 +4,7 @@
 ## 使用场景：游戏首次启动、品牌标识展示、加载时间的优雅过渡、专业游戏的开场体验
 ## 动画特性：支持多个Logo的连续播放、可配置的淡入淡出时长、平滑的三次贝塞尔曲线过渡、黑色背景的专业视觉效果
 ## @editing: Sora
-extends Control
+extends IUi
 
 #region 动画配置
 
@@ -37,7 +37,6 @@ func _enter_tree() -> void:
 	print("Logo过渡: 开始初始化")
 	
 	# 设置黑色背景
-	RenderingServer.set_default_clear_color(Color.BLACK)
 	
 	# 将所有Logo设置为透明
 	for i in display_logos:

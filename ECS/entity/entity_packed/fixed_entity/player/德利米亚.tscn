@@ -468,7 +468,7 @@ input_parameter = Array[ExtResource("30_8syy5")]([SubResource("Resource_0s3qs"),
 [node name="VectorMove" type="Node2D" parent="CharacterBody/ComponentContainer/CActionTrigger" index="0" node_paths=PackedStringArray("c_input", "blackboard")]
 script = ExtResource("30_d08t6")
 c_input = NodePath("../../CInputReactor")
-move_speed = 4000.0
+move_speed = 2000.0
 movement_threshold = 100.0
 blackboard = NodePath("../..")
 

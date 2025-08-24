@@ -6,14 +6,21 @@
 ## 与 [ISystem] 的区别：SubSystem需要持续更新的动态系统，ISystem是一次性初始化的静态系统
 ## 架构设计：继承自 [ISystem] 基类，使用 [annotation @abstract] 标记抽象类
 ## [br][b]编辑者:[/b] Sora
-@abstract class_name SubSystem
+@abstract class_name ISubSystem
 extends ISystem
+
+enum SubSystemType {
+	TIME_LOOP,
+	ITEM_FUSION,
+	STORYER,
+	ENVIRONMENT,
+}
 
 #region 子系统标识
 
 ## 子系统关键字
 ## 用于在黑板系统中识别和管理该子系统，类型为 [StringName]
-var keyword: StringName
+var keyword: SubSystemType
 
 #endregion
 

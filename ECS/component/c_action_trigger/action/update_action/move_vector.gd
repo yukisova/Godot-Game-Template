@@ -78,6 +78,7 @@ func _update(_delta: float):
 	if c_input:
 		if not move_vector.is_zero_approx():
 			# 应用移动：使用lerp实现平滑的速度过渡
+			
 			body.velocity = body.velocity.lerp(move_vector * _delta * 10 * move_speed, _delta * 10)
 		else:
 			# 停止移动：平滑减速到零

@@ -27,8 +27,8 @@ signal blackboard_cleaned(key: StringName)
 ## 子系统字典
 ## 
 ## 存储所有注册的子系统，通过关键字进行索引。
-## 键为子系统的唯一标识符，值为 [SubSystem] 实例。
-var sub_systems: Dictionary[StringName, SubSystem]
+## 键为子系统的唯一标识符，值为 [ISubSystem] 实例。
+var sub_systems: Dictionary[ISubSystem.SubSystemType, ISubSystem]
 
 ## 系统初始化
 ## 
@@ -36,7 +36,7 @@ var sub_systems: Dictionary[StringName, SubSystem]
 func _setup():
 	# 收集所有子系统
 	for child in get_children():
-		if child is SubSystem:
+		if child is ISubSystem:
 			sub_systems[child.keyword] = child
 	
 	# 连接黑板操作信号
@@ -55,6 +55,9 @@ func _setup():
 func _resetup():
 	for subsystem in sub_systems.values():
 		subsystem._resetup()
+
+func get_sub_system(keyword: ISubSystem.SubSystemType) -> ISubSystem:
+	return sub_systems.get(keyword)
 
 ## 主循环更新
 ## 

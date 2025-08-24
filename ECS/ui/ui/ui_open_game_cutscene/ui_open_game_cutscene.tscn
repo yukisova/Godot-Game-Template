@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://dhook0pgtvcv0"]
+
+[ext_resource type="Script" uid="uid://cqmxqe4q41lvl" path="res://ui/ui/ui_open_game_cutscene/ui_open_game_cutscene.gd" id="1_vxrft"]
+
+[node name="UiOpenGameCutscene" type="CanvasLayer"]
+script = ExtResource("1_vxrft")

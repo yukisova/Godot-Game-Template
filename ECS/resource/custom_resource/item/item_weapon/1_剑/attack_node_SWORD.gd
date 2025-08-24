@@ -11,7 +11,7 @@ var current_hitbox_melee: Array[HitboxMelee] = []
 
 ## 武器装备后的
 func _activated():
-	var c_collision_box: CCollisionBox = c_status.component_owner.list_base_components.get(IComponent.ComponentName.C_COLLISION_BOX)
+	var c_collision_box: CCollisionBox = c_status.get_other_component(IComponent.ComponentName.C_COLLISION_BOX)
 	if !c_collision_box:
 		push_error("初始化失败，不存在c_collision_box组件")
 		return
@@ -24,7 +24,7 @@ func _trigger_effect(..._args):
 	if _args.is_empty(): return
 	var hitbox_id = _args[0]
 	if hitbox_melee_prototype.has(hitbox_id):
-		var c_collision_box:CCollisionBox = c_status.component_owner.list_base_components.get(IComponent.ComponentName.C_COLLISION_BOX)
+		var c_collision_box:CCollisionBox = c_status.get_other_component(IComponent.ComponentName.C_COLLISION_BOX)
 		var hitbox_melee = hitbox_melee_prototype[hitbox_id].duplicate()
 		hitbox_melee.c_status = c_status
 		hitbox_melee.hit_effects = hitbox_melee_prototype[hitbox_id].hit_effects
@@ -37,7 +37,7 @@ func _trigger_effect(..._args):
 
 		
 func _trigger_effect_finished(..._args):
-	var c_collision_box:CCollisionBox = c_status.component_owner.list_base_components.get(IComponent.ComponentName.C_COLLISION_BOX)
+	var c_collision_box:CCollisionBox = c_status.get_other_component(IComponent.ComponentName.C_COLLISION_BOX)
 	for hitbox_melee in current_hitbox_melee:
 		hitbox_melee.queue_free()
 	current_hitbox_melee.clear()

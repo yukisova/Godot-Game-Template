@@ -32,7 +32,7 @@ var _action_list_update: Array[IUpdateAction]
 func _initialize(_owner: IEntity, _load_data: Dictionary = {}):
 	super._initialize(_owner, _load_data)
 
-	initialize_complete.emit()	
+	initialize_complete.emit()
 	# 绑定所有Action子节点
 	for action: IAction in get_children():
 		action.c_action = self

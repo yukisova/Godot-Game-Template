@@ -56,3 +56,9 @@ func _init_data_binding(context_data: Dictionary):
 	
 	# 将修正后的数据传递给组件容器进行解析和分发
 	component_container.initilize_data_parse(fixed_data)
+
+func get_other_component(target_component_name: IComponent.ComponentName) -> IComponent:
+	var result: IComponent = list_base_components.get(target_component_name)
+	if result == null and self is FixedEntity:
+		result = self.list_interface_components.get(target_component_name)
+	return result

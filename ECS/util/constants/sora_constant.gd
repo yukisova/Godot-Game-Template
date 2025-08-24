@@ -64,16 +64,18 @@ const BASIC_SETTING: Dictionary = {
 			"test_saving": KEY_O,
 		},
 
-		## 最终的按键映射是以"1"+"_"+"move_l"的形式来获取的
 		1: {
-			"move_l": KEY_A,           # 向左移动
-			"move_r": KEY_D,           # 向右移动
-			"move_u": KEY_W,           # 向上移动
-			"move_d": KEY_S,           # 向下移动
-			"interact": KEY_SPACE,     # 交互键
-			"primary_action": {        # 主要动作（鼠标左键）
+			"movement": {
 				"type": "mouse",
 				"keycode": MOUSE_BUTTON_LEFT
+			},
+			"interact": {
+				"type": "mouse",
+				"keycode": MOUSE_BUTTON_LEFT
+			},
+			"primary_action": {        # 主要动作（鼠标左键）
+				"type": "mouse",
+				"keycode": MOUSE_BUTTON_WHEEL_UP
 			},
 			"secondary_action": {      # 次要动作（鼠标右键）
 				"type": "mouse", 
@@ -81,8 +83,7 @@ const BASIC_SETTING: Dictionary = {
 			},
 			"special_action": {        # 特殊动作（Ctrl+鼠标左键）
 				"type": "mouse",
-				"keycode": MOUSE_BUTTON_LEFT,
-				"ctrl": true
+				"keycode": MOUSE_BUTTON_MIDDLE
 			},
 			"skill_0": {
 				"type": "mouse",
@@ -94,7 +95,7 @@ const BASIC_SETTING: Dictionary = {
 			},
 			"skill_2": {
 				"type": "mouse",
-				"keycode": MOUSE_BUTTON_MASK_MIDDLE
+				# "keycode": MOUSE_BUTTON_MASK_MIDDLE
 			},
 		},
 

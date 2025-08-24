@@ -205,5 +205,67 @@ func _vec_input_a_toward(entity_input_target: SoraConstant.InputTarget) -> Dicti
 ## 根据鼠标点击的位置进行移动
 ## 类似moba游戏的操控方式
 func _vec_input_m_toward(entity_input_target: SoraConstant.InputTarget) -> Dictionary:
-	return {}
+	var vec_info: Dictionary = {}
+	
+	# 获取当前玩家实体
+	var current_player: IEntity
+	match entity_input_target:
+		SoraConstant.InputTarget.PLAYER1:
+			current_player = player_static
+		SoraConstant.InputTarget.PLAYER2:
+			current_player = player_static_2
+		_:
+			# 默认使用玩家1
+			current_player = player_static
+	
+	# 检查玩家是否存在
+	if not current_player or not is_instance_valid(current_player):
+		vec_info["vec"] = Vector2.ZERO
+		return vec_info
+	
+	# 获取玩家当前位置
+	var player_position = current_player.main_control.global_position
+	
+	# 获取鼠标在世界坐标系中的位置
+	var mouse_world_position: Vector2
+	
+	# 获取对应的相机视口
+	var camera_viewport = SCameraController.get_viewport_container(current_player.main_control)
+	if camera_viewport and camera_viewport.camera:
+		# 获取视口中的鼠标位置
+		var mouse_screen_position = camera_viewport.get_viewport_mouse_position()
+		
+		# 获取相机中心位置
+		var camera_center = camera_viewport.camera.get_screen_center_position()
+		
+		# 计算鼠标在世界坐标系中的位置
+		mouse_world_position = (mouse_screen_position - Vector2(camera_viewport.viewport.size)/2) + camera_center
+	else:
+		# 如果没有找到相机视口，使用视口鼠标位置
+		mouse_world_position = get_viewport().get_mouse_position()
+	
+	# 计算从玩家到鼠标位置的方向向量
+	var direction_vector = mouse_world_position - player_position
+	
+	# 检查是否有鼠标输入（左键点击）
+	var prefix: String
+	match entity_input_target:
+		SoraConstant.InputTarget.PLAYER1:
+			prefix = "player1_"
+		SoraConstant.InputTarget.PLAYER2:
+			prefix = "player2_"
+		_:
+			prefix = "common_"
+	
+	# 检查是否按下主要动作键（通常是鼠标左键）
+	var is_moving = Input.is_action_pressed(prefix + "movement")
+	
+	if is_moving and not direction_vector.is_zero_approx():
+		# 标准化方向向量
+		vec_info["vec"] = direction_vector.normalized()
+		vec_info["pre_vec"] = vec_info["vec"]
+	else:
+		vec_info["vec"] = Vector2.ZERO
+	
+	return vec_info
 #endregion

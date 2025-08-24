@@ -3,11 +3,11 @@
 ## 核心功能：物品融合规则的配置和管理、双向物品匹配的合成逻辑、融合结果的动态生成
 ## 主要特性：基于配置的融合规则系统、支持双向物品匹配（A+B = B+A）、动态物品复制和生成
 ## 使用场景：物品制作和合成系统、装备升级和强化、材料组合和转换、特殊物品的创造
-## 架构设计：继承自 [SubSystem] 基类，基于 [Array] of [FusionRecord] 的配置系统
+## 架构设计：继承自 [ISubSystem] 基类，基于 [Array] of [FusionRecord] 的配置系统
 ## [br][b]TODO:[/b] 合成逻辑可能更适合放在物品内部，后续优化时可以考虑重构
 ## [br][b]编辑者:[/b] Sora
 class_name SSItemFusion
-extends SubSystem
+extends ISubSystem
 
 ## 融合记录配置
 ## 存储所有物品融合规则的配置数组，类型为 [Array] of [FusionRecord]
@@ -15,7 +15,7 @@ extends SubSystem
 
 ## 设置子系统的关键字标识符
 func _enter_tree() -> void:
-	keyword = &"item_fusion"
+	keyword = SubSystemType.ITEM_FUSION
 
 ## 当前不需要每帧更新，保留空实现
 ## [param _delta]: 帧时间间隔，类型为 [float]

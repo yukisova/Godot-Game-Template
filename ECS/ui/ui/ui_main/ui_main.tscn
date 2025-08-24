@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=3 uid="uid://dtbox62ysxhqs"]
+[gd_scene load_steps=32 format=3 uid="uid://dtbox62ysxhqs"]
 
 [ext_resource type="Script" uid="uid://fqkh2lkuaxp4" path="res://ui/ui/ui_main/ui_main.gd" id="1_8moro"]
 [ext_resource type="Theme" uid="uid://cbvflgkah1pwb" path="res://resource/resource_template/basic_theme.tres" id="2_1q3r7"]
@@ -11,6 +11,7 @@
 [ext_resource type="Texture2D" uid="uid://y5p4oy8wj6es" path="res://asset/sightlight_gj/人物身体.png" id="8_43lqk"]
 [ext_resource type="PackedScene" uid="uid://e7njrasq6rhs" path="res://resource/custom_resource/item/item_equipment/1_盾牌/equipment_node_SHELID.tscn" id="9_xlgux"]
 [ext_resource type="PackedScene" uid="uid://cp3qo45fcw0ix" path="res://resource/custom_resource/item/item_weapon/1_剑/attack_node_SWORD.tscn" id="10_5tsq2"]
+[ext_resource type="PackedScene" uid="uid://c53e5fli1nuy2" path="res://resource/custom_resource/item/item_weapon/2_杖/attack_node_POE.tscn" id="10_o1itg"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_4fbp4"]
 atlas = ExtResource("8_43lqk")
@@ -70,6 +71,188 @@ tracks/3/keys = {
 "update": 0,
 "values": [Vector2(0, 0)]
 }
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath(".:position")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(365, 527)]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("Whole/Left:visible")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("../PackedManSe3:position")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(-44, 461)]
+}
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("../PackedManSe4:position")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(-82, 529)]
+}
+tracks/8/type = "value"
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/path = NodePath("../PackedManSe2:position")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(334.00003, 478.99997)]
+}
+
+[sub_resource type="Animation" id="Animation_i71rj"]
+resource_name = "两人逃跑"
+length = 3.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(3),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1286, 537)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("../PackedManSe2:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(3),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1286, 415)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("../PackedManSe4:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(72, 553), Vector2(1193, 561)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("../PackedManSe3:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(59, 464), Vector2(1237, 419)]
+}
+
+[sub_resource type="Animation" id="Animation_kv40t"]
+resource_name = "哥布林出现"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("../PackedManSe3:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.8049821),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(-44, 461), Vector2(59, 464)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("../PackedManSe4:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.8049821),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(-82, 529), Vector2(72, 553)]
+}
+
+[sub_resource type="Animation" id="Animation_5tsq2"]
+resource_name = "德米利亚吓一跳"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Whole:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.46666667, 1),
+"transitions": PackedFloat32Array(36.758366, 14.928524, 0.05440949),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(0, -10), Vector2(0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_o1itg"]
+resource_name = "德米利亚拿法杖"
+length = 3.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.8313133, 1.2413275, 1.4632618, 1.8055673),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [0.0, -0.43633232, -0.43633232, 0.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Whole/Left:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1.2488507),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
 
 [sub_resource type="Animation" id="Animation_xlgux"]
 resource_name = "过场1"
@@ -96,12 +279,12 @@ tracks/1/keys = {
 "times": PackedFloat32Array(0, 3.1, 3.78, 4.34),
 "transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 0,
-"values": [-0.5, 0.15300000000000002, -0.040000000000000036, -0.5]
+"values": [-0.5, 0.15300000000000002, -0.04000000000000003, -0.5]
 }
 
 [sub_resource type="Animation" id="Animation_gqvop"]
 resource_name = "过场2_巴莱塔醒来"
-length = 5.0
+length = 2.0
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -109,33 +292,17 @@ tracks/0/path = NodePath("../PackedManSe2:rotation")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 2.03, 2.5666666),
+"times": PackedFloat32Array(0, 1.2333333, 1.7333333),
 "transitions": PackedFloat32Array(1, 1, 1),
 "update": 0,
 "values": [-1.3962634, 0.17453292, 0.0]
 }
 
-[sub_resource type="Animation" id="Animation_5tsq2"]
-resource_name = "德米利亚吓一跳"
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Whole:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.46666667, 1),
-"transitions": PackedFloat32Array(36.758366, 14.928524, 0.05440949),
-"update": 0,
-"values": [Vector2(0, 0), Vector2(0, -10), Vector2(0, 0)]
-}
-
-[sub_resource type="Animation" id="Animation_o1itg"]
-resource_name = "德米利亚拿法杖"
-
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_5tsq2"]
 _data = {
 &"RESET": SubResource("Animation_4fbp4"),
+&"两人逃跑": SubResource("Animation_i71rj"),
+&"哥布林出现": SubResource("Animation_kv40t"),
 &"德米利亚吓一跳": SubResource("Animation_5tsq2"),
 &"德米利亚拿法杖": SubResource("Animation_o1itg"),
 &"过场1_德米利亚醒来": SubResource("Animation_xlgux"),
@@ -149,6 +316,22 @@ region = Rect2(0, 120, 80, 40)
 [sub_resource type="AtlasTexture" id="AtlasTexture_43lqk"]
 atlas = ExtResource("8_43lqk")
 region = Rect2(0, 80, 80, 40)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_o1itg"]
+atlas = ExtResource("8_43lqk")
+region = Rect2(0, 200, 80, 40)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kv40t"]
+atlas = ExtResource("8_43lqk")
+region = Rect2(0, 168, 80, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_i71rj"]
+atlas = ExtResource("8_43lqk")
+region = Rect2(80, 200, 40, 40)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_weorj"]
+atlas = ExtResource("8_43lqk")
+region = Rect2(80, 200, 40, 40)
 
 [sub_resource type="Animation" id="Animation_43lqk"]
 length = 0.001
@@ -261,7 +444,6 @@ _data = {
 
 [node name="UiMain" type="CanvasLayer" node_paths=PackedStringArray("continue_game_button", "test_game_button", "start_game_button", "load_game_button", "game_setting_button", "quit_game_button", "two_player", "animation_player", "animation_player_a", "animation_player_b", "texture_rect")]
 script = ExtResource("1_8moro")
-play_type = 1
 continue_game_button = NodePath("Control/MarginContainer/VBoxContainer/ContinueGame")
 test_game_button = NodePath("Control/MarginContainer/VBoxContainer/TestingGame")
 start_game_button = NodePath("Control/MarginContainer/VBoxContainer/StartGame")
@@ -274,6 +456,9 @@ animation_player_a = NodePath("Node2D/PackedManSe/AnimationPlayer")
 animation_player_b = NodePath("Node2D/PackedManSe2/AnimationPlayer")
 texture_rect = NodePath("Control/TextureRect")
 start_game_scene = ExtResource("2_5tsq2")
+dialogue_info = Dictionary[String, Variant]({
+"animation": NodePath("Node2D/PackedManSe/AnimationPlayer")
+})
 
 [node name="Control" type="Control" parent="."]
 layout_mode = 3
@@ -387,13 +572,13 @@ texture = SubResource("AtlasTexture_xlgux")
 
 [node name="Right" parent="Node2D/PackedManSe/Whole" index="1" node_paths=PackedStringArray("sprite")]
 visible = false
-position = Vector2(-4.485415, -20.127365)
-sprite = NodePath("@Sprite2D@78329")
+sprite = NodePath("@Sprite2D@48731")
 
 [node name="Left" parent="Node2D/PackedManSe/Whole" index="2" node_paths=PackedStringArray("sprite")]
 visible = false
-position = Vector2(4.4854136, -29.872635)
-sprite = NodePath("@Sprite2D@78330")
+sprite = NodePath("杖")
+
+[node name="杖" parent="Node2D/PackedManSe/Whole/Left" index="0" instance=ExtResource("10_o1itg")]
 
 [node name="PackedSpriteEditor" parent="Node2D/PackedManSe" index="2" node_paths=PackedStringArray("control_parts")]
 rotation_angle = -0.03600000000000003
@@ -424,14 +609,12 @@ texture = SubResource("AtlasTexture_5tsq2")
 texture = SubResource("AtlasTexture_43lqk")
 
 [node name="Right" parent="Node2D/PackedManSe2/Whole" index="1" node_paths=PackedStringArray("sprite")]
-position = Vector2(-14.750262, -21.623337)
 sprite = NodePath("盾牌")
 "x_竖握" = true
 
 [node name="盾牌" parent="Node2D/PackedManSe2/Whole/Right" index="0" instance=ExtResource("9_xlgux")]
 
 [node name="Left" parent="Node2D/PackedManSe2/Whole" index="2" node_paths=PackedStringArray("sprite")]
-position = Vector2(14.750261, -28.376663)
 sprite = NodePath("剑")
 "x_竖握" = true
 
@@ -443,13 +626,82 @@ hitbox_melee_prototype = {
 }
 
 [node name="PackedSpriteEditor" parent="Node2D/PackedManSe2" index="2" node_paths=PackedStringArray("control_parts")]
-rotation_angle = -0.132
 control_parts = {
 &"": NodePath(".."),
 &"Body": NodePath("../Whole/BH/Body"),
 &"Head": NodePath("../Whole/BH/Head"),
 &"Left": NodePath("../Whole/Left"),
 &"Right": NodePath("../Whole/Right")
+}
+
+[node name="PackedManSe3" parent="Node2D" instance=ExtResource("3_bbnxr")]
+position = Vector2(-44, 461)
+scale = Vector2(1.5, 1.5)
+
+[node name="Shadow" parent="Node2D/PackedManSe3" index="0"]
+visible = false
+
+[node name="Body" parent="Node2D/PackedManSe3/Whole/BH" index="0"]
+texture = SubResource("AtlasTexture_o1itg")
+
+[node name="Head" parent="Node2D/PackedManSe3/Whole/BH" index="1"]
+texture = SubResource("AtlasTexture_kv40t")
+
+[node name="Right" parent="Node2D/PackedManSe3/Whole" index="1" node_paths=PackedStringArray("sprite")]
+position = Vector2(0, 0)
+default_texture = SubResource("AtlasTexture_i71rj")
+sprite = NodePath("@Sprite2D@48735")
+"x_竖握" = true
+
+[node name="Left" parent="Node2D/PackedManSe3/Whole" index="2" node_paths=PackedStringArray("sprite")]
+z_index = 1
+position = Vector2(0, 0)
+default_texture = SubResource("AtlasTexture_weorj")
+sprite = NodePath("@Sprite2D@48736")
+"x_竖握" = true
+
+[node name="PackedSpriteEditor" parent="Node2D/PackedManSe3" index="2" node_paths=PackedStringArray("control_parts")]
+control_parts = {
+&"": NodePath("../../PackedManSe2"),
+&"Body": NodePath("../../PackedManSe2/Whole/BH/Body"),
+&"Head": NodePath("../../PackedManSe2/Whole/BH/Head"),
+&"Left": NodePath("../../PackedManSe2/Whole/Left"),
+&"Right": NodePath("../../PackedManSe2/Whole/Right")
+}
+
+[node name="PackedManSe4" parent="Node2D" instance=ExtResource("3_bbnxr")]
+position = Vector2(-82, 529)
+scale = Vector2(1.5, 1.5)
+
+[node name="Shadow" parent="Node2D/PackedManSe4" index="0"]
+visible = false
+
+[node name="Body" parent="Node2D/PackedManSe4/Whole/BH" index="0"]
+texture = SubResource("AtlasTexture_o1itg")
+
+[node name="Head" parent="Node2D/PackedManSe4/Whole/BH" index="1"]
+texture = SubResource("AtlasTexture_kv40t")
+
+[node name="Right" parent="Node2D/PackedManSe4/Whole" index="1" node_paths=PackedStringArray("sprite")]
+position = Vector2(0, 0)
+default_texture = SubResource("AtlasTexture_i71rj")
+sprite = NodePath("@Sprite2D@48737")
+"x_竖握" = true
+
+[node name="Left" parent="Node2D/PackedManSe4/Whole" index="2" node_paths=PackedStringArray("sprite")]
+z_index = 1
+position = Vector2(0, 0)
+default_texture = SubResource("AtlasTexture_weorj")
+sprite = NodePath("@Sprite2D@48738")
+"x_竖握" = true
+
+[node name="PackedSpriteEditor" parent="Node2D/PackedManSe4" index="2" node_paths=PackedStringArray("control_parts")]
+control_parts = {
+&"": NodePath("../../PackedManSe2"),
+&"Body": NodePath("../../PackedManSe2/Whole/BH/Body"),
+&"Head": NodePath("../../PackedManSe2/Whole/BH/Head"),
+&"Left": NodePath("../../PackedManSe2/Whole/Left"),
+&"Right": NodePath("../../PackedManSe2/Whole/Right")
 }
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Node2D"]
@@ -460,3 +712,5 @@ libraries = {
 
 [editable path="Node2D/PackedManSe"]
 [editable path="Node2D/PackedManSe2"]
+[editable path="Node2D/PackedManSe3"]
+[editable path="Node2D/PackedManSe4"]

@@ -57,6 +57,8 @@ static var mode_setted: GameMode
 
 ## 启动器初始化—根据设定的模式加载对应的游戏场景
 func _ready() -> void:
+
+	RenderingServer.set_default_clear_color(Color.BLACK)
 	# 编辑器模式下不执行运行时逻辑
 	if Engine.is_editor_hint():
 		return

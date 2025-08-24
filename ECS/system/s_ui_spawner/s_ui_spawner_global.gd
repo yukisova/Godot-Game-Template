@@ -6,7 +6,12 @@
 extends ISystem
 
 ## 主菜单场景，游戏启动时显示的主菜单界面场景
+@export var logo_transition_scene: PackedScene
+
 @export var main_menu_scene: PackedScene
+
+## 开场剧情场景，游戏启动时显示的开场剧情界面场景，在结束之后进入主菜单
+@export var cutscene_scene: PackedScene
 
 ## 所有HUD场景字典，预配置的所有HUD界面，键为HUD名称，值为对应的场景
 @export var all_hud: Dictionary[StringName, PackedScene]
@@ -122,7 +127,10 @@ func _all_unspawn():
 
 ## 启动主菜单UI，当系统完成加载时显示主菜单界面
 func _loading_start_ui():
-	_spawn_ui(main_menu_scene, {}, true)
+	_spawn_ui(main_menu_scene, {}, true)	
+
+func _loading_start_cutscene():
+	_spawn_ui(cutscene_scene, {}, true)
 
 ## 获取指定HUD，根据关键词获取对应的HUD实例
 ## [param keyword]: HUD的标识名称，类型为 [StringName]
