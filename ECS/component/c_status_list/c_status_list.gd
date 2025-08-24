@@ -98,7 +98,7 @@ func _initialize(_owner: IEntity, _load_data: Dictionary = {}):
 			status_extension[extension.extention_type] = extension
 			extension._initialize()
 	
-	if SLoadAndSave.current_saved:
+	if !SLoadAndSave.current_saved:
 	# 根据基础信息创建状态对象
 		for key in basic_info.keys():
 			_add_status(key, {

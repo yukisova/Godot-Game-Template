@@ -28,3 +28,21 @@
 ## [br][b]编辑者:[/b] Sora
 @tool
 extends StatePda
+
+@export var sight_box: SightBox
+@export var goblin_attack: ITriggerAction ## 哥布林的攻击模组，目前所设定的攻击形式很单一
+
+
+func _enter_tree() -> void:
+	keyword = "attacking"
+
+func _enter():
+	print("哥布林尝试攻击")
+	
+	#goblin_attack.action_triggered.emit()
+
+func _update(_delta: float) -> void:
+	pass
+
+func _exit():
+	pass

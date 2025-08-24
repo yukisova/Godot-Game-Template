@@ -1,0 +1,13 @@
+[gd_scene load_steps=2 format=3 uid="uid://dm5ylgn0xa66g"]
+
+[ext_resource type="Script" uid="uid://clmv0727mcds3" path="res://component/c_collision_box/box_collision/hit_box/hit_box_melee/hit_box_melee.gd" id="1_jjiv7"]
+
+[node name="HitboxMeleePrototype" type="Area2D"]
+collision_layer = 4
+collision_mask = 5
+script = ExtResource("1_jjiv7")
+metadata/_custom_type_script = "uid://clmv0727mcds3"
+
+[node name="Polygon2D" type="Polygon2D" parent="."]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]

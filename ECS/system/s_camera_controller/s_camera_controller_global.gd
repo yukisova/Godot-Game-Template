@@ -16,6 +16,10 @@ var current_camera: Camera2D
 var camera_viewports: Array[CameraViewport] = []
 ## 视口管理器
 @export var viewport_manager: ViewportManager
+
+@export var camera_follow_strategy: Array[CameraFollowStrategy]
+
+
 ## 会等待玩家节点设置之后才会正式开始
 func _setup():
 	# 初始化视口管理器（如果没有在编辑器中设置）
@@ -33,29 +37,45 @@ func _setup():
 func _setup_viewports_for_play_type():
 	match SMainController.play_type:
 		SMainController.PlayType.SINGLE:
-			_setup_single_player_viewport()
+			_refresh_single_player_viewport(true)
 		SMainController.PlayType.DOUBLE:
-			_setup_double_player_viewport()
+			_refresh_double_player_viewport(true)
+	for i in camera_viewports.size():
+		if camera_follow_strategy.size() > i:
+			camera_viewports[i].camera_strategy = camera_follow_strategy[i]
+		else:
+			break
+
+func _refresh_viewports():
+	match SMainController.play_type:
+		SMainController.PlayType.SINGLE:
+			_refresh_single_player_viewport()
+		SMainController.PlayType.DOUBLE:
+			_refresh_double_player_viewport()
 
 ## 设置单人模式视口
-func _setup_single_player_viewport():
+func _refresh_single_player_viewport(is_first: bool = false):
 	if not viewport_manager:
 		push_error("ViewportManager 未初始化")
 		return
 		
 	viewport_manager.set_layout(ViewportManager.LayoutType.SINGLE)
-	
-	var camera_viewport: CameraViewport = camera_viewport_scene.instantiate()
-	camera_viewports.append(camera_viewport)
+	var camera_viewport: CameraViewport = null
+	if is_first:
+		camera_viewport = camera_viewport_scene.instantiate()
+		camera_viewports.append(camera_viewport)
+	else:
+		camera_viewport = camera_viewports[0]
 	camera_viewport.camera_target = SMainController.player_static.main_control
 	camera_viewport.viewport.world_2d = SMapData.current_level.get_parent().world_2d
 	
-	viewport_manager.add_viewport(camera_viewport)
+	if is_first:
+		viewport_manager.add_viewport(camera_viewport)
 	current_camera = camera_viewport.camera
 
 
 ## 设置双人模式视口
-func _setup_double_player_viewport():
+func _refresh_double_player_viewport(is_first: bool = false):
 	if not viewport_manager:
 		push_error("ViewportManager 未初始化")
 		return
@@ -64,18 +84,30 @@ func _setup_double_player_viewport():
 	viewport_manager.set_layout(ViewportManager.LayoutType.DOUBLE_H)
 	
 	# 玩家1视口
-	var camera_viewport1: CameraViewport = camera_viewport_scene.instantiate()
-	camera_viewports.append(camera_viewport1)
+	var camera_viewport1: CameraViewport = null
+
+	if is_first:
+		camera_viewport1 = camera_viewport_scene.instantiate()
+		camera_viewports.append(camera_viewport1)
+	else:
+		camera_viewport1 = camera_viewports[0]
 	camera_viewport1.camera_target = SMainController.player_static.main_control
 	camera_viewport1.viewport.world_2d = SMapData.current_level.get_parent().world_2d
-	viewport_manager.add_viewport(camera_viewport1)
+
+	if is_first:
+		viewport_manager.add_viewport(camera_viewport1)
 	
 	# 玩家2视口（如果有第二个玩家）
-	var camera_viewport2: CameraViewport = camera_viewport_scene.instantiate()
-	camera_viewports.append(camera_viewport2)
+	var camera_viewport2: CameraViewport = null
+	if is_first:
+		camera_viewport2 = camera_viewport_scene.instantiate()
+		camera_viewports.append(camera_viewport2)
+	else:
+		camera_viewport2 = camera_viewports[1]
 	camera_viewport2.camera_target = SMainController.player_static_2.main_control  # 暂时使用同一个玩家
 	camera_viewport2.viewport.world_2d = SMapData.current_level.get_parent().world_2d
-	viewport_manager.add_viewport(camera_viewport2)
+	if is_first:
+		viewport_manager.add_viewport(camera_viewport2)
 	
 	current_camera = camera_viewport1.camera
 
@@ -91,6 +123,12 @@ func get_viewport_info() -> Dictionary:
 		return viewport_manager.get_layout_info()
 	return {}
 
+func get_viewport_container(node: Node2D) -> CameraViewport:
+	for viewport in camera_viewports:
+		if viewport.camera_target == node:
+			return viewport
+	return null
+
 func _resetup():
 	# 清理现有视口
 	if viewport_manager:
@@ -98,3 +136,44 @@ func _resetup():
 		camera_viewports.clear()
 	# 重新设置
 	_setup_viewports_for_play_type()
+	
+## 开启鼠标位置调试（用于排查鼠标坐标映射问题）
+func enable_mouse_position_debug():
+	for viewport in camera_viewports:
+		viewport.create_debug_helper()
+
+## 在所有视口上打开调试输出
+func enable_debug_output():
+	for viewport in camera_viewports:
+		viewport.toggle_debug_output(true)
+
+#region 相机特效
+
+var camera_tween: Tween
+## 相机抖动
+func camera_shake(node: Node2D, effect_strength: float = 1.0, effect_time: float = 0.5):
+	var camera_viewport = get_viewport_container(node)
+	var camera_2d: Camera2D
+	if camera_viewport:
+		camera_2d = camera_viewport.camera
+	else:
+		print("未找到相机节点")
+		return
+	if camera_tween: camera_tween.kill()
+	
+	camera_tween = node.get_tree().create_tween()
+	camera_tween.set_pause_mode(Tween.TWEEN_PAUSE_PROCESS)
+	for i in effect_strength:
+		var offset_strength = Vector2(randf_range(-effect_strength, effect_strength), randf_range(-effect_strength, effect_strength))
+		camera_tween.stop()
+		camera_tween.tween_property(camera_2d, "offset", offset_strength, effect_time/(effect_strength+3))
+		camera_tween.play()
+		await camera_tween.finished
+		camera_2d.offset = Vector2.ZERO
+
+func set_camera_limit(limit_dict: Dictionary):
+	for viewport in camera_viewports:
+		viewport.camera.limit_top = limit_dict.get("camera_top", -10000000)
+		viewport.camera.limit_bottom = limit_dict.get("camera_bottom", 10000000)
+		viewport.camera.limit_left = limit_dict.get("camera_left", -10000000)
+		viewport.camera.limit_right = limit_dict.get("camera_right", 10000000)

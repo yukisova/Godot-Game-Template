@@ -37,15 +37,7 @@ func _start():
 
 	# 生成对话UI界面并启动对话
 	var dialogue = SUiSpawner._spawn_ui(dialogue_packed)
-	DialogueManager._start_balloon(dialogue, dialogue_resource, dialogue_label["part_1"], [_fixed_dialogue_info()])
+	DialogueManager._start_balloon(dialogue, dialogue_resource, dialogue_label["part_1"], [SoraEvent.fixed_dictionary(self ,dialogue_info)])
 	
 	# 等待对话完全结束
 	await DialogueManager.dialogue_ended
-
-## 修正对话信息—将NodePath类型的对话信息转换为实际的节点引用
-func _fixed_dialogue_info() -> Dictionary:
-	var dialogue_info_fixed = dialogue_info.duplicate_deep()
-	for key in dialogue_info_fixed:
-		if dialogue_info_fixed[key] is NodePath:
-			dialogue_info_fixed[key] = get_node(dialogue_info_fixed[key])
-	return dialogue_info_fixed

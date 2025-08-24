@@ -54,7 +54,7 @@ func _resetup():
 ## [param context]: 传递给UI的初始化上下文数据
 ## [param is_main]: 传入的scene如果是主菜单性质的UI，则可以忽略状态机直接打开
 ## [br][br][b]返回:[/b] 生成的UI实例，失败则返回null
-func _spawn_ui(scene: PackedScene, context: Dictionary = {}, is_main: bool = false) -> IUi:
+func _spawn_ui(scene: PackedScene, context: Dictionary = {}, is_main_or_cutscene: bool = false) -> IUi:
 	if scene == null:
 		push_warning("UI生成器: 尝试生成空的UI场景")
 		return null
@@ -69,7 +69,7 @@ func _spawn_ui(scene: PackedScene, context: Dictionary = {}, is_main: bool = fal
 		var current_game_state = SGameState.state_machine._get_leaf_state()
 		if current_game_state is GamingStateNormal:
 			current_game_state.game_paused.emit()
-		elif !is_main:
+		elif !is_main_or_cutscene:
 			return
 		# 设置新UI
 		current_ui = canvas

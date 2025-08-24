@@ -73,28 +73,28 @@ const BASIC_SETTING: Dictionary = {
 			"interact": KEY_SPACE,     # 交互键
 			"primary_action": {        # 主要动作（鼠标左键）
 				"type": "mouse",
-				"button": MOUSE_BUTTON_LEFT
+				"keycode": MOUSE_BUTTON_LEFT
 			},
 			"secondary_action": {      # 次要动作（鼠标右键）
-			"type": "mouse", 
-			"button": MOUSE_BUTTON_RIGHT
+				"type": "mouse", 
+				"keycode": MOUSE_BUTTON_RIGHT
 			},
 			"special_action": {        # 特殊动作（Ctrl+鼠标左键）
 				"type": "mouse",
-				"button": MOUSE_BUTTON_LEFT,
+				"keycode": MOUSE_BUTTON_LEFT,
 				"ctrl": true
 			},
 			"skill_0": {
-				"type": "key",
-				"button": KEY_1
+				"type": "mouse",
+				"keycode": MOUSE_BUTTON_MASK_MB_XBUTTON1
 			},
 			"skill_1": {
-				"type": "key",
-				"button": KEY_2
+				"type": "mouse",
+				"keycode": MOUSE_BUTTON_MASK_MB_XBUTTON2
 			},
 			"skill_2": {
-				"type": "key",
-				"button": KEY_3
+				"type": "mouse",
+				"keycode": MOUSE_BUTTON_MASK_MIDDLE
 			},
 		},
 
@@ -106,28 +106,28 @@ const BASIC_SETTING: Dictionary = {
 			"interact": KEY_ENTER,        # 交互键
 			"primary_action": {        # 主要动作（鼠标左键）
 				"type": "key",
-				"button": KEY_SPACE
+				"keycode": KEY_J
 			},
 			"secondary_action": {      # 次要动作（鼠标右键）
 				"type": "key", 
-				"button": KEY_SPACE
+				"keycode": KEY_K
 			},
 			"special_action": {        # 特殊动作（Ctrl+鼠标左键）
-				"type": "mouse",
-				"button": MOUSE_BUTTON_LEFT,
+				"type": "key",
+				"keycode": KEY_L,
 				"ctrl": true
 			},
 			"skill_0": {
 				"type": "key",
-				"button": KEY_1
+				"keycode": KEY_U
 			},
 			"skill_1": {
 				"type": "key",
-				"button": KEY_2
+				"keycode": KEY_I
 			},
 			"skill_2": {
 				"type": "key",
-				"button": KEY_3
+				"keycode": KEY_O
 			},
 		},
 	

@@ -31,6 +31,7 @@ func _initialize():
 
 	# 验证实体类型兼容性
 	direction = blackboard.get_value("start_direction", Vector2.RIGHT)
+
 	if binding_entity.main_control is not CharacterBody2D:
 		push_error("直线飞行策略: 只适用于CharacterBody2D类型的实体")
 		return
@@ -108,7 +109,9 @@ func _detect_state():
 
 ## 将移动状态重置为初始状态，通常在实体被重新初始化时调用
 func _reset():
+		# 验证实体类型兼容性
 	direction = blackboard.get_value("start_direction", Vector2.RIGHT)
+
 	max_lifetime = blackboard.get_value("max_lifetime", 2.0)
 	_time = 0
 	current_action_state = action_states[0]  # "idle"

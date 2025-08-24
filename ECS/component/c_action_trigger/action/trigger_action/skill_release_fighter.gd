@@ -7,6 +7,7 @@ extends ITriggerAction
 
 
 @export var c_texture_controller: CTextureController
+@export var c_status: CStatusList
 
 func _initialize():
 	pass

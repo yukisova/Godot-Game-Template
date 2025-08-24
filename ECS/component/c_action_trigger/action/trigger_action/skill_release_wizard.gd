@@ -5,6 +5,7 @@
 extends ITriggerAction
 
 @export var c_texture_controller: CTextureController
+@export var c_status: CStatusList
 
 func _initialize():
 	pass
@@ -30,19 +31,23 @@ func _trigger_update_finish():
 func s_魔法咏唱():
 	var state = await c_texture_controller.packed_sprite.try_animation("魔法咏唱")
 	if state:
-		print("成功施展魔法咏唱")
+		#print("成功施展魔法咏唱")
+		pass
 
 func s_攻击魔法():
-	var state = await c_texture_controller.packed_sprite.try_animation("攻击魔法")
+	var state = await c_texture_controller.packed_sprite.try_animation("快速魔法")
 	if state:
-		print("成功施展攻击魔法")
+		#print("成功施展攻击魔法")
+		pass
 
 func s_小型附魔():	
 	var state = await c_texture_controller.packed_sprite.try_animation("小型附魔")
 	if state:
-		print("成功施展小型附魔")
+		#print("成功施展小型附魔")
+		pass
 
 func s_魔法盾():
 	var state = await c_texture_controller.packed_sprite.try_animation("魔法盾")
 	if state:
-		print("成功施展魔法盾")
+		#print("成功施展魔法盾")
+		pass

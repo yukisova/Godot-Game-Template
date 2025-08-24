@@ -21,4 +21,4 @@ texture = SubResource("AtlasTexture_kvec8")
 offset = Vector2(0, -30)
 
 [node name="FirePoint" type="Marker2D" parent="."]
-position = Vector2(17, -1)
+position = Vector2(91, -3)

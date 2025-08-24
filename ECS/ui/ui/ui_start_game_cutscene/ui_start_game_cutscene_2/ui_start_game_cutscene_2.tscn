@@ -1,0 +1,8 @@
+[gd_scene load_steps=3 format=3 uid="uid://da14tbgau451l"]
+
+[ext_resource type="Script" uid="uid://ddsxibi2i5ror" path="res://ui/ui/ui_start_game_cutscene/ui_start_game_cutscene_2/ui_start_game_cutscene_2.gd" id="1_cummt"]
+[ext_resource type="PackedScene" uid="uid://nqh6sy3jpxp3" path="res://scene/static_map/m_测试场景.tscn" id="2_ss2cw"]
+
+[node name="UiStartGameCutscene" type="CanvasLayer"]
+script = ExtResource("1_cummt")
+start_game_scene = ExtResource("2_ss2cw")

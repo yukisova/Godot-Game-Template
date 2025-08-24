@@ -23,11 +23,15 @@ var pop_trigger: bool = false:
 	set(v):
 		pop_trigger = v
 		if not v:
-			plus_trigger = v
+			plus_trigger = -1
 
 ## 完成触发器，标识PDA状态已达成其内部目标，用于通知HFSM状态进行特殊处理
 ## 与pop_trigger类似，但语义上表示状态的成功完成而非简单退出
-var plus_trigger: bool = false
+
+## 完成触发器
+@export var plus_trigger_target: Array[StatePda]
+
+var plus_trigger: int = -1
 
 ## 模糊更新启用标志，控制状态在非激活时是否执行模糊更新逻辑
 var blur_update_enable: bool = false

@@ -8,7 +8,7 @@ func try_animation(animation_name: String) -> bool:
 		return false
 
 	if animation_player.has_animation(animation_name):
-		animation_player.play(animation_name)
+		animation_player.play(animation_name,-1, 2)
 		await animation_player.animation_finished
 		animation_player.play("RESET")
 		return true

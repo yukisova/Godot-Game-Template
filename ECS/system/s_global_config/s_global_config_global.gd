@@ -104,7 +104,7 @@ static func _create_input_event(input_config) -> InputEvent:
 			
 			"mouse":
 				var input_event = InputEventMouseButton.new()
-				input_event.button_index = input_config.get("button", MOUSE_BUTTON_LEFT)
+				input_event.button_index = input_config.get("keycode", MOUSE_BUTTON_LEFT)
 				# 支持修饰键
 				if input_config.has("ctrl"):
 					input_event.ctrl_pressed = input_config.get("ctrl", false)

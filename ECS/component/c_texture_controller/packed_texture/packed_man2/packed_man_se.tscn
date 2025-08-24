@@ -24,13 +24,14 @@ region = Rect2(0, 120, 80, 40)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_2wmdp"]
 atlas = ExtResource("2_gy206")
-region = Rect2(0, 80, 80, 40)
+region = Rect2(0, 168, 80, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_gy206"]
 atlas = ExtResource("2_gy206")
 region = Rect2(80, 40, 40, 40)
 
 [node name="PackedManSe" type="Node2D" node_paths=PackedStringArray("packed_sprite_editor")]
+y_sort_enabled = true
 script = ExtResource("1_ovmmr")
 packed_sprite_editor = NodePath("PackedSpriteEditor")
 
@@ -38,11 +39,14 @@ packed_sprite_editor = NodePath("PackedSpriteEditor")
 texture = SubResource("GradientTexture2D_gy206")
 
 [node name="Whole" type="Node2D" parent="."]
+y_sort_enabled = true
 
 [node name="BH" type="Node2D" parent="Whole"]
+y_sort_enabled = true
 
 [node name="Body" type="Sprite2D" parent="Whole/BH"]
 unique_name_in_owner = true
+y_sort_enabled = true
 position = Vector2(0, -20)
 texture = SubResource("AtlasTexture_hbyip")
 flip_h = true
@@ -50,6 +54,7 @@ hframes = 2
 
 [node name="Head" type="Sprite2D" parent="Whole/BH"]
 unique_name_in_owner = true
+y_sort_enabled = true
 position = Vector2(0, -60)
 texture = SubResource("AtlasTexture_2wmdp")
 flip_h = true
@@ -57,19 +62,21 @@ hframes = 2
 
 [node name="Right" type="Node2D" parent="Whole" node_paths=PackedStringArray("sprite", "packed_sprite_editor")]
 z_index = 1
+y_sort_enabled = true
 position = Vector2(-8.742278e-07, -20)
 script = ExtResource("3_gy206")
 default_texture = SubResource("AtlasTexture_gy206")
-sprite = NodePath("@Sprite2D@68792")
+sprite = NodePath("@Sprite2D@44904")
 packed_sprite_editor = NodePath("../../PackedSpriteEditor")
 metadata/_custom_type_script = "uid://borj824dr1kti"
 
 [node name="Left" type="Node2D" parent="Whole" node_paths=PackedStringArray("sprite", "packed_sprite_editor")]
 z_index = -1
+y_sort_enabled = true
 position = Vector2(-8.742278e-07, -30)
 script = ExtResource("3_gy206")
 default_texture = SubResource("AtlasTexture_gy206")
-sprite = NodePath("@Sprite2D@68793")
+sprite = NodePath("@Sprite2D@44905")
 packed_sprite_editor = NodePath("../../PackedSpriteEditor")
 metadata/_custom_type_script = "uid://borj824dr1kti"
 

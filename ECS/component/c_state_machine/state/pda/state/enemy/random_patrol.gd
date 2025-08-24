@@ -32,6 +32,7 @@ func _on_safe_velocity_computed(safe_velocity: Vector2):
 
 func _enter() -> void:
 	set_movement_target_random.call_deferred()
+	print("哥布林巡逻")
 	
 func _fixed_update(delta: float) -> void:
 	if c_navigation.nav_agent.is_navigation_finished():
@@ -62,8 +63,6 @@ func set_movement_target_random() -> void:
 	nav_agent.target_position = target_position
 	current_speed = randf_range(walk_speed_range.x, walk_speed_range.y)
 	velocity_computed_enable = true
-
-
 
 func _pause():
 	velocity_computed_enable = false

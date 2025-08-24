@@ -17,13 +17,19 @@ const STATIC_ZONE = 20.0
 ## 执行鼠标跟随策略，根据鼠标相对于实体的位置计算相机偏移，并应用平滑过渡
 ## [param c_camera]: 相机组件
 ## [param _delta]: 帧时间间隔
-func _strategy(c_camera: CCamera, _delta: float) -> void:
-	# 获取鼠标相对于实体的本地位置
-	var mouse_offset = c_camera.component_owner.get_local_mouse_position()
+func _strategy(camera_viewport: CameraViewport, _delta: float) -> void:
+	# 获取玩家实体位置
+	var _entity_global_pos = camera_viewport.camera_target.global_position
+	
+	# 获取视口中的鼠标位置 (相对于视口原点的坐标)
+	var viewport_mouse_pos: Vector2 = camera_viewport.get_viewport_mouse_position()
+	
+	# 将视口坐标转换为相对于相机中心的偏移量
+	var camera_center_offset = viewport_mouse_pos - Vector2(camera_viewport.viewport.size)/2
 	
 	# 当鼠标在静态区域内时，相机回到中心位置
-	if mouse_offset.length() < STATIC_ZONE:
-		c_camera.camera_source.position = c_camera.camera_source.position.lerp(
+	if camera_center_offset.length() < STATIC_ZONE:
+		camera_viewport.camera.position = camera_viewport.camera.position.lerp(
 			Vector2.ZERO, 
 			min(smoothing * 60 * _delta, 1.0)
 		)
@@ -31,11 +37,11 @@ func _strategy(c_camera: CCamera, _delta: float) -> void:
 	
 	# 计算超出静态区域的实际偏移量
 	# 使用归一化方向 * (超出距离) * 偏移系数
-	var excess_distance = mouse_offset.length() - STATIC_ZONE
-	var actual_offset = mouse_offset.normalized() * excess_distance * 0.32
+	var excess_distance = camera_center_offset.length() - STATIC_ZONE
+	var actual_offset = camera_center_offset.normalized() * excess_distance * 0.32
 	
 	# 应用平滑过渡到目标偏移位置
-	c_camera.camera_source.position = c_camera.camera_source.position.lerp(
+	camera_viewport.camera.position = camera_viewport.camera.position.lerp(
 		actual_offset, 
 		min(smoothing * 60 * _delta, 1.0)
 	)

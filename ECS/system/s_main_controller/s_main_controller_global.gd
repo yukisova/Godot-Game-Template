@@ -98,6 +98,7 @@ func _on_player_located(target_level: Level, _context: Dictionary):
 				player_static.global_position = start_position
 				player_static.main_control.global_position = start_position
 				if play_type == PlayType.DOUBLE:
+					_context["target_level"].add_child(player_static_2)
 					player_static_2.global_position = start_position + target_point.tranported_offset
 					player_static_2.main_control.global_position = start_position + target_point.tranported_offset
 				
@@ -200,4 +201,9 @@ func _vec_input_a_toward(entity_input_target: SoraConstant.InputTarget) -> Dicti
 	if (!vec_info["vec"].is_zero_approx()):
 		vec_info["pre_vec"] = vec_info["vec"]
 	return vec_info
+
+## 根据鼠标点击的位置进行移动
+## 类似moba游戏的操控方式
+func _vec_input_m_toward(entity_input_target: SoraConstant.InputTarget) -> Dictionary:
+	return {}
 #endregion

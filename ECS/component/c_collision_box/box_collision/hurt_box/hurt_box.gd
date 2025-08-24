@@ -55,7 +55,6 @@ func _on_hurted(hit_damage: int):
 	if hurt_effect != null:
 		hurt_effect._trigger_update()
 	
-	SoraEvent.camera_shake(self, 3)
 	print("实体受伤: ", hit_damage, " 点伤害", )
 
 ## 结合攻击力和防御力计算最终伤害

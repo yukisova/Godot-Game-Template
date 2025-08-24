@@ -13,13 +13,9 @@ enum HitEffectType {
 	COUNTED    ## 临时属性点累积
 }
 
-## 装备组件引用
-## 获取当前装备的攻击属性
-@export var equipment_extension: EquipmentExtension
-
 ## 状态组件引用
 ## 获取实体的战斗属性
-@export var status: CStatusList
+@export var c_status: CStatusList
 
 @export var hit_effects: Array[IHitEffect] = []
 

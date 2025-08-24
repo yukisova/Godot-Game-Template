@@ -6,12 +6,21 @@
 class_name HitboxMelee
 extends IHitbox
 
-## 攻击效果列表
-## 近战武器的攻击效果配置
-@export var hit_effect_list: Array[IHitEffect]
-
 ## 从黑板获取动态攻击效果列表
 func get_hit_effect() -> Array[IHitEffect]:
-	var blackboard = c_collision.get_blackboard()
-	var result = blackboard.get_value("hit_effect_list", [])
-	return result as Array[IHitEffect]
+	if hit_effects.is_empty():
+		var blackboard = c_status.get_blackboard()
+		var effects = blackboard.get_value("hit_effects", [])
+		var result:Array[IHitEffect] = []
+	
+		# 确保数组中的每个元素都是 IHitEffect 类型
+		for effect in effects:
+			if effect is IHitEffect:
+				result.append(effect)
+		return result as Array[IHitEffect]
+	else:
+		return hit_effects
+
+func _validate_property(property: Dictionary) -> void:
+	if property.name == "status":
+		property.usage = PROPERTY_USAGE_NO_EDITOR

@@ -85,16 +85,6 @@ func _enter() -> void:
 func _blur_update(_delta: float) -> void:
 	var _vector = vector_move.move_vector as Vector2
 
-	if pda_state_stack.size() > 1:
-		var top_state = pda_state_stack[-1] as StatePda
-		match top_state.keyword:
-			"target_lock":
-				if top_state.plus_trigger:
-					state_transition.emit(get_transition_state())
-			"target_lost":
-				if top_state.plus_trigger:
-					state_pushed.emit()
-	
 ## 目标丢失处理
 ## 
 ## 当视野内没有目标时推送目标丢失状态。

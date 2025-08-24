@@ -9,5 +9,12 @@ extends IHitbox
 ## 从子弹实体黑板获取攻击效果数据
 func get_hit_effect() -> Array[IHitEffect]:
 	var blackboard = c_collision.get_blackboard()
-	var result = blackboard.get_value("hit_effect_list", [])
-	return result as Array[IHitEffect]
+	var effects = blackboard.get_value("hit_effect_list", [])
+	var result:Array[IHitEffect] = []
+	
+	# 确保数组中的每个元素都是 IHitEffect 类型
+	for effect in effects:
+		if effect is IHitEffect:
+			result.append(effect)
+	
+	return result

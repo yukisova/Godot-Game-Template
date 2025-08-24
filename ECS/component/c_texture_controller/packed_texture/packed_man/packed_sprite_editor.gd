@@ -46,6 +46,11 @@ func fixed_packed_sprite():
 
 	body.position = Vector2(0, -body_sprite_size * 0.5)
 	head.position = Vector2(0, -body_sprite_size - head_sprite_size * 0.5)
+	
+	var hand_left: PackedPart = control_parts.get(&"Left", null)
+	var hand_right: PackedPart = control_parts.get(&"Right", null)
+	hand_left.back_to_default()
+	hand_right.back_to_default()
 #endregion
 
 ## 椭圆参数组，控制手臂椭圆运动轨迹的参数设置

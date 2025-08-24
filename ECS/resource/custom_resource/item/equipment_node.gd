@@ -17,13 +17,21 @@ extends Node2D
 @export var flip_h_offset_true: Vector2 = Vector2.ZERO
 @export var texture: Sprite2D
 
+var c_status: CStatusList
+
 func fixed_flip_h(is_flip: bool):
 	if texture:
 		texture.flip_h = is_flip
 		texture.position = flip_h_offset_false if not is_flip else flip_h_offset_true
 
 ## 装备触发效果的方法，可以被子类重写
-func _trigger_effect():
+func _trigger_effect(...args):
 	pass
 
+## 装备的触发效果关闭的方法
+func _trigger_effect_finished(...args):
+	pass
 
+## 装备的激活方法
+func _activated():
+	pass

@@ -1,13 +1,16 @@
-[gd_scene load_steps=16 format=3 uid="uid://dtbox62ysxhqs"]
+[gd_scene load_steps=25 format=3 uid="uid://dtbox62ysxhqs"]
 
 [ext_resource type="Script" uid="uid://fqkh2lkuaxp4" path="res://ui/ui/ui_main/ui_main.gd" id="1_8moro"]
 [ext_resource type="Theme" uid="uid://cbvflgkah1pwb" path="res://resource/resource_template/basic_theme.tres" id="2_1q3r7"]
+[ext_resource type="PackedScene" uid="uid://nqh6sy3jpxp3" path="res://scene/static_map/m_测试场景.tscn" id="2_5tsq2"]
 [ext_resource type="Texture2D" uid="uid://lepubibq4jmd" path="res://asset/sightlight_gj/索拉的世界-logo.png" id="2_mqo0q"]
 [ext_resource type="Script" uid="uid://b77vti74tgrbe" path="res://ui/ui_composite/func_button.gd" id="3_3ko51"]
 [ext_resource type="PackedScene" uid="uid://d2tk65us0wyr0" path="res://component/c_texture_controller/packed_texture/packed_man2/packed_man_se.tscn" id="3_bbnxr"]
 [ext_resource type="Script" uid="uid://22228lam2w6p" path="res://ui/ui_composite/link_button.gd" id="5_63x8v"]
 [ext_resource type="PackedScene" uid="uid://ckmbalibndnve" path="res://ui/ui_composite/canvas/setting_panel/setting_panel.tscn" id="6_8k5ru"]
 [ext_resource type="Texture2D" uid="uid://y5p4oy8wj6es" path="res://asset/sightlight_gj/人物身体.png" id="8_43lqk"]
+[ext_resource type="PackedScene" uid="uid://e7njrasq6rhs" path="res://resource/custom_resource/item/item_equipment/1_盾牌/equipment_node_SHELID.tscn" id="9_xlgux"]
+[ext_resource type="PackedScene" uid="uid://cp3qo45fcw0ix" path="res://resource/custom_resource/item/item_weapon/1_剑/attack_node_SWORD.tscn" id="10_5tsq2"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_4fbp4"]
 atlas = ExtResource("8_43lqk")
@@ -16,6 +19,128 @@ region = Rect2(0, 40, 80, 40)
 [sub_resource type="AtlasTexture" id="AtlasTexture_xlgux"]
 atlas = ExtResource("8_43lqk")
 region = Rect2(0, 0, 80, 40)
+
+[sub_resource type="Animation" id="Animation_4fbp4"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [-1.8622663]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("PackedSpriteEditor:rotation_angle")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [-0.03600000000000003]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("../PackedManSe2:rotation")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [-1.3962634]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Whole:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_xlgux"]
+resource_name = "过场1"
+length = 5.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1.2666667, 1.9, 2.4333334, 3.04),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [-1.8622663, -1.4608406, -1.7051867, 0.12740904, 0.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("PackedSpriteEditor:rotation_angle")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 3.1, 3.78, 4.34),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [-0.5, 0.15300000000000002, -0.040000000000000036, -0.5]
+}
+
+[sub_resource type="Animation" id="Animation_gqvop"]
+resource_name = "过场2_巴莱塔醒来"
+length = 5.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("../PackedManSe2:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 2.03, 2.5666666),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [-1.3962634, 0.17453292, 0.0]
+}
+
+[sub_resource type="Animation" id="Animation_5tsq2"]
+resource_name = "德米利亚吓一跳"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Whole:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.46666667, 1),
+"transitions": PackedFloat32Array(36.758366, 14.928524, 0.05440949),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(0, -10), Vector2(0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_o1itg"]
+resource_name = "德米利亚拿法杖"
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_5tsq2"]
+_data = {
+&"RESET": SubResource("Animation_4fbp4"),
+&"德米利亚吓一跳": SubResource("Animation_5tsq2"),
+&"德米利亚拿法杖": SubResource("Animation_o1itg"),
+&"过场1_德米利亚醒来": SubResource("Animation_xlgux"),
+&"过场2_巴莱塔醒来": SubResource("Animation_gqvop")
+}
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_5tsq2"]
 atlas = ExtResource("8_43lqk")
@@ -30,26 +155,50 @@ length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("../../Node2D/Camera2D:position")
+tracks/0/path = NodePath("../../Node2D/PackedManSe2:scale")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Vector2(574, 325)]
+"values": [Vector2(1, 1)]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("../../Node2D/Camera2D:zoom")
+tracks/1/path = NodePath("../../Node2D/PackedManSe:scale")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Vector2(2, 2)]
+"values": [Vector2(1, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("../../Node2D/PackedManSe:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(415, 499)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("../../Node2D/PackedManSe2:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(319, 467.99997)]
 }
 
 [sub_resource type="Animation" id="Animation_bbnxr"]
@@ -58,26 +207,50 @@ length = 2.0
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("../../Node2D/Camera2D:position")
+tracks/0/path = NodePath("../../Node2D/PackedManSe2:scale")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 1),
+"times": PackedFloat32Array(0, 1.98),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
-"values": [Vector2(574, 325), Vector2(324, 426)]
+"values": [Vector2(1, 1), Vector2(1.5, 1.5)]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("../../Node2D/Camera2D:zoom")
+tracks/1/path = NodePath("../../Node2D/PackedManSe:scale")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0, 1),
+"times": PackedFloat32Array(0, 1.98),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
-"values": [Vector2(1, 1), Vector2(2, 2)]
+"values": [Vector2(1, 1), Vector2(1.5, 1.5)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("../../Node2D/PackedManSe:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 1.98),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(415, 499), Vector2(641, 379.00003)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("../../Node2D/PackedManSe2:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 1.98),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(319, 467.99997), Vector2(545, 348)]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_4fbp4"]
@@ -86,7 +259,7 @@ _data = {
 &"start_game_cutscene": SubResource("Animation_bbnxr")
 }
 
-[node name="UiMain" type="CanvasLayer" node_paths=PackedStringArray("continue_game_button", "test_game_button", "start_game_button", "load_game_button", "game_setting_button", "quit_game_button", "two_player", "animation_player", "texture_rect")]
+[node name="UiMain" type="CanvasLayer" node_paths=PackedStringArray("continue_game_button", "test_game_button", "start_game_button", "load_game_button", "game_setting_button", "quit_game_button", "two_player", "animation_player", "animation_player_a", "animation_player_b", "texture_rect")]
 script = ExtResource("1_8moro")
 play_type = 1
 continue_game_button = NodePath("Control/MarginContainer/VBoxContainer/ContinueGame")
@@ -97,7 +270,10 @@ game_setting_button = NodePath("Control/MarginContainer/VBoxContainer/GameSettin
 quit_game_button = NodePath("Control/MarginContainer/VBoxContainer/QuitGame")
 two_player = NodePath("Node2D")
 animation_player = NodePath("Node2D/AnimationPlayer")
+animation_player_a = NodePath("Node2D/PackedManSe/AnimationPlayer")
+animation_player_b = NodePath("Node2D/PackedManSe2/AnimationPlayer")
 texture_rect = NodePath("Control/TextureRect")
+start_game_scene = ExtResource("2_5tsq2")
 
 [node name="Control" type="Control" parent="."]
 layout_mode = 3
@@ -158,9 +334,10 @@ custom_minimum_size = Vector2(300, 80)
 layout_mode = 2
 text = "开始游戏"
 script = ExtResource("3_3ko51")
-args = ["res://ui/ui/ui_start_game_cutscene/ui_start_game_cutscene.tscn"]
+args = ["res://ui/ui/ui_start_game_cutscene/ui_start_game_cutscene_2/ui_start_game_cutscene_2.tscn"]
 
 [node name="LoadGame" type="Button" parent="Control/MarginContainer/VBoxContainer"]
+visible = false
 custom_minimum_size = Vector2(300, 80)
 layout_mode = 2
 text = "加载游戏"
@@ -210,19 +387,27 @@ texture = SubResource("AtlasTexture_xlgux")
 
 [node name="Right" parent="Node2D/PackedManSe/Whole" index="1" node_paths=PackedStringArray("sprite")]
 visible = false
-sprite = NodePath("@Sprite2D@76429")
+position = Vector2(-4.485415, -20.127365)
+sprite = NodePath("@Sprite2D@78329")
 
 [node name="Left" parent="Node2D/PackedManSe/Whole" index="2" node_paths=PackedStringArray("sprite")]
 visible = false
-sprite = NodePath("@Sprite2D@76430")
+position = Vector2(4.4854136, -29.872635)
+sprite = NodePath("@Sprite2D@78330")
 
 [node name="PackedSpriteEditor" parent="Node2D/PackedManSe" index="2" node_paths=PackedStringArray("control_parts")]
+rotation_angle = -0.03600000000000003
 control_parts = {
 &"": NodePath(".."),
 &"Body": NodePath("../Whole/BH/Body"),
 &"Head": NodePath("../Whole/BH/Head"),
 &"Left": NodePath("../Whole/Left"),
 &"Right": NodePath("../Whole/Right")
+}
+
+[node name="AnimationPlayer" parent="Node2D/PackedManSe" index="3"]
+libraries = {
+&"": SubResource("AnimationLibrary_5tsq2")
 }
 
 [node name="PackedManSe2" parent="Node2D" instance=ExtResource("3_bbnxr")]
@@ -239,14 +424,26 @@ texture = SubResource("AtlasTexture_5tsq2")
 texture = SubResource("AtlasTexture_43lqk")
 
 [node name="Right" parent="Node2D/PackedManSe2/Whole" index="1" node_paths=PackedStringArray("sprite")]
-visible = false
-sprite = NodePath("@Sprite2D@76431")
+position = Vector2(-14.750262, -21.623337)
+sprite = NodePath("盾牌")
+"x_竖握" = true
+
+[node name="盾牌" parent="Node2D/PackedManSe2/Whole/Right" index="0" instance=ExtResource("9_xlgux")]
 
 [node name="Left" parent="Node2D/PackedManSe2/Whole" index="2" node_paths=PackedStringArray("sprite")]
-visible = false
-sprite = NodePath("@Sprite2D@76432")
+position = Vector2(14.750261, -28.376663)
+sprite = NodePath("剑")
+"x_竖握" = true
+
+[node name="剑" parent="Node2D/PackedManSe2/Whole/Left" index="0" node_paths=PackedStringArray("hitbox_melee_prototype") instance=ExtResource("10_5tsq2")]
+rotation = -1.5707964
+hitbox_melee_prototype = {
+&"下劈": NodePath("下劈Hitbox"),
+&"突刺": NodePath("突刺Hitbox")
+}
 
 [node name="PackedSpriteEditor" parent="Node2D/PackedManSe2" index="2" node_paths=PackedStringArray("control_parts")]
+rotation_angle = -0.132
 control_parts = {
 &"": NodePath(".."),
 &"Body": NodePath("../Whole/BH/Body"),
@@ -260,10 +457,6 @@ root_node = NodePath("../../Control/TextureRect")
 libraries = {
 &"": SubResource("AnimationLibrary_4fbp4")
 }
-
-[node name="Camera2D" type="Camera2D" parent="Node2D"]
-position = Vector2(574, 325)
-zoom = Vector2(2, 2)
 
 [editable path="Node2D/PackedManSe"]
 [editable path="Node2D/PackedManSe2"]

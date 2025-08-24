@@ -5,10 +5,10 @@ extends ReactorExtension
 
 ## 每帧调用的输入监听逻辑
 func _setup():
-    pass
+	pass
 
 func _listen():
-    for parameter in input_parameter:
-        if c_input_reactor.validate_control(parameter.input_name, parameter.input_type, false):
-            var node = get_node(parameter.linkage_node) as ITriggerAction
-            node._trigger_update.callv(parameter.input_parameter)
+	for parameter in input_parameter:
+		if c_input_reactor.validate_control(parameter.input_name, parameter.input_type, false):
+			var node = get_node(parameter.linkage_node) as ITriggerAction
+			node._trigger_update.callv(parameter.input_parameter)

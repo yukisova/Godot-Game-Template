@@ -151,10 +151,7 @@ func _on_level_changed(operate_entity: FixedEntity, new_level: Level, point: Vec
 		operate_entity.global_position = point
 		operate_entity.main_control.global_position = point
 
-		# 更新相机限制范围
-		var camera = operate_entity.list_base_components.get(IComponent.ComponentName.C_CAMERA) as CCamera
-		if camera:
-			camera.set_camera_limit(new_level.get_camera_limit())
+		SCameraController.set_camera_limit(new_level.get_camera_limit())
 		
 		# 启用新楼层的碰撞和导航
 		new_level.enable_all_collision_navigation()
@@ -170,6 +167,11 @@ func _on_map_changed(map: PackedScene, located_info: Dictionary):
 	var player_static = SMainController.player_static
 	if player_static:
 		current_level.remove_child(player_static)
+		if SMainController.play_type == SMainController.PlayType.DOUBLE:
+			var player_static_2 = SMainController.player_static_2
+			if player_static_2:
+				current_level.remove_child(player_static_2)
+		
 		current_map.queue_free()
 		current_map = map.instantiate()
 		Main.game_view.add_child(current_map)
@@ -202,11 +204,6 @@ func _on_map_changed(map: PackedScene, located_info: Dictionary):
 		# 启用当前楼层的碰撞和导航
 		current_level.enable_all_collision_navigation()
 
-		var camera = player_static.list_base_components.get(IComponent.ComponentName.C_CAMERA) as CCamera
-		if camera:
-			camera.set_camera_limit(current_level.get_camera_limit())
-
-
 		SMainController.player_located.emit.call_deferred(current_level, {
 			"type": "Transport",
 			"target_level": current_level,
@@ -214,7 +211,9 @@ func _on_map_changed(map: PackedScene, located_info: Dictionary):
 		})
 
 		map_changed_finished.emit()
-		
+
+		SCameraController._refresh_viewports()
+		SCameraController.set_camera_limit(current_level.get_camera_limit())
 		
 
 ## 获取地图缓存数据

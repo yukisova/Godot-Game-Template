@@ -12,6 +12,9 @@ signal attack_node_changed(item_weapon: ItemWeapon)
 ## [param item_equipment]: 新装备的物品，null表示卸载
 signal equipment_node_changed(item_equipment: Item)
 
+@export var preload_weapon: WeaponNode
+@export var preload_equipment: EquipmentNode
+
 ## 当前装备的武器
 ## 自动更新装备状态
 var current_weapon: ItemWeapon:
@@ -28,7 +31,9 @@ var current_attack_node: WeaponNode:
 	set(v):
 		if current_attack_node:
 			current_attack_node.queue_free()
+			
 		current_attack_node = v
+		current_attack_node._activated()
 
 ## 当前装备的装备物品
 ## 设置时自动更新装备状态
@@ -56,6 +61,16 @@ func _enter_tree() -> void:
 func _initialize():
 	attack_node_changed.connect(_on_attack_node_changed)
 	equipment_node_changed.connect(_on_equipment_node_changed)
+	
+	await c_status.component_owner.initialize_complete
+	if preload_weapon:
+		preload_weapon.c_status = c_status
+		current_attack_node = preload_weapon
+		current_attack_node._activated()
+	if preload_equipment:
+		preload_equipment.c_status = c_status
+		current_equipment_node = preload_equipment
+		current_equipment_node._activated()
 
 ## 装备系统的持续效果处理
 func _effect():
@@ -78,6 +93,7 @@ func _on_attack_node_changed(item_weapon: ItemWeapon):
 				right_part.sprite = current_attack_node
 			else:
 				add_child(current_attack_node)
+		current_attack_node._activated()
 	else:
 		current_weapon = null
 		current_attack_node = null

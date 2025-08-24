@@ -14,6 +14,9 @@ signal state_poped
 ## [param to_state]: 目标PDA状态，类型为 [StatePda]
 signal state_pushed(to_state: StatePda)
 
+## PDA状态完成之后，所进入的一个新状态，
+signal state_plused(to_state: StatePda)
+
 ## HFSM状态过渡信号，当需要进行同级状态切换时发出
 ## [param to_state]: 目标状态
 @warning_ignore("unused_signal")
@@ -38,10 +41,15 @@ var pda_state_stack: Array[IState] = [self]
 func _setup():
 	state_poped.connect(_on_state_poped)
 	state_pushed.connect(_on_state_pushed_rolled)
+	state_plused.connect(_on_state_plused)
 	
 	# 构建PDA状态的快速查找字典
 	for pda_state in possible_pda_state_push:
 		confirm_pda_state_dict[pda_state.keyword] = pda_state
+
+## 与push不同，push的主要是由state_hfsm传入，plus的主要是由state_pda传入
+func _on_state_plused(to_state: StatePda):
+	state_pushed.emit(to_state)
 
 ## PDA状态压入或回滚处理，处理状态的压入操作或回滚到历史状态
 ## [param to_state]: 目标PDA状态，为null时执行回滚操作
@@ -125,9 +133,10 @@ func _u(_delta: float) -> void:
 	
 	# 检查PDA状态的弹出触发器
 	if top_state is StatePda:
-		if top_state.pop_trigger:
+		if top_state.plus_trigger >= 0:
+			state_plused.emit(top_state.plus_trigger_target[top_state.plus_trigger])
+		elif top_state.pop_trigger:
 			state_poped.emit()
-	
 	# 执行栈中其他状态的模糊更新
 	for state: IState in pda_state_stack:
 		# 跳过栈顶状态（已经执行过主更新）和非自身的栈顶状态

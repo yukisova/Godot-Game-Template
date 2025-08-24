@@ -9,7 +9,7 @@ extends IComponent
 
 ## 移动方向模式
 ## 支持不同的移动控制方式
-@export_enum("横版", "四向", "八向", "全向") var award_mode: String = "四向"
+@export_enum("横版", "四向", "八向", "全向", "鼠标") var award_mode: String = "四向"
 
 ## 功能禁用标志位
 ## 控制组件的特定功能开关
@@ -90,6 +90,8 @@ func try_input_vector() -> Dictionary:
 				return SMainController._vec_input_8_toward(entity_input_target)
 			"全向":
 				return SMainController._vec_input_a_toward(entity_input_target)
+			"鼠标":
+				return SMainController._vec_input_m_toward(entity_input_target)
 			_:
 				push_error("输入模式配置错误: " + award_mode)
 	return {}
@@ -125,7 +127,6 @@ func _avaliable_in_gaming():
 	input_vector_dict.move = input_vector_dict_update.get("vec", Vector2.ZERO) as Vector2
 	if input_vector_dict_update.has("pre_vec"):
 		input_vector_dict.toward = input_vector_dict_update.get("pre_vec", Vector2.ZERO) as Vector2
-	
 
 	# 处理交互输入
 	if validate_control("interact", SoraConstant.InputType.JUST_PRESSED):

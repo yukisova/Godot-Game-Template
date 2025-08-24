@@ -9,4 +9,4 @@ extends Resource
 ## 执行跟随策略，每帧调用的核心相机跟随逻辑实现
 ## [param c_camera]: 相机组件
 ## [param _delta]: 帧时间间隔
-@abstract func _strategy(c_camera: CCamera, _delta: float) -> void
+@abstract func _strategy(c_camera: CameraViewport, _delta: float) -> void

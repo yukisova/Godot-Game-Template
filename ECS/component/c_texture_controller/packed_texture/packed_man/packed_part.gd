@@ -143,3 +143,12 @@ func _update(_delta: float) -> void:
 func _physics_process(_delta: float) -> void:
 	if Engine.is_editor_hint():
 		_fixed_transform()
+
+func back_to_default() -> void:
+	if sprite is EquipmentNode:
+		return
+	elif sprite:
+		sprite.queue_free()
+	sprite = Sprite2D.new()
+	sprite.texture = default_texture
+	add_child(sprite)
