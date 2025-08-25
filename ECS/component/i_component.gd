@@ -12,7 +12,6 @@ signal initialize_complete
 enum ComponentName {
 	C_ACTION_TRIGGER = 0, ## 见 [CActionTrigger] 行为触发组件
 	C_TEXTURE_CONTROLLER, ## 见 [CTextureController] 纹理渲染组件
-	C_CAMERA, ## 见 [CCamera] 相机控制组件
 	C_COLLISION_BOX, ## 见 [CCollisionBox] 碰撞检测组件
 	C_INPUT_REACTOR, ## 见 [CInputReactor] 输入响应组件
 	C_INTERACTABLE, ## 见 [CInteractable] 交互处理组件
@@ -20,7 +19,8 @@ enum ComponentName {
 	C_STATUS_LIST, ## 见 [CStatusList] 状态管理组件
 	C_NAVIGATION_AGENT, ## 见 [CNavigationAgent] 导航寻路组件
 	C_BALLOON, ## 见 [CBalloon] 气泡显示组件
-	C_MARKER ## 见 [CMarker] 标记定位组件
+	C_BEHAVIOUR_TREE, ## 见 [CBehaviourTree] 行为树组件
+	C_ENVIRONMENT_REACTOR, ## 见 [CEnvironmentReactor] 环境反应组件
 }
 
 ## 外部初始化数据来源，指定在初始化时从 ContainerBlackboard 中获取的自定义初始化值的键名

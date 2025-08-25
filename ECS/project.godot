@@ -25,7 +25,7 @@ buses/default_bus_layout="uid://dipqogdumys7a"
 [autoload]
 
 DialogueManager="*res://addons/dialogue_manager/dialogue_manager.gd"
-SCameraController="*res://system/s_camera_controller/s_camera_controller_global.tscn"
+SCameraController="*res://system/s_camera_controller/s_viewport_manager_global.tscn"
 SAudioMaster="*res://system/s_audio_master/s_audio_master_global.tscn"
 SGameState="*res://system/s_game_state/s_game_state_global.tscn"
 SLoadAndSave="*res://system/s_load_save/s_load_and_save_global.tscn"
@@ -37,6 +37,7 @@ SGlobalConfig="*res://system/s_global_config/s_global_config_global.tscn"
 SObjectPool="*res://system/s_object_pool/s_object_pool_global.tscn"
 SCommandParser="*res://system/s_command_parser/s_command_parser.tscn"
 SBlackboard="*res://system/s_blackboard/s_blackboard_global.tscn"
+SViewportManager="*res://system/s_camera_controller/s_viewport_manager_global.tscn"
 
 [dialogue_manager]
 
@@ -61,7 +62,7 @@ movie_writer/movie_file="/Users/sora/GitLocal/Godot-2D-Game-ECS-Template/ECS/mov
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/Todo_Manager/plugin.cfg", "res://addons/dialogue_manager/plugin.cfg")
+enabled=PackedStringArray("res://addons/AsepriteWizard/plugin.cfg", "res://addons/Todo_Manager/plugin.cfg", "res://addons/dialogue_manager/plugin.cfg")
 
 [global_group]
 

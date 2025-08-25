@@ -27,7 +27,7 @@ extends Interaction
 
 ## 交互激活处理—当对话交互被触发时启动对话系统
 ## [param _target_entity]: 触发交互的目标实体（通常是玩家）
-func _on_interact_activated(_target_entity: IEntity):
+func __interact_begin(_target_entity: IEntity):
 	# 生成对话UI界面
 	var dialogue_ui = SUiSpawner._spawn_ui(test_dialogue_ui)
 	

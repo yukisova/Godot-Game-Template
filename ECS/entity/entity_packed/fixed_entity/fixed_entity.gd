@@ -8,10 +8,6 @@
 class_name FixedEntity
 extends IEntity
 
-## 实体射线交互信号
-## 用于处理基于RayCast2D的实体间交互，主要用于玩家与环境对象的交互
-@warning_ignore("unused_signal")
-signal entity_ray_interact(interact_source: IEntity)
 
 @export_group("初始化数据配置")
 

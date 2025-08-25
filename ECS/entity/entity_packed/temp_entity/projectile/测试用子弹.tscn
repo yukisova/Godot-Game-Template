@@ -4,7 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://cq0u8u1qie88t" path="res://entity/entity_packed/entity_template/character_body.tscn" id="2_re1bp"]
 [ext_resource type="PackedScene" uid="uid://bvjy63fua1sx2" path="res://component/c_texture_controller/c_texture_controller.tscn" id="3_vg3gh"]
 [ext_resource type="Script" uid="uid://ikjlf7gagqap" path="res://component/c_action_trigger/action/update_action/move_straight.gd" id="5_l5x8v"]
-[ext_resource type="PackedScene" uid="uid://cps21xspaovit" path="res://component/c_collision_box/c_collision.tscn" id="6_f8n6g"]
+[ext_resource type="PackedScene" uid="uid://cps21xspaovit" path="res://component/c_collision_box/c_collision_box.tscn" id="6_f8n6g"]
 [ext_resource type="PackedScene" uid="uid://b3vbfhugiqyva" path="res://component/c_action_trigger/c_action_trigger.tscn" id="6_sppb8"]
 [ext_resource type="Script" uid="uid://56igfb3mcaca" path="res://component/c_collision_box/box_collision/hit_box/hit_effect/i_hit_effect.gd" id="6_vg3gh"]
 [ext_resource type="Script" uid="uid://dneeiueh1hgr2" path="res://component/c_collision_box/box_collision/hit_box/hit_box_range/hit_box_range.gd" id="7_fya08"]

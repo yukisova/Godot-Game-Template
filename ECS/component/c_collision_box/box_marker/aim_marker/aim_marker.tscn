@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://cpdxxxim5hi1c"]
+
+[ext_resource type="Script" uid="uid://cfi0ph5nyhgie" path="res://component/c_collision_box/box_marker/aim_marker/aim_marker.gd" id="1_payub"]
+
+[node name="AimMarker" type="Marker2D"]
+script = ExtResource("1_payub")
+metadata/_custom_type_script = "uid://b7dvhaco64u2o"

@@ -52,7 +52,7 @@ func setup_system():
 	SUiSpawner._setup()       # UI管理器
 	SCommandParser._setup()   # 命令解析器
 	SAudioMaster._setup()     # 音频管理器
-	SCameraController._setup()# 镜头调度控制器
+	SViewportManager._setup()# 视口管理器
 	print("主进程: 系统初始化完成")
 	system_setup_completed.emit()
 
@@ -71,7 +71,7 @@ func _on_system_reset_state():
 	SUiSpawner._resetup()
 	SCommandParser._resetup()
 	SAudioMaster._resetup()
-	SCameraController._resetup()
+	SViewportManager._resetup()
 	print("主进程: 系统重置完成")
 	# 注意：重置时不触发system_setup_completed信号，避免循环引用
 	system_setup_completed.emit()

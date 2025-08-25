@@ -14,7 +14,7 @@ extends Interaction
 @export_group("选填参数")
 @export_file_path("*.tscn") var target_map_path: String = "" ## 目标地图路径
 
-func _on_interact_activated(interactor: IEntity) -> void:
+func __interact_begin(interactor: IEntity) -> void:
 	var map_to_load: PackedScene 
 	
 	# 如果没有直接引用但有路径，则动态加载

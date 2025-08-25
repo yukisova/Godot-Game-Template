@@ -20,7 +20,7 @@ func _listen():
 	for focus_node in mouse_focus:
 		if is_instance_valid(focus_node):
 			# 获取玩家所在的视口容器
-			var camera_viewport = SCameraController.get_viewport_container(c_input_reactor.component_owner.main_control)
+			var camera_viewport = SViewportManager.get_viewport_container(c_input_reactor.component_owner.main_control)
 			
 			if camera_viewport:
 				# 获取视口中的鼠标位置

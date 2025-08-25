@@ -29,7 +29,7 @@ ViewportManager 提供了自定义鼠标固定模式功能，可以将鼠标光�
 
 ```gdscript
 # 获取视口管理器引用
-var viewport_manager = get_node("/root/SCameraController/ViewportManager")
+var viewport_manager = get_node("/root/SViewportManager/ViewportManager")
 
 # 设置鼠标模式
 viewport_manager.set_mouse_mode(ViewportManager.MouseMode.LOCKED)
@@ -115,18 +115,18 @@ F7: 显示第一个视口信息
 ```gdscript
 # 在游戏开始时启用鼠标锁定
 func _ready():
-    var viewport_manager = get_node("/root/SCameraController/ViewportManager")
+    var viewport_manager = get_node("/root/SViewportManager/ViewportManager")
     viewport_manager.enable_mouse_lock()
 
 # 在游戏结束时释放鼠标
 func _exit_tree():
-    var viewport_manager = get_node("/root/SCameraController/ViewportManager")
+    var viewport_manager = get_node("/root/SViewportManager/ViewportManager")
     viewport_manager.disable_mouse_lock()
 
 # 处理鼠标输入
 func _input(event):
     if event is InputEventMouseMotion:
-        var viewport_manager = get_node("/root/SCameraController/ViewportManager")
+        var viewport_manager = get_node("/root/SViewportManager/ViewportManager")
         var mouse_pos = viewport_manager.get_mouse_position_in_first_viewport()
         # 使用鼠标位置进行游戏逻辑
         handle_mouse_movement(mouse_pos)

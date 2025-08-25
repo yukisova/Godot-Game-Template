@@ -151,7 +151,7 @@ func _on_level_changed(operate_entity: FixedEntity, new_level: Level, point: Vec
 		operate_entity.global_position = point
 		operate_entity.main_control.global_position = point
 
-		SCameraController.set_camera_limit(new_level.get_camera_limit())
+		SViewportManager.set_camera_limit(new_level.get_camera_limit())
 		
 		# 启用新楼层的碰撞和导航
 		new_level.enable_all_collision_navigation()
@@ -212,8 +212,8 @@ func _on_map_changed(map: PackedScene, located_info: Dictionary):
 
 		map_changed_finished.emit()
 
-		SCameraController._refresh_viewports()
-		SCameraController.set_camera_limit(current_level.get_camera_limit())
+		SViewportManager._refresh_viewports()
+		SViewportManager.set_camera_limit(current_level.get_camera_limit())
 		
 
 ## 获取地图缓存数据

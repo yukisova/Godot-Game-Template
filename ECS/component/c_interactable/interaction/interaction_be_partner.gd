@@ -18,7 +18,7 @@ extends Interaction
 
 ## 交互激活处理—创建伙伴实体并执行招募流程
 ## [param _interactor]: 触发交互的实体
-func _on_interact_activated(_interactor: IEntity):
+func __interact_begin(_interactor: IEntity):
 	var partner: IEntity = partner_scene.instantiate()
 	for i in partner_copy_list:
 		var duplicate_component = i.duplicate()

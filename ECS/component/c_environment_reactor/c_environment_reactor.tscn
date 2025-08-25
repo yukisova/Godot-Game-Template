@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://cwnkb0vnpk1bn"]
+
+[ext_resource type="Script" uid="uid://bptv5337eb540" path="res://component/c_environment_reactor/c_environment_reactor.gd" id="1_yquge"]
+
+[node name="CEnvironmentReactor" type="Node2D"]
+script = ExtResource("1_yquge")

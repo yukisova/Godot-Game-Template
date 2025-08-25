@@ -15,7 +15,7 @@ extends Interaction
 
 ## 交互激活处理—当拾取交互被触发时尝试将物品添加到目标实体的背包
 ## [param _target_entity]: 触发拾取的实体（通常是玩家）
-func _on_interact_activated(_target_entity: IEntity):
+func __interact_begin(_target_entity: IEntity):
 	# 验证物品是否有效
 	if not binding_item:
 		push_error("拾取交互: 未配置绑定物品")

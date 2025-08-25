@@ -5,8 +5,15 @@
 extends ISystem
 
 enum PlayType {
-	SINGLE, ## 单人模式，测试用
-	DOUBLE, ## 双人模式，正常游戏用
+	SINGLE, ## 单人模式
+	DOUBLE, ## 双人模式
+	FOUR, ## 四人模式
+}
+
+enum DeviceType {
+	COMPUTER, ## 电脑
+	MOBILE, ## 移动端
+	GAMEPAD, ## 游戏手柄
 }
 
 ## 默认游戏模式
@@ -230,7 +237,7 @@ func _vec_input_m_toward(entity_input_target: SoraConstant.InputTarget) -> Dicti
 	var mouse_world_position: Vector2
 	
 	# 获取对应的相机视口
-	var camera_viewport = SCameraController.get_viewport_container(current_player.main_control)
+	var camera_viewport = SViewportManager.get_viewport_container(current_player.main_control)
 	if camera_viewport and camera_viewport.camera:
 		# 获取视口中的鼠标位置
 		var mouse_screen_position = camera_viewport.get_viewport_mouse_position()

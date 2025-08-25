@@ -20,7 +20,7 @@
 [ext_resource type="Script" uid="uid://b3dlfvhs4o6ii" path="res://component/c_state_machine/state/hfsm/state/player/state_idle_player.gd" id="18_nhubg"]
 [ext_resource type="Script" uid="uid://cpdkw72ahtbjj" path="res://component/c_state_machine/transition_record.gd" id="19_ir6hb"]
 [ext_resource type="Script" uid="uid://dj1d6vr2iy6ds" path="res://component/c_state_machine/state/hfsm/state/player/state_move_player.gd" id="20_duqih"]
-[ext_resource type="PackedScene" uid="uid://cps21xspaovit" path="res://component/c_collision_box/c_collision.tscn" id="21_0jgkx"]
+[ext_resource type="PackedScene" uid="uid://cps21xspaovit" path="res://component/c_collision_box/c_collision_box.tscn" id="21_0jgkx"]
 [ext_resource type="Script" uid="uid://3c3x3bgxinnw" path="res://component/c_collision_box/box_ray/interact_ray/interact_ray.gd" id="22_8ww0r"]
 [ext_resource type="PackedScene" uid="uid://lu3gu1tfxdey" path="res://component/c_input_reactor/c_input_reactor.tscn" id="23_5hp74"]
 [ext_resource type="Script" uid="uid://bj5wq8iankhmq" path="res://component/c_input_reactor/reactor_extension/e_player/test_check_info.gd" id="24_wjvv2"]
@@ -32,7 +32,7 @@
 [ext_resource type="PackedScene" uid="uid://b3vbfhugiqyva" path="res://component/c_action_trigger/c_action_trigger.tscn" id="29_jwfpk"]
 [ext_resource type="Script" uid="uid://05a7wc4gf3hk" path="res://component/c_input_reactor/reactor_extension/action_input/action_input_record.gd" id="30_8syy5"]
 [ext_resource type="Script" uid="uid://dwt0prmf31a5" path="res://component/c_action_trigger/action/update_action/move_vector.gd" id="30_d08t6"]
-[ext_resource type="Script" uid="uid://diltrhqx66gvc" path="res://component/c_action_trigger/action/trigger_action/skill_release_wizard.gd" id="31_oikwr"]
+[ext_resource type="Script" uid="uid://diltrhqx66gvc" path="res://component/c_action_trigger/action/trigger_action/action_input_map_wizard.gd" id="31_oikwr"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_w85nv"]
 atlas = ExtResource("6_lxubv")
@@ -307,42 +307,42 @@ metadata/_custom_type_script = "uid://cpdkw72ahtbjj"
 [sub_resource type="Resource" id="Resource_0s3qs"]
 script = ExtResource("30_8syy5")
 input_name = "primary_action"
-linkage_node = NodePath("../../CActionTrigger/SkillReleaseWizard")
+linkage_node = NodePath("../../CActionTrigger/ActionInputMapWizard")
 input_parameter = Array[int]([0])
 metadata/_custom_type_script = "uid://05a7wc4gf3hk"
 
 [sub_resource type="Resource" id="Resource_lxubv"]
 script = ExtResource("30_8syy5")
 input_name = "secondary_action"
-linkage_node = NodePath("../../CActionTrigger/SkillReleaseWizard")
+linkage_node = NodePath("../../CActionTrigger/ActionInputMapWizard")
 input_parameter = Array[int]([1])
 metadata/_custom_type_script = "uid://05a7wc4gf3hk"
 
 [sub_resource type="Resource" id="Resource_1b2i3"]
 script = ExtResource("30_8syy5")
 input_name = "special_action"
-linkage_node = NodePath("../../CActionTrigger/SkillReleaseWizard")
+linkage_node = NodePath("../../CActionTrigger/ActionInputMapWizard")
 input_parameter = Array[int]([2])
 metadata/_custom_type_script = "uid://05a7wc4gf3hk"
 
 [sub_resource type="Resource" id="Resource_rjfa5"]
 script = ExtResource("30_8syy5")
 input_name = "skill_0"
-linkage_node = NodePath("../../CActionTrigger/SkillReleaseWizard")
+linkage_node = NodePath("../../CActionTrigger/ActionInputMapWizard")
 input_parameter = Array[int]([3])
 metadata/_custom_type_script = "uid://05a7wc4gf3hk"
 
 [sub_resource type="Resource" id="Resource_8f22p"]
 script = ExtResource("30_8syy5")
 input_name = "skill_1"
-linkage_node = NodePath("../../CActionTrigger/SkillReleaseWizard")
+linkage_node = NodePath("../../CActionTrigger/ActionInputMapWizard")
 input_parameter = Array[int]([4])
 metadata/_custom_type_script = "uid://05a7wc4gf3hk"
 
 [sub_resource type="Resource" id="Resource_5rdkg"]
 script = ExtResource("30_8syy5")
 input_name = "skill_2"
-linkage_node = NodePath("../../CActionTrigger/SkillReleaseWizard")
+linkage_node = NodePath("../../CActionTrigger/ActionInputMapWizard")
 input_parameter = Array[int]([5])
 metadata/_custom_type_script = "uid://05a7wc4gf3hk"
 
@@ -378,7 +378,7 @@ texture = SubResource("AtlasTexture_1wida")
 
 [node name="Right" parent="CharacterBody/ComponentContainer/CTextureController/PackedManSe/Whole" index="1" node_paths=PackedStringArray("sprite")]
 default_texture = SubResource("AtlasTexture_sndhc")
-sprite = NodePath("@Sprite2D@123380")
+sprite = NodePath("@Sprite2D@27938")
 
 [node name="Left" parent="CharacterBody/ComponentContainer/CTextureController/PackedManSe/Whole" index="2" node_paths=PackedStringArray("sprite")]
 sprite = NodePath("杖")
@@ -472,7 +472,7 @@ move_speed = 2000.0
 movement_threshold = 100.0
 blackboard = NodePath("../..")
 
-[node name="SkillReleaseWizard" type="Node2D" parent="CharacterBody/ComponentContainer/CActionTrigger" index="1" node_paths=PackedStringArray("c_texture_controller", "c_status")]
+[node name="ActionInputMapWizard" type="Node2D" parent="CharacterBody/ComponentContainer/CActionTrigger" index="1" node_paths=PackedStringArray("c_texture_controller", "c_status")]
 script = ExtResource("31_oikwr")
 c_texture_controller = NodePath("../../CTextureController")
 c_status = NodePath("../../CStatusList")

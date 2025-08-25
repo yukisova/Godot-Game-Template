@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://bcj7edirvdy16"]
+
+[ext_resource type="Script" uid="uid://bahm6c1qrxdso" path="res://component/c_behaviour_tree/c_behaviour_tree.gd" id="1_7coev"]
+
+[node name="CBehaviourTree" type="Node2D"]
+script = ExtResource("1_7coev")

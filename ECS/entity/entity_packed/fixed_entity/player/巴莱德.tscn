@@ -20,7 +20,7 @@
 [ext_resource type="Script" uid="uid://b3dlfvhs4o6ii" path="res://component/c_state_machine/state/hfsm/state/player/state_idle_player.gd" id="18_asb3x"]
 [ext_resource type="Script" uid="uid://cpdkw72ahtbjj" path="res://component/c_state_machine/transition_record.gd" id="19_f7ckt"]
 [ext_resource type="Script" uid="uid://dj1d6vr2iy6ds" path="res://component/c_state_machine/state/hfsm/state/player/state_move_player.gd" id="20_xwk85"]
-[ext_resource type="PackedScene" uid="uid://cps21xspaovit" path="res://component/c_collision_box/c_collision.tscn" id="21_i0goe"]
+[ext_resource type="PackedScene" uid="uid://cps21xspaovit" path="res://component/c_collision_box/c_collision_box.tscn" id="21_i0goe"]
 [ext_resource type="Script" uid="uid://3c3x3bgxinnw" path="res://component/c_collision_box/box_ray/interact_ray/interact_ray.gd" id="23_im7ow"]
 [ext_resource type="PackedScene" uid="uid://lu3gu1tfxdey" path="res://component/c_input_reactor/c_input_reactor.tscn" id="24_xja5i"]
 [ext_resource type="Script" uid="uid://bj5wq8iankhmq" path="res://component/c_input_reactor/reactor_extension/e_player/test_check_info.gd" id="27_wx1dd"]
@@ -29,7 +29,7 @@
 [ext_resource type="Script" uid="uid://05a7wc4gf3hk" path="res://component/c_input_reactor/reactor_extension/action_input/action_input_record.gd" id="29_7ry0g"]
 [ext_resource type="Script" uid="uid://ceknbpsdqqm6d" path="res://component/c_input_reactor/reactor_extension/e_player/ui_panel_open.gd" id="29_nnjho"]
 [ext_resource type="PackedScene" uid="uid://55la10tbk38m" path="res://ui/ui/ui_brain/ui_brain.tscn" id="30_3q0nj"]
-[ext_resource type="Script" uid="uid://chmbt72kxr1o7" path="res://component/c_action_trigger/action/trigger_action/skill_release_fighter.gd" id="30_51sta"]
+[ext_resource type="Script" uid="uid://chmbt72kxr1o7" path="res://component/c_action_trigger/action/trigger_action/action_input_map_fighter.gd" id="30_51sta"]
 [ext_resource type="PackedScene" uid="uid://dyxr8eofrj3pw" path="res://ui/ui/ui_pause/ui_pause.tscn" id="31_2hfcw"]
 [ext_resource type="PackedScene" uid="uid://b3vbfhugiqyva" path="res://component/c_action_trigger/c_action_trigger.tscn" id="32_d5866"]
 [ext_resource type="Script" uid="uid://dwt0prmf31a5" path="res://component/c_action_trigger/action/update_action/move_vector.gd" id="33_jandi"]
@@ -404,42 +404,42 @@ metadata/_custom_type_script = "uid://cpdkw72ahtbjj"
 [sub_resource type="Resource" id="Resource_hn80f"]
 script = ExtResource("29_7ry0g")
 input_name = "primary_action"
-linkage_node = NodePath("../../CActionTrigger/SkillReleaseFighter")
+linkage_node = NodePath("../../CActionTrigger/ActionInputMapFighter")
 input_parameter = Array[int]([0])
 metadata/_custom_type_script = "uid://05a7wc4gf3hk"
 
 [sub_resource type="Resource" id="Resource_s1eqv"]
 script = ExtResource("29_7ry0g")
 input_name = "secondary_action"
-linkage_node = NodePath("../../CActionTrigger/SkillReleaseFighter")
+linkage_node = NodePath("../../CActionTrigger/ActionInputMapFighter")
 input_parameter = Array[int]([1])
 metadata/_custom_type_script = "uid://05a7wc4gf3hk"
 
 [sub_resource type="Resource" id="Resource_2yrpb"]
 script = ExtResource("29_7ry0g")
 input_name = "special_action"
-linkage_node = NodePath("../../CActionTrigger/SkillReleaseFighter")
+linkage_node = NodePath("../../CActionTrigger/ActionInputMapFighter")
 input_parameter = Array[int]([2])
 metadata/_custom_type_script = "uid://05a7wc4gf3hk"
 
 [sub_resource type="Resource" id="Resource_7ry0g"]
 script = ExtResource("29_7ry0g")
 input_name = "skill_0"
-linkage_node = NodePath("../../CActionTrigger/SkillReleaseFighter")
+linkage_node = NodePath("../../CActionTrigger/ActionInputMapFighter")
 input_parameter = Array[int]([3])
 metadata/_custom_type_script = "uid://05a7wc4gf3hk"
 
 [sub_resource type="Resource" id="Resource_0mlm6"]
 script = ExtResource("29_7ry0g")
 input_name = "skill_1"
-linkage_node = NodePath("../../CActionTrigger/SkillReleaseFighter")
+linkage_node = NodePath("../../CActionTrigger/ActionInputMapFighter")
 input_parameter = Array[int]([4])
 metadata/_custom_type_script = "uid://05a7wc4gf3hk"
 
 [sub_resource type="Resource" id="Resource_tnsi2"]
 script = ExtResource("29_7ry0g")
 input_name = "skill_2"
-linkage_node = NodePath("../../CActionTrigger/SkillReleaseFighter")
+linkage_node = NodePath("../../CActionTrigger/ActionInputMapFighter")
 input_parameter = Array[int]([5])
 metadata/_custom_type_script = "uid://05a7wc4gf3hk"
 
@@ -575,7 +575,7 @@ move_speed = 2000.0
 movement_threshold = 100.0
 blackboard = NodePath("../..")
 
-[node name="SkillReleaseFighter" type="Node2D" parent="CharacterBody/ComponentContainer/CActionTrigger" index="1" node_paths=PackedStringArray("c_texture_controller", "c_status")]
+[node name="ActionInputMapFighter" type="Node2D" parent="CharacterBody/ComponentContainer/CActionTrigger" index="1" node_paths=PackedStringArray("c_texture_controller", "c_status")]
 script = ExtResource("30_51sta")
 c_texture_controller = NodePath("../../CTextureController")
 c_status = NodePath("../../CStatusList")

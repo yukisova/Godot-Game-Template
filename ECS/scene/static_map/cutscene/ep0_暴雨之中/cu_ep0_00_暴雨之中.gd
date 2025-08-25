@@ -27,7 +27,7 @@ const dialogue_label: Dictionary = {\
 ## 开始过场剧情—执行EP0暴雨之中开场剧情的完整流程
 func _start():
 	# 设置时间循环系统的读取时间
-	SBlackboard.sub_systems["time_loop"].read_time = 511
+	SBlackboard.sub_systems[SBlackboard.SubSystemType.TIME_LOOP].read_time = 511
 	
 	# 等待状态机转换完全完成，确保过场可以正常进行
 	await SGameState.state_machine.state_transition_finished
@@ -41,3 +41,6 @@ func _start():
 	
 	# 等待对话完全结束
 	await DialogueManager.dialogue_ended
+
+func _finished():
+	pass

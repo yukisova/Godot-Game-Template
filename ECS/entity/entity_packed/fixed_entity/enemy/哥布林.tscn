@@ -13,7 +13,7 @@
 [ext_resource type="Script" uid="uid://d3e6ff7wxf0un" path="res://component/c_state_machine/state/pda/state/enemy/target_lock.gd" id="10_mkj8w"]
 [ext_resource type="Script" uid="uid://cdj07glc4b6q5" path="res://component/c_state_machine/state/pda/state/enemy/target_lost.gd" id="11_txx64"]
 [ext_resource type="Script" uid="uid://dwt0prmf31a5" path="res://component/c_action_trigger/action/update_action/move_vector.gd" id="12_1aoil"]
-[ext_resource type="PackedScene" uid="uid://cps21xspaovit" path="res://component/c_collision_box/c_collision.tscn" id="13_fpb2v"]
+[ext_resource type="PackedScene" uid="uid://cps21xspaovit" path="res://component/c_collision_box/c_collision_box.tscn" id="13_fpb2v"]
 [ext_resource type="Script" uid="uid://cevkcstd1aowi" path="res://component/c_state_machine/state/pda/state/goblin/target_chasing.gd" id="13_g3h50"]
 [ext_resource type="Script" uid="uid://dv2hokmyuu03y" path="res://component/c_collision_box/box_collision/sight_box/sight_box.gd" id="14_mx2q4"]
 [ext_resource type="Script" uid="uid://c3685muhilgab" path="res://component/c_state_machine/state/pda/state/goblin/attacking.gd" id="14_vw3ts"]

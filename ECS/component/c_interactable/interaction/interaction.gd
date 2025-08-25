@@ -6,7 +6,6 @@
 ## [br][b]编辑者:[/b] Sora
 @abstract class_name Interaction
 extends Node
-
 ## 绑定的实体
 ## 拥有此交互逻辑的实体实例
 var binding_entity: IEntity
@@ -14,6 +13,10 @@ var binding_entity: IEntity
 ## 交互激活信号
 ## 当交互条件满足时触发，传递触发交互的目标实体
 signal interact_activated(target_entity: IEntity)
+
+## 交互完成信号
+## 当交互完成时触发
+signal interact_finished()
 
 ## 交互取消激活信号
 ## 当交互条件不再满足时触发，用于清理或回滚操作
@@ -27,9 +30,13 @@ func _enter_tree() -> void:
 	if not interact_deactivated.is_connected(_on_interact_deactivated):
 		interact_deactivated.connect(_on_interact_deactivated)
 
+func _on_interact_activated(_target_entity: IEntity) -> void:
+	await __interact_begin(_target_entity)
+	interact_finished.emit()
+
 ## 交互激活处理—当交互被激活时的具体逻辑实现，子类需要重写此方法
 ## [param target_entity]: 触发交互的目标实体（通常是玩家）
-@abstract func _on_interact_activated(target_entity: IEntity)
+@abstract func __interact_begin(target_entity: IEntity)
 
 ## 交互取消激活处理—当交互被取消时的清理逻辑实现，子类需要重写此方法
 @abstract func _on_interact_deactivated()

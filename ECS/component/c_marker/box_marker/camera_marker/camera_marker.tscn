@@ -1,7 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://b477b2okg7pns"]
-
-[ext_resource type="Script" uid="uid://b7dvhaco64u2o" path="res://component/c_marker/box_marker/box_marker.gd" id="1_v08k8"]
-
-[node name="CameraMarker" type="Marker2D"]
-script = ExtResource("1_v08k8")
-metadata/_custom_type_script = "uid://b7dvhaco64u2o"

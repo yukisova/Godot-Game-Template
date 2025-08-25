@@ -5,30 +5,38 @@
 class_name OneshotPoint
 extends ObjectEntity
 
-@export var interaction_box: InteractionRecord.InteractType
-@export var interaction_disable: bool = false
+@export var interact_type: InteractionRecord.InteractType
 @export var interact_is_passive: bool = false
 @export var c_interactable: CInteractable
 
+var interaction: Interaction
+
 ## 传送点设置—初始化传送点的碰撞组件和交互系统
 func _setup() -> void:
+	c_interactable.interact_finished.connect(func():
+		print("一次性触发点触发，进行销毁")
+		queue_free()
+	)
+	match interact_type:
+		InteractionRecord.InteractType.BodyEntered or InteractionRecord.InteractType.AreaEntered:
+			main_control = InteractBox.new()
+			add_child(main_control)
+		InteractionRecord.InteractType.RayCasted:
+			main_control = StaticBody2D.new()
+			add_child(main_control)
+		InteractionRecord.InteractType.Null:
+			pass
+
 	for i in get_children():
 		if i is CollisionShape2D or i is CollisionPolygon2D:
 			i.reparent(main_control)
+		if i is Interaction:
+			interaction = i
 	_initialize()
 
 ## 传送点初始化—配置传送交互和相关组件的设置
 func _initialize() -> void:
-	# 如果传送点被禁用，则不进行传送
-	var type: InteractionRecord.InteractType = InteractionRecord.InteractType.BodyEntered
-	if interaction_disable:
-		type = InteractionRecord.InteractType.Null
-	
-	var interaction: Interaction
-	
-
-	# 动态加入传送交互
-	c_interactable.interactions_resources.append(InteractionRecord.new(type, interact_is_passive, main_control.get_path(), interaction.get_path()))
+	c_interactable.interactions_resources.append(InteractionRecord.new(interact_type, interact_is_passive, main_control.get_path(), interaction.get_path()))
 
 	await c_interactable._initialize(self)
 

@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://cps21xspaovit"]
+
+[ext_resource type="Script" uid="uid://dgd6tk47q1y4" path="res://component/c_collision_box/c_collision_box.gd" id="1_pn2yk"]
+
+[node name="CCollisionBox" type="Node2D"]
+script = ExtResource("1_pn2yk")

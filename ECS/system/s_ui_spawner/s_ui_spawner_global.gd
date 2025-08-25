@@ -14,7 +14,7 @@ extends ISystem
 @export var cutscene_scene: PackedScene
 
 ## 所有HUD场景字典，预配置的所有HUD界面，键为HUD名称，值为对应的场景
-@export var all_hud: Dictionary[StringName, PackedScene]
+@export var all_hud: Dictionary[StringName, HudInitSetting]
 
 ## 当前活跃的HUD实例字典，存储所有已实例化的HUD对象，用于统一管理
 var current_hud: Dictionary[StringName, IHud] = {}
@@ -26,10 +26,11 @@ var current_ui: IUi
 func _setup():
 	# 预加载所有配置的HUD
 	for key in all_hud:
-		var hud = all_hud[key].instantiate()
-		Main.ui_view.add_child(hud)
-		current_hud[key] = hud as IHud
-		current_hud[key].hide()  # 初始状态隐藏
+		if all_hud[key].is_preload:
+			var hud = all_hud[key].hud_scene.instantiate()
+			Main.ui_view.add_child(hud)
+			current_hud[key] = hud as IHud
+			current_hud[key].hide()  # 初始状态隐藏
 	
 	# 连接游戏循环开始信号 - 初始化所有HUD
 	SSignalBus.game_loop_start.connect(func():
@@ -131,6 +132,9 @@ func _loading_start_ui():
 
 func _loading_start_cutscene():
 	_spawn_ui(cutscene_scene, {}, true)
+
+func _loading_start_logo_transition():
+	_spawn_ui(logo_transition_scene, {}, true)
 
 ## 获取指定HUD，根据关键词获取对应的HUD实例
 ## [param keyword]: HUD的标识名称，类型为 [StringName]
