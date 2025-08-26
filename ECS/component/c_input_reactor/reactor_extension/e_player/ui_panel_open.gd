@@ -18,7 +18,9 @@ extends ReactorExtension
 @export var pause_ui: PackedScene
 
 func _setup():
-	if c_input_reactor.component_owner != SMainController.player_static:
+	if c_input_reactor.component_owner in SMainController.player_static.values():
+		disabled = false
+	else:
 		disabled = true
 
 ## 检测思维界面和暂停界面的触发按键

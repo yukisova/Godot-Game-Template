@@ -27,7 +27,7 @@ region = Rect2(0, 200, 80, 40)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_tjnfr"]
 atlas = ExtResource("3_tjnfr")
-region = Rect2(0, 168, 80, 32)
+region = Rect2(0, 160, 80, 40)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_nejwl"]
 atlas = ExtResource("3_tjnfr")
@@ -61,6 +61,7 @@ radius = 16.0
 size = Vector2(8, 8)
 
 [node name="哥布林" instance=ExtResource("1_ud6dc")]
+y_sort_enabled = false
 
 [node name="CTextureController" parent="CharacterBody/ComponentContainer" index="0" node_paths=PackedStringArray("packed_sprite")]
 packed_sprite = NodePath("PackedManSe")
@@ -69,23 +70,24 @@ packed_sprite = NodePath("PackedManSe")
 
 [node name="Body" parent="CharacterBody/ComponentContainer/CTextureController/PackedManSe/Whole/BH" index="0"]
 texture = SubResource("AtlasTexture_g3h50")
+flip_h = true
 
 [node name="Head" parent="CharacterBody/ComponentContainer/CTextureController/PackedManSe/Whole/BH" index="1"]
-position = Vector2(0, -56)
 texture = SubResource("AtlasTexture_tjnfr")
+flip_h = true
 
 [node name="Right" parent="CharacterBody/ComponentContainer/CTextureController/PackedManSe/Whole" index="1" node_paths=PackedStringArray("sprite")]
-position = Vector2(-9.635076, -20.618467)
+position = Vector2(-8.742278e-07, 5)
 default_texture = SubResource("AtlasTexture_nejwl")
-sprite = NodePath("@Sprite2D@22012")
+sprite = NodePath("@Sprite2D@59008")
 
 [node name="Left" parent="CharacterBody/ComponentContainer/CTextureController/PackedManSe/Whole" index="2" node_paths=PackedStringArray("sprite")]
-position = Vector2(9.635075, -29.381533)
+position = Vector2(-8.742278e-07, -5)
 default_texture = SubResource("AtlasTexture_nejwl")
-sprite = NodePath("@Sprite2D@22013")
+sprite = NodePath("@Sprite2D@59007")
 
 [node name="PackedSpriteEditor" parent="CharacterBody/ComponentContainer/CTextureController/PackedManSe" index="2" node_paths=PackedStringArray("control_parts")]
-rotation_angle = -0.08000000000000002
+rotation_angle = 0.0
 control_parts = {
 &"": NodePath(".."),
 &"Body": NodePath("../Whole/BH/Body"),

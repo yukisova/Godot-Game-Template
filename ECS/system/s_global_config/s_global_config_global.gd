@@ -47,7 +47,7 @@ func _resetup():
 ## 更新动作映射，为指定动作设置新的按键绑定，支持键盘和鼠标按键
 ## [param action_name]: 动作名称
 ## [param input_config]: 输入配置（可以是键码或配置字典）
-static func update_action(action_name: String, input_config):
+func update_action(action_name: String, input_config):
 	# 确保动作存在于输入映射中
 	if not InputMap.has_action(action_name):
 		InputMap.add_action(action_name)
@@ -72,13 +72,13 @@ static func update_action(action_name: String, input_config):
 ## 重新绑定动作，为指定动作重新绑定按键（update_action的别名）
 ## [param action_name]: 动作名称
 ## [param new_input]: 新的输入配置
-static func rebind_action(action_name: String, new_input):
+func rebind_action(action_name: String, new_input):
 	update_action(action_name, new_input)
 
 ## 创建输入事件，根据输入配置创建对应的输入事件对象
 ## [param input_config]: 输入配置（键码、配置字典等）
 ## [br][br][b]返回:[/b] InputEvent对象或null
-static func _create_input_event(input_config) -> InputEvent:
+func _create_input_event(input_config) -> InputEvent:
 	# 如果是简单的键码（兼容旧配置）
 	if input_config is int:
 		var input_event = InputEventKey.new()
@@ -128,7 +128,7 @@ static func _create_input_event(input_config) -> InputEvent:
 ## 解析输入字符串，解析特殊格式的输入字符串，例如"mouse:left", "key:space+ctrl"
 ## [param input_string]: 输入字符串
 ## [br][br][b]返回:[/b] InputEvent对象或null
-static func _parse_input_string(input_string: String) -> InputEvent:
+func _parse_input_string(input_string: String) -> InputEvent:
 	var parts = input_string.split(":")
 	if parts.size() != 2:
 		push_warning("配置系统: 输入字符串格式错误 -> ", input_string)
@@ -203,7 +203,7 @@ static func _parse_input_string(input_string: String) -> InputEvent:
 ## 解析按键名称，将按键名称字符串转换为对应的键码
 ## [param key_name]: 按键名称
 ## [br][br][b]返回:[/b] Key键码
-static func _parse_key_name(key_name: String) -> Key:
+func _parse_key_name(key_name: String) -> Key:
 	match key_name.to_lower():
 		"space":
 			return KEY_SPACE
@@ -295,7 +295,7 @@ static func _parse_key_name(key_name: String) -> Key:
 ## 获取输入描述，为输入配置生成可读的描述文本
 ## [param input_config]: 输入配置
 ## [br][br][b]返回:[/b] 描述字符串
-static func _get_input_description(input_config) -> String:
+func _get_input_description(input_config) -> String:
 	# 如果是简单的键码
 	if input_config is int:
 		return OS.get_keycode_string(input_config)
@@ -336,7 +336,7 @@ static func _get_input_description(input_config) -> String:
 ## 获取鼠标按钮名称，将鼠标按钮索引转换为可读名称
 ## [param button_index]: 鼠标按钮索引，类型为 [MouseButton]
 ## [br][br][b]返回:[/b] 按钮名称
-static func _get_mouse_button_name(button_index: MouseButton) -> String:
+func _get_mouse_button_name(button_index: MouseButton) -> String:
 	match button_index:
 		MOUSE_BUTTON_LEFT:
 			return "左键"
@@ -357,7 +357,7 @@ static func _get_mouse_button_name(button_index: MouseButton) -> String:
 ## [param alt]: 是否需要Alt修饰键
 ## [param shift]: 是否需要Shift修饰键
 ## [br][br][b]返回:[/b] 配置字典
-static func create_mouse_config(button: MouseButton, ctrl: bool = false, alt: bool = false, shift: bool = false) -> Dictionary:
+func create_mouse_config(button: MouseButton, ctrl: bool = false, alt: bool = false, shift: bool = false) -> Dictionary:
 	var config = {
 		"type": "mouse",
 		"button": button
@@ -378,7 +378,7 @@ static func create_mouse_config(button: MouseButton, ctrl: bool = false, alt: bo
 ## [param alt]: 是否需要Alt修饰键
 ## [param shift]: 是否需要Shift修饰键
 ## [br][br][b]返回:[/b] 配置字典
-static func create_key_config(keycode: Key, ctrl: bool = false, alt: bool = false, shift: bool = false) -> Dictionary:
+func create_key_config(keycode: Key, ctrl: bool = false, alt: bool = false, shift: bool = false) -> Dictionary:
 	var config = {
 		"type": "key",
 		"keycode": keycode
@@ -396,7 +396,7 @@ static func create_key_config(keycode: Key, ctrl: bool = false, alt: bool = fals
 ## 获取当前动作的输入配置，返回当前绑定到指定动作的输入事件信息
 ## [param action_name]: 动作名称
 ## [br][br][b]返回:[/b] 输入配置描述数组
-static func get_action_inputs(action_name: String) -> Array[String]:
+func get_action_inputs(action_name: String) -> Array[String]:
 	var descriptions: Array[String] = []
 	
 	if not InputMap.has_action(action_name):
@@ -434,7 +434,7 @@ static func get_action_inputs(action_name: String) -> Array[String]:
 
 ## 批量设置键位绑定，便捷方法：一次性设置多个键位绑定
 ## [param bindings]: 键位绑定字典，格式为 {action_name: input_config}
-static func set_multiple_bindings(bindings: Dictionary):
+func set_multiple_bindings(bindings: Dictionary):
 	print("配置系统: 开始批量设置键位绑定，共 ", bindings.size(), " 个")
 	
 	for action_name in bindings.keys():
@@ -445,7 +445,7 @@ static func set_multiple_bindings(bindings: Dictionary):
 
 ## 重置动作到默认配置，将指定动作重置为默认配置中的绑定
 ## [param action_name]: 动作名称
-static func reset_action_to_default(action_name: String):
+func reset_action_to_default(action_name: String):
 	var default_keymap = SoraConstant.BASIC_SETTING.get("keymap", {}) as Dictionary
 	
 	if default_keymap.has(action_name):
@@ -464,7 +464,7 @@ static func reset_action_to_default(action_name: String):
 ## [param action_name]: 动作名称
 ## [param action_type]: 输入类型，类型为 [SoraConstant.InputType]
 ## [br][br][b]返回:[/b] 是否触发
-static func is_action_triggered(input_target: SoraConstant.InputTarget, action_name: String, action_type: SoraConstant.InputType) -> bool:
+func is_action_triggered(input_target: SoraConstant.InputTarget, action_name: String, action_type: SoraConstant.InputType) -> bool:
 	match input_target:
 		SoraConstant.InputTarget.COMMON:
 			var fixed_action_name = "common_" + action_name
@@ -502,6 +502,30 @@ static func is_action_triggered(input_target: SoraConstant.InputTarget, action_n
 				_:
 					push_warning("配置系统: 不支持的输入类型 -> ", action_type)
 					return false
+		SoraConstant.InputTarget.PLAYER3:
+			var fixed_action_name = "player3_" + action_name
+			match action_type:
+				SoraConstant.InputType.JUST_PRESSED:
+					return Input.is_action_just_pressed(fixed_action_name)
+				SoraConstant.InputType.PRESSED:
+					return Input.is_action_pressed(fixed_action_name)
+				SoraConstant.InputType.JUST_RELEASED:
+					return Input.is_action_just_released(fixed_action_name)
+				_:
+					push_warning("配置系统: 不支持的输入类型 -> ", action_type)
+					return false
+		SoraConstant.InputTarget.PLAYER4:
+			var fixed_action_name = "player4_" + action_name
+			match action_type:
+				SoraConstant.InputType.JUST_PRESSED:
+					return Input.is_action_just_pressed(fixed_action_name)
+				SoraConstant.InputType.PRESSED:
+					return Input.is_action_pressed(fixed_action_name)
+				SoraConstant.InputType.JUST_RELEASED:
+					return Input.is_action_just_released(fixed_action_name)
+				_:
+					push_warning("配置系统: 不支持的输入类型 -> ", action_type)
+					return false
 		_:
 			push_warning("配置系统: 不支持的输入目标 -> ", input_target)
 			return false
@@ -510,7 +534,7 @@ static func is_action_triggered(input_target: SoraConstant.InputTarget, action_n
 
 ## 导出当前键位配置，返回当前所有键位绑定的配置字典，可用于保存到文件
 ## [br][br][b]返回:[/b] 键位配置字典
-static func export_current_keymap() -> Dictionary:
+func export_current_keymap() -> Dictionary:
 	var keymap = {}
 	var actions = InputMap.get_actions()
 	
@@ -581,12 +605,16 @@ func _config_info_parser(_setting: Dictionary):
 		# 根据键位集合ID确定前缀
 		var prefix = ""
 		match keymap_id:
-			0:
+			SoraConstant.InputTarget.COMMON:
 				prefix = "common_"
-			1:
+			SoraConstant.InputTarget.PLAYER1:
 				prefix = "player1_"
-			2:
+			SoraConstant.InputTarget.PLAYER2:
 				prefix = "player2_"
+			SoraConstant.InputTarget.PLAYER3:
+				prefix = "player3_"
+			SoraConstant.InputTarget.PLAYER4:
+				prefix = "player4_"
 			_:
 				push_warning("配置系统: 未知的键位集合ID -> ", keymap_id)
 				continue

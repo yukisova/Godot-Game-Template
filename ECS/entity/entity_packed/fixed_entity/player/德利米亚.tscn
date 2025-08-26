@@ -350,13 +350,12 @@ metadata/_custom_type_script = "uid://05a7wc4gf3hk"
 size = Vector2(8, 8)
 
 [node name="德利米亚" node_paths=PackedStringArray("main_control", "component_container") instance=ExtResource("1_sndhc")]
-z_index = 5
+y_sort_enabled = false
 script = ExtResource("2_ptxrt")
 main_control = NodePath("CharacterBody")
 component_container = NodePath("CharacterBody/ComponentContainer")
 
 [node name="CharacterBody" parent="." index="0" groups=["player"] instance=ExtResource("3_5rdkg")]
-y_sort_enabled = true
 
 [node name="ComponentContainer" parent="CharacterBody" index="0"]
 y_sort_enabled = true
@@ -367,9 +366,6 @@ packed_sprite = NodePath("PackedManSe")
 
 [node name="PackedManSe" parent="CharacterBody/ComponentContainer/CTextureController" index="0" instance=ExtResource("5_0s3qs")]
 
-[node name="Shadow" parent="CharacterBody/ComponentContainer/CTextureController/PackedManSe" index="0"]
-y_sort_enabled = true
-
 [node name="Body" parent="CharacterBody/ComponentContainer/CTextureController/PackedManSe/Whole/BH" index="0"]
 texture = SubResource("AtlasTexture_w85nv")
 
@@ -378,9 +374,10 @@ texture = SubResource("AtlasTexture_1wida")
 
 [node name="Right" parent="CharacterBody/ComponentContainer/CTextureController/PackedManSe/Whole" index="1" node_paths=PackedStringArray("sprite")]
 default_texture = SubResource("AtlasTexture_sndhc")
-sprite = NodePath("@Sprite2D@27938")
+sprite = NodePath("@Sprite2D@64500")
 
 [node name="Left" parent="CharacterBody/ComponentContainer/CTextureController/PackedManSe/Whole" index="2" node_paths=PackedStringArray("sprite")]
+rotation = -3.1415925
 sprite = NodePath("杖")
 
 [node name="杖" parent="CharacterBody/ComponentContainer/CTextureController/PackedManSe/Whole/Left" index="0" instance=ExtResource("7_1b2i3")]

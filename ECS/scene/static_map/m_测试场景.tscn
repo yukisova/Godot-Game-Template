@@ -36,9 +36,8 @@ sources/1 = SubResource("TileSetAtlasSource_lnnlk")
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_phtbu"]
 size = Vector2(32, 32)
 
-[node name="m_测试场景" node_paths=PackedStringArray("player_spawn", "player_spawn_2") instance=ExtResource("1_8b7id")]
-player_spawn = NodePath("Levels/Level/PlayerSpawn")
-player_spawn_2 = NodePath("Levels/Level/PlayerSpawn2")
+[node name="m_测试场景" node_paths=PackedStringArray("player_spawns") instance=ExtResource("1_8b7id")]
+player_spawns = [NodePath("Levels/Level/PlayerSpawn"), NodePath("Levels/Level/PlayerSpawn2")]
 cutscene_enable = false
 
 [node name="Level" parent="Levels" index="0" instance=ExtResource("2_kqh3t")]

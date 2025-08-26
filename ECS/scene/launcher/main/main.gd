@@ -52,7 +52,7 @@ func setup_system():
 	SUiSpawner._setup()       # UI管理器
 	SCommandParser._setup()   # 命令解析器
 	SAudioMaster._setup()     # 音频管理器
-	SViewportManager._setup()# 视口管理器
+	SViewportManager._setup() # 视口管理器
 	print("主进程: 系统初始化完成")
 	system_setup_completed.emit()
 
@@ -84,7 +84,7 @@ func _main_loop_start():
 	entity_initialzable = true
 	
 	# 根据启动模式执行相应逻辑
-	if Launcher.mode_setted == 1:
+	if Launcher.mode == Launcher.GameMode.FIRST_ENTER:
 		# 正常游戏模式：显示开始UI
 		SUiSpawner._loading_start_ui()
 

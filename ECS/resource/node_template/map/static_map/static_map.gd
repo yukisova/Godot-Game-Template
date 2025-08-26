@@ -17,18 +17,7 @@ extends Node
 
 ## 玩家出生点
 ## 指定玩家在此地图中的初始位置和层级，类型为 [PlayerSpawn]
-@export var player_spawn: PlayerSpawn:
-	set(value):
-		if value == null or value == player_spawn_2:
-			return
-		player_spawn = value
-
-
-@export var player_spawn_2: PlayerSpawn:
-	set(value):
-		if value == null or value == player_spawn:
-			return
-		player_spawn_2 = value
+@export var player_spawns: Array[PlayerSpawn]
 
 ## 地图时间
 ## 控制昼夜循环的时间值（0.0-1.0），影响地图滤镜效果

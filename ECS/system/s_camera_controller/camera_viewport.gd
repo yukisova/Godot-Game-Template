@@ -11,16 +11,8 @@ var camera_limit: Vector4
 var camera_target: Node2D
 var camera_strategy: CameraFollowStrategy
 
-## 视口分割类型
-enum ViewportSplitType {
-	FULL_SCREEN,    # 全屏 1x1
-	HORIZONTAL_2,   # 水平分割 2x1  
-	VERTICAL_2,     # 垂直分割 1x2
-	QUAD_4          # 四分割 2x2
-}
-
 ## 当前分割类型
-var split_type: ViewportSplitType = ViewportSplitType.FULL_SCREEN
+var split_type: SViewportManager.LayoutType
 ## 在分割中的位置索引 (0-3)
 var split_index: int = 0
 
@@ -43,7 +35,7 @@ func _process(_delta: float) -> void:
 ## 设置视口分割配置
 ## [param type]: 分割类型
 ## [param index]: 在分割布局中的位置索引
-func set_split_config(type: ViewportSplitType, index: int = 0):
+func set_split_config(type: SViewportManager.LayoutType, index: int = 0):
 	split_type = type
 	split_index = index
 	_update_viewport_size()
@@ -57,13 +49,13 @@ func _update_viewport_size():
 	var new_size: Vector2
 	
 	match split_type:
-		ViewportSplitType.FULL_SCREEN:
+		SViewportManager.LayoutType.SINGLE:
 			new_size = main_viewport_size
-		ViewportSplitType.HORIZONTAL_2:
+		SViewportManager.LayoutType.DOUBLE_H:
 			new_size = Vector2(main_viewport_size.x / 2, main_viewport_size.y)
-		ViewportSplitType.VERTICAL_2:
+		SViewportManager.LayoutType.DOUBLE_V:
 			new_size = Vector2(main_viewport_size.x, main_viewport_size.y / 2)
-		ViewportSplitType.QUAD_4:
+		SViewportManager.LayoutType.QUAD:
 			new_size = Vector2(main_viewport_size.x / 2, main_viewport_size.y / 2)
 	
 	# 确保大小至少为1x1像素，避免0大小导致的问题

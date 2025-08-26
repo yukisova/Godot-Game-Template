@@ -1,6 +1,54 @@
-[gd_scene load_steps=2 format=3 uid="uid://cbp78yrfmc7yl"]
+[gd_scene load_steps=8 format=3 uid="uid://cbp78yrfmc7yl"]
 
 [ext_resource type="Script" uid="uid://pf2ljgjecqh1" path="res://ui/hud/mobile_controller_hud/mobile_controller_hud.gd" id="1_lbggk"]
 
+[sub_resource type="Gradient" id="Gradient_lbggk"]
+offsets = PackedFloat32Array(0.26157406, 0.40046296, 1)
+colors = PackedColorArray(0, 0, 0, 1, 0, 0, 0, 0.04388714, 0, 0, 0, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_wg53n"]
+gradient = SubResource("Gradient_lbggk")
+width = 256
+height = 256
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+metadata/_snap_enabled = true
+
+[sub_resource type="Gradient" id="Gradient_wg53n"]
+offsets = PackedFloat32Array(0.26157406, 0.40046296, 1)
+colors = PackedColorArray(0.654902, 0, 0, 1, 0, 0, 0, 0.04388714, 0, 0, 0, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_nh8sy"]
+gradient = SubResource("Gradient_wg53n")
+width = 128
+height = 128
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+metadata/_snap_enabled = true
+
+[sub_resource type="Gradient" id="Gradient_nh8sy"]
+offsets = PackedFloat32Array(0.26157406, 0.40046296, 1)
+colors = PackedColorArray(0, 0, 1, 1, 0, 0, 0, 0.04388714, 0, 0, 0, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_dipci"]
+gradient = SubResource("Gradient_nh8sy")
+width = 256
+height = 256
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+metadata/_snap_enabled = true
+
 [node name="HudMobileController" type="CanvasLayer"]
 script = ExtResource("1_lbggk")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(129, 516)
+texture = SubResource("GradientTexture2D_wg53n")
+
+[node name="Sprite2D2" type="Sprite2D" parent="Sprite2D"]
+texture = SubResource("GradientTexture2D_nh8sy")
+
+[node name="TouchScreenButton" type="TouchScreenButton" parent="."]
+position = Vector2(893, 391)
+texture_normal = SubResource("GradientTexture2D_wg53n")
+texture_pressed = SubResource("GradientTexture2D_dipci")

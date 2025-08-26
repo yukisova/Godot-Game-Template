@@ -6,6 +6,7 @@
 script = ExtResource("1_1cfn7")
 command_parser_canvas = NodePath("CanvasLayer")
 command_parser_editor = NodePath("CanvasLayer/Control/MarginContainer/TextEdit")
+test = true
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
@@ -27,7 +28,7 @@ theme_override_constants/margin_left = 16
 theme_override_constants/margin_top = 16
 theme_override_constants/margin_right = 16
 
-[node name="TextEdit" type="TextEdit" parent="CanvasLayer/Control/MarginContainer"]
+[node name="TextEdit" type="CodeEdit" parent="CanvasLayer/Control/MarginContainer"]
 custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
 theme_override_font_sizes/font_size = 32

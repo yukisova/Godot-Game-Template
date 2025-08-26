@@ -53,7 +53,7 @@ enum StatusEnum {
 const BASIC_SETTING: Dictionary = {
 	"keymap": {
 		## 通用的操作: 按键的映射是
-		0: {
+		-1: {
 		# 字符串格式的鼠标按键配置示例
 			"context_menu": "mouse:right",          # 右键菜单
 			"zoom_in": "mouse:wheel_up",           # 放大
@@ -62,9 +62,13 @@ const BASIC_SETTING: Dictionary = {
 			"brain_trigger": KEY_TAB,
 			"pause_game": KEY_P,
 			"test_saving": KEY_O,
+			"open_command_line": {
+				"type": "key",
+				"keycode": KEY_C,
+			}
 		},
 
-		1: {
+		0: {
 			"movement": {
 				"type": "mouse",
 				"keycode": MOUSE_BUTTON_LEFT
@@ -99,7 +103,7 @@ const BASIC_SETTING: Dictionary = {
 			},
 		},
 
-		2: {
+		1: {
 			"move_l": KEY_LEFT,           # 向左移动
 			"move_r": KEY_RIGHT,          # 向右移动
 			"move_u": KEY_UP,             # 向上移动
@@ -131,7 +135,8 @@ const BASIC_SETTING: Dictionary = {
 				"keycode": KEY_O
 			},
 		},
-	
+		2:{},
+		3:{}
 	},
 	"display": {
 		"window": WINDOWED,        # 窗口模式
@@ -171,8 +176,9 @@ enum InputType {
 	JUST_PRESSED,     ## 刚按下 - 按键刚被按下的瞬间
 }
 enum InputTarget {
-	COMMON,
-	PLAYER1,
-	PLAYER2
+	COMMON = -1,
+	PLAYER1 = 0,
+	PLAYER2,
+	PLAYER3,
+	PLAYER4
 }
-

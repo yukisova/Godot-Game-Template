@@ -1,0 +1,110 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scene/launcher/test/test_canvas_modulate.gd" id="1_script"]
+
+[node name="TestCanvasModulate" type="Node2D"]
+script = ExtResource("1_script")
+
+[node name="CanvasModulate" type="CanvasModulate" parent="."]
+
+[node name="Background" type="ColorRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0.1, 0.1, 0.1, 1)
+
+[node name="Content" type="Node2D" parent="."]
+
+[node name="RedSquare" type="ColorRect" parent="Content"]
+offset_left = 50.0
+offset_top = 50.0
+offset_right = 150.0
+offset_bottom = 150.0
+color = Color(1, 0, 0, 1)
+
+[node name="GreenCircle" type="ColorRect" parent="Content"]
+offset_left = 200.0
+offset_top = 50.0
+offset_right = 300.0
+offset_bottom = 150.0
+color = Color(0, 1, 0, 1)
+
+[node name="BlueTriangle" type="ColorRect" parent="Content"]
+offset_left = 350.0
+offset_top = 50.0
+offset_right = 450.0
+offset_bottom = 150.0
+color = Color(0, 0, 1, 1)
+
+[node name="YellowDiamond" type="ColorRect" parent="Content"]
+offset_left = 500.0
+offset_top = 50.0
+offset_right = 600.0
+offset_bottom = 150.0
+color = Color(1, 1, 0, 1)
+
+[node name="PurpleStar" type="ColorRect" parent="Content"]
+offset_left = 650.0
+offset_top = 50.0
+offset_right = 750.0
+offset_bottom = 150.0
+color = Color(1, 0, 1, 1)
+
+[node name="CyanHex" type="ColorRect" parent="Content"]
+offset_left = 800.0
+offset_top = 50.0
+offset_right = 900.0
+offset_bottom = 150.0
+color = Color(0, 1, 1, 1)
+
+[node name="Text" type="Label" parent="Content"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -200.0
+offset_top = -50.0
+offset_right = 200.0
+offset_bottom = 50.0
+text = "CanvasModulate 内容
+这些元素会被整体颜色调制"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Info" type="Label" parent="."]
+anchors_preset = 0
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 400.0
+offset_bottom = 100.0
+text = "CanvasModulate 测试
+颜色: #ffffff | 启用: 开启
+RGB: (1.00, 1.00, 1.00) | Alpha: 1.00"
+
+[node name="UI" type="VBoxContainer" parent="."]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -300.0
+offset_top = 8.0
+offset_right = -8.0
+offset_bottom = 200.0
+
+[node name="ColorLabel" type="Label" parent="UI"]
+text = "调制颜色:"
+
+[node name="ColorPicker" type="ColorPickerButton" parent="UI"]
+
+[node name="EnabledCheckbox" type="CheckBox" parent="UI"]
+text = "启用调制"
+
+[node name="Instructions" type="Label" parent="UI"]
+text = "快捷键:
+1-8 - 预设颜色
+9 - 彩虹循环
+0 - 闪烁效果"

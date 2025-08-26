@@ -15,3 +15,6 @@ extends BoxMarker
 
 func _ready() -> void:
     add_to_group("dialogue_marker")
+
+func _update(_delta: float) -> void:
+    pass

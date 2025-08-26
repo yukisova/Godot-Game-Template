@@ -44,8 +44,8 @@ func fixed_packed_sprite():
 	var body_sprite_size = body.texture.get_size().y
 	var head_sprite_size = head.texture.get_size().y
 
-	body.position = Vector2(0, -body_sprite_size * 0.5)
-	head.position = Vector2(0, -body_sprite_size - head_sprite_size * 0.5)
+	body.position = Vector2(0, 0)
+	head.position = Vector2(0, -head_sprite_size)
 	
 	var hand_left: PackedPart = control_parts.get(&"Left", null)
 	var hand_right: PackedPart = control_parts.get(&"Right", null)

@@ -3,23 +3,18 @@
 ## 绑定到玩家输入响应组件，只在正常游戏状态下处理输入
 ## [br][b]编辑者:[/b] Sora
 class_name InputListener
-extends Node
+extends RefCounted
 
 ## 绑定的输入组件
 ## 指向当前激活的玩家输入响应组件
 var binding_input_component: CInputReactor = null
 
-## 检查输入组件绑定状态并调用输入监听
-## [param _delta]: 帧时间间隔
-func _process(_delta: float) -> void:
-	if binding_input_component != null:
-		_listen()
-
 ## 检查当前游戏状态，只在正常状态下处理输入
 func _listen():
-	# 获取当前游戏状态
-	var current_gaming_state = SGameState.state_machine._get_leaf_state()
-	
-	# 只在正常游戏状态下处理输入
-	if current_gaming_state is GamingStateNormal:
-		binding_input_component._avaliable_in_gaming()
+	if binding_input_component != null:
+		# 获取当前游戏状态
+		var current_gaming_state = SGameState.state_machine._get_leaf_state()
+		
+		# 只在正常游戏状态下处理输入
+		if current_gaming_state is GamingStateNormal:
+			binding_input_component._avaliable_in_gaming()

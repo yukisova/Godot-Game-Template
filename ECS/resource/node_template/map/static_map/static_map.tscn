@@ -3,8 +3,9 @@
 [ext_resource type="Script" uid="uid://btod27rj3wlyo" path="res://resource/node_template/map/static_map/static_map.gd" id="1_fy625"]
 [ext_resource type="Texture2D" uid="uid://bj5r82depcnqo" path="res://resource/resource_template/time_gradient.tres" id="2_rq5ia"]
 
-[node name="StaticMap" type="Node" node_paths=PackedStringArray("levels", "autoload_cutscene", "map_filter")]
+[node name="StaticMap" type="Node" node_paths=PackedStringArray("player_spawns", "levels", "autoload_cutscene", "map_filter")]
 script = ExtResource("1_fy625")
+player_spawns = [null, null]
 levels = NodePath("Levels")
 autoload_cutscene = NodePath("AutoLoadCutscene")
 map_filter = NodePath("MapFilter")

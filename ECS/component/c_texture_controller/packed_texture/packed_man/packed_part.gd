@@ -131,11 +131,6 @@ func _fixed_transform() -> void:
 		if x_纹理反转:
 			rotation_offset = -deg_to_rad(x_自转偏移)
 		rotation = rotation_offset
-	
-	if ellipse_y < 0:
-		z_index = x_身体z轴 - 1  # 在身体后面
-	else:
-		z_index = x_身体z轴 + 1  # 在身体前面
 
 func _update(_delta: float) -> void:
 	_fixed_transform()

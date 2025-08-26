@@ -4,3 +4,6 @@
 ## [br][b]编辑者:[/b] Sora
 @tool
 extends BoxMarker
+
+func _update(_delta: float) -> void:
+    pass

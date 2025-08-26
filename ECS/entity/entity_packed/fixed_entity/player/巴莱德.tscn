@@ -447,13 +447,12 @@ metadata/_custom_type_script = "uid://05a7wc4gf3hk"
 size = Vector2(8, 8)
 
 [node name="巴莱德" node_paths=PackedStringArray("main_control", "component_container") instance=ExtResource("1_bt6ei")]
-z_index = 5
+y_sort_enabled = false
 script = ExtResource("2_poby3")
 main_control = NodePath("CharacterBody")
 component_container = NodePath("CharacterBody/ComponentContainer")
 
 [node name="CharacterBody" parent="." index="0" groups=["player"] instance=ExtResource("3_vcdio")]
-y_sort_enabled = true
 
 [node name="ComponentContainer" parent="CharacterBody" index="0"]
 y_sort_enabled = true
@@ -467,10 +466,18 @@ packed_sprite = NodePath("PackedManSe")
 [node name="Shadow" parent="CharacterBody/ComponentContainer/CTextureController/PackedManSe" index="0"]
 y_sort_enabled = true
 
+[node name="Whole" parent="CharacterBody/ComponentContainer/CTextureController/PackedManSe" index="1"]
+position = Vector2(0, 0)
+
+[node name="Body" parent="CharacterBody/ComponentContainer/CTextureController/PackedManSe/Whole/BH" index="0"]
+flip_h = true
+
 [node name="Head" parent="CharacterBody/ComponentContainer/CTextureController/PackedManSe/Whole/BH" index="1"]
 texture = SubResource("AtlasTexture_hn80f")
+flip_h = true
 
 [node name="Right" parent="CharacterBody/ComponentContainer/CTextureController/PackedManSe/Whole" index="1" node_paths=PackedStringArray("sprite")]
+position = Vector2(-8.742278e-07, 5)
 sprite = NodePath("剑")
 
 [node name="剑" parent="CharacterBody/ComponentContainer/CTextureController/PackedManSe/Whole/Right" index="0" node_paths=PackedStringArray("hitbox_melee_prototype") instance=ExtResource("14_knhut")]
@@ -480,12 +487,14 @@ hitbox_melee_prototype = {
 }
 
 [node name="Left" parent="CharacterBody/ComponentContainer/CTextureController/PackedManSe/Whole" index="2" node_paths=PackedStringArray("sprite")]
+position = Vector2(-8.742278e-07, -5)
 sprite = NodePath("盾牌")
 "x_竖握" = true
 
 [node name="盾牌" parent="CharacterBody/ComponentContainer/CTextureController/PackedManSe/Whole/Left" index="0" instance=ExtResource("6_v8j57")]
 
 [node name="PackedSpriteEditor" parent="CharacterBody/ComponentContainer/CTextureController/PackedManSe" index="2" node_paths=PackedStringArray("control_parts")]
+rotation_angle = 0.0
 control_parts = {
 &"": NodePath(".."),
 &"Body": NodePath("../Whole/BH/Body"),

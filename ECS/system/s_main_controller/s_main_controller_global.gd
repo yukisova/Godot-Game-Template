@@ -5,9 +5,10 @@
 extends ISystem
 
 enum PlayType {
-	SINGLE, ## 单人模式
-	DOUBLE, ## 双人模式
-	FOUR, ## 四人模式
+	SINGLE = 0, ## 单人模式
+	DOUBLE = 1, ## 双人模式
+	THREE = 2, ## 三人模式
+	FOUR = 3, ## 四人模式
 }
 
 enum DeviceType {
@@ -30,34 +31,46 @@ signal partner_joined(_partner: IEntity)
 
 ## 玩家场景资源
 ## 用于实例化玩家角色的预制场景
-@export var player_scene: PackedScene
-@export var player_scene_2: PackedScene
+@export var player_scene: Array[PackedScene]
+var input_listener_list: Dictionary[PlayerRecordInfo, InputListener]
+var player_static: Dictionary[PlayerRecordInfo, IEntity]
 
-@export_subgroup("依赖")
+class PlayerRecordInfo extends Resource: 
+	var player_scene_index: int = -1
+	var player_scene_name: StringName
+	
+	func _init(_player_scene_index: int) -> void:
+		player_scene_index = _player_scene_index
 
-## 输入监听器
-## 处理玩家输入的组件
-@export var input_listener: InputListener
-@export var input_listener_2: InputListener
 
-## 当前伙伴实体
-## 当前活跃的伙伴角色
 @export var partner: IEntity = null
 
-## 玩家静态实体
-## 持久化的玩家角色实体实例
-var player_static: IEntity
-## 双人模式下的第二个玩家角色实体，但是单人模式下，这个变量不应当被赋值
-var player_static_2: IEntity
-
+func _enter_tree() -> void:
+	set_process_unhandled_input(false)
+	
 func _setup():
-
 	partner_joined.connect(func(_partner: IEntity):
 		if partner:
 			partner.queue_free()
 		partner = _partner
 	)
 	player_located.connect(_on_player_located)
+	
+	await Launcher.main.system_setup_completed
+	set_process_unhandled_input(true)
+	
+
+func _get_player_info_by_index(scene_index: int) -> IEntity:
+	for i: PlayerRecordInfo in player_static.keys():
+		if i.player_scene_index == scene_index:
+			return player_static[i]
+	return null
+
+func _get_player_info_by_name(player_name: String) -> IEntity:
+	for i: PlayerRecordInfo in player_static.keys():
+		if i.player_scene_name == player_name:
+			return player_static[i]
+	return null
 
 ## 处理玩家定位信号的回调函数
 ## [param target_level]: 目标关卡
@@ -66,49 +79,39 @@ func _on_player_located(target_level: Level, _context: Dictionary):
 	match _context.get("type", "Initialize"):
 		"Initialize":
 			## 无论是单人还是双人，player_static都可以用来作为判断的标准
-			if (player_static != null):
-				player_static.reparent(target_level)
-				player_static.global_position = _context["start_position"]
-				player_static.main_control.global_position = _context["current_position"]
+			if (!player_static.is_empty()):
+				var index: int = 0
+				for player: IEntity in player_static.values():
+					player.reparent(target_level)
+					player.global_position = _context[index]["start_position"]
+					player.main_control.global_position = _context[index]["current_position"]
 			else:
-				var player_scene_path = _context.get("scene_file_path", null)
-				var player_scene_path_2 = _context.get("scene_file_path_2", null)
-				if player_scene_path != null:
-					player_scene = load(player_scene_path)
-				if player_scene_path_2 != null:
-					player_scene_2 = load(player_scene_path_2)
-				player_static = player_scene.instantiate()
-				player_static.global_position = _context["start_position"]
-				player_static.main_control.global_position = _context["current_position"]
-
-				if play_type == PlayType.DOUBLE:
-					player_static_2 = player_scene_2.instantiate()
-					player_static_2.global_position = _context["start_position_2"]
-					player_static_2.main_control.global_position = _context["current_position_2"]
-					target_level.add_child(player_static_2)
-					target_level.entity_count += 1 ## 目标的target_level新加了玩家，因此要进行额外的判断
-
-				target_level.add_child(player_static)
-			
-			target_level.entity_count += 1 ## HACK 有点诡异的代码目标的target_level新加了玩家，因此要进行额外的判断
-			
-			player_static.initialize_complete.connect(func():
-				target_level._on_entity_initialize()
-				SUiSpawner.current_hud[&""].binding_entity = player_static
-				SUiSpawner.current_hud[&""]._initialize()
-			)
+				for i in play_type + 1:
+					var player_context = _context.get(i, null)
+					if player_context != null:
+						var player_scene_path = player_context.get("scene_file_path",null)
+						var player_record_info = PlayerRecordInfo.new(i)
+						if player_scene_path != null:
+							player_scene[i] = load(player_scene_path)
+						player_static[player_record_info] = player_scene[i].instantiate()
+						player_static[player_record_info].global_position = _context[i]["start_position"]
+						player_static[player_record_info].main_control.global_position = _context[i]["current_position"]
+						target_level.add_child(player_static[player_record_info])
+						target_level.entity_count += 1
+						
+						player_static[player_record_info].initialize_complete.connect(func():
+							target_level._on_entity_initialize()
+							SUiSpawner.current_hud[&""].binding_entitys.append(player_static[player_record_info])
+						)
 		"Transport":
-			if (player_static != null):
-				_context["target_level"].add_child(player_static)
+			if !player_static.is_empty():
 				var target_point: TransportPoint = _context["target_point"]
-				var start_position: Vector2 = target_point.global_position + target_point.tranported_offset
-				player_static.global_position = start_position
-				player_static.main_control.global_position = start_position
-				if play_type == PlayType.DOUBLE:
-					_context["target_level"].add_child(player_static_2)
-					player_static_2.global_position = start_position + target_point.tranported_offset
-					player_static_2.main_control.global_position = start_position + target_point.tranported_offset
-				
+				var start_position: Vector2 = target_point.global_position
+				for player:IEntity in player_static.values():
+					_context["target_level"].add_child(player)
+					start_position += target_point.tranported_offset
+					player.global_position = start_position
+					player.main_control.global_position = start_position
 			else:
 				push_error("传送时未检测到玩家，请检查玩家配置")
 				return
@@ -123,10 +126,14 @@ func _on_player_located(target_level: Level, _context: Dictionary):
 ## [param entity: 角色实体]
 ## [br][br][b]返回:[/b] [SoraConstant.InputTarget] 输入目标
 func get_input_target(entity: IEntity) -> SoraConstant.InputTarget:
-	if entity == player_static:
+	if entity == _get_player_info_by_index(0):
 		return SoraConstant.InputTarget.PLAYER1
-	elif entity == player_static_2:
+	elif entity == _get_player_info_by_index(1):
 		return SoraConstant.InputTarget.PLAYER2
+	elif entity == _get_player_info_by_index(2):
+		return SoraConstant.InputTarget.PLAYER3
+	elif entity == _get_player_info_by_index(3):
+		return SoraConstant.InputTarget.PLAYER4
 	else:
 		return SoraConstant.InputTarget.COMMON
 
@@ -138,8 +145,12 @@ func _vec_input_2_toward(entity_input_target: SoraConstant.InputTarget) -> Dicti
 			prefix = "player1_"
 		SoraConstant.InputTarget.PLAYER2:
 			prefix = "player2_"
+		SoraConstant.InputTarget.PLAYER3:
+			prefix = "player3_"
+		SoraConstant.InputTarget.PLAYER4:
+			prefix = "player4_"
 		_:
-			prefix = "common_"	
+			return {}
 	
 	return {
 		"vec": Input.get_vector(prefix + "move_l", prefix + "move_r", prefix + "move_u", prefix + "move_d").sign(),
@@ -155,8 +166,12 @@ func _vec_input_4_toward(entity_input_target: SoraConstant.InputTarget) -> Dicti
 			prefix = "player1_"
 		SoraConstant.InputTarget.PLAYER2:
 			prefix = "player2_"
+		SoraConstant.InputTarget.PLAYER3:
+			prefix = "player3_"
+		SoraConstant.InputTarget.PLAYER4:
+			prefix = "player4_"
 		_:
-			prefix = "common_"
+			return {}
 
 	var vec_info : Dictionary = {}
 	if Input.is_action_pressed(prefix + "move_l"):
@@ -182,8 +197,12 @@ func _vec_input_8_toward(entity_input_target: SoraConstant.InputTarget) -> Dicti
 			prefix = "player1_"
 		SoraConstant.InputTarget.PLAYER2:
 			prefix = "player2_"
+		SoraConstant.InputTarget.PLAYER3:
+			prefix = "player3_"
+		SoraConstant.InputTarget.PLAYER4:
+			prefix = "player4_"
 		_:
-			prefix = "common_"
+			return {}
 	var vec_info: Dictionary = {}
 	vec_info["vec"] = Input.get_vector(prefix + "move_l", prefix + "move_r", prefix + "move_u", prefix + "move_d").sign()
 	
@@ -200,8 +219,12 @@ func _vec_input_a_toward(entity_input_target: SoraConstant.InputTarget) -> Dicti
 			prefix = "player1_"
 		SoraConstant.InputTarget.PLAYER2:
 			prefix = "player2_"
+		SoraConstant.InputTarget.PLAYER3:
+			prefix = "player3_"
+		SoraConstant.InputTarget.PLAYER4:
+			prefix = "player4_"
 		_:
-			prefix = "common_"
+			return {}
 	var vec_info : Dictionary = {}
 	vec_info["vec"] = Input.get_vector(prefix + "move_l", prefix + "move_r", prefix + "move_u", prefix + "move_d")
 	
@@ -218,12 +241,16 @@ func _vec_input_m_toward(entity_input_target: SoraConstant.InputTarget) -> Dicti
 	var current_player: IEntity
 	match entity_input_target:
 		SoraConstant.InputTarget.PLAYER1:
-			current_player = player_static
+			current_player = _get_player_info_by_index(0)
 		SoraConstant.InputTarget.PLAYER2:
-			current_player = player_static_2
+			current_player = _get_player_info_by_index(1)
+		SoraConstant.InputTarget.PLAYER3:
+			current_player = _get_player_info_by_index(2)
+		SoraConstant.InputTarget.PLAYER4:
+			current_player = _get_player_info_by_index(3)
 		_:
 			# 默认使用玩家1
-			current_player = player_static
+			current_player = _get_player_info_by_index(0)
 	
 	# 检查玩家是否存在
 	if not current_player or not is_instance_valid(current_player):
@@ -261,8 +288,12 @@ func _vec_input_m_toward(entity_input_target: SoraConstant.InputTarget) -> Dicti
 			prefix = "player1_"
 		SoraConstant.InputTarget.PLAYER2:
 			prefix = "player2_"
+		SoraConstant.InputTarget.PLAYER3:
+			prefix = "player3_"
+		SoraConstant.InputTarget.PLAYER4:
+			prefix = "player4_"
 		_:
-			prefix = "common_"
+			return {}
 	
 	# 检查是否按下主要动作键（通常是鼠标左键）
 	var is_moving = Input.is_action_pressed(prefix + "movement")
@@ -276,3 +307,24 @@ func _vec_input_m_toward(entity_input_target: SoraConstant.InputTarget) -> Dicti
 	
 	return vec_info
 #endregion
+
+func _unhandled_input(_event: InputEvent) -> void:
+	if SGlobalConfig.is_initialized:
+		
+		if SGlobalConfig.is_action_triggered(SoraConstant.InputTarget.COMMON, "open_command_line", SoraConstant.InputType.JUST_PRESSED):
+			if SCommandParser.command_parser_canvas.visible:
+				SCommandParser.command_editor_closed.emit()
+			else:
+				SCommandParser.command_editor_opened.emit()
+
+func _process(delta: float) -> void:
+	if !SCommandParser.command_parser_canvas.visible:
+		for _input_listener in input_listener_list.values():
+			_input_listener._listen()
+
+
+func _create_listener_by_player(player: IEntity, input_component: CInputReactor):
+	var new_listener = InputListener.new()
+	new_listener.binding_input_component = input_component
+	var player_record_info: PlayerRecordInfo = player_static.find_key(player)
+	input_listener_list[player_record_info] = new_listener

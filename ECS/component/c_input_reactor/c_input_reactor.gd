@@ -45,10 +45,8 @@ func _enter_tree() -> void:
 func _initialize(_owner: IEntity, _load_data: Dictionary = {}):
 	super._initialize(_owner, _load_data)
 	
-	if component_owner == SMainController.player_static:
-		SMainController.input_listener.binding_input_component = self
-	elif component_owner == SMainController.player_static_2:
-		SMainController.input_listener_2.binding_input_component = self
+	if component_owner in SMainController.player_static.values():
+		SMainController._create_listener_by_player(component_owner, self)
 	
 	for i in get_children():
 		if i is ReactorExtension:

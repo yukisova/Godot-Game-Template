@@ -24,14 +24,13 @@ region = Rect2(0, 120, 80, 40)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_2wmdp"]
 atlas = ExtResource("2_gy206")
-region = Rect2(0, 168, 80, 32)
+region = Rect2(0, 160, 80, 40)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_gy206"]
 atlas = ExtResource("2_gy206")
 region = Rect2(80, 40, 40, 40)
 
 [node name="PackedManSe" type="Node2D" node_paths=PackedStringArray("packed_sprite_editor")]
-y_sort_enabled = true
 script = ExtResource("1_ovmmr")
 packed_sprite_editor = NodePath("PackedSpriteEditor")
 
@@ -40,48 +39,40 @@ texture = SubResource("GradientTexture2D_gy206")
 
 [node name="Whole" type="Node2D" parent="."]
 y_sort_enabled = true
+position = Vector2(-3, -20)
 
 [node name="BH" type="Node2D" parent="Whole"]
-y_sort_enabled = true
 
 [node name="Body" type="Sprite2D" parent="Whole/BH"]
 unique_name_in_owner = true
-y_sort_enabled = true
-position = Vector2(0, -20)
 texture = SubResource("AtlasTexture_hbyip")
-flip_h = true
 hframes = 2
 
 [node name="Head" type="Sprite2D" parent="Whole/BH"]
 unique_name_in_owner = true
-y_sort_enabled = true
-position = Vector2(0, -60)
+position = Vector2(0, -40)
 texture = SubResource("AtlasTexture_2wmdp")
-flip_h = true
 hframes = 2
 
 [node name="Right" type="Node2D" parent="Whole" node_paths=PackedStringArray("sprite", "packed_sprite_editor")]
-z_index = 1
-y_sort_enabled = true
-position = Vector2(-8.742278e-07, -20)
+position = Vector2(1.509958e-06, -5)
 script = ExtResource("3_gy206")
 default_texture = SubResource("AtlasTexture_gy206")
-sprite = NodePath("@Sprite2D@44904")
+sprite = NodePath("@Sprite2D@56784")
 packed_sprite_editor = NodePath("../../PackedSpriteEditor")
 metadata/_custom_type_script = "uid://borj824dr1kti"
 
 [node name="Left" type="Node2D" parent="Whole" node_paths=PackedStringArray("sprite", "packed_sprite_editor")]
-z_index = -1
-y_sort_enabled = true
-position = Vector2(-8.742278e-07, -30)
+position = Vector2(-8.742278e-07, 5)
 script = ExtResource("3_gy206")
 default_texture = SubResource("AtlasTexture_gy206")
-sprite = NodePath("@Sprite2D@44905")
+sprite = NodePath("@Sprite2D@56783")
 packed_sprite_editor = NodePath("../../PackedSpriteEditor")
 metadata/_custom_type_script = "uid://borj824dr1kti"
 
 [node name="PackedSpriteEditor" type="Node" parent="." node_paths=PackedStringArray("control_parts", "animation_player")]
 script = ExtResource("4_wd04a")
+rotation_angle = -0.5
 control_parts = {
 &"": NodePath(".."),
 &"Body": NodePath("../Whole/BH/Body"),
@@ -90,7 +81,7 @@ control_parts = {
 &"Right": NodePath("../Whole/Right")
 }
 animation_player = NodePath("../AnimationPlayer")
-hand_offset_y = -25.0
+hand_offset_y = 0.0
 ellipse_body_radius_x = 20.0
 ellipse_body_radius_y = 5.0
 line_body_offset_x = 2.5

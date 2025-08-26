@@ -1,7 +1,7 @@
 extends ICutscene
 
 ## 对话UI场景
-const dialogue_packed = preload("res://ui/ui/ui_dialogue/ui_dialogue.tscn")
+const dialogue_packed = preload("res://ui/ui/ui_dialogue/normal/ui_dialogue_normal.tscn")
 
 ## 对话资源
 const dialogue_resource = preload("res://resource/plugins_resource/dialogue/sight_light_索拉的世界.dialogue")

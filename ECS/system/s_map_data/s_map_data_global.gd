@@ -86,28 +86,34 @@ func _on_map_registered(map_scene: PackedScene, _data: SavedDataFile = null):
 	
 	if _data == null:
 		# 处理玩家出生点
-		var spawn = map.player_spawn
-		if spawn != null:
-			current_level = spawn.current_level
+		var spawns: Array[PlayerSpawn] = map.player_spawns
+		if !spawns.is_empty():
+			current_level = spawns[0].current_level
 			# 启用当前楼层的碰撞和导航
 			current_level.enable_all_collision_navigation()
 			var _context = {
 				"type": "Initialize",
-				"start_position":spawn.global_position,
-				"current_position":spawn.global_position,
 			}
-
-			if SMainController.play_type == SMainController.PlayType.DOUBLE:
-				var spawn_2 = map.player_spawn_2
-				if spawn_2 != null and spawn_2 != spawn and spawn_2.current_level == current_level:
-					_context["start_position_2"] = spawn_2.global_position
-					_context["current_position_2"] = spawn_2.global_position
-
+			for i in spawns.size():
+				var spawn = spawns[i]
+				if spawn == null: continue
+				var new_record = {
+					i:{
+						"start_position":spawn.global_position,
+						"current_position":spawn.global_position
+					}
+				}
+				_context.merge(new_record)
+			
 			# 通知主控制器玩家位置
 			SMainController.player_located.emit.call_deferred(current_level, _context)
 			
 			# 清理出生点
-			spawn.queue_free()
+			for spawn in spawns:
+				if spawn != null:
+					spawn.queue_free()
+			spawns.clear()
+			
 		else:
 			push_warning("地图数据: 未检测到玩家出生点，请检查地图配置")
 	else:

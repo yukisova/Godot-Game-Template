@@ -23,7 +23,9 @@ signal command_editor_inputed(text: String)
 
 ## 命令行文本编辑器
 ## 用户输入命令的文本编辑组件
-@export var command_parser_editor: TextEdit
+@export var command_parser_editor: CodeEdit
+
+@export var test: bool = false
 
 ## 设置命令行初始状态为隐藏和禁用
 func _enter_tree() -> void:
@@ -46,7 +48,7 @@ func _on_editor_opened():
 	process_mode = Node.PROCESS_MODE_INHERIT
 	
 	# 聚焦到文本编辑器
-	if command_parser_editor:
+	if command_parser_editor and is_inside_tree():
 		command_parser_editor.grab_focus()
 	
 	print("命令行系统: 命令行已打开")
@@ -104,12 +106,12 @@ func _on_parser_begin(command_text: String = ""):
 ## 处理一些基础的调试命令
 ## [param command]: 要执行的命令字符串
 func _execute_simple_command(command: String):
-	var parts = command.split(" ", false)
+	var parts : PackedStringArray = command.split(" ", false)
 	if parts.is_empty():
 		return
 	
-	var cmd = parts[0].to_lower()
-	
+	var cmd: String = parts[0].to_lower().strip_edges()
+
 	match cmd:
 		"help":
 			print("可用命令: help, exit, reload")
@@ -119,4 +121,4 @@ func _execute_simple_command(command: String):
 			# TODO: 实现重载功能
 			print("重载功能尚未实现")
 		_:
-			print("未知命令: ", cmd, " (输入 'help' 查看可用命令)")
+			print("未知命令:", cmd, "(输入 'help' 查看可用命令)")

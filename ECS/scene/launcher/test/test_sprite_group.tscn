@@ -1,0 +1,53 @@
+[gd_scene load_steps=9 format=3 uid="uid://cupacq5bw60a4"]
+
+[sub_resource type="Gradient" id="Gradient_f7dvt"]
+offsets = PackedFloat32Array(0)
+colors = PackedColorArray(0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_2r0av"]
+gradient = SubResource("Gradient_f7dvt")
+
+[sub_resource type="Gradient" id="Gradient_6lcc7"]
+offsets = PackedFloat32Array(0)
+colors = PackedColorArray(1, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_inpm3"]
+gradient = SubResource("Gradient_6lcc7")
+
+[sub_resource type="Gradient" id="Gradient_2r0av"]
+offsets = PackedFloat32Array(0)
+colors = PackedColorArray(0, 0, 1, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_6lcc7"]
+gradient = SubResource("Gradient_2r0av")
+
+[sub_resource type="Gradient" id="Gradient_inpm3"]
+offsets = PackedFloat32Array(0)
+colors = PackedColorArray(1, 0, 1, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_xipg7"]
+gradient = SubResource("Gradient_inpm3")
+
+[node name="TestSpriteGroup" type="Node2D"]
+y_sort_enabled = true
+
+[node name="Node2D" type="Node2D" parent="."]
+
+[node name="Sprite2D" type="Sprite2D" parent="Node2D"]
+z_index = 1
+texture = SubResource("GradientTexture2D_2r0av")
+
+[node name="Sprite2D2" type="Sprite2D" parent="Node2D"]
+position = Vector2(35, 34)
+texture = SubResource("GradientTexture2D_inpm3")
+
+[node name="Node2D2" type="Node2D" parent="."]
+position = Vector2(20, 72)
+
+[node name="Sprite2D" type="Sprite2D" parent="Node2D2"]
+z_index = 1
+texture = SubResource("GradientTexture2D_6lcc7")
+
+[node name="Sprite2D2" type="Sprite2D" parent="Node2D2"]
+position = Vector2(35, 34)
+texture = SubResource("GradientTexture2D_xipg7")

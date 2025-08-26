@@ -13,6 +13,8 @@ enum LayoutType {
 	QUAD         # 四人模式 - 四分割
 }
 
+@export var is_horizontal_split_viewport: bool
+
 ## 鼠标模式类型: 之后要进行一波完善
 enum MouseMode {
 	NORMAL,      # 正常模式 - 鼠标可以自由移动
@@ -123,19 +125,7 @@ func _update_all_viewports():
 ## [param camera_viewport]: 要更新的视口
 ## [param index]: 视口在列表中的索引
 func _update_viewport_config(camera_viewport: CameraViewport, index: int):
-	var split_type: CameraViewport.ViewportSplitType
-	
-	match current_layout:
-		LayoutType.SINGLE:
-			split_type = CameraViewport.ViewportSplitType.FULL_SCREEN
-		LayoutType.DOUBLE_H:
-			split_type = CameraViewport.ViewportSplitType.HORIZONTAL_2
-		LayoutType.DOUBLE_V:
-			split_type = CameraViewport.ViewportSplitType.VERTICAL_2
-		LayoutType.QUAD:
-			split_type = CameraViewport.ViewportSplitType.QUAD_4
-	
-	camera_viewport.set_split_config(split_type, index)
+	camera_viewport.set_split_config(current_layout, index)
 
 ## 获取当前布局信息
 func get_layout_info() -> Dictionary:
@@ -407,11 +397,7 @@ func _on_gui_focus_changed(_control: Control):
 
 ## 初始化viewport
 func _setup_viewports_for_play_type():
-	match SMainController.play_type:
-		SMainController.PlayType.SINGLE:
-			_refresh_single_player_viewport(true)
-		SMainController.PlayType.DOUBLE:
-			_refresh_double_player_viewport(true)
+	_refresh_players_viewport(true)
 	for i in camera_viewports.size():
 		if camera_follow_strategy.size() > i:
 			camera_viewports[i].camera_strategy = camera_follow_strategy[i]
@@ -420,63 +406,36 @@ func _setup_viewports_for_play_type():
 
 ## 刷新viewport(将camera_target重新进行绑定)
 func _refresh_viewports():
-	match SMainController.play_type:
-		SMainController.PlayType.SINGLE:
-			_refresh_single_player_viewport()
-		SMainController.PlayType.DOUBLE:
-			_refresh_double_player_viewport()
+	_refresh_players_viewport()
 
 #region 要改造的方法2, 用一个方法囊括所有可能的多人同屏游玩
-## 设置单人模式视口
-func _refresh_single_player_viewport(is_first: bool = false):
+func _refresh_players_viewport(is_first: bool = false):
+	var play_type = SMainController.play_type
+	match play_type:
+		0:
+			set_layout(LayoutType.SINGLE)
+		1:
+			if is_horizontal_split_viewport:
+				set_layout(LayoutType.DOUBLE_H)
+			else:
+				set_layout(LayoutType.DOUBLE_V)
+		_:
+			set_layout(LayoutType.QUAD)
 	
-	set_layout(LayoutType.SINGLE)
-	var camera_viewport: CameraViewport = null
-	if is_first:
-		camera_viewport = camera_viewport_scene.instantiate()
-		camera_viewports.append(camera_viewport)
-	else:
-		camera_viewport = camera_viewports[0]
-	camera_viewport.camera_target = SMainController.player_static.main_control
-	camera_viewport.viewport.world_2d = SMapData.current_level.get_parent().world_2d
-	
-	if is_first:
-		add_viewport(camera_viewport)
-	current_camera = camera_viewport.camera
-
-
-## 设置双人模式视口
-func _refresh_double_player_viewport(is_first: bool = false):
-	# 默认使用水平分割，可以根据需要调整为垂直分割
-	set_layout(LayoutType.DOUBLE_H)
-	
-	# 玩家1视口
-	var camera_viewport1: CameraViewport = null
-
-	if is_first:
-		camera_viewport1 = camera_viewport_scene.instantiate()
-		camera_viewports.append(camera_viewport1)
-	else:
-		camera_viewport1 = camera_viewports[0]
-	camera_viewport1.camera_target = SMainController.player_static.main_control
-	camera_viewport1.viewport.world_2d = SMapData.current_level.get_parent().world_2d
-
-	if is_first:
-		add_viewport(camera_viewport1)
-	
-	# 玩家2视口（如果有第二个玩家）
-	var camera_viewport2: CameraViewport = null
-	if is_first:
-		camera_viewport2 = camera_viewport_scene.instantiate()
-		camera_viewports.append(camera_viewport2)
-	else:
-		camera_viewport2 = camera_viewports[1]
-	camera_viewport2.camera_target = SMainController.player_static_2.main_control  # 暂时使用同一个玩家
-	camera_viewport2.viewport.world_2d = SMapData.current_level.get_parent().world_2d
-	if is_first:
-		add_viewport(camera_viewport2)
-	
-	current_camera = camera_viewport1.camera
+	for i in play_type+1:
+		var camera_viewport: CameraViewport
+		if is_first:
+			camera_viewport = camera_viewport_scene.instantiate()
+			camera_viewports.append(camera_viewport)
+			add_viewport(camera_viewport)
+			if i == SoraConstant.InputTarget.PLAYER1:
+				current_camera = camera_viewport.camera
+		else:
+			camera_viewport = camera_viewports[i]
+		camera_viewport.camera_target = SMainController._get_player_info_by_index(i).main_control
+		if camera_viewport.camera_target == null:
+			print("出现问题，索引",i,"对应的player不存在")
+		camera_viewport.viewport.world_2d = SMapData.current_level.get_parent().world_2d
 #endregion
 
 ## 动态切换视口布局（可在运行时调用）
