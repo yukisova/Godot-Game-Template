@@ -447,7 +447,6 @@ metadata/_custom_type_script = "uid://05a7wc4gf3hk"
 size = Vector2(8, 8)
 
 [node name="巴莱德" node_paths=PackedStringArray("main_control", "component_container") instance=ExtResource("1_bt6ei")]
-y_sort_enabled = false
 script = ExtResource("2_poby3")
 main_control = NodePath("CharacterBody")
 component_container = NodePath("CharacterBody/ComponentContainer")

@@ -61,7 +61,6 @@ radius = 16.0
 size = Vector2(8, 8)
 
 [node name="哥布林" instance=ExtResource("1_ud6dc")]
-y_sort_enabled = false
 
 [node name="CTextureController" parent="CharacterBody/ComponentContainer" index="0" node_paths=PackedStringArray("packed_sprite")]
 packed_sprite = NodePath("PackedManSe")
@@ -79,12 +78,12 @@ flip_h = true
 [node name="Right" parent="CharacterBody/ComponentContainer/CTextureController/PackedManSe/Whole" index="1" node_paths=PackedStringArray("sprite")]
 position = Vector2(-8.742278e-07, 5)
 default_texture = SubResource("AtlasTexture_nejwl")
-sprite = NodePath("@Sprite2D@59008")
+sprite = NodePath("@Sprite2D@47133")
 
 [node name="Left" parent="CharacterBody/ComponentContainer/CTextureController/PackedManSe/Whole" index="2" node_paths=PackedStringArray("sprite")]
 position = Vector2(-8.742278e-07, -5)
 default_texture = SubResource("AtlasTexture_nejwl")
-sprite = NodePath("@Sprite2D@59007")
+sprite = NodePath("@Sprite2D@47134")
 
 [node name="PackedSpriteEditor" parent="CharacterBody/ComponentContainer/CTextureController/PackedManSe" index="2" node_paths=PackedStringArray("control_parts")]
 rotation_angle = 0.0

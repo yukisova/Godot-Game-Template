@@ -117,5 +117,5 @@ func _on_safe_velocity_computed(safe_velocity: Vector2):
 ## 将导航目标设置为玩家的当前位置。
 func set_movement_target_to_player() -> void:
 	var nav_agent = c_navigation.nav_agent
-	var target_position = SMainController.player_static.main_control.global_position
+	var target_position = SMainController._get_player_info_by_index(0).main_control.global_position
 	nav_agent.target_position = target_position

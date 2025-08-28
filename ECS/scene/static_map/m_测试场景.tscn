@@ -81,6 +81,13 @@ enable_export_to_map = true
 shape = SubResource("RectangleShape2D_phtbu")
 
 [node name="哥布林" parent="Levels/Level" index="8" instance=ExtResource("10_2y2ga")]
-position = Vector2(-298, 327)
+position = Vector2(-189, 351)
+
+[node name="哥布林2" parent="Levels/Level" index="9" instance=ExtResource("10_2y2ga")]
+position = Vector2(-280, 325)
+
+[node name="DirectionalLight2D" parent="Levels/Level" index="10"]
+blend_mode = 2
+shadow_enabled = true
 
 [editable path="Levels/Level"]

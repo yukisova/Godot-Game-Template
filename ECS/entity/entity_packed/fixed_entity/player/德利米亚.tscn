@@ -1,4 +1,4 @@
-[gd_scene load_steps=52 format=3 uid="uid://chcm2vu8h6bs1"]
+[gd_scene load_steps=54 format=3 uid="uid://chcm2vu8h6bs1"]
 
 [ext_resource type="PackedScene" uid="uid://6jpwo3n27sj2" path="res://entity/entity_packed/fixed_entity/fixed_entity.tscn" id="1_sndhc"]
 [ext_resource type="Script" uid="uid://815l8mjrysw1" path="res://entity/entity_packed/fixed_entity/player/i_player.gd" id="2_ptxrt"]
@@ -304,6 +304,19 @@ script = ExtResource("19_ir6hb")
 to_state = NodePath("../Idle")
 metadata/_custom_type_script = "uid://cpdkw72ahtbjj"
 
+[sub_resource type="Gradient" id="Gradient_5rdkg"]
+offsets = PackedFloat32Array(0.25462964, 1)
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_8syy5"]
+gradient = SubResource("Gradient_5rdkg")
+width = 256
+height = 256
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(0.8, 0.2)
+metadata/_snap_enabled = true
+
 [sub_resource type="Resource" id="Resource_0s3qs"]
 script = ExtResource("30_8syy5")
 input_name = "primary_action"
@@ -350,7 +363,6 @@ metadata/_custom_type_script = "uid://05a7wc4gf3hk"
 size = Vector2(8, 8)
 
 [node name="德利米亚" node_paths=PackedStringArray("main_control", "component_container") instance=ExtResource("1_sndhc")]
-y_sort_enabled = false
 script = ExtResource("2_ptxrt")
 main_control = NodePath("CharacterBody")
 component_container = NodePath("CharacterBody/ComponentContainer")
@@ -368,21 +380,25 @@ packed_sprite = NodePath("PackedManSe")
 
 [node name="Body" parent="CharacterBody/ComponentContainer/CTextureController/PackedManSe/Whole/BH" index="0"]
 texture = SubResource("AtlasTexture_w85nv")
+flip_h = true
 
 [node name="Head" parent="CharacterBody/ComponentContainer/CTextureController/PackedManSe/Whole/BH" index="1"]
 texture = SubResource("AtlasTexture_1wida")
+flip_h = true
 
 [node name="Right" parent="CharacterBody/ComponentContainer/CTextureController/PackedManSe/Whole" index="1" node_paths=PackedStringArray("sprite")]
+position = Vector2(-8.742278e-07, 5)
 default_texture = SubResource("AtlasTexture_sndhc")
-sprite = NodePath("@Sprite2D@64500")
+sprite = NodePath("@Sprite2D@47405")
 
 [node name="Left" parent="CharacterBody/ComponentContainer/CTextureController/PackedManSe/Whole" index="2" node_paths=PackedStringArray("sprite")]
-rotation = -3.1415925
+position = Vector2(-8.742278e-07, -5)
 sprite = NodePath("杖")
 
 [node name="杖" parent="CharacterBody/ComponentContainer/CTextureController/PackedManSe/Whole/Left" index="0" instance=ExtResource("7_1b2i3")]
 
 [node name="PackedSpriteEditor" parent="CharacterBody/ComponentContainer/CTextureController/PackedManSe" index="2" node_paths=PackedStringArray("control_parts")]
+rotation_angle = 0.0
 control_parts = {
 &"": NodePath(".."),
 &"Body": NodePath("../Whole/BH/Body"),
@@ -436,6 +452,10 @@ hfsm_state_transition = Dictionary[StringName, ExtResource("19_ir6hb")]({
 target_position = Vector2(30, 0)
 collision_mask = 2
 script = ExtResource("22_8ww0r")
+
+[node name="PointLight2D" type="PointLight2D" parent="CharacterBody/ComponentContainer/CCollisionBox/InteractRay" index="0"]
+blend_mode = 2
+texture = SubResource("GradientTexture2D_8syy5")
 
 [node name="CInputReactor" parent="CharacterBody/ComponentContainer" index="4" instance=ExtResource("23_5hp74")]
 award_mode = "鼠标"

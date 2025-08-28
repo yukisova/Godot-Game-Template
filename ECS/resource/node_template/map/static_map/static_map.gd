@@ -44,7 +44,7 @@ extends Node
 
 ## 地图滤镜
 ## 用于实现昼夜循环视觉效果的画布调制器，类型为 [CanvasModulate]
-@export var map_filter: CanvasModulate
+# @export var map_filter: CanvasModulate
 
 ## 滤镜渐变纹理
 ## 定义昼夜循环的颜色变化曲线，类型为 [GradientTexture1D]
@@ -133,8 +133,9 @@ func time_change_filter(point: float):
 ## 直接更新地图滤镜颜色，避免递归调用
 ## [param time_value]: 时间值
 func _update_filter(time_value: float):
-	if map_filter and filter_gradient:
-		map_filter.color = filter_gradient.gradient.sample(time_value)
+	# if map_filter and filter_gradient:
+	# 	map_filter.color = filter_gradient.gradient.sample(time_value)
+	pass
 
 #region :存档系统:
 func _save(data: SavedDataFile):

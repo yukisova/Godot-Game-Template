@@ -48,3 +48,5 @@ script = ExtResource("4_thopi")
 
 [node name="ObjectPool" type="Node2D" parent="."]
 y_sort_enabled = true
+
+[node name="DirectionalLight2D" type="DirectionalLight2D" parent="."]
