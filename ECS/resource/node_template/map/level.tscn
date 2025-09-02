@@ -1,7 +1,8 @@
-[gd_scene load_steps=8 format=3 uid="uid://6dpqakv78nkp"]
+[gd_scene load_steps=9 format=3 uid="uid://6dpqakv78nkp"]
 
 [ext_resource type="Script" uid="uid://cdnd3coaj1drm" path="res://resource/node_template/map/level.gd" id="1_o3xit"]
 [ext_resource type="Shader" uid="uid://8g3lxhjc26wl" path="res://resource/node_template/map/war_fog.gdshader" id="2_bm21c"]
+[ext_resource type="Texture2D" uid="uid://bj5r82depcnqo" path="res://resource/resource_template/time_gradient.tres" id="2_rdm6c"]
 [ext_resource type="Script" uid="uid://b36hyix3bkmtb" path="res://resource/node_template/map/static_map/fog.gd" id="2_wvb50"]
 [ext_resource type="Script" uid="uid://dvbhjxtkp7mpl" path="res://resource/node_template/map/rooms.gd" id="4_thopi"]
 
@@ -22,13 +23,16 @@ fill = 1
 fill_from = Vector2(0.5, 0.5)
 metadata/_snap_enabled = true
 
-[node name="Level" type="Node2D" node_paths=PackedStringArray("camera_limit", "rooms", "level_object_pool", "level_fog")]
+[node name="Level" type="Node2D" node_paths=PackedStringArray("camera_limit", "rooms", "level_object_pool", "level_fog", "map_filter", "directional_light")]
 y_sort_enabled = true
 script = ExtResource("1_o3xit")
 camera_limit = NodePath("CameraLimit")
 rooms = NodePath("Rooms")
 level_object_pool = NodePath("ObjectPool")
 level_fog = NodePath("CameraLimit/Fog")
+map_filter = NodePath("MapFilter")
+directional_light = NodePath("DirectionalLight2D")
+filter_gradient = ExtResource("2_rdm6c")
 
 [node name="CameraLimit" type="Control" parent="."]
 custom_minimum_size = Vector2(50, 50)
@@ -49,4 +53,7 @@ script = ExtResource("4_thopi")
 [node name="ObjectPool" type="Node2D" parent="."]
 y_sort_enabled = true
 
+[node name="MapFilter" type="CanvasModulate" parent="."]
+
 [node name="DirectionalLight2D" type="DirectionalLight2D" parent="."]
+blend_mode = 2

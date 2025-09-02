@@ -197,6 +197,7 @@ texture = ExtResource("1_jbtab")
 1:6/0 = 0
 
 [resource]
+occlusion_layer_0/light_mask = 1
 physics_layer_0/collision_layer = 1
 terrain_set_0/mode = 0
 terrain_set_0/terrain_0/name = "墙壁"

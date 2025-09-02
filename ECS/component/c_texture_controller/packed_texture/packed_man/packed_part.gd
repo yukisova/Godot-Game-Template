@@ -14,14 +14,13 @@ extends Node2D
 ## 在[color=orange]编辑器模式[/color]下支持实时预览，[color=green]运行时[/color]支持动态切换。
 @export var default_texture: Texture2D:
 	set(value):
-		if value == null:
-			return
 		default_texture = value
 		# 编辑器模式下立即更新纹理显示
 		if sprite == null:
 			sprite = Sprite2D.new()
 			add_child(sprite)
-			sprite.texture = default_texture
+			if default_texture:
+				sprite.texture = default_texture
 @export_range(1,2) var hframes: int:
 	set(value):
 		hframes = value

@@ -12,7 +12,7 @@ enum HandMoveType {
 }
 
 ## 角色朝向角度，控制角色的朝向并自动调用toward方法，范围-0.5到0.5
-@export_range(-0.5,0.5) var rotation_angle: float = 0.0:
+@export_range(-0.5,0.5) var rotation_angle: float = -0.3:
 	set(value):
 		rotation_angle = value
 		if is_node_ready():
@@ -35,6 +35,16 @@ enum HandMoveType {
 var main_part: IPackedSprite
 
 #region 工具按钮
+@export var fixed_head_y: int:
+	set(v):
+		fixed_head_y = v
+		if Engine.is_editor_hint():
+			fixed_packed_sprite()
+@export var fixed_body_y: int:
+	set(v):
+		fixed_body_y = v
+		if Engine.is_editor_hint():
+			fixed_packed_sprite()
 @export_tool_button("快速校准躯干位置") var quick_fixed = fixed_packed_sprite
 
 ## 根据设定的精灵躯干的参数，快速校准精灵各个部位的位置
@@ -42,10 +52,9 @@ func fixed_packed_sprite():
 	var body = control_parts.get(&"Body", null)
 	var head = control_parts.get(&"Head", null)
 	var body_sprite_size = body.texture.get_size().y
-	var head_sprite_size = head.texture.get_size().y
 
-	body.position = Vector2(0, 0)
-	head.position = Vector2(0, -head_sprite_size)
+	body.position = Vector2(0, -body_sprite_size + fixed_body_y)
+	head.position = Vector2(0, body.position.y + fixed_head_y)
 	
 	var hand_left: PackedPart = control_parts.get(&"Left", null)
 	var hand_right: PackedPart = control_parts.get(&"Right", null)

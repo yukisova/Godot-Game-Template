@@ -1,0 +1,14 @@
+[remap]
+
+importer="aseprite_wizard.plugin.noop"
+type="PackedDataContainer"
+uid="uid://2g1n8rp30ss7"
+path="res://.godot/imported/测试用角色.aseprite-cc7b0e7653076c718fbb8775cbe9c9c5.res"
+
+[deps]
+
+source_file="res://asset/char_set/测试用角色.aseprite"
+dest_files=["res://.godot/imported/测试用角色.aseprite-cc7b0e7653076c718fbb8775cbe9c9c5.res"]
+
+[params]
+

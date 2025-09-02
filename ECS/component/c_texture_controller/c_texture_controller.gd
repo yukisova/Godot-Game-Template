@@ -6,10 +6,7 @@
 class_name CTextureController
 extends IComponent
 
-@export_subgroup("纹理配置")
-## 纹理节点路径
-## 指向实体下的精灵节点
-@export var packed_sprite: IPackedSprite
+var packed_sprite: IPackedSprite
 
 func _enter_tree() -> void:
 	component_name = ComponentName.C_TEXTURE_CONTROLLER
@@ -19,6 +16,9 @@ func _enter_tree() -> void:
 ## [param _load_data]: 可选的加载数据
 func _initialize(_owner: IEntity, _load_data: Dictionary = {}):
 	super._initialize(_owner, _load_data)
+	for i in get_children():
+		if i is IPackedSprite:
+			packed_sprite = i
 	
 	# 验证纹理路径是否有效
 	if packed_sprite:

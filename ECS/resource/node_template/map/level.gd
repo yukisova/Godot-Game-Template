@@ -23,6 +23,12 @@ signal level_entity_fully_initialize
 #region 层级组件
 
 @export var is_need_fog: bool
+## 地图时间
+## 控制昼夜循环的时间值（0.0-1.0），影响地图滤镜效果
+@export_range(0, 1) var time: float:
+	set(value):
+		if time != value:  # 避免重复设置
+			time = value
 
 @export_group("依赖")
 ## 相机限制区域
@@ -42,6 +48,25 @@ signal level_entity_fully_initialize
 ## 用于管理该层级中的迷雾，类型为 [Fog]
 ## 用于实现一些恐怖效果，但可以选择关闭
 @export var level_fog: Fog
+
+## 地图滤镜
+@export var map_filter: CanvasModulate
+
+## 方向光，很重要
+@export var directional_light: DirectionalLight2D
+
+@export var filter_gradient: GradientTexture1D
+## 由外部系统（如时间子系统）调用来更新地图时间
+## [param point]: 时间点值
+func time_change_filter(point: float):
+	# 直接更新滤镜，不通过time属性setter避免循环
+	_update_filter(point)
+
+## 直接更新地图滤镜颜色，避免递归调用
+## [param time_value]: 时间值
+func _update_filter(time_value: float):
+	if directional_light and filter_gradient:
+		directional_light.color = filter_gradient.gradient.sample(time_value)
 
 ## 所属静态地图
 ## 指向拥有此层级的静态地图实例，类型为 [StaticMap]
@@ -118,6 +143,8 @@ func _late_initialize():
 		level_fog.hide()
 	level_fog._initialize()
 	rooms._initialize()
+	var timeloop = SBlackboard.get_sub_system(ISubSystem.SubSystemType.TIME_LOOP) as SSTimeLoop
+	timeloop.time_updated.connect(time_change_filter)
 
 func get_camera_limit() -> Dictionary:
 	var limit_dict = {}

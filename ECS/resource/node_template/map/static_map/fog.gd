@@ -99,13 +99,13 @@ func _initialize():
 ## [param _delta]: 帧时间间隔，类型为 [float]
 func _process(_delta: float) -> void:
 	# 安全检查：确保玩家引用存在
-	var player = SMainController.player_static
+	var player = SMainController._get_player_info_by_index(0)
 	if player and not player.main_control.velocity.is_equal_approx(Vector2.ZERO):
 		update_fog()
 
 ## 基于玩家当前位置更新迷雾的揭示区域
 func update_fog():
-	var entity = SMainController.player_static
+	var entity = SMainController._get_player_info_by_index(0)
 	# 安全检查：确保所有必需的对象都存在
 	if not entity or not fog_image or not light_image:
 		return

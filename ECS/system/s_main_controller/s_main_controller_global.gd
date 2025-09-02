@@ -308,19 +308,10 @@ func _vec_input_m_toward(entity_input_target: SoraConstant.InputTarget) -> Dicti
 	return vec_info
 #endregion
 
-func _unhandled_input(_event: InputEvent) -> void:
-	if SGlobalConfig.is_initialized:
-		
-		if SGlobalConfig.is_action_triggered(SoraConstant.InputTarget.COMMON, "open_command_line", SoraConstant.InputType.JUST_PRESSED):
-			if SCommandParser.command_parser_canvas.visible:
-				SCommandParser.command_editor_closed.emit()
-			else:
-				SCommandParser.command_editor_opened.emit()
 
 func _process(delta: float) -> void:
-	if !SCommandParser.command_parser_canvas.visible:
-		for _input_listener in input_listener_list.values():
-			_input_listener._listen()
+	for _input_listener in input_listener_list.values():
+		_input_listener._listen()
 
 
 func _create_listener_by_player(player: IEntity, input_component: CInputReactor):

@@ -26,13 +26,6 @@ var real_time: int:
 		if real_time != new_time:  # 避免重复更新
 			real_time = new_time
 			time_updated.emit(real_time)
-			# 直接调用地图的滤镜更新方法，避免信号循环
-			if SMapData.current_map:
-				SMapData.current_map.time_change_filter(real_time / 1440.0)
-
-## 起始时间
-## 游戏开始时的初始时间设置（分钟制，0-1440）
-@export_range(0, 1440) var start_time: int
 
 ## 设置子系统的关键字标识符
 func _enter_tree() -> void:
@@ -44,7 +37,6 @@ func _enter_tree() -> void:
 func _setup():
 	@warning_ignore("integer_division")
 	past_time = Time.get_ticks_msec() / 1000
-	real_time = start_time
 
 ## 每帧更新游戏内时间，只在正常游戏状态下推进时间
 ## [param _delta]: 帧时间间隔，类型为 [float]

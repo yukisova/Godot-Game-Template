@@ -1,22 +1,57 @@
-[gd_scene load_steps=4 format=3 uid="uid://cur1e6dfde4tl"]
+[gd_scene load_steps=8 format=3 uid="uid://cur1e6dfde4tl"]
 
 [ext_resource type="PackedScene" uid="uid://b8yjmlfn04hqu" path="res://entity/entity_packed/fixed_entity/people/i_people.tscn" id="1_7ct1a"]
-[ext_resource type="Texture2D" uid="uid://uyc1xepl4vif" path="res://asset/char_set/测试用char_1.png" id="2_3xnhd"]
+[ext_resource type="PackedScene" uid="uid://d2tk65us0wyr0" path="res://component/c_texture_controller/packed_texture/packed_man2/packed_man_se.tscn" id="2_843qk"]
+[ext_resource type="Texture2D" uid="uid://b7owcyhft6c20" path="res://asset/char_set/测试用角色.png" id="3_r8mjy"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_7ct1a"]
-size = Vector2(32, 10)
+[sub_resource type="AtlasTexture" id="AtlasTexture_0dnrk"]
+atlas = ExtResource("3_r8mjy")
+region = Rect2(0, 240, 48, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tb7p3"]
+atlas = ExtResource("3_r8mjy")
+region = Rect2(0, 216, 48, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sufx8"]
+atlas = ExtResource("3_r8mjy")
+region = Rect2(0, 264, 24, 24)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wb0bp"]
+size = Vector2(10, 4)
 
 [node name="绿川圣奈Pe" instance=ExtResource("1_7ct1a")]
 
-[node name="CTexture" parent="CharacterBody/ComponentContainer" index="0"]
-texture_path = NodePath("Sprite2D")
+[node name="PackedManSe" parent="CharacterBody/ComponentContainer/CTexture" index="0" instance=ExtResource("2_843qk")]
 
-[node name="Sprite2D" type="Sprite2D" parent="CharacterBody/ComponentContainer/CTexture" index="0"]
-modulate = Color(1, 0, 0, 1)
-texture = ExtResource("2_3xnhd")
+[node name="Body" parent="CharacterBody/ComponentContainer/CTexture/PackedManSe/Whole/BH" index="0"]
+position = Vector2(0, 6)
+texture = SubResource("AtlasTexture_0dnrk")
+
+[node name="Head" parent="CharacterBody/ComponentContainer/CTexture/PackedManSe/Whole/BH" index="1"]
+position = Vector2(0, -13)
+texture = SubResource("AtlasTexture_tb7p3")
+
+[node name="Right" parent="CharacterBody/ComponentContainer/CTexture/PackedManSe/Whole" index="1" node_paths=PackedStringArray("sprite")]
+default_texture = SubResource("AtlasTexture_sufx8")
+sprite = NodePath("@Sprite2D@113145")
+
+[node name="Left" parent="CharacterBody/ComponentContainer/CTexture/PackedManSe/Whole" index="2" node_paths=PackedStringArray("sprite")]
+default_texture = SubResource("AtlasTexture_sufx8")
+sprite = NodePath("@Sprite2D@113144")
+
+[node name="PackedSpriteEditor" parent="CharacterBody/ComponentContainer/CTexture/PackedManSe" index="2" node_paths=PackedStringArray("control_parts")]
+control_parts = {
+&"": NodePath(".."),
+&"Body": NodePath("../Whole/BH/Body"),
+&"Head": NodePath("../Whole/BH/Head"),
+&"Left": NodePath("../Whole/Left"),
+&"Right": NodePath("../Whole/Right")
+}
+fixed_head_y = -19
+fixed_body_y = 30
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody" index="1"]
-position = Vector2(0, 16)
-shape = SubResource("RectangleShape2D_7ct1a")
+shape = SubResource("RectangleShape2D_wb0bp")
 
 [editable path="CharacterBody"]
+[editable path="CharacterBody/ComponentContainer/CTexture/PackedManSe"]

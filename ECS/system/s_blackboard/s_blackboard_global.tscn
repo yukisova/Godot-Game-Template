@@ -39,7 +39,6 @@ script = ExtResource("1_c40g4")
 
 [node name="SSTimeLoop" type="Node" parent="."]
 script = ExtResource("2_iso6r")
-start_time = 770
 
 [node name="SSItemFusion" type="Node" parent="."]
 script = ExtResource("4_1kceg")

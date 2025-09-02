@@ -9,24 +9,12 @@
 class_name StaticMap
 extends Node
 
-#region 地图信号
-# 注意：已移除filter_changed信号，改为直接方法调用避免递归
-#endregion
-
 #region 玩家配置
 
 ## 玩家出生点
 ## 指定玩家在此地图中的初始位置和层级，类型为 [PlayerSpawn]
 @export var player_spawns: Array[PlayerSpawn]
 
-## 地图时间
-## 控制昼夜循环的时间值（0.0-1.0），影响地图滤镜效果
-@export_range(0, 1) var time: float:
-	set(value):
-		if time != value:  # 避免重复设置
-			time = value
-			# 直接更新滤镜，避免信号循环
-			_update_filter(time)
 
 #endregion
 
@@ -38,17 +26,11 @@ extends Node
 ## 包含所有Level层级的容器节点，类型为 [Node2D]
 @export var levels: Node2D
 
+var levels_array: Array[Level]
+
 ## 自动加载过场事件
 ## 地图加载完成后自动播放的过场剧情，类型为 [Node]
 @export var autoload_cutscene: Node
-
-## 地图滤镜
-## 用于实现昼夜循环视觉效果的画布调制器，类型为 [CanvasModulate]
-# @export var map_filter: CanvasModulate
-
-## 滤镜渐变纹理
-## 定义昼夜循环的颜色变化曲线，类型为 [GradientTexture1D]
-@export var filter_gradient: GradientTexture1D
 
 ## 是否启用过场剧情
 ## 控制地图加载后是否自动播放过场动画
@@ -95,6 +77,7 @@ func _enter_tree() -> void:
 			var viewport = SubViewport.new()
 			levels.add_child(viewport)
 			level.reparent(viewport)
+			levels_array.append(level)
 
 			level.level_fully_loaded.connect(_on_level_fully_loaded)
 			level.level_entity_fully_initialize.connect(_on_level_entity_fully_loaded)
@@ -110,6 +93,8 @@ func _enter_tree() -> void:
 	else:
 		SSignalBus.game_loop_start.connect(func():
 			SUiSpawner._get_hud("transition").fade_in()
+			for level in levels_array:
+				level._late_initialize()
 		)
 
 ## 所有楼层的信息全部完成加载后发出
@@ -124,18 +109,6 @@ func _on_level_entity_fully_loaded():
 	if level_initialized_count == level_count:
 		SSignalBus.game_data_loaded_compelete.emit.call_deferred()
 
-## 由外部系统（如时间子系统）调用来更新地图时间
-## [param point]: 时间点值
-func time_change_filter(point: float):
-	# 直接更新滤镜，不通过time属性setter避免循环
-	_update_filter(point)
-
-## 直接更新地图滤镜颜色，避免递归调用
-## [param time_value]: 时间值
-func _update_filter(time_value: float):
-	# if map_filter and filter_gradient:
-	# 	map_filter.color = filter_gradient.gradient.sample(time_value)
-	pass
 
 #region :存档系统:
 func _save(data: SavedDataFile):

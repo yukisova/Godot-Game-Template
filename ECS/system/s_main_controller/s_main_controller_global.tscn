@@ -1,9 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://de66lf0ymbqdj"]
+[gd_scene load_steps=3 format=3 uid="uid://de66lf0ymbqdj"]
 
 [ext_resource type="Script" uid="uid://bukv4ix0dm8r5" path="res://system/s_main_controller/s_main_controller_global.gd" id="1_356yr"]
-[ext_resource type="PackedScene" uid="uid://chcm2vu8h6bs1" path="res://entity/entity_packed/fixed_entity/player/德利米亚.tscn" id="2_wrql2"]
-[ext_resource type="PackedScene" uid="uid://be7ja3suxqwo7" path="res://entity/entity_packed/fixed_entity/player/巴莱德.tscn" id="3_hpwap"]
+[ext_resource type="PackedScene" uid="uid://dq753g4b1nmk8" path="res://entity/entity_packed/fixed_entity/player/野比大雄测试.tscn" id="2_alfy3"]
 
 [node name="S_MainController" type="Node"]
 script = ExtResource("1_356yr")
-player_scene = Array[PackedScene]([ExtResource("2_wrql2"), ExtResource("3_hpwap")])
+player_scene = Array[PackedScene]([ExtResource("2_alfy3")])

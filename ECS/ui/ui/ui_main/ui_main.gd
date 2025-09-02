@@ -74,8 +74,6 @@ extends IUi
 ## 关闭游戏应用程序，类型为 [FuncButton]。
 @export var quit_game_button: FuncButton
 
-@export var two_player: Node2D
-
 #endregion
 
 #region UI初始化
@@ -91,12 +89,10 @@ func _main_setup() -> void:
 	# 设置淡入动画效果
 	var control = get_child(0) as Control
 	control.modulate.a = 0
-	two_player.modulate.a = 0
 	var tween: Tween = get_tree().create_tween()
 	tween.set_ease(Tween.EASE_IN)
 	tween.set_trans(Tween.TRANS_CUBIC)
 	tween.tween_property(control, "modulate:a", 1.0, 1.0)
-	tween.parallel().tween_property(two_player, "modulate:a", 1.0, 1.0)
 	
 	# 绑定各按钮的点击事件
 	_setup_button_bindings()

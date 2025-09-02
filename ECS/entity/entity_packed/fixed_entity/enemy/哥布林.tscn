@@ -69,24 +69,19 @@ packed_sprite = NodePath("PackedManSe")
 
 [node name="Body" parent="CharacterBody/ComponentContainer/CTextureController/PackedManSe/Whole/BH" index="0"]
 texture = SubResource("AtlasTexture_g3h50")
-flip_h = true
 
 [node name="Head" parent="CharacterBody/ComponentContainer/CTextureController/PackedManSe/Whole/BH" index="1"]
 texture = SubResource("AtlasTexture_tjnfr")
-flip_h = true
 
 [node name="Right" parent="CharacterBody/ComponentContainer/CTextureController/PackedManSe/Whole" index="1" node_paths=PackedStringArray("sprite")]
-position = Vector2(-8.742278e-07, 5)
 default_texture = SubResource("AtlasTexture_nejwl")
-sprite = NodePath("@Sprite2D@47133")
+sprite = NodePath("@Sprite2D@29241")
 
 [node name="Left" parent="CharacterBody/ComponentContainer/CTextureController/PackedManSe/Whole" index="2" node_paths=PackedStringArray("sprite")]
-position = Vector2(-8.742278e-07, -5)
 default_texture = SubResource("AtlasTexture_nejwl")
-sprite = NodePath("@Sprite2D@47134")
+sprite = NodePath("@Sprite2D@29242")
 
 [node name="PackedSpriteEditor" parent="CharacterBody/ComponentContainer/CTextureController/PackedManSe" index="2" node_paths=PackedStringArray("control_parts")]
-rotation_angle = 0.0
 control_parts = {
 &"": NodePath(".."),
 &"Body": NodePath("../Whole/BH/Body"),

@@ -7,7 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://tufppmw8gluy" path="res://resource/node_template/map/tilemap/floating/wall.tscn" id="5_miv26"]
 [ext_resource type="TileSet" uid="uid://uv8m2iijojh1" path="res://resource/resource_template/tileset/tileset_test_wall_16.tres" id="6_6k0fo"]
 [ext_resource type="PackedScene" uid="uid://de3o6pll5kxdx" path="res://resource/node_template/map/player_spawn.tscn" id="7_05w2q"]
-[ext_resource type="PackedScene" uid="uid://ht3v3wnr5dy" path="res://entity/entity_packed/fixed_entity/enemy/哥布林.tscn" id="10_2y2ga"]
+[ext_resource type="PackedScene" uid="uid://dq753g4b1nmk8" path="res://entity/entity_packed/fixed_entity/player/野比大雄测试.tscn" id="9_lnnlk"]
 [ext_resource type="PackedScene" uid="uid://dofu8tj40v5it" path="res://entity/entity_packed/object_entity/transport_point/transport_point.tscn" id="29_nfrqy"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_2y2ga"]
@@ -37,7 +37,7 @@ sources/1 = SubResource("TileSetAtlasSource_lnnlk")
 size = Vector2(32, 32)
 
 [node name="m_测试场景" node_paths=PackedStringArray("player_spawns") instance=ExtResource("1_8b7id")]
-player_spawns = [NodePath("Levels/Level/PlayerSpawn"), NodePath("Levels/Level/PlayerSpawn2")]
+player_spawns = [NodePath("Levels/Level/PlayerSpawn")]
 cutscene_enable = false
 
 [node name="Level" parent="Levels" index="0" instance=ExtResource("2_kqh3t")]
@@ -80,14 +80,10 @@ enable_export_to_map = true
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Levels/Level/TransportPoint" index="1"]
 shape = SubResource("RectangleShape2D_phtbu")
 
-[node name="哥布林" parent="Levels/Level" index="8" instance=ExtResource("10_2y2ga")]
-position = Vector2(-189, 351)
-
-[node name="哥布林2" parent="Levels/Level" index="9" instance=ExtResource("10_2y2ga")]
-position = Vector2(-280, 325)
+[node name="巴莱德" parent="Levels/Level" index="9" instance=ExtResource("9_lnnlk")]
+position = Vector2(112, 71)
 
 [node name="DirectionalLight2D" parent="Levels/Level" index="10"]
-blend_mode = 2
-shadow_enabled = true
+color = Color(0, 0, 0, 1)
 
 [editable path="Levels/Level"]
