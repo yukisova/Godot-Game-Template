@@ -20,8 +20,6 @@ extends Item
 ## 武器造成伤害时的各种击中效果，类型为 [Array] of [IHitEffect]
 @export var hit_effect_list: Array[IHitEffect]
 
-@export var context: Dictionary[String, Variant]
-
 ## 装备状态标志
 ## 指示该武器当前是否已被装备
 var is_equipped: bool
