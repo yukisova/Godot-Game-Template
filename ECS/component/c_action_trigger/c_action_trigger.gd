@@ -34,16 +34,17 @@ func _initialize(_owner: IEntity, _load_data: Dictionary = {}):
 
 	initialize_complete.emit()
 	# 绑定所有Action子节点
-	for action: IAction in get_children():
-		action.c_action = self
-		if action is IUpdateAction:
-			_action_list_update.append(action)
-			action.binding_entity = component_owner
-			current_action_list[action] = action.current_action_state
-		elif action is ITriggerAction:
-			action.action_triggered.connect(_on_action_triggered)
-			action.action_triggered_finished.connect(_on_action_triggered_finished)
-		action._initialize()
+	for action in get_children():
+		if action is IAction:
+			action.c_action = self
+			if action is IUpdateAction:
+				_action_list_update.append(action)
+				action.binding_entity = component_owner
+				current_action_list[action as IAction] = action.current_action_state
+			elif action is ITriggerAction:
+				action.action_triggered.connect(_on_action_triggered)
+				action.action_triggered_finished.connect(_on_action_triggered_finished)
+			action._initialize()
 		
 	initialize_complete.emit()
 

@@ -11,12 +11,7 @@ extends EquipmentNode
 #region 射弹配置
 ## 子弹场景
 ## 手枪发射的子弹实体预制体
-@export var projectile_scene: PackedScene:
-	set(value):
-		if value:
-			var instance = value.instantiate()
-			projectile_scene = value
-			instance.queue_free()
+@export var projectile_scene: PackedScene
 
 ## 对象池初始大小
 ## 预分配的子弹实体数量，用于性能优化

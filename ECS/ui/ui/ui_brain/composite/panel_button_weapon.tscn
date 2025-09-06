@@ -1,0 +1,28 @@
+[gd_scene load_steps=2 format=3 uid="uid://ce7q7cwcm0ngi"]
+
+[ext_resource type="Script" uid="uid://dd50xkwxlyo8x" path="res://ui/ui/ui_brain/composite/panel_button_weapon.gd" id="1_2gqu1"]
+
+[node name="PanelButtonWeapon" type="PanelContainer" node_paths=PackedStringArray("button", "texture")]
+self_modulate = Color(1, 1, 1, 0)
+custom_minimum_size = Vector2(0, 200)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_vertical = 4
+script = ExtResource("1_2gqu1")
+button = NodePath("Button")
+texture = NodePath("Button/TextureRect")
+
+[node name="Button" type="Button" parent="."]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="Button"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+stretch_mode = 5

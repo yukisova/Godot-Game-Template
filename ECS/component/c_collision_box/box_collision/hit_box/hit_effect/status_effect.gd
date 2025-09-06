@@ -21,6 +21,7 @@ enum StatusEffectType {
 ## 要修改的状态类型
 @export var status_effect_target: SoraConstant.StatusEnum:
     set(value):
+        @warning_ignore("integer_division")
         if value / 100 > 0:
             return
         status_effect_target = value

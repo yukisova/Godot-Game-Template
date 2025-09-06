@@ -1,0 +1,45 @@
+[gd_scene load_steps=5 format=3 uid="uid://cmjo6u4q6ax71"]
+
+[ext_resource type="Script" uid="uid://bnbrmwrcswq0q" path="res://component/c_texture_controller/packed_texture/packed_texture/projectile/packed_texture_projectile.gd" id="1_tuh6x"]
+[ext_resource type="Script" uid="uid://di6mu1cfjyfir" path="res://component/c_texture_controller/packed_texture/packed_texture/projectile/ps_editor_projectile.gd" id="2_2wxhe"]
+
+[sub_resource type="Gradient" id="Gradient_tuh6x"]
+offsets = PackedFloat32Array(0.7268519, 0.875)
+colors = PackedColorArray(0, 0, 0, 0.7411765, 0, 0, 0, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_0ojem"]
+gradient = SubResource("Gradient_tuh6x")
+width = 16
+height = 8
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(0.90000004, 0)
+metadata/_snap_enabled = true
+
+[node name="PackedTextureProjectile" type="Node2D" node_paths=PackedStringArray("packed_sprite_editor", "shadow", "height_top_marker")]
+script = ExtResource("1_tuh6x")
+packed_sprite_editor = NodePath("PSEditorProjectile")
+shadow = NodePath("Shadow")
+height_top_marker = NodePath("Whole/Body/HeightTopMarker")
+
+[node name="Shadow" type="Sprite2D" parent="."]
+texture = SubResource("GradientTexture2D_0ojem")
+
+[node name="Whole" type="Node2D" parent="."]
+
+[node name="Body" type="Sprite2D" parent="Whole"]
+
+[node name="HeightTopMarker" type="Marker2D" parent="Whole/Body"]
+
+[node name="PSEditorProjectile" type="Node" parent="." node_paths=PackedStringArray("main_part", "control_parts", "animation_player")]
+script = ExtResource("2_2wxhe")
+current_range_ratio = null
+fixed_body_y = null
+main_part = NodePath("..")
+control_parts = {
+&"Main": NodePath("../Whole/Body")
+}
+animation_player = NodePath("../AnimationPlayer")
+metadata/_custom_type_script = "uid://bkarxlrkjktqy"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]

@@ -12,6 +12,7 @@ extends Item
 ## 装备节点场景
 ## 装备时实例化的节点场景，用于提供装备的功能实现
 @export var equipment_node: PackedScene
+@export var equipment_control: PackedScene
 
 ## 装备状态标志
 ## 指示该装备当前是否已被穿戴

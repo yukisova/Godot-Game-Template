@@ -35,7 +35,7 @@ extends VBoxContainer
 ## 
 ## 由外部传入的按钮样式模板。如果设置了，则基于此原型复制按钮样式。
 ## 类型为 [Button]。
-@export var button_prototype: Button
+@export var button_prototype: Control
 
 func _ready() -> void:
 	pass
@@ -78,6 +78,7 @@ class ButtonInfo:
 func _generate(_button_info: Array[ButtonInfo],start_position: Vector2):
 	global_position = start_position
 	for i in _button_info:
+		# 如果按钮原型为空，则默认基于按钮创建FuncButton
 		if not button_prototype:
 			var new_button = FuncButton.new()
 			new_button.text = i.button_name
@@ -87,7 +88,15 @@ func _generate(_button_info: Array[ButtonInfo],start_position: Vector2):
 				queue_free()
 			)
 			add_child(new_button)
+		else:
+			var new_button = button_prototype.instantiate()
+			if !new_button.has_meta("button"):
+				push_error("按钮原型: 按钮原型没有绑定按钮信息，这会导致按钮容器无法正常进行工作")
+				new_button.queue_free()
+				return
 
+
+## FIXME 目前是完全基于Item构建按钮
 ## 从数据创建按钮信息
 ## 
 ## 静态方法，从字典数组创建按钮信息数组。
@@ -100,4 +109,3 @@ static func get_button_info_from(data: Array[Dictionary], args) -> Array[ButtonI
 		var button_info = ButtonInfo.new(args, i[Item.STR_FUNC] as Callable, i[Item.STR_TEXT])
 		result.append(button_info)
 	return result
-		

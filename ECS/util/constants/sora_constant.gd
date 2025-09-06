@@ -69,10 +69,10 @@ const BASIC_SETTING: Dictionary = {
 		},
 
 		0: {
-			"movement": {
-				"type": "mouse",
-				"keycode": MOUSE_BUTTON_LEFT
-			},
+			#"movement": {
+				#"type": "mouse",
+				#"keycode": MOUSE_BUTTON_LEFT
+			#},
 			"move_l": KEY_A,           # 向左移动
 			"move_r": KEY_D,          # 向右移动
 			"move_u": KEY_W,             # 向上移动
@@ -81,10 +81,7 @@ const BASIC_SETTING: Dictionary = {
 				"type": "mouse",
 				"keycode": MOUSE_BUTTON_LEFT
 			},
-			"primary_action": {        # 主要动作（鼠标左键）
-				"type": "mouse",
-				"keycode": MOUSE_BUTTON_WHEEL_UP
-			},
+			"primary_action": KEY_F,
 			"secondary_action": {      # 次要动作（鼠标右键）
 				"type": "mouse", 
 				"keycode": MOUSE_BUTTON_RIGHT

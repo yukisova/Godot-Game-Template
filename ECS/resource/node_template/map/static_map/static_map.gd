@@ -15,6 +15,7 @@ extends Node
 ## 指定玩家在此地图中的初始位置和层级，类型为 [PlayerSpawn]
 @export var player_spawns: Array[PlayerSpawn]
 
+@export_range(0,1) var default_time: float
 
 #endregion
 

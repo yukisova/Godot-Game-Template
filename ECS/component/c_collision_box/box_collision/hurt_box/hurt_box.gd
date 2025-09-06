@@ -2,6 +2,7 @@
 ## 接收来自IHitbox的攻击并计算实际伤害，支持防御计算和特效触发
 ## 用于玩家角色、敌人单位、可破坏物等伤害处理
 ## [br][b]编辑者:[/b] Sora
+@tool
 class_name Hurtbox
 extends BoxCollision
 
@@ -37,6 +38,10 @@ func _on_area_entered(area: Area2D):
 	if area is IHitbox:
 		var hitbox = area
 		# 验证攻击类型匹配
+			
+
+
+
 		# 计算伤害值
 		var damage = _calculate_hit(hitbox)
 		if damage > 0:

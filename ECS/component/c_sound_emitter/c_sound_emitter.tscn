@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://tj8n3dnv556c"]
+
+[ext_resource type="Script" uid="uid://c5qxs3lbeqgkm" path="res://component/c_sound_emitter/c_sound_emitter.gd" id="1_eholm"]
+
+[node name="CSoundEmitter" type="Node2D"]
+script = ExtResource("1_eholm")
+sound_pool_size = 1

@@ -1,7 +1,7 @@
 [gd_scene load_steps=8 format=3 uid="uid://cvl4a2oc006pj"]
 
 [ext_resource type="PackedScene" uid="uid://b8yjmlfn04hqu" path="res://entity/entity_packed/fixed_entity/people/i_people.tscn" id="1_gelah"]
-[ext_resource type="PackedScene" uid="uid://d2tk65us0wyr0" path="res://component/c_texture_controller/packed_texture/packed_man2/packed_man_se.tscn" id="2_jlc07"]
+[ext_resource type="PackedScene" uid="uid://dlwowmvdbw73s" path="res://component/c_texture_controller/packed_texture/packed_texture/people/packed_texture_people.tscn" id="2_jlc07"]
 [ext_resource type="Texture2D" uid="uid://b7owcyhft6c20" path="res://asset/char_set/测试用角色.png" id="3_vfnay"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_jlc07"]
@@ -33,11 +33,11 @@ texture = SubResource("AtlasTexture_mjdow")
 
 [node name="Right" parent="CharacterBody/ComponentContainer/CTexture/PackedManSe/Whole" index="1" node_paths=PackedStringArray("sprite")]
 default_texture = SubResource("AtlasTexture_mqasm")
-sprite = NodePath("@Sprite2D@113004")
+sprite = NodePath("@Sprite2D@30694")
 
 [node name="Left" parent="CharacterBody/ComponentContainer/CTexture/PackedManSe/Whole" index="2" node_paths=PackedStringArray("sprite")]
 default_texture = SubResource("AtlasTexture_mqasm")
-sprite = NodePath("@Sprite2D@113005")
+sprite = NodePath("@Sprite2D@30695")
 
 [node name="PackedSpriteEditor" parent="CharacterBody/ComponentContainer/CTexture/PackedManSe" index="2" node_paths=PackedStringArray("control_parts")]
 control_parts = {

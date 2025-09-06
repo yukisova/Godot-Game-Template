@@ -11,6 +11,10 @@ var texture_toward: Vector2 = Vector2.RIGHT:
 		packed_sprite_editor.rotation_angle = value.angle() / -2 / PI
 		
 @export var packed_sprite_editor: PackedSpriteEditor
+@export var shadow: Sprite2D ## 地面阴影，根据它来判断纹理与地面的距离
+@export var height_top_marker: Marker2D ## 高度标记1，根据它来判断角色的高度
+@export var height_bottom_marker: Marker2D ## 高度标记2，根据它来判断角色的高度
+
 
 func _initialize():
 	packed_sprite_editor._initialize()
@@ -19,5 +23,5 @@ func _update(_delta: float) -> void:
 	packed_sprite_editor._update(_delta)
 
 ## 尝试播放动画
-func try_animation(animation_name: String) -> bool:
+func try_animation(_animation_name: String) -> bool:
 	return false

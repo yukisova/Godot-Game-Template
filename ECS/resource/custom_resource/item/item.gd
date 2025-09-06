@@ -51,8 +51,9 @@ func _check(...args):
 
 ## 物品的使用功能，执行物品的主要效果
 ## [param args]: 可变参数，第一个参数应为 [CStatusList] 类型
-func _use(...args):
-	var c_status = args[0] as CStatusList
+func _use(..._args):
+	# var c_status = _args[0] as CStatusList
+	pass
 	
 ## 物品功能字典键名常量
 const STR_NAME = "name"  ## 功能名称键

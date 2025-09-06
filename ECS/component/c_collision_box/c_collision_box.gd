@@ -50,6 +50,7 @@ func _initialize(_owner: IEntity, _load_data: Dictionary = {}):
 	super._initialize(_owner, _load_data)
 	
 	# 遍历子节点，收集碰撞检测器
+	# 没有位于CCollisionBox下的盒子碰撞体需要手动绑定
 	for child in get_children():
 		if child is BoxCollision:
 			box_collision[child.box_collision_name] = child

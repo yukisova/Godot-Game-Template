@@ -116,6 +116,11 @@ func _add_status(key: int, dict: Dictionary):
 			status_list[key].status_overed.connect(_on_status_overed)
 		1:
 			numinfo_list[key] = NumInfo.new(key, value)
+
+func get_status_extension(extension_type: StatusExtension.ExtensionType) -> StatusExtension:
+	return status_extension.get(extension_type)
+
+
 ## 每帧调用所有状态扩展的效果方法
 ## [param _delta]: 帧时间间隔
 func _update(_delta: float):

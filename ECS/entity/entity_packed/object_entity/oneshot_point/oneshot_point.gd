@@ -13,12 +13,12 @@ var interaction: Interaction
 
 ## 传送点设置—初始化传送点的碰撞组件和交互系统
 func _setup() -> void:
-	c_interactable.interact_finished.connect(func():
-		print("一次性触发点触发，进行销毁")
-		queue_free()
-	)
+	
 	match interact_type:
-		InteractionRecord.InteractType.BodyEntered or InteractionRecord.InteractType.AreaEntered:
+		InteractionRecord.InteractType.BodyEntered:
+			main_control = InteractBox.new()
+			add_child(main_control)
+		InteractionRecord.InteractType.AreaEntered:
 			main_control = InteractBox.new()
 			add_child(main_control)
 		InteractionRecord.InteractType.RayCasted:
@@ -26,12 +26,21 @@ func _setup() -> void:
 			add_child(main_control)
 		InteractionRecord.InteractType.Null:
 			pass
-
+	
+	
+	
 	for i in get_children():
 		if i is CollisionShape2D or i is CollisionPolygon2D:
 			i.reparent(main_control)
 		if i is Interaction:
 			interaction = i
+	
+	interaction.binding_entity = self
+	
+	interaction.interact_finished.connect(func():
+		print("一次性触发点触发，进行销毁")
+		queue_free()
+	)
 	_initialize()
 
 ## 传送点初始化—配置传送交互和相关组件的设置

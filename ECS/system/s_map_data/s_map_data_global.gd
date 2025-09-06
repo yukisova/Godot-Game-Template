@@ -170,14 +170,13 @@ func _on_level_changed(operate_entity: FixedEntity, new_level: Level, point: Vec
 
 
 func _on_map_changed(map: PackedScene, located_info: Dictionary):
-	var player_static = SMainController.player_static
-	if player_static:
-		current_level.remove_child(player_static)
-		if SMainController.play_type == SMainController.PlayType.DOUBLE:
-			var player_static_2 = SMainController.player_static_2
-			if player_static_2:
-				current_level.remove_child(player_static_2)
-		
+	var player_statics = SMainController.player_static
+
+	if !player_statics.is_empty():
+
+		for player_static in player_statics.values():
+			current_level.remove_child(player_static)
+
 		current_map.queue_free()
 		current_map = map.instantiate()
 		Main.game_view.add_child(current_map)

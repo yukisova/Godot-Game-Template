@@ -11,8 +11,10 @@ extends Node2D
 ## 当所有基础组件初始化完毕后触发，标志着实体已准备好接受游戏逻辑处理
 
 ## 射线交互的信号，用于射线交互组件的交互
+@warning_ignore("unused_signal")
 signal entity_ray_interact(interact_source: IEntity)
 
+@warning_ignore("unused_signal")
 signal initialize_complete
 
 @export_subgroup("核心依赖")

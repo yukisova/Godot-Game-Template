@@ -1,18 +1,13 @@
-[gd_scene load_steps=49 format=3 uid="uid://dq753g4b1nmk8"]
+[gd_scene load_steps=42 format=3 uid="uid://dq753g4b1nmk8"]
 
 [ext_resource type="PackedScene" uid="uid://6jpwo3n27sj2" path="res://entity/entity_packed/fixed_entity/fixed_entity.tscn" id="1_fojvx"]
 [ext_resource type="Script" uid="uid://815l8mjrysw1" path="res://entity/entity_packed/fixed_entity/player/i_player.gd" id="2_dwa3q"]
 [ext_resource type="PackedScene" uid="uid://cq0u8u1qie88t" path="res://entity/entity_packed/entity_template/character_body.tscn" id="3_vp0n8"]
 [ext_resource type="PackedScene" uid="uid://bvjy63fua1sx2" path="res://component/c_texture_controller/c_texture_controller.tscn" id="4_spbj0"]
-[ext_resource type="PackedScene" uid="uid://d2tk65us0wyr0" path="res://component/c_texture_controller/packed_texture/packed_man2/packed_man_se.tscn" id="5_aw2yj"]
+[ext_resource type="PackedScene" uid="uid://dlwowmvdbw73s" path="res://component/c_texture_controller/packed_texture/packed_texture/people/packed_texture_people.tscn" id="5_aw2yj"]
 [ext_resource type="Texture2D" uid="uid://b7owcyhft6c20" path="res://asset/char_set/测试用角色.png" id="6_fojvx"]
-[ext_resource type="PackedScene" uid="uid://cp3qo45fcw0ix" path="res://resource/custom_resource/item/item_weapon/1_剑/attack_node_SWORD.tscn" id="7_rcpth"]
 [ext_resource type="PackedScene" uid="uid://caj56l0yail7q" path="res://component/c_status_list/c_status_list.tscn" id="9_l7t6h"]
 [ext_resource type="Script" uid="uid://0y7pq6c8rex1" path="res://component/c_status_list/status_extension/inventory/inventory.gd" id="10_aajhb"]
-[ext_resource type="Script" uid="uid://0y58wickfubb" path="res://resource/custom_resource/item/item.gd" id="11_nxdcx"]
-[ext_resource type="Script" uid="uid://56igfb3mcaca" path="res://component/c_collision_box/box_collision/hit_box/hit_effect/i_hit_effect.gd" id="12_vqqyp"]
-[ext_resource type="Texture2D" uid="uid://ewy7amr1phx8" path="res://asset/item_texture/new_icon_set.png" id="13_frrn3"]
-[ext_resource type="Script" uid="uid://bie3fadk4fwqc" path="res://resource/custom_resource/item/item_weapon/item_weapon.gd" id="14_1i50t"]
 [ext_resource type="Script" uid="uid://lkyrqci5j6qw" path="res://component/c_status_list/status_extension/equipment/equipment.gd" id="15_ao4wf"]
 [ext_resource type="PackedScene" uid="uid://ca1hb1m2dinl2" path="res://component/c_state_machine/c_state_machine.tscn" id="16_j4wpd"]
 [ext_resource type="Script" uid="uid://dnmlb5kw5y7u3" path="res://component/c_state_machine/state/hfsm/state/player/sm_player_root.gd" id="17_fx8n5"]
@@ -31,7 +26,7 @@
 [ext_resource type="Script" uid="uid://05a7wc4gf3hk" path="res://component/c_input_reactor/reactor_extension/action_input/action_input_record.gd" id="30_byc33"]
 [ext_resource type="PackedScene" uid="uid://b3vbfhugiqyva" path="res://component/c_action_trigger/c_action_trigger.tscn" id="31_dw5ky"]
 [ext_resource type="Script" uid="uid://dwt0prmf31a5" path="res://component/c_action_trigger/action/update_action/move_vector.gd" id="32_co28p"]
-[ext_resource type="Script" uid="uid://chmbt72kxr1o7" path="res://component/c_action_trigger/action/trigger_action/action_input_map_fighter.gd" id="33_5qm7a"]
+[ext_resource type="Script" uid="uid://hais8gm07sce" path="res://entity/entity_packed/fixed_entity/player/action_input_map_nobita.gd" id="32_jrw4v"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_fojvx"]
 atlas = ExtResource("6_fojvx")
@@ -173,19 +168,6 @@ _data = {
 &"RESET": SubResource("Animation_poby3")
 }
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_ls5m0"]
-atlas = ExtResource("13_frrn3")
-region = Rect2(0, 0, 32, 32)
-
-[sub_resource type="Resource" id="Resource_k1cn3"]
-script = ExtResource("14_1i50t")
-weapon_node = ExtResource("7_rcpth")
-item_nick_name = "SWORD"
-item_name = "剑"
-item_description = "你好"
-item_texture = SubResource("AtlasTexture_ls5m0")
-metadata/_custom_type_script = "uid://bie3fadk4fwqc"
-
 [sub_resource type="Resource" id="Resource_r1axf"]
 script = ExtResource("19_xt4na")
 to_state = NodePath("../Move")
@@ -199,42 +181,43 @@ metadata/_custom_type_script = "uid://cpdkw72ahtbjj"
 [sub_resource type="Resource" id="Resource_hn80f"]
 script = ExtResource("30_byc33")
 input_name = "primary_action"
-linkage_node = NodePath("../../CActionTrigger/ActionInputMapFighter")
+input_type = 2
+linkage_node = NodePath("../../CActionTrigger/ActionInputMap")
 input_parameter = Array[int]([0])
 metadata/_custom_type_script = "uid://05a7wc4gf3hk"
 
 [sub_resource type="Resource" id="Resource_s1eqv"]
 script = ExtResource("30_byc33")
 input_name = "secondary_action"
-linkage_node = NodePath("../../CActionTrigger/ActionInputMapFighter")
+linkage_node = NodePath("../../CActionTrigger/ActionInputMap")
 input_parameter = Array[int]([1])
 metadata/_custom_type_script = "uid://05a7wc4gf3hk"
 
 [sub_resource type="Resource" id="Resource_2yrpb"]
 script = ExtResource("30_byc33")
 input_name = "special_action"
-linkage_node = NodePath("../../CActionTrigger/ActionInputMapFighter")
+linkage_node = NodePath("../../CActionTrigger/ActionInputMap")
 input_parameter = Array[int]([2])
 metadata/_custom_type_script = "uid://05a7wc4gf3hk"
 
 [sub_resource type="Resource" id="Resource_7ry0g"]
 script = ExtResource("30_byc33")
 input_name = "skill_0"
-linkage_node = NodePath("../../CActionTrigger/ActionInputMapFighter")
+linkage_node = NodePath("../../CActionTrigger/ActionInputMap")
 input_parameter = Array[int]([3])
 metadata/_custom_type_script = "uid://05a7wc4gf3hk"
 
 [sub_resource type="Resource" id="Resource_0mlm6"]
 script = ExtResource("30_byc33")
 input_name = "skill_1"
-linkage_node = NodePath("../../CActionTrigger/ActionInputMapFighter")
+linkage_node = NodePath("../../CActionTrigger/ActionInputMap")
 input_parameter = Array[int]([4])
 metadata/_custom_type_script = "uid://05a7wc4gf3hk"
 
 [sub_resource type="Resource" id="Resource_tnsi2"]
 script = ExtResource("30_byc33")
 input_name = "skill_2"
-linkage_node = NodePath("../../CActionTrigger/ActionInputMapFighter")
+linkage_node = NodePath("../../CActionTrigger/ActionInputMap")
 input_parameter = Array[int]([5])
 metadata/_custom_type_script = "uid://05a7wc4gf3hk"
 
@@ -260,12 +243,13 @@ y_sort_enabled = true
 y_sort_enabled = true
 
 [node name="Body" parent="CharacterBody/ComponentContainer/CTextureController/PackedManSe/Whole/BH" index="0"]
-position = Vector2(0, 5)
 texture = SubResource("AtlasTexture_fojvx")
 metadata/_aseprite_wizard_interface_config_ = {
 "layer_section": true,
 "output_section": true,
-"pending_changes": {},
+"pending_changes": {
+"source": "res://asset/char_set/测试用角色.aseprite"
+},
 "slice_section": true
 }
 metadata/_aseprite_wizard_config_ = {
@@ -288,19 +272,22 @@ metadata/_aseprite_wizard_config_ = {
 }
 
 [node name="Head" parent="CharacterBody/ComponentContainer/CTextureController/PackedManSe/Whole/BH" index="1"]
-position = Vector2(0, -17)
 texture = SubResource("AtlasTexture_dwa3q")
 
 [node name="Right" parent="CharacterBody/ComponentContainer/CTextureController/PackedManSe/Whole" index="1" node_paths=PackedStringArray("sprite")]
+position = Vector2(0, 0)
 default_texture = SubResource("AtlasTexture_jrw4v")
-sprite = NodePath("@Sprite2D@115018")
+sprite = NodePath("@Sprite2D@57134")
 
 [node name="Left" parent="CharacterBody/ComponentContainer/CTextureController/PackedManSe/Whole" index="2" node_paths=PackedStringArray("sprite")]
+position = Vector2(0, 0)
 default_texture = SubResource("AtlasTexture_jrw4v")
-sprite = NodePath("@Sprite2D@115019")
-"x_竖握" = true
+sprite = NodePath("@Sprite2D@57135")
 
 [node name="PackedSpriteEditor" parent="CharacterBody/ComponentContainer/CTextureController/PackedManSe" index="2" node_paths=PackedStringArray("control_parts")]
+line_body_offset_x = 12.5
+hand_offset_x_left = 10.0
+hand_offset_x_right = -10.0
 control_parts = {
 &"": NodePath(".."),
 &"Body": NodePath("../Whole/BH/Body"),
@@ -308,9 +295,6 @@ control_parts = {
 &"Left": NodePath("../Whole/Left"),
 &"Right": NodePath("../Whole/Right")
 }
-line_body_offset_x = 12.5
-hand_offset_x_left = 10.0
-hand_offset_x_right = -10.0
 
 [node name="AnimationPlayer" parent="CharacterBody/ComponentContainer/CTextureController/PackedManSe" index="3"]
 libraries = {
@@ -321,7 +305,6 @@ libraries = {
 
 [node name="Inventory" type="Node2D" parent="CharacterBody/ComponentContainer/CStatusList" index="0"]
 script = ExtResource("10_aajhb")
-inventory_array = Array[ExtResource("11_nxdcx")]([SubResource("Resource_k1cn3")])
 
 [node name="Equipment" type="Node2D" parent="CharacterBody/ComponentContainer/CStatusList" index="1"]
 script = ExtResource("15_ao4wf")
@@ -388,8 +371,8 @@ move_speed = 2000.0
 movement_threshold = 100.0
 blackboard = NodePath("../..")
 
-[node name="ActionInputMapFighter" type="Node2D" parent="CharacterBody/ComponentContainer/CActionTrigger" index="1" node_paths=PackedStringArray("c_texture_controller", "c_status")]
-script = ExtResource("33_5qm7a")
+[node name="ActionInputMap" type="Node2D" parent="CharacterBody/ComponentContainer/CActionTrigger" index="1" node_paths=PackedStringArray("c_texture_controller", "c_status")]
+script = ExtResource("32_jrw4v")
 c_texture_controller = NodePath("../../CTextureController")
 c_status = NodePath("../../CStatusList")
 

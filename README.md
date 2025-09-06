@@ -17,7 +17,6 @@ cssclass: "dashboard"
 # Godot 2D Game ECS Template Documentation
 
 > 基于Godot 4.5的2D游戏ECS（Entity-Component-System）架构模板项目
-> 注意,本人很懒,这个是为了
 
 ## 🎯 Project Overview
 
@@ -95,7 +94,7 @@ cssclass: "dashboard"
 
 ## 📈 Recent Updates
 
-### 2024-12 Latest Changes
+### 2025-12 Latest Changes
 
 - ✅ README.md完整重构，基于66个核心文件的注释结构
 - ✅ 栈溢出递归问题修复（详见 [[debug_recursion_fix.md]]）

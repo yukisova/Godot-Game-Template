@@ -309,7 +309,7 @@ func _vec_input_m_toward(entity_input_target: SoraConstant.InputTarget) -> Dicti
 #endregion
 
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	for _input_listener in input_listener_list.values():
 		_input_listener._listen()
 

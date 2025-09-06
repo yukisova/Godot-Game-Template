@@ -33,7 +33,8 @@ var current_attack_node: WeaponNode:
 			current_attack_node.queue_free()
 			
 		current_attack_node = v
-		current_attack_node._activated()
+		if current_attack_node:
+			current_attack_node._activated()
 
 ## 当前装备的装备物品
 ## 设置时自动更新装备状态
@@ -83,7 +84,7 @@ func _on_attack_node_changed(item_weapon: ItemWeapon):
 		current_weapon = item_weapon
 		current_attack_node = item_weapon.weapon_node.instantiate()
 		current_attack_node.c_status = c_status
-		current_attack_node.hit_effect_list = item_weapon.hit_effect_list.duplicate_deep()
+		current_attack_node.set_hit_effect(item_weapon.hit_effect_list.duplicate_deep())
 
 		var texture_controller: CTextureController = c_status.get_other_component(IComponent.ComponentName.C_TEXTURE_CONTROLLER)
 		if texture_controller:
@@ -105,7 +106,14 @@ func _on_equipment_node_changed(item_equipment: ItemEquipment):
 		current_equipment = item_equipment
 		current_equipment_node = item_equipment.equipment_node.instantiate()
 		current_equipment_node.c_status = c_status
-		add_child(current_equipment_node)
+		var texture_controller: CTextureController = c_status.get_other_component(IComponent.ComponentName.C_TEXTURE_CONTROLLER)
+		if texture_controller:
+			var left_part: PackedPart = texture_controller.packed_sprite.packed_sprite_editor.control_parts.get(&"Left", null)
+			if left_part:
+				left_part.add_child(current_equipment_node)
+				left_part.sprite = current_equipment_node
+			else:
+				add_child(current_equipment_node)
 	else:
 		current_equipment = null
 		current_equipment_node = null

@@ -2,6 +2,7 @@
 ## 检测攻击命中目标并计算伤害，支持不同类型的攻击效果
 ## 与装备系统和状态系统集成，处理近战远程等各种攻击
 ## [br][b]编辑者:[/b] Sora
+@tool
 @abstract class_name IHitbox
 extends BoxCollision
 

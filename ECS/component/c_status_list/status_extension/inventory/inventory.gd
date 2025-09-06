@@ -27,6 +27,32 @@ signal weight_exceeded(current_weight: float, max_weight: float)
 ## 存储所有物品，null表示空槽位
 @export var inventory_array: Array[Item]
 
+## 存储武器与装备的物品数组
+@export var inventory_array_weapon: Dictionary[String, Item]
+
+## 左手快捷切换索引，如果值为""则表示空手
+@export var inventory_array_left_quick: Array[String]:
+	set(v):
+		v.resize(2) ## 左手快捷切换索引
+		for i in range(v.size()):
+			var value = v[i]
+			if value in inventory_array_right_quick:
+				push_error("背包系统: 左手快捷切换索引与右手快捷切换索引重复 -> " + value)
+				v[i] = ""
+		inventory_array_left_quick = v
+
+@export var inventory_array_right_quick: Array[String]:
+	set(v):
+		v.resize(2) ## 右手快捷切换索引
+		for i in range(v.size()):
+			var value = v[i]
+			if value in inventory_array_left_quick:
+				push_error("背包系统: 右手快捷切换索引与左手快捷切换索引重复 -> " + value)
+				v[i] = ""
+
+		inventory_array_right_quick = v
+
+
 ## 背包总容量
 @export_range(1, 25, 1, "or_greater") var inventory_pack_num: int = 20
 
@@ -70,19 +96,27 @@ func _effect():
 ## 自动寻找空位放置物品
 ## [param target]: 要添加的物品
 func auto_add_inventory(target: Item) -> bool:
-	# 检查重量限制
-	if current_weight_num + target.get_weight() > inventory_weight_num:
-		weight_exceeded.emit(current_weight_num + target.get_weight(), inventory_weight_num)
-		return false
-	
-	# 查找空位
-	for i in range(inventory_pack_num):
-		if inventory_array[i] == null:
-			inventory_array[i] = target.duplicate()
-			current_pack_num += 1
-			current_weight_num += target.get_weight()
-			inventory_added.emit(inventory_array[i], i)
-			return true
+	if target is ItemWeapon or target is ItemEquipment:
+		# FIXME 武器物品需要特殊处理，并不用加入网格背包
+		inventory_array_weapon[target.item_nick_name] = target
+		return true
+	elif target is ItemBullet or target is ItemConsumable:
+		# 检查重量限制
+		if current_weight_num + target.get_weight() > inventory_weight_num:
+			weight_exceeded.emit(current_weight_num + target.get_weight(), inventory_weight_num)
+			return false
+		
+		# 查找空位
+		for i in range(inventory_pack_num):
+			if inventory_array[i] == null:
+				inventory_array[i] = target.duplicate()
+				current_pack_num += 1
+				current_weight_num += target.get_weight()
+				inventory_added.emit(inventory_array[i], i)
+				return true
+	elif target is ItemDocument:
+		# FIXME 文档物品需要特殊处理，加入另一个文档背包
+		pass
 	
 	# 背包已满
 	inventory_full.emit()

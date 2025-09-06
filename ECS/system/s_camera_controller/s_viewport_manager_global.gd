@@ -85,16 +85,22 @@ func remove_viewport(camera_viewport: CameraViewport):
 	var index = camera_viewports.find(camera_viewport)
 	if index >= 0:
 		camera_viewports.remove_at(index)
-		game_viewport_grid.remove_child(camera_viewport)
-		camera_viewport.queue_free()
+		# 添加防护检查，确保节点仍然是grid的子节点
+		if is_instance_valid(camera_viewport) and camera_viewport.get_parent() == game_viewport_grid:
+			game_viewport_grid.remove_child(camera_viewport)
+		if is_instance_valid(camera_viewport):
+			camera_viewport.queue_free()
 		# 重新配置剩余视口
 		_update_all_viewports()
 
 ## 清空所有视口
 func clear_all_viewports():
 	for viewport in camera_viewports:
-		game_viewport_grid.remove_child(viewport)
-		viewport.queue_free()
+		# 添加防护检查，确保节点仍然是grid的子节点
+		if is_instance_valid(viewport) and viewport.get_parent() == game_viewport_grid:
+			game_viewport_grid.remove_child(viewport)
+		if is_instance_valid(viewport):
+			viewport.queue_free()
 	camera_viewports.clear()
 	
 ## 配置GridContainer的列数和行数

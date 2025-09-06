@@ -110,7 +110,7 @@ func _detect_state():
 ## 将移动状态重置为初始状态，通常在实体被重新初始化时调用
 func _reset():
 		# 验证实体类型兼容性
-	direction = blackboard.get_value("start_direction", Vector2.RIGHT)
+	direction = blackboard.get_value("start_direction", Vector2.RIGHT, true)
 
 	max_lifetime = blackboard.get_value("max_lifetime", 2.0)
 	_time = 0

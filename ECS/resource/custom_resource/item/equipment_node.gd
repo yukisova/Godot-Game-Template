@@ -25,11 +25,11 @@ func fixed_flip_h(is_flip: bool):
 		texture.position = flip_h_offset_false if not is_flip else flip_h_offset_true
 
 ## 装备触发效果的方法，可以被子类重写
-func _trigger_effect(...args):
+func _trigger_effect(..._args):
 	pass
 
 ## 装备的触发效果关闭的方法
-func _trigger_effect_finished(...args):
+func _trigger_effect_finished(..._args):
 	pass
 
 ## 装备的激活方法

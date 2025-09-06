@@ -1,29 +1,6 @@
 ## 角色状态界面UI - 显示玩家属性、背包和装备信息
-##
 ## 该UI是玩家的主要信息查看界面，集成了背包管理、物品展示和角色状态查看等功能。
-## 提供直观的网格背包系统和详细的物品信息面板。
-##
-## 核心功能：
-## - 背包物品的网格显示和管理
-## - 物品详细信息的查看面板
-## - 多标签页的信息分类显示
-## - 实时的物品焦点切换效果
-## - 键盘快捷键的快速访问
-##
-## 主要特性：
-## - 网格式背包布局系统
-## - 动态物品信息更新机制
-## - 多标签页信息展示界面
-## - 响应式的焦点切换反馈
-## - 集成物品交互和管理功能
-##
-## 使用场景：
-## - 玩家背包物品管理
-## - 角色属性和状态查看
-## - 装备和道具的详细检查
-## - 游戏内物品整理和分类
-##
-## 架构设计：
+## 架构设计:
 ## - 继承自 [IUi] 基类
 ## - 集成 [GridInventory] 网格背包系统
 ## - 基于 [TabContainer] 的多页面管理
@@ -42,25 +19,13 @@ extends IUi
 ## 负责物品的网格化显示和交互管理，类型为 [GridInventory]。
 @export var grid_inventory: GridInventory
 
+@export var panel_button_weapon_prototype: PanelButtonWeapon
+@export var item_weapon_list: VBoxContainer
+
 ## 列表容器
 ## 
 ## 存放各种列表信息的容器组件，类型为 [ListDocument]。
 @export var list_container: ListDocument
-
-## 焦点物品图像组
-## 
-## 不同标签页的物品图标显示组件数组，类型为 [Array] of [TextureRect]。
-@export var focus_item_image: Array[TextureRect]
-
-## 焦点物品名称组
-## 
-## 不同标签页的物品名称显示组件数组，类型为 [Array] of [Label]。
-@export var focus_item_name: Array[Label]
-
-## 焦点物品描述组
-## 
-## 不同标签页的物品详细描述显示组件数组，类型为 [Array] of [RichTextLabel]。
-@export var focus_item_describe: Array[RichTextLabel]
 
 #endregion
 
@@ -82,8 +47,8 @@ func _ready() -> void:
 	super()
 	print("角色状态UI: 开始初始化")
 	
-	# 连接网格背包的焦点物品更新信号
-	grid_inventory.focus_item_updated.connect(_on_display_item_info)
+	# # 连接网格背包的焦点物品更新信号
+	# grid_inventory.focus_item_updated.connect(_on_display_item_info)
 	
 	print("角色状态UI: 初始化完成")
 
@@ -97,9 +62,9 @@ func _ready() -> void:
 ## [param _context]: 包含背包信息的上下文字典，类型为 [Dictionary]
 func _initilize_info(_context: Dictionary) -> void:
 	await ready
-	print("角色状态UI: 开始加载背包数据")
-	
-	var status:CStatusList = _context["status"]
+
+	# 1. 加载背包数据
+	var status: CStatusList = _context["status"]
 	var inventory: InventoryExtension = status.status_extension[StatusExtension.ExtensionType.INVENTORY]
 	
 	grid_inventory.grid_num = inventory.inventory_pack_num
@@ -107,31 +72,33 @@ func _initilize_info(_context: Dictionary) -> void:
 	
 	grid_inventory.binding_status = status
 	
-	
 	# 加载所有背包物品
 	for i in inventory.inventory_array:
 		if i != null:
 			grid_inventory.add_item(i)
 	
-	print("角色状态UI: 背包数据加载完成")
+	for i:ItemWeapon in inventory.inventory_array_weapon.values():
+		if i != null:
+			# 1. 根据按钮的原型，复制并绑定按钮信息
+			var new_button: PanelButtonWeapon = panel_button_weapon_prototype.duplicate()
+			item_weapon_list.add_child(new_button)
+			new_button.binding_item = i
+			new_button.target_c_status = status
+			new_button.button.pressed.connect(new_button.button_func.bind({}))
+	# 2. 加载装备数据
+	var equipment: EquipmentExtension = status.status_extension[StatusExtension.ExtensionType.EQUIPMENT]
+	if equipment:
+		equipment.equipment_node_changed.connect(_on_equipment_node_changed)
+		equipment.attack_node_changed.connect(_on_attack_node_changed)
 
-#endregion
+		if equipment.current_weapon and equipment.current_weapon.equipment_control:
+			grid_inventory.equipment_control = equipment.current_weapon.equipment_control.instantiate()
 
-#region 物品信息显示
+func _on_equipment_node_changed(item_equipment: ItemEquipment):
+	pass
 
-## 显示物品详细信息
-## 
-## 更新当前标签页的物品信息显示。
-## [param item]: 要显示的物品对象，类型为 [Item]
-func _on_display_item_info(item: Item):
-	var current_tab: int = tab_container.current_tab
-	
-	# 更新当前标签页的物品信息显示
-	focus_item_image[current_tab].texture = item.item_texture
-	focus_item_describe[current_tab].text = item.item_description
-	focus_item_name[current_tab].text = item.item_name
-	
-	print("角色状态UI: 更新物品信息 -> ", item.item_name)
+func _on_attack_node_changed(item_weapon: ItemWeapon):
+	grid_inventory.equipment_control = item_weapon.equipment_control.instantiate()
 
 #endregion
 

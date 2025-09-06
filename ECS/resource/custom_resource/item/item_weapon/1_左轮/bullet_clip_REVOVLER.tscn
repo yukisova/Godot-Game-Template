@@ -1,0 +1,245 @@
+[gd_scene load_steps=17 format=3 uid="uid://40fhmpemku6m"]
+
+[ext_resource type="Script" uid="uid://ccsasxoyf3q1p" path="res://resource/custom_resource/item/item_weapon/1_左轮/bullet_clip_REVOVLER.gd" id="1_tbknj"]
+[ext_resource type="Script" uid="uid://ctgyg7kdyuljs" path="res://ui/ui/ui_brain/composite/grid_inventory/bullet_clip_slot.gd" id="3_yaah3"]
+
+[sub_resource type="Gradient" id="Gradient_reyo6"]
+offsets = PackedFloat32Array(0, 0.10393258, 0.76123595, 0.9719101)
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_yaah3"]
+gradient = SubResource("Gradient_reyo6")
+width = 100
+height = 100
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(0.90000004, 0.2)
+metadata/_snap_enabled = true
+
+[sub_resource type="Gradient" id="Gradient_yaah3"]
+offsets = PackedFloat32Array(0, 0.10393258, 0.76123595, 0.9719101)
+colors = PackedColorArray(1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_qtr27"]
+gradient = SubResource("Gradient_yaah3")
+width = 100
+height = 100
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(0.90000004, 0.2)
+metadata/_snap_enabled = true
+
+[sub_resource type="Gradient" id="Gradient_2sjb7"]
+offsets = PackedFloat32Array(0, 0.10393258, 0.76123595, 0.9719101)
+colors = PackedColorArray(1, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_ak3wl"]
+gradient = SubResource("Gradient_2sjb7")
+width = 100
+height = 100
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(0.90000004, 0.2)
+metadata/_snap_enabled = true
+
+[sub_resource type="Gradient" id="Gradient_ak3wl"]
+offsets = PackedFloat32Array(0, 0.10393258, 0.76123595, 0.9719101)
+colors = PackedColorArray(0, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_8ga8l"]
+gradient = SubResource("Gradient_ak3wl")
+width = 100
+height = 100
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(0.90000004, 0.2)
+metadata/_snap_enabled = true
+
+[sub_resource type="Gradient" id="Gradient_s8o2q"]
+offsets = PackedFloat32Array(0, 0.10393258, 0.76123595, 0.9719101)
+colors = PackedColorArray(0, 1, 0, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_j7mks"]
+gradient = SubResource("Gradient_s8o2q")
+width = 100
+height = 100
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(0.90000004, 0.2)
+metadata/_snap_enabled = true
+
+[sub_resource type="Gradient" id="Gradient_y3rnv"]
+offsets = PackedFloat32Array(0.6508951, 0.68925834, 1)
+colors = PackedColorArray(0, 0, 0, 1, 0, 0, 0, 0, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_3v8cs"]
+gradient = SubResource("Gradient_y3rnv")
+width = 448
+height = 448
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+metadata/_snap_enabled = true
+
+[sub_resource type="Gradient" id="Gradient_qtr27"]
+offsets = PackedFloat32Array(0.6508951, 0.68925834, 1)
+colors = PackedColorArray(0, 0, 1, 1, 0, 0, 0, 0, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_2sjb7"]
+gradient = SubResource("Gradient_qtr27")
+width = 32
+height = 32
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+metadata/_snap_enabled = true
+
+[node name="BulletClip" type="MarginContainer" node_paths=PackedStringArray("eject_hole", "bullet_clip_array")]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+script = ExtResource("1_tbknj")
+empty_texture = SubResource("GradientTexture2D_yaah3")
+bullet_clip_texture = Dictionary[int, Texture2D]({
+0: SubResource("GradientTexture2D_qtr27"),
+1: SubResource("GradientTexture2D_ak3wl")
+})
+bullet_clip_over_texture = Dictionary[int, Texture2D]({
+0: SubResource("GradientTexture2D_8ga8l"),
+1: SubResource("GradientTexture2D_j7mks")
+})
+bullet_clip_range = 120.0
+eject_hole = NodePath("Control/退弹口")
+bullet_clip_array = [NodePath("Control/弹仓1"), NodePath("Control/弹仓2"), NodePath("Control/弹仓3"), NodePath("Control/弹仓4"), NodePath("Control/弹仓5"), NodePath("Control/弹仓6")]
+bullet_fliter = "B_A_"
+
+[node name="Control" type="Control" parent="."]
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 2
+
+[node name="弹夹轮廓" type="TextureRect" parent="Control"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -224.0
+offset_top = -224.0
+offset_right = 224.0
+offset_bottom = 224.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("GradientTexture2D_3v8cs")
+
+[node name="退弹口" type="TextureRect" parent="Control"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -16.0
+offset_top = -16.0
+offset_right = 16.0
+offset_bottom = 16.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("GradientTexture2D_2sjb7")
+
+[node name="弹仓1" type="PanelContainer" parent="Control"]
+self_modulate = Color(1, 1, 1, 0)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -50.0
+offset_top = -170.0
+offset_right = 50.0
+offset_bottom = -70.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("3_yaah3")
+
+[node name="弹仓2" type="PanelContainer" parent="Control"]
+self_modulate = Color(1, 1, 1, 0)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 53.923035
+offset_top = -110.0
+offset_right = 153.92303
+offset_bottom = -10.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("3_yaah3")
+
+[node name="弹仓3" type="PanelContainer" parent="Control"]
+self_modulate = Color(1, 1, 1, 0)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 53.923035
+offset_top = 10.0
+offset_right = 153.92303
+offset_bottom = 110.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("3_yaah3")
+
+[node name="弹仓4" type="PanelContainer" parent="Control"]
+self_modulate = Color(1, 1, 1, 0)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -50.0
+offset_top = 70.0
+offset_right = 50.0
+offset_bottom = 170.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("3_yaah3")
+
+[node name="弹仓5" type="PanelContainer" parent="Control"]
+self_modulate = Color(1, 1, 1, 0)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -153.92307
+offset_top = 10.0
+offset_right = -53.922974
+offset_bottom = 110.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("3_yaah3")
+
+[node name="弹仓6" type="PanelContainer" parent="Control"]
+self_modulate = Color(1, 1, 1, 0)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -153.92307
+offset_top = -110.0
+offset_right = -53.922974
+offset_bottom = -10.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("3_yaah3")

@@ -18,6 +18,8 @@ const STATIC_ZONE = 20.0
 ## [param c_camera]: 相机组件
 ## [param _delta]: 帧时间间隔
 func _strategy(camera_viewport: CameraViewport, _delta: float) -> void:
+	if camera_viewport.camera_target == null:
+		return
 	# 获取玩家实体位置
 	var _entity_global_pos = camera_viewport.camera_target.global_position
 	

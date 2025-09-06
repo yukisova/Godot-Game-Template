@@ -2,6 +2,7 @@
 ## 收集范围内的交互对象，用于AI寻找和选择目标
 ## 存储搜索到的交互目标列表
 ## [br][b]编辑者:[/b] Sora
+@tool
 class_name SeekBox
 extends BoxCollision
 

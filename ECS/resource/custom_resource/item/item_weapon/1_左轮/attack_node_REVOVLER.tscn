@@ -1,0 +1,30 @@
+[gd_scene load_steps=5 format=3 uid="uid://bnl0vt21ig8ew"]
+
+[ext_resource type="Script" uid="uid://c7e6fjp3n5sh0" path="res://resource/custom_resource/item/item_weapon/1_左轮/attack_node_REVOVLER.gd" id="1_sukg7"]
+[ext_resource type="PackedScene" uid="uid://s3kgafr5scpa" path="res://entity/entity_packed/temp_entity/projectile/抛物线子弹.tscn" id="2_0e5dr"]
+
+[sub_resource type="Gradient" id="Gradient_0e5dr"]
+offsets = PackedFloat32Array(1)
+colors = PackedColorArray(1, 1, 1, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_lv1lq"]
+gradient = SubResource("Gradient_0e5dr")
+width = 8
+height = 4
+
+[node name="左轮" type="Node2D" node_paths=PackedStringArray("fire_point", "texture")]
+script = ExtResource("1_sukg7")
+projectile_scene = ExtResource("2_0e5dr")
+"随机散射数量" = Vector2i(3, 8)
+"随机距离范围区间" = Vector2(100, 400)
+"角度偏移区间" = 30.0
+fire_point = NodePath("FirePoint")
+rotate_able = true
+texture = NodePath("Sprite2D")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(0, 5.9604645e-08)
+texture = SubResource("GradientTexture2D_lv1lq")
+
+[node name="FirePoint" type="Marker2D" parent="."]
+position = Vector2(8, 0)

@@ -143,8 +143,8 @@ func _late_initialize():
 		level_fog.hide()
 	level_fog._initialize()
 	rooms._initialize()
-	var timeloop = SBlackboard.get_sub_system(ISubSystem.SubSystemType.TIME_LOOP) as SSTimeLoop
-	timeloop.time_updated.connect(time_change_filter)
+	#var timeloop = SBlackboard.get_sub_system(ISubSystem.SubSystemType.TIME_LOOP) as SSTimeLoop
+	#timeloop.time_updated.connect(time_change_filter)
 
 func get_camera_limit() -> Dictionary:
 	var limit_dict = {}

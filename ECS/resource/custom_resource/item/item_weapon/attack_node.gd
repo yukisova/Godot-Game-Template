@@ -9,3 +9,6 @@ extends EquipmentNode
 ## 攻击发起点
 ## 标记动作发起的具体位置，如枪口、剑尖等
 @export var fire_point: Marker2D
+
+func set_hit_effect(_hit_effect_list: Array):
+	pass

@@ -11,10 +11,12 @@ extends IAction
 
 ## 行为触发信号
 ## 当触发行为开始执行时发出，通知 [CActionTrigger] 组件将此行为添加到当前行为列表中
+@warning_ignore("unused_signal")
 signal action_triggered(action: ITriggerAction)
 
 ## 行为完成信号
 ## 当触发行为执行完毕时发出，通知 [CActionTrigger] 组件将此行为从当前行为列表中移除
+@warning_ignore("unused_signal")
 signal action_triggered_finished(action: ITriggerAction)
 
 

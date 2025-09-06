@@ -21,6 +21,7 @@ enum ComponentName {
 	C_BALLOON, ## 见 [CBalloon] 气泡显示组件
 	C_BEHAVIOUR_TREE, ## 见 [CBehaviourTree] 行为树组件
 	C_ENVIRONMENT_REACTOR, ## 见 [CEnvironmentReactor] 环境反应组件
+	C_SOUND_EMITTER, ## 见 [CSoundEmitter] 声音发射组件
 }
 
 ## 外部初始化数据来源，指定在初始化时从 ContainerBlackboard 中获取的自定义初始化值的键名

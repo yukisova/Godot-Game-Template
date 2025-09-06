@@ -100,6 +100,7 @@ enum PhysicsLayer {
 	Wall = 1 << 0,         ## 墙壁和固体障碍物的碰撞层
 	Interactable = 1 << 1, ## 可交互对象的碰撞层
 	Breakable = 1 << 2,    ## 可破坏对象的碰撞层
+	Sound = 1 << 3,        ## 声音的碰撞层
 }
 
 ## 导航层级枚举

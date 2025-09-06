@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="ItemEquipment" load_steps=5 format=3 uid="uid://beo0dmy38xpw6"]
+
+[ext_resource type="PackedScene" uid="uid://bnjfqkssgqn5r" path="res://resource/custom_resource/item/item_equipment/1_手电筒/equipment_node_FLASHLIGHT.tscn" id="1_q3qe3"]
+[ext_resource type="Texture2D" uid="uid://ewy7amr1phx8" path="res://asset/item_texture/new_icon_set.png" id="2_kjjik"]
+[ext_resource type="Script" uid="uid://cmado4p2ovl2q" path="res://resource/custom_resource/item/item_equipment/item_equipment.gd" id="3_5asop"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ervho"]
+atlas = ExtResource("2_kjjik")
+region = Rect2(0, 32, 32, 32)
+
+[resource]
+script = ExtResource("3_5asop")
+equipment_node = ExtResource("1_q3qe3")
+item_nick_name = "flash light"
+item_name = "手电筒"
+item_description = "你好，我的朋友"
+item_texture = SubResource("AtlasTexture_ervho")
+metadata/_custom_type_script = "uid://cmado4p2ovl2q"

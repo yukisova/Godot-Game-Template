@@ -4,8 +4,8 @@
 ## 功能特性：富文本内容、图片支持、自定义背景、资源管理
 ## 应用场景：游戏剧情、任务日志、世界观设定、教学指南、收集品
 ## [br][b]编辑者:[/b] Sora
-class_name Document
-extends Resource
+class_name ItemDocument
+extends Item
 
 ## 文档标题
 ## 显示在文档界面顶部的标题文字
