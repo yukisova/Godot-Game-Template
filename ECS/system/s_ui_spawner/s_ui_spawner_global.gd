@@ -36,18 +36,19 @@ func _setup():
 	SSignalBus.game_loop_start.connect(func():
 		for hud: IHud in current_hud.values():
 			hud._initialize()
+		_hide_hud([""])
 	)
 	
 	# 连接游戏循环继续信号 - 刷新所有HUD显示
 	SSignalBus.game_loop_continue.connect(func():
 		for hud: IHud in current_hud.values():
 			hud._refresh()
+		_hide_hud([""])
 	)
 	
 	# 连接游戏循环暂停信号 - 隐藏所有HUD
 	SSignalBus.game_loop_paused.connect(func():
-		for hud: IHud in current_hud.values():
-			hud.hide()
+		_hide_hud([])
 	)
 
 ## 系统重置，隐藏所有HUD，准备重新开始

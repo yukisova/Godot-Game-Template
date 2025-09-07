@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://de66lf0ymbqdj"]
 
 [ext_resource type="Script" uid="uid://bukv4ix0dm8r5" path="res://system/s_main_controller/s_main_controller_global.gd" id="1_356yr"]
-[ext_resource type="PackedScene" uid="uid://dq753g4b1nmk8" path="res://entity/entity_packed/fixed_entity/player/野比大雄测试.tscn" id="2_alfy3"]
+[ext_resource type="PackedScene" uid="uid://dq753g4b1nmk8" path="res://entity/entity_packed/fixed_entity/player/角色测试.tscn" id="2_alfy3"]
 
 [node name="S_MainController" type="Node"]
 script = ExtResource("1_356yr")

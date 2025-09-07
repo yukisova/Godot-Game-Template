@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=4 uid="uid://nqh6sy3jpxp3"]
+[gd_scene load_steps=21 format=4 uid="uid://nqh6sy3jpxp3"]
 
 [ext_resource type="PackedScene" uid="uid://dx8lfcn7h43ea" path="res://resource/node_template/map/static_map/static_map.tscn" id="1_8b7id"]
 [ext_resource type="PackedScene" uid="uid://6dpqakv78nkp" path="res://resource/node_template/map/level.tscn" id="2_kqh3t"]
@@ -12,6 +12,7 @@
 [ext_resource type="Script" uid="uid://dyicjmjyi8vve" path="res://component/c_interactable/interaction/interaction_collect.gd" id="11_mtn5c"]
 [ext_resource type="Resource" uid="uid://f8x8v2iu6h6e" path="res://resource/custom_resource/item/item_weapon/1_左轮/W_A_REVOVLER.tres" id="13_ervho"]
 [ext_resource type="PackedScene" uid="uid://bnjfqkssgqn5r" path="res://resource/custom_resource/item/item_equipment/1_手电筒/equipment_node_FLASHLIGHT.tscn" id="13_qubac"]
+[ext_resource type="Resource" uid="uid://cgtgigqia4o2a" path="res://resource/custom_resource/item/item_weapon/1_左轮/左轮子弹/左轮_子弹_普通.tres" id="15_8b7id"]
 [ext_resource type="PackedScene" uid="uid://bnl0vt21ig8ew" path="res://resource/custom_resource/item/item_weapon/1_左轮/attack_node_REVOVLER.tscn" id="17_kqh3t"]
 [ext_resource type="PackedScene" uid="uid://ht3v3wnr5dy" path="res://entity/entity_packed/fixed_entity/enemy/敌人.tscn" id="18_320cn"]
 [ext_resource type="PackedScene" uid="uid://dofu8tj40v5it" path="res://entity/entity_packed/object_entity/transport_point/transport_point.tscn" id="29_nfrqy"]
@@ -20,6 +21,15 @@
 size = Vector2(32, 32)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_qubac"]
+
+[sub_resource type="Gradient" id="Gradient_20su5"]
+offsets = PackedFloat32Array(1)
+colors = PackedColorArray(1, 1, 1, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_kqh3t"]
+gradient = SubResource("Gradient_20su5")
+width = 16
+height = 32
 
 [node name="m_测试场景" node_paths=PackedStringArray("player_spawns") instance=ExtResource("1_8b7id")]
 player_spawns = [NodePath("Levels/Level/PlayerSpawn")]
@@ -91,7 +101,21 @@ shape = SubResource("RectangleShape2D_qubac")
 
 [node name="左轮" parent="Levels/Level/OneshotPoint2" index="3" instance=ExtResource("17_kqh3t")]
 
-[node name="敌人" parent="Levels/Level" index="12" instance=ExtResource("18_320cn")]
+[node name="OneshotPoint3" parent="Levels/Level" index="12" instance=ExtResource("10_2y2ga")]
+position = Vector2(176, 216)
+
+[node name="InteractionCollect" type="Node" parent="Levels/Level/OneshotPoint3" index="1"]
+script = ExtResource("11_mtn5c")
+binding_item = ExtResource("15_8b7id")
+metadata/_custom_type_script = "uid://dyicjmjyi8vve"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Levels/Level/OneshotPoint3" index="2"]
+shape = SubResource("RectangleShape2D_qubac")
+
+[node name="Sprite2D" type="Sprite2D" parent="Levels/Level/OneshotPoint3" index="3"]
+texture = SubResource("GradientTexture2D_kqh3t")
+
+[node name="敌人" parent="Levels/Level" index="13" instance=ExtResource("18_320cn")]
 position = Vector2(-248, 112)
 
 [editable path="Levels/Level"]

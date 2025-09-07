@@ -16,6 +16,8 @@ extends Node2D
 @export var flip_h_offset_false: Vector2 = Vector2.ZERO
 @export var flip_h_offset_true: Vector2 = Vector2.ZERO
 @export var texture: Sprite2D
+## 源ItemWeapon
+var source_item: Item
 
 var c_status: CStatusList
 

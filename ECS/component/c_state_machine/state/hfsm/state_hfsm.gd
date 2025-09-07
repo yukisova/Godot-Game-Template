@@ -148,7 +148,7 @@ func _u(_delta: float) -> void:
 func _p():
 	var top_state = pda_state_stack[-1]
 	top_state._pause()
-	await SGameState.game_continue
+	await SSignalBus.game_loop_continue
 	top_state._continue()
 
 ## 获取过渡目标状态，根据关键词查找可过渡的目标状态

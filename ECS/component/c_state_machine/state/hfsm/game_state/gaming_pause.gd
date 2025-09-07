@@ -61,7 +61,7 @@ func _enter_tree() -> void:
 ## 发出全局暂停信号，通知所有系统进入暂停模式。
 func _enter():
 	# 发出全局游戏暂停信号
-	SGameState.game_paused.emit()
+	SSignalBus.game_loop_paused.emit()
 	print("游戏状态: 进入暂停状态")
 
 ## 退出暂停状态（重写方法）
@@ -69,5 +69,5 @@ func _enter():
 ## 发出继续信号，恢复所有系统的正常运行。
 func _exit():
 	# 发出全局游戏继续信号
-	SGameState.game_continue.emit()
+	SSignalBus.game_loop_continue.emit()
 	print("游戏状态: 退出暂停状态，恢复游戏运行")

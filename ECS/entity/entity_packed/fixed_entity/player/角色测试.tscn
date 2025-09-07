@@ -224,7 +224,7 @@ metadata/_custom_type_script = "uid://05a7wc4gf3hk"
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_qcfhx"]
 size = Vector2(8, 8)
 
-[node name="巴莱德" node_paths=PackedStringArray("main_control", "component_container") instance=ExtResource("1_fojvx")]
+[node name="角色" node_paths=PackedStringArray("main_control", "component_container") instance=ExtResource("1_fojvx")]
 script = ExtResource("2_dwa3q")
 main_control = NodePath("CharacterBody")
 component_container = NodePath("CharacterBody/ComponentContainer")
@@ -277,12 +277,12 @@ texture = SubResource("AtlasTexture_dwa3q")
 [node name="Right" parent="CharacterBody/ComponentContainer/CTextureController/PackedManSe/Whole" index="1" node_paths=PackedStringArray("sprite")]
 position = Vector2(0, 0)
 default_texture = SubResource("AtlasTexture_jrw4v")
-sprite = NodePath("@Sprite2D@57134")
+sprite = NodePath("@Sprite2D@96901")
 
 [node name="Left" parent="CharacterBody/ComponentContainer/CTextureController/PackedManSe/Whole" index="2" node_paths=PackedStringArray("sprite")]
 position = Vector2(0, 0)
 default_texture = SubResource("AtlasTexture_jrw4v")
-sprite = NodePath("@Sprite2D@57135")
+sprite = NodePath("@Sprite2D@96902")
 
 [node name="PackedSpriteEditor" parent="CharacterBody/ComponentContainer/CTextureController/PackedManSe" index="2" node_paths=PackedStringArray("control_parts")]
 line_body_offset_x = 12.5
@@ -302,6 +302,10 @@ libraries = {
 }
 
 [node name="CStatusList" parent="CharacterBody/ComponentContainer" index="1" instance=ExtResource("9_l7t6h")]
+basic_info = Dictionary[int, float]({
+0: 100.0,
+1: 100.0
+})
 
 [node name="Inventory" type="Node2D" parent="CharacterBody/ComponentContainer/CStatusList" index="0"]
 script = ExtResource("10_aajhb")

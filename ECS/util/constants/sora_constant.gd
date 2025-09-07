@@ -38,9 +38,8 @@ const BASIC_CELL_SIZE: int = 8
 enum StatusEnum {
 	# 动态状态信息 (0-99) - 可变化的状态值
 	Health = 0,    ## 生命值 - 实体的生存状态
-	Magic,         ## 魔力值 - 施法资源
 	Fitness,       ## 耐力值 - 行动资源
-	
+
 	# 静态数值信息 (100+) - 相对固定的属性值
 	AttackPoint = 100,  ## 攻击力 - 造成伤害的能力
 	DefendPoint,        ## 防御力 - 减少伤害的能力

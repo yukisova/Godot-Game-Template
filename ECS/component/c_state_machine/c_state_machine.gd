@@ -27,7 +27,9 @@ func _initialize(_owner: IEntity, _load_data: Dictionary = {}):
 	super._initialize(_owner, _load_data)
 	
 	# 连接游戏暂停信号
-	SGameState.game_paused.connect(_pause)
+	SSignalBus.game_loop_paused.connect(_pause)
+	# 连接游戏继续信号
+	SSignalBus.game_loop_continue.connect(_continue)
 	
 	# 收集所有下推状态
 	for child in pda_states.get_children():

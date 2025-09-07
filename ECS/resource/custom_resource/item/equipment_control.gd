@@ -11,3 +11,4 @@ extends Control
 ## 装填子弹时的过滤器，根据物品的NickName前缀来判断物品是否可以装入弹仓
 @export var bullet_fliter: String
 
+@export var binding_equipment: Item

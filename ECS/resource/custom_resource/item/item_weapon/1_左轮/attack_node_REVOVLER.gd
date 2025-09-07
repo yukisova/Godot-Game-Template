@@ -32,27 +32,6 @@ extends WeaponNode
 
 #endregion
 
-# #region 攻击实现
-# ## 实现具体的手枪攻击逻辑
-# ## 从对象池获取子弹，配置射击方向和初始化数据
-# func _trigger_effect(..._args):
-# 	if not projectile_scene:
-# 		return
-
-# 	# 获取角色朝向
-# 	var direction: Vector2 = Vector2.RIGHT
-# 	var collision_box : CCollisionBox = c_status.get_other_component(IComponent.ComponentName.C_COLLISION_BOX) as CCollisionBox
-# 	var interact_ray:InteractRay = collision_box.box_rays.get(CCollisionBox.BoxRayName.INTERACT)
-# 	if interact_ray:
-# 		direction = direction.rotated(interact_ray.rotation)
-
-
-# 	# 从对象池获取子弹
-# 	var context = {"start_direction": direction}
-# 	SObjectPool._spawn("projectile", projectile_scene, context, fire_point.global_position)
-
-# #endregion
-
 #region 抛物线攻击实现
 ## 实现具体的手枪攻击逻辑
 ## 从对象池获取子弹，配置射击方向和初始化数据
@@ -60,6 +39,29 @@ func _trigger_effect(..._args):
 	if not projectile_scene:
 		return
 	
+	var current_index = source_item.current_index
+	var current_bullet_clip_num = source_item.current_bullet_clip_num
+	var next_index = (current_index + 1) % current_bullet_clip_num
+
+	var current_bullet_clip_type = source_item.bullet_clip[current_index]
+
+	match current_bullet_clip_type:
+		BulletClipSlot.BulletClipType.BULLET:
+			print("当前弹仓有子弹,可以进行发射")
+			_shoot_effect()
+			source_item.bullet_clip[current_index] = BulletClipSlot.BulletClipType.BULLET_OVER
+		BulletClipSlot.BulletClipType.BULLET_OVER:
+			print("当前弹仓子弹已发射，无法进行发射")
+		BulletClipSlot.BulletClipType.EMPTY:
+			print("当前弹仓没有子弹，无法进行发射")
+	
+	## 旋转弹巢
+	source_item.current_index = next_index
+	
+	
+	
+## 发射子弹效果
+func _shoot_effect():
 	var direction: Vector2 = Vector2.RIGHT
 	var collision_box : CCollisionBox = c_status.get_other_component(IComponent.ComponentName.C_COLLISION_BOX) as CCollisionBox
 	var interact_ray:InteractRay = collision_box.box_rays.get(CCollisionBox.BoxRayName.INTERACT)

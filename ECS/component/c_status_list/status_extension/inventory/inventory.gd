@@ -168,7 +168,7 @@ func remove_inventory_at(target_index: int) -> Item:
 ## 移除指定物品
 ## @param target: 要移除的物品实例
 ## @return: 是否成功移除
-func remove_inventory(target: Item) -> bool:
+func try_remove_inventory(target: Item) -> bool:
 	var index = inventory_array.find(target)
 	if index == -1:
 		push_error("背包系统: 删除物品失败，物品不在背包中 -> " + target.item_name)

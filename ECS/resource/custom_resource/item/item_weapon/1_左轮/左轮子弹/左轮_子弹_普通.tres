@@ -17,5 +17,5 @@ item_nick_name = "B_A_00"
 item_name = "左轮子弹"
 item_description = "普通的左轮子弹，对恶灵的伤害有限"
 item_texture = SubResource("GradientTexture2D_ao8ps")
-item_weight = 0.09999999999126885
+item_weight = 0.09999999999126884
 metadata/_custom_type_script = "uid://cgbht168c3bqp"

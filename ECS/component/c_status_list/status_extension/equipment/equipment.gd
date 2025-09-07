@@ -94,6 +94,7 @@ func _on_attack_node_changed(item_weapon: ItemWeapon):
 				right_part.sprite = current_attack_node
 			else:
 				add_child(current_attack_node)
+		current_attack_node.source_item = current_weapon
 		current_attack_node._activated()
 	else:
 		current_weapon = null
@@ -114,6 +115,7 @@ func _on_equipment_node_changed(item_equipment: ItemEquipment):
 				left_part.sprite = current_equipment_node
 			else:
 				add_child(current_equipment_node)
+		current_equipment_node.source_item = current_equipment
 	else:
 		current_equipment = null
 		current_equipment_node = null

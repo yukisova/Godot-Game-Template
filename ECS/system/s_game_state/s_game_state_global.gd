@@ -4,16 +4,6 @@
 ## [br][b]编辑者:[/b] Sora
 extends ISystem
 
-## 游戏暂停信号
-## 通知其他系统暂停更新
-@warning_ignore("unused_signal")
-signal game_paused
-
-## 游戏继续信号
-## 通知其他系统恢复更新
-@warning_ignore("unused_signal")
-signal game_continue
-
 ## 主状态机
 ## 管理游戏的所有状态流转
 @export var state_machine: StateMachineHfsm

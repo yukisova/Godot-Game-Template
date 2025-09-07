@@ -92,7 +92,7 @@ fill = 1
 fill_from = Vector2(0.5, 0.5)
 metadata/_snap_enabled = true
 
-[node name="BulletClip" type="MarginContainer" node_paths=PackedStringArray("eject_hole", "bullet_clip_array")]
+[node name="BulletClip" type="MarginContainer" node_paths=PackedStringArray("center_control", "eject_hole", "bullet_clip_array")]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -101,6 +101,7 @@ grow_vertical = 2
 size_flags_horizontal = 3
 script = ExtResource("1_tbknj")
 empty_texture = SubResource("GradientTexture2D_yaah3")
+center_control = NodePath("Control/CenterPoint")
 bullet_clip_texture = Dictionary[int, Texture2D]({
 0: SubResource("GradientTexture2D_qtr27"),
 1: SubResource("GradientTexture2D_ak3wl")
@@ -110,15 +111,19 @@ bullet_clip_over_texture = Dictionary[int, Texture2D]({
 1: SubResource("GradientTexture2D_j7mks")
 })
 bullet_clip_range = 120.0
-eject_hole = NodePath("Control/退弹口")
-bullet_clip_array = [NodePath("Control/弹仓1"), NodePath("Control/弹仓2"), NodePath("Control/弹仓3"), NodePath("Control/弹仓4"), NodePath("Control/弹仓5"), NodePath("Control/弹仓6")]
+eject_hole = NodePath("Control/CenterPoint/退弹口")
+bullet_clip_array = [NodePath("Control/CenterPoint/弹仓1"), NodePath("Control/CenterPoint/弹仓2"), NodePath("Control/CenterPoint/弹仓3"), NodePath("Control/CenterPoint/弹仓4"), NodePath("Control/CenterPoint/弹仓5"), NodePath("Control/CenterPoint/弹仓6")]
 bullet_fliter = "B_A_"
 
 [node name="Control" type="Control" parent="."]
-custom_minimum_size = Vector2(100, 100)
 layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
 
-[node name="弹夹轮廓" type="TextureRect" parent="Control"]
+[node name="CenterPoint" type="Control" parent="Control"]
+anchors_preset = 0
+
+[node name="弹夹轮廓" type="TextureRect" parent="Control/CenterPoint"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -133,7 +138,7 @@ grow_horizontal = 2
 grow_vertical = 2
 texture = SubResource("GradientTexture2D_3v8cs")
 
-[node name="退弹口" type="TextureRect" parent="Control"]
+[node name="退弹口" type="TextureRect" parent="Control/CenterPoint"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -148,7 +153,7 @@ grow_horizontal = 2
 grow_vertical = 2
 texture = SubResource("GradientTexture2D_2sjb7")
 
-[node name="弹仓1" type="PanelContainer" parent="Control"]
+[node name="弹仓1" type="PanelContainer" parent="Control/CenterPoint"]
 self_modulate = Color(1, 1, 1, 0)
 layout_mode = 1
 anchors_preset = 8
@@ -164,7 +169,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("3_yaah3")
 
-[node name="弹仓2" type="PanelContainer" parent="Control"]
+[node name="弹仓2" type="PanelContainer" parent="Control/CenterPoint"]
 self_modulate = Color(1, 1, 1, 0)
 layout_mode = 1
 anchors_preset = 8
@@ -180,7 +185,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("3_yaah3")
 
-[node name="弹仓3" type="PanelContainer" parent="Control"]
+[node name="弹仓3" type="PanelContainer" parent="Control/CenterPoint"]
 self_modulate = Color(1, 1, 1, 0)
 layout_mode = 1
 anchors_preset = 8
@@ -196,7 +201,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("3_yaah3")
 
-[node name="弹仓4" type="PanelContainer" parent="Control"]
+[node name="弹仓4" type="PanelContainer" parent="Control/CenterPoint"]
 self_modulate = Color(1, 1, 1, 0)
 layout_mode = 1
 anchors_preset = 8
@@ -212,7 +217,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("3_yaah3")
 
-[node name="弹仓5" type="PanelContainer" parent="Control"]
+[node name="弹仓5" type="PanelContainer" parent="Control/CenterPoint"]
 self_modulate = Color(1, 1, 1, 0)
 layout_mode = 1
 anchors_preset = 8
@@ -228,7 +233,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("3_yaah3")
 
-[node name="弹仓6" type="PanelContainer" parent="Control"]
+[node name="弹仓6" type="PanelContainer" parent="Control/CenterPoint"]
 self_modulate = Color(1, 1, 1, 0)
 layout_mode = 1
 anchors_preset = 8

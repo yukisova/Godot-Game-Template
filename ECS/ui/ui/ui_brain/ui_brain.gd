@@ -93,12 +93,16 @@ func _initilize_info(_context: Dictionary) -> void:
 
 		if equipment.current_weapon and equipment.current_weapon.equipment_control:
 			grid_inventory.equipment_control = equipment.current_weapon.equipment_control.instantiate()
+			grid_inventory.equipment_control.binding_equipment = equipment.current_weapon
+			grid_inventory.equipment_control._initialize()
 
 func _on_equipment_node_changed(item_equipment: ItemEquipment):
 	pass
 
 func _on_attack_node_changed(item_weapon: ItemWeapon):
 	grid_inventory.equipment_control = item_weapon.equipment_control.instantiate()
+	grid_inventory.equipment_control.binding_equipment = item_weapon
+	grid_inventory.equipment_control._initialize()
 
 #endregion
 

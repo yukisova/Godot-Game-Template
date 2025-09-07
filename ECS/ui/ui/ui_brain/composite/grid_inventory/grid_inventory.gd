@@ -512,6 +512,8 @@ func drop_item():
 	else:
 		## 如果鼠标下有弹仓槽位，则可以尝试填装子弹
 		if target_bullet_slot.try_reload_bullet(current_held_item):
+			var inventory = binding_status.status_extension.get(StatusExtension.ExtensionType.INVENTORY)
+			inventory.try_remove_inventory(current_held_item.binding_item)
 			current_held_item.queue_free()
 			print("弹仓: 成功填装子弹", current_held_item.binding_item.item_name)
 		else:
@@ -651,6 +653,13 @@ func _process(delta):
 					button_container = null
 				pointer.hide()
 				press_time = 0
+			
+			## 2. 检查是否点击弹仓，如果点击弹仓，则尝试清空弹仓
+			var target_bullet_slot = get_bullet_slot_under_mouse()
+			if target_bullet_slot:
+				if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
+					if target_bullet_slot.current_slot_type != BulletClipSlot.BulletClipType.BULLET:
+						target_bullet_slot.try_clear_bullet()
 				
 		InteractionState.HOVERING:
 			highlight_timer += delta
