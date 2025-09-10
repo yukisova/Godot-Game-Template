@@ -6,8 +6,13 @@ class_name CSoundEmitter
 extends IComponent
 
 ## 活动声音区域,key为声音名称，value为声音区域
-var active_sound_areas: Dictionary[String, SoundArea] = {}
-var available_sound_areas: Array[SoundArea] = []
+var active_sound_areas: Dictionary[String, ISoundArea] = {}
+var available_sound_areas: Array[ISoundArea] = []
+
+## 动态声音标记，
+var sound_flag_array: Array
+var dynamic_sound: Dictionary[String, ISoundArea]
+
 @export var sound_pool_size: int = 5
 
 func _enter_tree() -> void:
@@ -21,42 +26,65 @@ func _initialize(_owner: IEntity, _load_data: Dictionary = {}):
 	initialize_complete.emit()
 
 func _update(_delta: float):
+	if Input.is_action_just_pressed("ui_accept"):
+		print(available_sound_areas)
 	pass
 
-func _fixed_update(_delta: float):
-	pass
-
-## 触发声音
 ## [param sound_name]: 声音名称
 ## [param sound_force]: 声音强度
 ## [param sound_range]: 声音范围
 ## [param sound_spread_time]: 声音扩散时间
 ## [param sound_keep_time]: 声音保持时间
-func _trigger_sound(sound_name: String, sound_force: int, sound_range: float, sound_spread_time: float, sound_keep_time: float):
+func play_sound_static(sound_name: String, sound_force: int, sound_range: float, sound_spread_speed: float, sound_keep_time: float):
+	## 参数验证
+	if sound_name.is_empty():
+		push_warning("CSoundEmitter: 声音名称不能为空")
+		return
+	if sound_range <= 0:
+		push_warning("CSoundEmitter: 声音范围必须大于0")
+		return
+
 	## 1. 如果活动声音区域中已经存在该声音，则刷新该声音的内容
 	if active_sound_areas.has(sound_name):
-		active_sound_areas[sound_name].add_sound_info({
+		print("已存在声音，刷新声音内容")
+		active_sound_areas[sound_name]._sound_update({
 			"sound_force": sound_force,
 			"sound_range": sound_range,
-			"sound_spread_time": sound_spread_time,
+			"sound_spread_speed": sound_spread_speed,
 			"sound_keep_time": sound_keep_time
 		})
 		return
 	## 2. 如果可用声音区域为空，则创建一个新的声音区域
 	if available_sound_areas.is_empty():
 		_create_sound_area()
+	print("新建声音区域")
 	## 3. 此时可用声音区域不为空，则从可用声音区域中获取一个声音区域，并设置相关的参数
 	var sound_area = available_sound_areas.pop_front()
-	sound_area.sound_name = sound_name
-	sound_area.sound_force = sound_force
-	sound_area.sound_range = sound_range
-	sound_area.sound_spread_time = sound_spread_time
-	sound_area.sound_keep_time = sound_keep_time
-	## 3. 将声音区域放入活动声音区域中,并设置生效状态
+	sound_area._sound_initialize({
+		"sound_name": sound_name,
+		"sound_force": sound_force,
+		"sound_range": sound_range,
+		"sound_keep_time": sound_keep_time,
+		"sound_spread_speed": sound_spread_speed
+	})
 	_spawn_sound_area(sound_area)
 
-func _reset():
+func play_sound_dynamic():
 	pass
+
+## [param sound_name]: 要停止的声音名称
+func stop_sound(sound_name: String):
+	if active_sound_areas.has(sound_name):
+		var sound_area = active_sound_areas[sound_name]
+		_on_sound_area_finished(sound_area)
+
+## 停止所有声音
+func stop_all_sounds():
+	for sound_name in active_sound_areas.keys():
+		stop_sound(sound_name)
+
+func _reset():
+	stop_all_sounds()
 
 func _save():
 	pass
@@ -64,23 +92,31 @@ func _save():
 func _load(_dict: Dictionary):
 	pass
 
-func _spawn_sound_area(sound_area: SoundArea):
+func _spawn_sound_area(sound_area: ISoundArea):
 	active_sound_areas[sound_area.sound_name] = sound_area
 	sound_area.show()
 	sound_area.monitorable = true
 	sound_area.monitoring = true
+	sound_area.process_mode = Node.PROCESS_MODE_INHERIT
 
 func _create_sound_area():
-	var sound_area = SoundArea.new()
-	sound_area.sound_area_finished.connect(_on_sound_area_finished)
+	var sound_area: ISoundArea = ISoundArea.new()
+	sound_area.hide()
 	add_child(sound_area)
-	available_sound_areas.append(sound_area)
-
-func _on_sound_area_finished(sound_area: SoundArea):
-	active_sound_areas.erase(sound_area.sound_name)
-	sound_area._reset_sound_info()
+	# 连接声音完成信号
+	sound_area.process_mode = Node.PROCESS_MODE_DISABLED
 	sound_area.monitorable = false
 	sound_area.monitoring = false
 	sound_area.hide()
+	sound_area.sound_finished.connect(_on_sound_area_finished)
 	available_sound_areas.append(sound_area)
 
+func _on_sound_area_finished(sound_area: ISoundArea):
+	if active_sound_areas.has(sound_area.sound_name):
+		active_sound_areas.erase(sound_area.sound_name)
+	sound_area.process_mode = Node.PROCESS_MODE_DISABLED
+	sound_area.monitorable = false
+	sound_area.monitoring = false
+	sound_area.hide()
+	if sound_area not in available_sound_areas:
+		available_sound_areas.append(sound_area)

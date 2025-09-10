@@ -32,27 +32,50 @@ enum HandMoveType {
 	set(v):
 		fixed_head_y = v
 		if Engine.is_editor_hint():
-			fixed_packed_sprite()
+			if is_node_ready():
+				fixed_packed_sprite()
 @export var fixed_body_y: int:
 	set(v):
 		fixed_body_y = v
 		if Engine.is_editor_hint():
-			fixed_packed_sprite()
+			if is_node_ready():
+				fixed_packed_sprite()
 @export_tool_button("快速校准躯干位置") var quick_fixed = fixed_packed_sprite
 
 ## 根据设定的精灵躯干的参数，快速校准精灵各个部位的位置
 func fixed_packed_sprite():
 	var body = control_parts.get(&"Body", null)
 	var head = control_parts.get(&"Head", null)
+	
+	if body == null:
+		printerr("Body 部件未找到，无法进行快速校准")
+		return
+		
+	if body.texture == null:
+		printerr("Body 部件的纹理为空，无法进行快速校准")
+		return
+		
 	var body_sprite_size = body.texture.get_size().y
 
 	body.position = Vector2(0, -body_sprite_size + fixed_body_y)
-	head.position = Vector2(0, body.position.y + fixed_head_y)
+	
+	if head != null:
+		head.position = Vector2(0, body.position.y + fixed_head_y)
+	else:
+		printerr("Head 部件未找到，跳过头部位置设置")
 	rotation_angle = -0.3
 	var hand_left: PackedPart = control_parts.get(&"Left", null)
 	var hand_right: PackedPart = control_parts.get(&"Right", null)
-	hand_left.back_to_default()
-	hand_right.back_to_default()
+	
+	if hand_left != null:
+		hand_left.back_to_default()
+	else:
+		printerr("Left 手部部件未找到，跳过左手重置")
+		
+	if hand_right != null:
+		hand_right.back_to_default()
+	else:
+		printerr("Right 手部部件未找到，跳过右手重置")
 #endregion
 
 ## 椭圆参数组，控制手臂椭圆运动轨迹的参数设置

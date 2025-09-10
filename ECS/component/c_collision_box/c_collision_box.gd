@@ -14,6 +14,7 @@ enum BoxCollisionName {
 	HURT,     ## 受击碰撞区域
 	SIGHT,    ## 视野碰撞区域
 	SEEK,     ## 搜索碰撞区域
+	SOUND,    ## 声音碰撞区域
 }
 
 ## 盒子碰撞字典

@@ -1,4 +1,4 @@
-[gd_scene load_steps=42 format=3 uid="uid://dq753g4b1nmk8"]
+[gd_scene load_steps=43 format=3 uid="uid://dq753g4b1nmk8"]
 
 [ext_resource type="PackedScene" uid="uid://6jpwo3n27sj2" path="res://entity/entity_packed/fixed_entity/fixed_entity.tscn" id="1_fojvx"]
 [ext_resource type="Script" uid="uid://815l8mjrysw1" path="res://entity/entity_packed/fixed_entity/player/i_player.gd" id="2_dwa3q"]
@@ -22,6 +22,7 @@
 [ext_resource type="Script" uid="uid://ceknbpsdqqm6d" path="res://component/c_input_reactor/reactor_extension/e_player/ui_panel_open.gd" id="26_bsgyj"]
 [ext_resource type="PackedScene" uid="uid://55la10tbk38m" path="res://ui/ui/ui_brain/ui_brain.tscn" id="27_02yqn"]
 [ext_resource type="PackedScene" uid="uid://dyxr8eofrj3pw" path="res://ui/ui/ui_pause/ui_pause.tscn" id="28_hqspv"]
+[ext_resource type="PackedScene" uid="uid://tj8n3dnv556c" path="res://component/c_sound_emitter/c_sound_emitter.tscn" id="28_mlq86"]
 [ext_resource type="Script" uid="uid://dgr6bmwmusu73" path="res://component/c_input_reactor/reactor_extension/action_input/action_input.gd" id="29_rgjey"]
 [ext_resource type="Script" uid="uid://05a7wc4gf3hk" path="res://component/c_input_reactor/reactor_extension/action_input/action_input_record.gd" id="30_byc33"]
 [ext_resource type="PackedScene" uid="uid://b3vbfhugiqyva" path="res://component/c_action_trigger/c_action_trigger.tscn" id="31_dw5ky"]
@@ -189,6 +190,7 @@ metadata/_custom_type_script = "uid://05a7wc4gf3hk"
 [sub_resource type="Resource" id="Resource_s1eqv"]
 script = ExtResource("30_byc33")
 input_name = "secondary_action"
+input_type = 2
 linkage_node = NodePath("../../CActionTrigger/ActionInputMap")
 input_parameter = Array[int]([1])
 metadata/_custom_type_script = "uid://05a7wc4gf3hk"
@@ -244,6 +246,7 @@ y_sort_enabled = true
 
 [node name="Body" parent="CharacterBody/ComponentContainer/CTextureController/PackedManSe/Whole/BH" index="0"]
 texture = SubResource("AtlasTexture_fojvx")
+flip_h = true
 metadata/_aseprite_wizard_interface_config_ = {
 "layer_section": true,
 "output_section": true,
@@ -273,18 +276,20 @@ metadata/_aseprite_wizard_config_ = {
 
 [node name="Head" parent="CharacterBody/ComponentContainer/CTextureController/PackedManSe/Whole/BH" index="1"]
 texture = SubResource("AtlasTexture_dwa3q")
+flip_h = true
 
 [node name="Right" parent="CharacterBody/ComponentContainer/CTextureController/PackedManSe/Whole" index="1" node_paths=PackedStringArray("sprite")]
 position = Vector2(0, 0)
 default_texture = SubResource("AtlasTexture_jrw4v")
-sprite = NodePath("@Sprite2D@96901")
+sprite = NodePath("@Sprite2D@22004")
 
 [node name="Left" parent="CharacterBody/ComponentContainer/CTextureController/PackedManSe/Whole" index="2" node_paths=PackedStringArray("sprite")]
 position = Vector2(0, 0)
 default_texture = SubResource("AtlasTexture_jrw4v")
-sprite = NodePath("@Sprite2D@96902")
+sprite = NodePath("@Sprite2D@22005")
 
 [node name="PackedSpriteEditor" parent="CharacterBody/ComponentContainer/CTextureController/PackedManSe" index="2" node_paths=PackedStringArray("control_parts")]
+rotation_angle = -0.08000000000000002
 line_body_offset_x = 12.5
 hand_offset_x_left = 10.0
 hand_offset_x_right = -10.0
@@ -379,6 +384,8 @@ blackboard = NodePath("../..")
 script = ExtResource("32_jrw4v")
 c_texture_controller = NodePath("../../CTextureController")
 c_status = NodePath("../../CStatusList")
+
+[node name="CSoundEmitter" parent="CharacterBody/ComponentContainer" index="6" instance=ExtResource("28_mlq86")]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody" index="1"]
 shape = SubResource("RectangleShape2D_qcfhx")
