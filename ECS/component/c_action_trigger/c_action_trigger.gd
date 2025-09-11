@@ -13,6 +13,10 @@ extends IComponent
 ## 用于记录当前动作的列表, 供状态机[CStateMachine]与纹理控制器[CTextureController]使用
 var current_action_list: Dictionary[IAction, StringName] = {}
 
+## 移动策略列表
+## 专门用于处理移动策略的列表, 栈顶的列表为主移动策略，由外界优先访问
+var move_strategy: Array[IUpdateAction] = []
+
 
 @export_group("动作逻辑注册表", "action_list_")
 ## 定时触发动作列表

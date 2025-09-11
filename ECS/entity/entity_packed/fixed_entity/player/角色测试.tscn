@@ -26,7 +26,7 @@
 [ext_resource type="Script" uid="uid://dgr6bmwmusu73" path="res://component/c_input_reactor/reactor_extension/action_input/action_input.gd" id="29_rgjey"]
 [ext_resource type="Script" uid="uid://05a7wc4gf3hk" path="res://component/c_input_reactor/reactor_extension/action_input/action_input_record.gd" id="30_byc33"]
 [ext_resource type="PackedScene" uid="uid://b3vbfhugiqyva" path="res://component/c_action_trigger/c_action_trigger.tscn" id="31_dw5ky"]
-[ext_resource type="Script" uid="uid://dwt0prmf31a5" path="res://component/c_action_trigger/action/update_action/move_vector.gd" id="32_co28p"]
+[ext_resource type="Script" uid="uid://dwt0prmf31a5" path="res://component/c_action_trigger/action/update_action/move_strategy/move_vector.gd" id="32_co28p"]
 [ext_resource type="Script" uid="uid://hais8gm07sce" path="res://entity/entity_packed/fixed_entity/player/action_input_map_nobita.gd" id="32_jrw4v"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_fojvx"]
@@ -281,12 +281,12 @@ flip_h = true
 [node name="Right" parent="CharacterBody/ComponentContainer/CTextureController/PackedManSe/Whole" index="1" node_paths=PackedStringArray("sprite")]
 position = Vector2(0, 0)
 default_texture = SubResource("AtlasTexture_jrw4v")
-sprite = NodePath("@Sprite2D@22004")
+sprite = NodePath("@Sprite2D@27312")
 
 [node name="Left" parent="CharacterBody/ComponentContainer/CTextureController/PackedManSe/Whole" index="2" node_paths=PackedStringArray("sprite")]
 position = Vector2(0, 0)
 default_texture = SubResource("AtlasTexture_jrw4v")
-sprite = NodePath("@Sprite2D@22005")
+sprite = NodePath("@Sprite2D@27313")
 
 [node name="PackedSpriteEditor" parent="CharacterBody/ComponentContainer/CTextureController/PackedManSe" index="2" node_paths=PackedStringArray("control_parts")]
 rotation_angle = -0.08000000000000002

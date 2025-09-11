@@ -4,7 +4,8 @@
 ## [br][b]编辑者:[/b] Sora
 class_name RayInteractConfirmExtension
 extends ReactorExtension
-@export var is_control_by_mouse: bool = false
+## 是否控制朝向瞄准鼠标方向
+@export var toward_control_by_mouse: bool = false
 
 ## 交互射线组件
 @export var interact_ray: InteractRay
@@ -13,6 +14,11 @@ extends ReactorExtension
 @export var c_status: CStatusList
 
 func _setup():
+	if toward_control_by_mouse:
+		var c_action_trigger :CActionTrigger= c_input_reactor.get_other_component(IComponent.ComponentName.C_ACTION_TRIGGER)
+		var move_strategy = c_action_trigger.move_strategy
+		if move_strategy:
+			move_strategy.toward_control_by_move = false
 	pass
 
 ## 更新射线朝向并处理交互确认和攻击操作
@@ -20,7 +26,7 @@ func _listen():
 	# 设置射线朝向鼠标方向
 	var vector: Vector2
 	
-	if is_control_by_mouse:
+	if toward_control_by_mouse:
 		# 获取玩家所在的视口容器
 		var camera_viewport = SViewportManager.get_viewport_container(c_input_reactor.component_owner.main_control)
 		if camera_viewport:
@@ -38,18 +44,18 @@ func _listen():
 			vector = ((mouse_pos - camera_viewport.viewport.size/2.0) + (player_pos - camera_center)).normalized()
 		else:
 			vector = Vector2.RIGHT # 默认方向
+		# 设置武器攻击节点的朝向
+		var c_texture_controller: CTextureController = c_status.component_owner.list_base_components[IComponent.ComponentName.C_TEXTURE_CONTROLLER]
+		if c_texture_controller and c_texture_controller.packed_sprite:
+			c_texture_controller.packed_sprite.texture_toward = vector
 	else:
-		vector = c_input_reactor.input_vector_dict.get("toward", Vector2.ZERO)
+		# vector = c_input_reactor.input_vector_dict.get("toward", Vector2.ZERO)
+		pass
 
 	# 如果方向向量足够长，设置射线朝向
 	if vector.length() > 0.1: # 避免零向量
 		interact_ray.rotation = vector.angle()
 
-
-	# 设置武器攻击节点的朝向
-	var c_texture_controller: CTextureController = c_status.component_owner.list_base_components[IComponent.ComponentName.C_TEXTURE_CONTROLLER]
-	if c_texture_controller and c_texture_controller.packed_sprite:
-		c_texture_controller.packed_sprite.texture_toward = vector
 
 	# 检测交互键按下事件
 	if c_input_reactor.validate_control("interact", SoraConstant.InputType.JUST_PRESSED):

@@ -13,11 +13,6 @@ extends StateHfsm
 ## 纹理组件，用于播放待机动画和控制角色朝向
 @export var c_texture: CTextureController
 
-## 进入空闲状态，根据当前朝向设置待机动画
-func _enter():
-	var _direction: Vector2 = vector_move.toward_direction
-
-	print("玩家状态: 进入空闲状态")
 
 ## 状态更新，持续监听移动输入，当检测到移动时切换到移动状态
 ## [param _delta]: 帧时间间隔

@@ -62,7 +62,7 @@ movie_writer/movie_file="/Users/sora/GitLocal/Godot-2D-Game-ECS-Template/ECS/mov
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/AsepriteWizard/plugin.cfg", "res://addons/Todo_Manager/plugin.cfg", "res://addons/dialogue_manager/plugin.cfg")
+enabled=PackedStringArray("res://addons/Todo_Manager/plugin.cfg", "res://addons/dialogue_manager/plugin.cfg")
 
 [global_group]
 

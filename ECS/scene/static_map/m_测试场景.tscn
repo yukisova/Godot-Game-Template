@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=4 uid="uid://nqh6sy3jpxp3"]
+[gd_scene load_steps=22 format=4 uid="uid://nqh6sy3jpxp3"]
 
 [ext_resource type="PackedScene" uid="uid://dx8lfcn7h43ea" path="res://resource/node_template/map/static_map/static_map.tscn" id="1_8b7id"]
 [ext_resource type="PackedScene" uid="uid://6dpqakv78nkp" path="res://resource/node_template/map/level.tscn" id="2_kqh3t"]
@@ -30,6 +30,11 @@ colors = PackedColorArray(1, 1, 1, 1)
 gradient = SubResource("Gradient_20su5")
 width = 16
 height = 32
+
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_8b7id"]
+vertices = PackedVector2Array(-11.59375, 255.25, -271.46875, 284.95313, -308.6875, 24.4375, -56.242188, -12.6796875)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(-320, 16, -48, -24, 0, 264, -280, 296)])
 
 [node name="m_测试场景" node_paths=PackedStringArray("player_spawns") instance=ExtResource("1_8b7id")]
 player_spawns = [NodePath("Levels/Level/PlayerSpawn")]
@@ -113,4 +118,34 @@ texture = SubResource("GradientTexture2D_kqh3t")
 [node name="敌人" parent="Levels/Level" index="13" instance=ExtResource("18_320cn")]
 position = Vector2(-248, 112)
 
+[node name="Right" parent="Levels/Level/敌人/CharacterBody/ComponentContainer/CTextureController/PackedManSe/Whole" index="1" node_paths=PackedStringArray("sprite")]
+sprite = NodePath("@Sprite2D@28840")
+
+[node name="Left" parent="Levels/Level/敌人/CharacterBody/ComponentContainer/CTextureController/PackedManSe/Whole" index="2" node_paths=PackedStringArray("sprite")]
+sprite = NodePath("@Sprite2D@28841")
+
+[node name="PackedSpriteEditor" parent="Levels/Level/敌人/CharacterBody/ComponentContainer/CTextureController/PackedManSe" index="2" node_paths=PackedStringArray("control_parts")]
+control_parts = {
+&"": NodePath(".."),
+&"Body": NodePath("../Whole/BH/Body"),
+&"Head": NodePath("../Whole/BH/Head"),
+&"Left": NodePath("../Whole/Left"),
+&"Right": NodePath("../Whole/Right")
+}
+
+[node name="CBehaviourTree" parent="Levels/Level/敌人/CharacterBody/ComponentContainer" index="5"]
+blackboard_data = Dictionary[String, Variant]({
+"ai_state_normal": 1,
+"navigation_region": NodePath("../../../../NavigationRegion2D"),
+"sight_box": NodePath("../CCollisionBox/SightBox"),
+"sound_box": NodePath("../CCollisionBox/SoundBox")
+})
+
+[node name="NavigationRegion2D" type="NavigationRegion2D" parent="Levels/Level" index="14"]
+navigation_polygon = SubResource("NavigationPolygon_8b7id")
+navigation_layers = 2
+
 [editable path="Levels/Level"]
+[editable path="Levels/Level/敌人"]
+[editable path="Levels/Level/敌人/CharacterBody"]
+[editable path="Levels/Level/敌人/CharacterBody/ComponentContainer/CTextureController/PackedManSe"]

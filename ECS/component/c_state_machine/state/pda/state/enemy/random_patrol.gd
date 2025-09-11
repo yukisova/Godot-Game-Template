@@ -19,16 +19,6 @@ func _enter_tree() -> void:
 
 func _ready() -> void:
 	if (Engine.is_editor_hint()): return
-	c_navigation.nav_agent.velocity_computed.connect(_on_safe_velocity_computed)
-
-## 安全的位移力，处理导航代理计算出的安全速度并应用到角色移动
-func _on_safe_velocity_computed(safe_velocity: Vector2):
-	var character = c_navigation.component_body as CharacterBody2D
-	if velocity_computed_enable:
-		character.velocity = safe_velocity
-	else:
-		character.velocity = Vector2.ZERO
-	character.move_and_slide()
 
 func _enter() -> void:
 	set_movement_target_random.call_deferred()

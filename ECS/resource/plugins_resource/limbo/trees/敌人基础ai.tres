@@ -1,0 +1,53 @@
+[gd_resource type="BehaviorTree" load_steps=18 format=3 uid="uid://b3wlxiiafwld5"]
+
+[ext_resource type="Script" uid="uid://dh48xix7kptvg" path="res://resource/plugins_resource/limbo/tasks/区域范围内巡逻.gd" id="1_l70wn"]
+[ext_resource type="Script" uid="uid://dt3lhmi2wi1xc" path="res://resource/plugins_resource/limbo/tasks/指定路径内巡逻.gd" id="2_tyhla"]
+[ext_resource type="Script" uid="uid://rflxskf266vx" path="res://resource/plugins_resource/limbo/tasks/站岗.gd" id="3_mx2h4"]
+[ext_resource type="Script" uid="uid://cdk0iakvkj86h" path="res://resource/plugins_resource/limbo/tasks/正式警戒.gd" id="4_tyhla"]
+
+[sub_resource type="BlackboardPlan" id="BlackboardPlan_0ps1t"]
+
+[sub_resource type="BTAction" id="BTAction_oqmlq"]
+script = ExtResource("1_l70wn")
+
+[sub_resource type="BTDelay" id="BTDelay_tyhla"]
+children = [SubResource("BTAction_oqmlq")]
+
+[sub_resource type="BTSequence" id="BTSequence_jat35"]
+custom_name = "区域范围内巡逻"
+children = [SubResource("BTDelay_tyhla")]
+
+[sub_resource type="BTAction" id="BTAction_kfrg5"]
+script = ExtResource("2_tyhla")
+
+[sub_resource type="BTSequence" id="BTSequence_4f6lk"]
+custom_name = "指定路径内巡逻"
+children = [SubResource("BTAction_kfrg5")]
+
+[sub_resource type="BTAction" id="BTAction_wmwm0"]
+script = ExtResource("3_mx2h4")
+
+[sub_resource type="BTSequence" id="BTSequence_gbngk"]
+custom_name = "站岗"
+children = [SubResource("BTAction_wmwm0")]
+
+[sub_resource type="BTSequence" id="BTSequence_tyhla"]
+custom_name = "正常行为"
+children = [SubResource("BTSequence_jat35"), SubResource("BTSequence_4f6lk"), SubResource("BTSequence_gbngk")]
+
+[sub_resource type="BTAction" id="BTAction_mx2h4"]
+script = ExtResource("4_tyhla")
+
+[sub_resource type="BTSequence" id="BTSequence_mx2h4"]
+custom_name = "警戒行为"
+children = [SubResource("BTAction_mx2h4")]
+
+[sub_resource type="BTSelector" id="BTSelector_mx2h4"]
+children = [SubResource("BTSequence_tyhla"), SubResource("BTSequence_mx2h4")]
+
+[sub_resource type="BTParallel" id="BTParallel_l70wn"]
+children = [SubResource("BTSelector_mx2h4")]
+
+[resource]
+blackboard_plan = SubResource("BlackboardPlan_0ps1t")
+root_task = SubResource("BTParallel_l70wn")

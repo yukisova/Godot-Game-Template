@@ -1,45 +1,28 @@
-[gd_scene load_steps=26 format=3 uid="uid://ht3v3wnr5dy"]
+[gd_scene load_steps=16 format=3 uid="uid://ht3v3wnr5dy"]
 
 [ext_resource type="PackedScene" uid="uid://2g3kd2w3tlq6" path="res://entity/entity_packed/fixed_entity/enemy/i_enemy.tscn" id="1_x70oi"]
 [ext_resource type="PackedScene" uid="uid://dlwowmvdbw73s" path="res://component/c_texture_controller/packed_texture/packed_texture/people/packed_texture_people.tscn" id="2_tstgw"]
-[ext_resource type="PackedScene" uid="uid://ca1hb1m2dinl2" path="res://component/c_state_machine/c_state_machine.tscn" id="3_axce1"]
-[ext_resource type="Script" uid="uid://cnerl0mqvfs2t" path="res://component/c_state_machine/state/hfsm/state/enemy/sm_enemy_root.gd" id="4_veye5"]
-[ext_resource type="Script" uid="uid://c4q5bgme6pab5" path="res://component/c_state_machine/state/hfsm/state/enemy/patroling.gd" id="5_mcwga"]
-[ext_resource type="Script" uid="uid://cpdkw72ahtbjj" path="res://component/c_state_machine/transition_record.gd" id="6_y1bnr"]
-[ext_resource type="Script" uid="uid://bh0nqovctjdi" path="res://component/c_state_machine/state/hfsm/state/enemy/searching.gd" id="7_1muak"]
-[ext_resource type="Script" uid="uid://bp0u3hwov62j1" path="res://component/c_state_machine/state/hfsm/state/enemy/warning.gd" id="8_2gauh"]
-[ext_resource type="Script" uid="uid://cd0ct6p5veb0e" path="res://component/c_state_machine/state/pda/state/enemy/random_patrol.gd" id="9_qes7k"]
-[ext_resource type="Script" uid="uid://d3e6ff7wxf0un" path="res://component/c_state_machine/state/pda/state/enemy/target_lock.gd" id="10_qmid5"]
-[ext_resource type="Script" uid="uid://cdj07glc4b6q5" path="res://component/c_state_machine/state/pda/state/enemy/target_lost.gd" id="11_tcwpt"]
-[ext_resource type="Script" uid="uid://cevkcstd1aowi" path="res://component/c_state_machine/state/pda/state/goblin/target_chasing.gd" id="12_tojus"]
-[ext_resource type="Script" uid="uid://c3685muhilgab" path="res://component/c_state_machine/state/pda/state/goblin/attacking.gd" id="13_wvvld"]
-[ext_resource type="Script" uid="uid://dwt0prmf31a5" path="res://component/c_action_trigger/action/update_action/move_vector.gd" id="14_yctlp"]
+[ext_resource type="Script" uid="uid://dv2hokmyuu03y" path="res://component/c_collision_box/box_collision/sight_box/sight_box.gd" id="8_60u6p"]
+[ext_resource type="Script" uid="uid://cf4bsx3i08rsi" path="res://component/c_collision_box/box_collision/sight_box/sight_collision_resource.gd" id="9_61qwx"]
+[ext_resource type="Script" uid="uid://dwt0prmf31a5" path="res://component/c_action_trigger/action/update_action/move_strategy/move_vector.gd" id="14_yctlp"]
 [ext_resource type="PackedScene" uid="uid://cps21xspaovit" path="res://component/c_collision_box/c_collision_box.tscn" id="15_url74"]
 [ext_resource type="Script" uid="uid://g2bwyajee348" path="res://component/c_collision_box/box_collision/sound_box/sound_box.gd" id="18_0a0wt"]
 [ext_resource type="Script" uid="uid://g2h7s2qmcn31" path="res://component/c_collision_box/box_collision/hurt_box/hurt_box.gd" id="18_yho02"]
 [ext_resource type="PackedScene" uid="uid://caj56l0yail7q" path="res://component/c_status_list/c_status_list.tscn" id="19_cjx0m"]
 [ext_resource type="PackedScene" uid="uid://bcj7edirvdy16" path="res://component/c_behaviour_tree/c_behaviour_tree.tscn" id="19_x70oi"]
-
-[sub_resource type="Resource" id="Resource_yco6y"]
-script = ExtResource("6_y1bnr")
-to_state = NodePath("../Searching")
-metadata/_custom_type_script = "uid://cpdkw72ahtbjj"
-
-[sub_resource type="Resource" id="Resource_sv75w"]
-script = ExtResource("6_y1bnr")
-to_state = NodePath("../Warning")
-metadata/_custom_type_script = "uid://cpdkw72ahtbjj"
-
-[sub_resource type="Resource" id="Resource_k3wj4"]
-script = ExtResource("6_y1bnr")
-to_state = NodePath("../Searching")
-metadata/_custom_type_script = "uid://cpdkw72ahtbjj"
+[ext_resource type="BehaviorTree" uid="uid://b3wlxiiafwld5" path="res://resource/plugins_resource/limbo/trees/敌人基础ai.tres" id="20_tstgw"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_7ss8r"]
 radius = 6.0
 height = 28.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_x70oi"]
+
+[sub_resource type="Resource" id="Resource_3th7k"]
+script = ExtResource("9_61qwx")
+sight_wide = 30.0
+sight_range = 100.0
+metadata/_custom_type_script = "uid://cf4bsx3i08rsi"
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_imnk3"]
 size = Vector2(8, 8)
@@ -50,11 +33,11 @@ size = Vector2(8, 8)
 
 [node name="Right" parent="CharacterBody/ComponentContainer/CTextureController/PackedManSe/Whole" index="1" node_paths=PackedStringArray("sprite")]
 position = Vector2(0, 0)
-sprite = NodePath("@Sprite2D@27267")
+sprite = NodePath("@Sprite2D@24014")
 
 [node name="Left" parent="CharacterBody/ComponentContainer/CTextureController/PackedManSe/Whole" index="2" node_paths=PackedStringArray("sprite")]
 position = Vector2(0, 0)
-sprite = NodePath("@Sprite2D@27268")
+sprite = NodePath("@Sprite2D@24015")
 
 [node name="PackedSpriteEditor" parent="CharacterBody/ComponentContainer/CTextureController/PackedManSe" index="2" node_paths=PackedStringArray("control_parts")]
 control_parts = {
@@ -65,66 +48,18 @@ control_parts = {
 &"Right": NodePath("../Whole/Right")
 }
 
-[node name="CState" parent="CharacterBody/ComponentContainer" index="1" instance=ExtResource("3_axce1")]
-
-[node name="StateMachineHfsm" type="Node" parent="CharacterBody/ComponentContainer/CState" index="0"]
-script = ExtResource("4_veye5")
-init_state = NodePath("Patroling")
-metadata/_custom_type_script = "uid://b5ywitjyd2ccg"
-
-[node name="Patroling" type="Node" parent="CharacterBody/ComponentContainer/CState/StateMachineHfsm" index="0" node_paths=PackedStringArray("vector_move", "possible_pda_state_push")]
-script = ExtResource("5_mcwga")
-vector_move = NodePath("../../../CActionTrigger/VectorMove")
-hfsm_state_transition = Dictionary[StringName, ExtResource("6_y1bnr")]({
-&"": SubResource("Resource_yco6y")
-})
-possible_pda_state_push = [NodePath("../../PdaStates/RandomPatrol"), NodePath("../../PdaStates/TargetLock"), NodePath("../../PdaStates/TargetLost")]
-
-[node name="Searching" type="Node" parent="CharacterBody/ComponentContainer/CState/StateMachineHfsm" index="1" node_paths=PackedStringArray("possible_pda_state_push")]
-script = ExtResource("7_1muak")
-hfsm_state_transition = Dictionary[StringName, ExtResource("6_y1bnr")]({
-&"": SubResource("Resource_sv75w")
-})
-possible_pda_state_push = [NodePath("../../PdaStates/TargetLock"), NodePath("../../PdaStates/TargetLost")]
-
-[node name="Warning" type="Node" parent="CharacterBody/ComponentContainer/CState/StateMachineHfsm" index="2" node_paths=PackedStringArray("possible_pda_state_push")]
-script = ExtResource("8_2gauh")
-hfsm_state_transition = Dictionary[StringName, ExtResource("6_y1bnr")]({
-&"": SubResource("Resource_k3wj4")
-})
-possible_pda_state_push = [NodePath("../../PdaStates/TargetLock"), NodePath("../../PdaStates/TargetLost")]
-
-[node name="RandomPatrol" type="Node" parent="CharacterBody/ComponentContainer/CState/PdaStates" index="0" node_paths=PackedStringArray("vector_move", "c_navigation")]
-script = ExtResource("9_qes7k")
-vector_move = NodePath("../../../CActionTrigger/VectorMove")
-c_navigation = NodePath("../../../CNavigationAgent")
-walk_speed_range = Vector2(3000, 5000)
-
-[node name="TargetLock" type="Node" parent="CharacterBody/ComponentContainer/CState/PdaStates" index="1" node_paths=PackedStringArray("plus_trigger_target")]
-script = ExtResource("10_qmid5")
-plus_trigger_target = [NodePath("../TargetChasing")]
-
-[node name="TargetLost" type="Node" parent="CharacterBody/ComponentContainer/CState/PdaStates" index="2"]
-script = ExtResource("11_tcwpt")
-
-[node name="TargetChasing" type="Node" parent="CharacterBody/ComponentContainer/CState/PdaStates" index="3" node_paths=PackedStringArray("c_navigation", "plus_trigger_target")]
-script = ExtResource("12_tojus")
-c_navigation = NodePath("../../../CNavigationAgent")
-chasing_speed = 4000
-plus_trigger_target = [NodePath("../Attacking")]
-
-[node name="Attacking" type="Node" parent="CharacterBody/ComponentContainer/CState/PdaStates" index="4"]
-script = ExtResource("13_wvvld")
+[node name="CNavigationAgent" parent="CharacterBody/ComponentContainer" index="1" node_paths=PackedStringArray("move_strategy")]
+move_strategy = NodePath("../CActionTrigger/VectorMove")
 
 [node name="VectorMove" type="Node2D" parent="CharacterBody/ComponentContainer/CActionTrigger" index="0"]
 script = ExtResource("14_yctlp")
 
-[node name="CStatus" parent="CharacterBody/ComponentContainer" index="4" instance=ExtResource("19_cjx0m")]
+[node name="CStatus" parent="CharacterBody/ComponentContainer" index="3" instance=ExtResource("19_cjx0m")]
 basic_info = Dictionary[int, float]({
 0: 100.0
 })
 
-[node name="CCollisionBox" parent="CharacterBody/ComponentContainer" index="5" instance=ExtResource("15_url74")]
+[node name="CCollisionBox" parent="CharacterBody/ComponentContainer" index="4" instance=ExtResource("15_url74")]
 
 [node name="Hurtbox" type="Area2D" parent="CharacterBody/ComponentContainer/CCollisionBox" index="0" node_paths=PackedStringArray("c_status")]
 collision_layer = 4
@@ -144,11 +79,21 @@ script = ExtResource("18_0a0wt")
 sound_box_shape = SubResource("CircleShape2D_x70oi")
 metadata/_custom_type_script = "uid://g2bwyajee348"
 
-[node name="CBehaviourTree" parent="CharacterBody/ComponentContainer" index="6" instance=ExtResource("19_x70oi")]
+[node name="SightBox" type="Area2D" parent="CharacterBody/ComponentContainer/CCollisionBox" index="2"]
+script = ExtResource("8_60u6p")
+sight_box_resource = Array[ExtResource("9_61qwx")]([SubResource("Resource_3th7k")])
+chase_target_group_name = Array[StringName]([&"player"])
+metadata/_custom_type_script = "uid://dv2hokmyuu03y"
+
+[node name="CBehaviourTree" parent="CharacterBody/ComponentContainer" index="5" instance=ExtResource("19_x70oi")]
+behaviour_tree = ExtResource("20_tstgw")
+blackboard_data = Dictionary[String, Variant]({
+"sight_box": NodePath("../CCollisionBox/SightBox"),
+"sound_box": NodePath("../CCollisionBox/SoundBox")
+})
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody" index="1"]
 shape = SubResource("RectangleShape2D_imnk3")
 
 [editable path="CharacterBody"]
 [editable path="CharacterBody/ComponentContainer/CTextureController/PackedManSe"]
-[editable path="CharacterBody/ComponentContainer/CState"]

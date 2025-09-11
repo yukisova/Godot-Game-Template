@@ -11,6 +11,8 @@ extends BoxCollision
 ## 声音前缀过滤，只有声音前缀不在过滤器中的声音才会被听见
 @export var sound_prefix_fliter: Array[String]
 
+var sound_target: Array[CSoundEmitter] = []
+
 @export var sound_box_shape: CircleShape2D:
 	set(v):
 		sound_box_shape = v
@@ -38,3 +40,4 @@ func _on_area_entered(area: Area2D):
 				print(c_collision.component_owner.name, "注意到了声音-> ", area.sound_name, " 声音前缀在过滤器中，被忽略")
 				return
 		print(c_collision.component_owner.name, "注意到了声音-> ", area.sound_name)
+		sound_target.append(area.get_parent() as CSoundEmitter)

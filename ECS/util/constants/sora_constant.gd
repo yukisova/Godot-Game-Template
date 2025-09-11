@@ -182,3 +182,11 @@ enum InputTarget {
 	PLAYER3,
 	PLAYER4
 }
+
+#region 敌人AI的信息枚举
+## 正常状态下AI状态枚举
+enum AiStateNormal {
+	路径巡逻 = 0,
+	区域巡逻 = 1,
+}
+#endregion

@@ -22,7 +22,11 @@ enum NavType {
 	LOCATED,
 }
 
-@export var current_nav_type: NavType
+## 当前导航的移动速度
+@export var current_speed_range: Vector2 = Vector2(3000, 5000)
+var current_speed: float = 0.0
+
+var current_nav_type: NavType
 
 ## 当前导航状态，记录实体当前的导航行为类型
 var current_nav_state: NavState = NavState.STOP
@@ -33,7 +37,11 @@ var target_info: Dictionary
 
 var trace_refresh_timer: Timer
 
-@export_subgroup("导航依赖")
+@export_group("可选依赖")
+@export var move_strategy: MoveStrategyVector = null
+
+
+@export_group("导航依赖")
 ## 主要导航代理，用于执行寻路计算
 @export var nav_agent: NavigationAgent2D
 
@@ -68,10 +76,12 @@ func _initialize(_owner: IEntity, _load_data: Dictionary = {}):
 func set_target_position(position: Vector2):
 	target_info.clear()
 	target_info.set("position", position)
+	current_speed = randf_range(current_speed_range.x, current_speed_range.y)
 	current_nav_state = NavState.RUNNING
 	nav_type_changed.emit(NavType.LOCATED)
 	if nav_agent:
 		nav_agent.target_position = position
+		velocity_computed_enable = true
 
 ## 设计导航目标的方向，FIXME 
 func set_target_direction(direction: Vector2):
@@ -108,6 +118,7 @@ func stop_navigation():
 	current_nav_state = NavState.STOP
 	if nav_agent:
 		nav_agent.target_position = component_owner.global_position
+		velocity_computed_enable = false
 #endregion
 
 
@@ -117,8 +128,17 @@ func _update(_delta: float):
 	match current_nav_type:
 		NavType.DIRECTIONAL:
 			pass
-
-
+		NavType.TRACK:
+			pass
+		NavType.LOCATED:
+			if nav_agent.is_navigation_finished():
+				nav_agent.velocity = Vector2.ZERO
+			else:
+				var current_position = component_body.global_position
+				var target_position = nav_agent.get_next_path_position()
+				var direction = current_position.direction_to(target_position).normalized()
+				nav_agent.velocity = direction * current_speed * _delta
+	
 
 ## 更新跟踪导航，持续更新跟踪目标的位置，确保AI始终朝着目标移动
 func _update_tracking_navigation():
@@ -141,8 +161,12 @@ func _on_safe_velocity_computed(safe_velocity: Vector2):
 	var character = component_body as CharacterBody2D
 	if velocity_computed_enable:
 		character.velocity = safe_velocity
+		if move_strategy:
+			move_strategy.set_move_vector(safe_velocity)
 	else:
 		character.velocity = Vector2.ZERO
+		if move_strategy:
+			move_strategy.set_move_vector(Vector2.ZERO)
 	character.move_and_slide()
 
 func _on_nav_type_changed(new_type: NavType):

@@ -9,7 +9,7 @@
 [ext_resource type="Script" uid="uid://56igfb3mcaca" path="res://component/c_collision_box/box_collision/hit_box/hit_effect/i_hit_effect.gd" id="6_w4hos"]
 [ext_resource type="Script" uid="uid://dprng288c4b2f" path="res://component/c_collision_box/box_collision/hit_box/hit_effect/status_effect.gd" id="7_mgtaq"]
 [ext_resource type="PackedScene" uid="uid://b3vbfhugiqyva" path="res://component/c_action_trigger/c_action_trigger.tscn" id="8_vmhx7"]
-[ext_resource type="Script" uid="uid://cxvnftaawgynr" path="res://component/c_action_trigger/action/update_action/move_cubic.gd" id="9_fsy7s"]
+[ext_resource type="Script" uid="uid://cxvnftaawgynr" path="res://component/c_action_trigger/action/update_action/move_strategy/move_cubic.gd" id="9_fsy7s"]
 
 [sub_resource type="Gradient" id="Gradient_tuh6x"]
 offsets = PackedFloat32Array(0.7268519, 0.875)
