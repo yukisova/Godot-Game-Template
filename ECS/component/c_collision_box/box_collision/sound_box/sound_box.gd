@@ -7,7 +7,9 @@ class_name SoundBox
 extends BoxCollision
 
 ## 可听见的最小声音，低于该标准的声音无法被听见
-var sound_min_limit: float = 10
+@export var sound_min_limit: float = 10
+## 声音前缀过滤，只有声音前缀不在过滤器中的声音才会被听见
+@export var sound_prefix_fliter: Array[String]
 
 @export var sound_box_shape: CircleShape2D:
 	set(v):
@@ -28,4 +30,11 @@ func _enter_tree() -> void:
 
 func _on_area_entered(area: Area2D):
 	if area is ISoundArea:
-		print(c_collision.component_owner.name, "听到了声音 -> ", area.sound_name)
+		if area.sound_force < sound_min_limit:
+			print(c_collision.component_owner.name, "注意到了声音-> ", area.sound_name, " 声音强度太低，无法听见")
+			return
+		for prefix in sound_prefix_fliter:
+			if area.sound_name.begins_with(prefix):
+				print(c_collision.component_owner.name, "注意到了声音-> ", area.sound_name, " 声音前缀在过滤器中，被忽略")
+				return
+		print(c_collision.component_owner.name, "注意到了声音-> ", area.sound_name)

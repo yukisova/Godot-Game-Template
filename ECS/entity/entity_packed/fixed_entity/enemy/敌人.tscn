@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=3 uid="uid://ht3v3wnr5dy"]
+[gd_scene load_steps=26 format=3 uid="uid://ht3v3wnr5dy"]
 
 [ext_resource type="PackedScene" uid="uid://2g3kd2w3tlq6" path="res://entity/entity_packed/fixed_entity/enemy/i_enemy.tscn" id="1_x70oi"]
 [ext_resource type="PackedScene" uid="uid://dlwowmvdbw73s" path="res://component/c_texture_controller/packed_texture/packed_texture/people/packed_texture_people.tscn" id="2_tstgw"]
@@ -18,6 +18,7 @@
 [ext_resource type="Script" uid="uid://g2bwyajee348" path="res://component/c_collision_box/box_collision/sound_box/sound_box.gd" id="18_0a0wt"]
 [ext_resource type="Script" uid="uid://g2h7s2qmcn31" path="res://component/c_collision_box/box_collision/hurt_box/hurt_box.gd" id="18_yho02"]
 [ext_resource type="PackedScene" uid="uid://caj56l0yail7q" path="res://component/c_status_list/c_status_list.tscn" id="19_cjx0m"]
+[ext_resource type="PackedScene" uid="uid://bcj7edirvdy16" path="res://component/c_behaviour_tree/c_behaviour_tree.tscn" id="19_x70oi"]
 
 [sub_resource type="Resource" id="Resource_yco6y"]
 script = ExtResource("6_y1bnr")
@@ -49,11 +50,11 @@ size = Vector2(8, 8)
 
 [node name="Right" parent="CharacterBody/ComponentContainer/CTextureController/PackedManSe/Whole" index="1" node_paths=PackedStringArray("sprite")]
 position = Vector2(0, 0)
-sprite = NodePath("@Sprite2D@23996")
+sprite = NodePath("@Sprite2D@27267")
 
 [node name="Left" parent="CharacterBody/ComponentContainer/CTextureController/PackedManSe/Whole" index="2" node_paths=PackedStringArray("sprite")]
 position = Vector2(0, 0)
-sprite = NodePath("@Sprite2D@23997")
+sprite = NodePath("@Sprite2D@27268")
 
 [node name="PackedSpriteEditor" parent="CharacterBody/ComponentContainer/CTextureController/PackedManSe" index="2" node_paths=PackedStringArray("control_parts")]
 control_parts = {
@@ -142,6 +143,8 @@ collision_mask = 8
 script = ExtResource("18_0a0wt")
 sound_box_shape = SubResource("CircleShape2D_x70oi")
 metadata/_custom_type_script = "uid://g2bwyajee348"
+
+[node name="CBehaviourTree" parent="CharacterBody/ComponentContainer" index="6" instance=ExtResource("19_x70oi")]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody" index="1"]
 shape = SubResource("RectangleShape2D_imnk3")

@@ -1,6 +1,14 @@
-[gd_scene load_steps=2 format=3 uid="uid://bcj7edirvdy16"]
+[gd_scene load_steps=3 format=3 uid="uid://bcj7edirvdy16"]
 
 [ext_resource type="Script" uid="uid://bahm6c1qrxdso" path="res://component/c_behaviour_tree/c_behaviour_tree.gd" id="1_7coev"]
 
-[node name="CBehaviourTree" type="Node2D"]
+[sub_resource type="BlackboardPlan" id="BlackboardPlan_7coev"]
+
+[node name="CBehaviourTree" type="Node2D" node_paths=PackedStringArray("behaviour_tree_player")]
 script = ExtResource("1_7coev")
+behaviour_tree_player = NodePath("BTPlayer")
+
+[node name="BTPlayer" type="BTPlayer" parent="."]
+active = false
+blackboard_plan = SubResource("BlackboardPlan_7coev")
+process_mode = 4
