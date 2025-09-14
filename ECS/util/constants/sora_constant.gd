@@ -77,10 +77,13 @@ const BASIC_SETTING: Dictionary = {
 			"move_u": KEY_W,             # 向上移动
 			"move_d": KEY_S,           # 向下移动
 			"interact": {
+				"type": "key",
+				"keycode": KEY_F
+			},
+			"primary_action": {
 				"type": "mouse",
 				"keycode": MOUSE_BUTTON_LEFT
 			},
-			"primary_action": KEY_F,
 			"secondary_action": {      # 次要动作（鼠标右键）
 				"type": "mouse", 
 				"keycode": MOUSE_BUTTON_RIGHT

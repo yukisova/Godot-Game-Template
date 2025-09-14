@@ -27,21 +27,20 @@ func _listen():
 	var vector: Vector2
 	
 	if toward_control_by_mouse:
-		# 获取玩家所在的视口容器
-		var camera_viewport = SViewportManager.get_viewport_container(c_input_reactor.component_owner.main_control)
-		if camera_viewport:
+		var mouse_info = SoraEvent.fixed_mouse_position(c_input_reactor.component_owner.main_control)
+		if !mouse_info.is_empty():
 			# 获取视口中的鼠标位置
-			var mouse_pos = camera_viewport.get_viewport_mouse_position()
-			
+			var mouse_pos = mouse_info["mouse_pos"]
 			# 获取玩家在世界中的位置
-			var player_pos = c_input_reactor.component_owner.main_control.global_position
-			
+			var player_pos = mouse_info["player_pos"]
 			# 计算鼠标相对于相机的位置
-			var camera_center = camera_viewport.camera.get_screen_center_position()
-			
+			var camera_center = mouse_info["camera_center"]
+			# 获取视口大小
+			var viewport_size = mouse_info["viewport_size"]
+
 			# 计算从玩家位置到鼠标位置的方向向量
 			# 这里的关键是：鼠标位置是视口相对坐标，需要转换为世界坐标
-			vector = ((mouse_pos - camera_viewport.viewport.size/2.0) + (player_pos - camera_center)).normalized()
+			vector = ((mouse_pos - viewport_size/2.0) + (player_pos - camera_center)).normalized()
 		else:
 			vector = Vector2.RIGHT # 默认方向
 		# 设置武器攻击节点的朝向

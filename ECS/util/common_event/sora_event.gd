@@ -55,5 +55,17 @@ static func fixed_dictionary(node: Node, data: Dictionary) -> Dictionary:
 
 
 #region 相机特效相关
+## 根据ViewportManager中的信息，获取
+static func fixed_mouse_position(camera_target: Node2D) -> Dictionary:
+	var camera_viewport = SViewportManager.get_viewport_container(camera_target)
+	var result = {}
+	if camera_viewport:
+		result["mouse_pos"] = camera_viewport.get_viewport_mouse_position()
+		result["player_pos"] = camera_target.global_position
+		result["camera_center"] = camera_viewport.camera.get_screen_center_position()
+		result["viewport_size"] = camera_viewport.viewport.size
+	return result
+#endregion
 
+#region 渲染相关
 #endregion

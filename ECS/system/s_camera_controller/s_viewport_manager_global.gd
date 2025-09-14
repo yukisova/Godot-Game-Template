@@ -459,8 +459,8 @@ func get_viewport_container(node: Node2D) -> CameraViewport:
 #region 相机的效果(镜头抖动)
 var camera_tween: Tween
 ## 相机抖动
-func camera_shake(node: Node2D, effect_strength: float = 1.0, effect_time: float = 0.5):
-	var camera_viewport = get_viewport_container(node)
+func camera_shake(camera_target: Node2D, effect_strength: float = 1.0, effect_time: float = 0.5):
+	var camera_viewport = get_viewport_container(camera_target)
 	var camera_2d: Camera2D
 	if camera_viewport:
 		camera_2d = camera_viewport.camera
@@ -469,7 +469,7 @@ func camera_shake(node: Node2D, effect_strength: float = 1.0, effect_time: float
 		return
 	if camera_tween: camera_tween.kill()
 	
-	camera_tween = node.get_tree().create_tween()
+	camera_tween = camera_target.get_tree().create_tween()
 	camera_tween.set_pause_mode(Tween.TWEEN_PAUSE_PROCESS)
 	for i in effect_strength:
 		var offset_strength = Vector2(randf_range(-effect_strength, effect_strength), randf_range(-effect_strength, effect_strength))

@@ -32,3 +32,6 @@ func _enter_tree() -> void:
 ## 获取攻击效果数组
 func get_hit_effect() -> Array[IHitEffect]:
 	return hit_effects
+
+func _initialize():
+	pass

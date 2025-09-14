@@ -1,6 +1,7 @@
-[gd_scene load_steps=22 format=4 uid="uid://nqh6sy3jpxp3"]
+[gd_scene load_steps=23 format=4 uid="uid://nqh6sy3jpxp3"]
 
 [ext_resource type="PackedScene" uid="uid://dx8lfcn7h43ea" path="res://resource/node_template/map/static_map/static_map.tscn" id="1_8b7id"]
+[ext_resource type="AudioStream" uid="uid://cshvyslspontd" path="res://asset/audio/旖旎飞雪 - 02 Walking.ogg" id="2_320cn"]
 [ext_resource type="PackedScene" uid="uid://6dpqakv78nkp" path="res://resource/node_template/map/level.tscn" id="2_kqh3t"]
 [ext_resource type="PackedScene" uid="uid://cue3bxc6g1wr2" path="res://resource/node_template/map/tilemap/floating/floor.tscn" id="3_320cn"]
 [ext_resource type="TileSet" uid="uid://bu11butve3vye" path="res://resource/resource_template/tileset/tilesets/tileset_32_floor.tres" id="4_lnnlk"]
@@ -13,8 +14,8 @@
 [ext_resource type="Resource" uid="uid://f8x8v2iu6h6e" path="res://resource/custom_resource/item/item_weapon/1_左轮/W_A_REVOVLER.tres" id="13_ervho"]
 [ext_resource type="PackedScene" uid="uid://bnjfqkssgqn5r" path="res://resource/custom_resource/item/item_equipment/1_手电筒/equipment_node_FLASHLIGHT.tscn" id="13_qubac"]
 [ext_resource type="Resource" uid="uid://cgtgigqia4o2a" path="res://resource/custom_resource/item/item_weapon/1_左轮/左轮子弹/左轮_子弹_普通.tres" id="15_8b7id"]
+[ext_resource type="PackedScene" uid="uid://ht3v3wnr5dy" path="res://entity/entity_packed/fixed_entity/enemy/敌人.tscn" id="16_8b7id"]
 [ext_resource type="PackedScene" uid="uid://bnl0vt21ig8ew" path="res://resource/custom_resource/item/item_weapon/1_左轮/attack_node_REVOVLER.tscn" id="17_kqh3t"]
-[ext_resource type="PackedScene" uid="uid://ht3v3wnr5dy" path="res://entity/entity_packed/fixed_entity/enemy/敌人.tscn" id="18_320cn"]
 [ext_resource type="PackedScene" uid="uid://dofu8tj40v5it" path="res://entity/entity_packed/object_entity/transport_point/transport_point.tscn" id="29_nfrqy"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_phtbu"]
@@ -37,6 +38,7 @@ polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
 outlines = Array[PackedVector2Array]([PackedVector2Array(-320, 16, -48, -24, 0, 264, -280, 296)])
 
 [node name="m_测试场景" node_paths=PackedStringArray("player_spawns") instance=ExtResource("1_8b7id")]
+bg_music = ExtResource("2_320cn")
 player_spawns = [NodePath("Levels/Level/PlayerSpawn")]
 cutscene_enable = false
 
@@ -84,6 +86,7 @@ binding_item = ExtResource("11_320cn")
 metadata/_custom_type_script = "uid://dyicjmjyi8vve"
 
 [node name="手电筒" parent="Levels/Level/OneshotPoint" index="2" instance=ExtResource("13_qubac")]
+position = Vector2(-168, -96)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Levels/Level/OneshotPoint" index="3"]
 shape = SubResource("RectangleShape2D_qubac")
@@ -115,14 +118,21 @@ shape = SubResource("RectangleShape2D_qubac")
 [node name="Sprite2D" type="Sprite2D" parent="Levels/Level/OneshotPoint3" index="3"]
 texture = SubResource("GradientTexture2D_kqh3t")
 
-[node name="敌人" parent="Levels/Level" index="13" instance=ExtResource("18_320cn")]
-position = Vector2(-248, 112)
+[node name="NavigationRegion2D" type="NavigationRegion2D" parent="Levels/Level" index="13"]
+navigation_polygon = SubResource("NavigationPolygon_8b7id")
+navigation_layers = 2
+
+[node name="敌人" parent="Levels/Level" index="14" instance=ExtResource("16_8b7id")]
+position = Vector2(-16, 280)
+
+[node name="CharacterBody" parent="Levels/Level/敌人" index="0"]
+position = Vector2(-120, -344)
 
 [node name="Right" parent="Levels/Level/敌人/CharacterBody/ComponentContainer/CTextureController/PackedManSe/Whole" index="1" node_paths=PackedStringArray("sprite")]
-sprite = NodePath("@Sprite2D@28840")
+sprite = NodePath("@Sprite2D@26182")
 
 [node name="Left" parent="Levels/Level/敌人/CharacterBody/ComponentContainer/CTextureController/PackedManSe/Whole" index="2" node_paths=PackedStringArray("sprite")]
-sprite = NodePath("@Sprite2D@28841")
+sprite = NodePath("@Sprite2D@26183")
 
 [node name="PackedSpriteEditor" parent="Levels/Level/敌人/CharacterBody/ComponentContainer/CTextureController/PackedManSe" index="2" node_paths=PackedStringArray("control_parts")]
 control_parts = {
@@ -136,14 +146,9 @@ control_parts = {
 [node name="CBehaviourTree" parent="Levels/Level/敌人/CharacterBody/ComponentContainer" index="5"]
 blackboard_data = Dictionary[String, Variant]({
 "ai_state_normal": 1,
-"navigation_region": NodePath("../../../../NavigationRegion2D"),
 "sight_box": NodePath("../CCollisionBox/SightBox"),
 "sound_box": NodePath("../CCollisionBox/SoundBox")
 })
-
-[node name="NavigationRegion2D" type="NavigationRegion2D" parent="Levels/Level" index="14"]
-navigation_polygon = SubResource("NavigationPolygon_8b7id")
-navigation_layers = 2
 
 [editable path="Levels/Level"]
 [editable path="Levels/Level/敌人"]

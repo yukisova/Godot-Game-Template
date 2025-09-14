@@ -162,11 +162,11 @@ func _on_safe_velocity_computed(safe_velocity: Vector2):
 	if velocity_computed_enable:
 		character.velocity = safe_velocity
 		if move_strategy:
-			move_strategy.set_move_vector(safe_velocity)
+			move_strategy._set_move_vector(safe_velocity)
 	else:
 		character.velocity = Vector2.ZERO
 		if move_strategy:
-			move_strategy.set_move_vector(Vector2.ZERO)
+			move_strategy._set_move_vector(Vector2.ZERO)
 	character.move_and_slide()
 
 func _on_nav_type_changed(new_type: NavType):

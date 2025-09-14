@@ -15,7 +15,7 @@ var current_action_list: Dictionary[IAction, StringName] = {}
 
 ## 移动策略列表
 ## 专门用于处理移动策略的列表, 栈顶的列表为主移动策略，由外界优先访问
-var move_strategy: Array[IUpdateAction] = []
+var move_strategy: Array[MoveStrategy] = []
 
 
 @export_group("动作逻辑注册表", "action_list_")
@@ -45,6 +45,8 @@ func _initialize(_owner: IEntity, _load_data: Dictionary = {}):
 				_action_list_update.append(action)
 				action.binding_entity = component_owner
 				current_action_list[action as IAction] = action.current_action_state
+				if action is MoveStrategy:
+					move_strategy.append(action)
 			elif action is ITriggerAction:
 				action.action_triggered.connect(_on_action_triggered)
 				action.action_triggered_finished.connect(_on_action_triggered_finished)

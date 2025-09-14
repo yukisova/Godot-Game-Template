@@ -49,6 +49,8 @@ signal level_entity_fully_initialize
 ## 用于实现一些恐怖效果，但可以选择关闭
 @export var level_fog: Fog
 
+@export var paint_floor: PaintFloor
+
 ## 地图滤镜
 @export var map_filter: CanvasModulate
 
@@ -142,6 +144,7 @@ func _late_initialize():
 	if !is_need_fog:
 		level_fog.hide()
 	level_fog._initialize()
+	paint_floor._initialize()
 	rooms._initialize()
 	#var timeloop = SBlackboard.get_sub_system(ISubSystem.SubSystemType.TIME_LOOP) as SSTimeLoop
 	#timeloop.time_updated.connect(time_change_filter)

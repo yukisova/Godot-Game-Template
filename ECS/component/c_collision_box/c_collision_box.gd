@@ -33,11 +33,13 @@ var box_rays: Dictionary[BoxRayName, BoxRay] = {}
 
 ## 标记类型枚举
 ## 定义不同类型的标记用途
-enum MarkerType {
-	TRANSITION     ## 场景切换点
+enum BoxMarkerType {
+	TRANSITION, ## 场景切换点
+	EFFECT, ## 特效点
+	DIALOGUE, ## 浮动对话点
 }
 
-var box_markers: Dictionary[StringName, BoxMarker] = {}
+var box_markers: Dictionary[BoxMarkerType, BoxMarker] = {}
 
 
 
@@ -64,6 +66,14 @@ func _initialize(_owner: IEntity, _load_data: Dictionary = {}):
 			child.c_collision = self
 	
 	initialize_complete.emit()
+
+func _late_initialize():
+	for child in box_collision.values():
+		child._initialize()
+	for child in box_rays.values():
+		child._initialize()
+	for child in box_markers.values():
+		child._initialize()
 
 ## 每帧更新所有碰撞检测器状态
 ## [param _delta]: 帧时间间隔

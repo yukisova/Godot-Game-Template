@@ -1,0 +1,27 @@
+[gd_scene load_steps=4 format=3 uid="uid://4r451e5tvfdj"]
+
+[sub_resource type="Gradient" id="Gradient_yr2l0"]
+offsets = PackedFloat32Array(1)
+colors = PackedColorArray(1, 1, 1, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_syuel"]
+gradient = SubResource("Gradient_yr2l0")
+width = 4
+height = 4
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_8a8pi"]
+particle_flag_disable_z = true
+angle_min = 1.0728864e-05
+angle_max = 1.0728864e-05
+direction = Vector3(0, 0, 0)
+initial_velocity_min = 236.64
+initial_velocity_max = 356.41
+gravity = Vector3(0, 100, 0)
+
+[node name="GPUParticles2D" type="GPUParticles2D"]
+emitting = false
+amount = 20
+texture = SubResource("GradientTexture2D_syuel")
+lifetime = 0.2
+one_shot = true
+process_material = SubResource("ParticleProcessMaterial_8a8pi")

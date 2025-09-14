@@ -30,6 +30,9 @@ func _enter_tree() -> void:
 	collision_mask = Main.PhysicsLayer.Sound
 	area_entered.connect(_on_area_entered)
 
+func _initialize():
+	pass
+
 func _on_area_entered(area: Area2D):
 	if area is ISoundArea:
 		if area.sound_force < sound_min_limit:
@@ -41,3 +44,8 @@ func _on_area_entered(area: Area2D):
 				return
 		print(c_collision.component_owner.name, "注意到了声音-> ", area.sound_name)
 		sound_target.append(area.get_parent() as CSoundEmitter)
+
+## 声音区域消失
+func _on_area_exited(area: Area2D):
+	if area is ISoundArea:
+		sound_target.erase(area.get_parent() as CSoundEmitter)

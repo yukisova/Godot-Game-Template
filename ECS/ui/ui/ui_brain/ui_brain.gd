@@ -77,8 +77,8 @@ func _initilize_info(_context: Dictionary) -> void:
 		if i != null:
 			grid_inventory.add_item(i)
 	
-	for i:ItemWeapon in inventory.inventory_array_weapon.values():
-		if i != null:
+	for i in inventory.inventory_array_weapon.values():
+		if i != null and (i is ItemWeapon or i is ItemEquipment):
 			# 1. 根据按钮的原型，复制并绑定按钮信息
 			var new_button: PanelButtonWeapon = panel_button_weapon_prototype.duplicate()
 			item_weapon_list.add_child(new_button)

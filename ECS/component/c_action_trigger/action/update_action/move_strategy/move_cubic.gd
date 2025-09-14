@@ -5,7 +5,7 @@
 ## 架构设计：继承自 [IUpdateAction] 基类，与 [TempEntity] 的生命周期集成
 ## [br][b]编辑者:[/b] Sora
 class_name MoveStrategyCubic
-extends IUpdateAction
+extends MoveStrategy
 
 ## 移动方向向量
 ## 从黑板获取的初始移动方向，保持不变直到销毁

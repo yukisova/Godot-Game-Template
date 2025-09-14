@@ -46,6 +46,10 @@ func _initialize(_owner: IEntity, _load_data: Dictionary = {}):
 	component_owner = _owner
 	component_body = component_owner.main_control
 
+## 延迟初始化，在实体初始化完成后调用
+func _late_initialize():
+	pass
+
 #region :重置系统: 由实现类进行重写
 func _reset():
 	pass

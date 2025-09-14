@@ -25,7 +25,8 @@ var enable_rotate_by_award: bool = false:
 			enable_rotate_by_award = false
 			push_warning("盒子碰撞: 实体缺少移动组件，无法启用朝向旋转")
 
-func _ready():
+## 由c_collision_box组件调用
+func _initialize():
 	if get_parent() is CCollisionBox:
 		return
 	else:

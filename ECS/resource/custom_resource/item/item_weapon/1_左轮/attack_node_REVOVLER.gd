@@ -6,8 +6,13 @@ extends WeaponNode
 #region 射弹配置
 ## 子弹场景
 ## 手枪发射的子弹实体预制体
+@export var limit_fire: bool = true
+
+
 @export var projectile_scene: PackedScene
 
+## 子弹发射音频 wav格式
+@export var shoot_audios: Dictionary[String, AudioStream]
 
 @export var 随机散射数量: Vector2i:
 	set(v):
@@ -38,30 +43,61 @@ extends WeaponNode
 func _trigger_effect(..._args):
 	if not projectile_scene:
 		return
-	
+		
 	var current_index = source_item.current_index
 	var current_bullet_clip_num = source_item.current_bullet_clip_num
 	var next_index = (current_index + 1) % current_bullet_clip_num
 
 	var current_bullet_clip_type = source_item.bullet_clip[current_index]
-
-	match current_bullet_clip_type:
-		BulletClipSlot.BulletClipType.BULLET:
-			print("当前弹仓有子弹,可以进行发射")
-			_shoot_effect()
-			source_item.bullet_clip[current_index] = BulletClipSlot.BulletClipType.BULLET_OVER
-		BulletClipSlot.BulletClipType.BULLET_OVER:
-			print("当前弹仓子弹已发射，无法进行发射")
-		BulletClipSlot.BulletClipType.EMPTY:
-			print("当前弹仓没有子弹，无法进行发射")
+	
+	if limit_fire:
+		match current_bullet_clip_type:
+			BulletClipSlot.BulletClipType.BULLET:
+				print("当前弹仓有子弹,可以进行发射")
+				_shoot_effect()
+				source_item.bullet_clip[current_index] = BulletClipSlot.BulletClipType.BULLET_OVER
+			BulletClipSlot.BulletClipType.BULLET_OVER:
+				print("当前弹仓子弹已发射，无法进行发射")
+			BulletClipSlot.BulletClipType.EMPTY:
+				print("当前弹仓没有子弹，无法进行发射")
+	else:
+		_shoot_effect()
 	
 	## 旋转弹巢
+	print("当前弹巢索引", source_item.current_index)
 	source_item.current_index = next_index
 	
+## 播放发射子弹的音效
+func _shoot_audio(_name: String):
+	if shoot_audios.has(_name):
+		SAudioMaster.play_sfx(shoot_audios[_name])
+
+## 播放发射子弹的动画_tween
+func _shoot_animation():
+	SViewportManager.camera_shake(c_status.component_body, 3)
+	var tween: Tween = get_tree().create_tween()
+	var rotation_var = -20
+	var position_var = Vector2(0, -2)
+	if texture.flip_v:
+		rotation_var = 20
+		position_var = Vector2(0, 2)
+	tween.tween_property(self, "rotation_degrees", rotation_var, 0.2)
+	tween.set_parallel(true).tween_property(self, "position", position_var, 0.2)
+	tween.set_parallel(false)
+	tween.tween_property(self, "rotation_degrees", 0, 0.8)
+	tween.set_parallel(true).tween_property(self, "position", Vector2.ZERO, 0.8)
 	
-	
+
+## 播放发射子弹时的粒子效果
+func _shoot_spread_effect():
+	pass
+
 ## 发射子弹效果
 func _shoot_effect():
+	_shoot_audio("fire")
+	_shoot_animation()
+	_shoot_spread_effect()
+
 	var direction: Vector2 = Vector2.RIGHT
 	var collision_box : CCollisionBox = c_status.get_other_component(IComponent.ComponentName.C_COLLISION_BOX) as CCollisionBox
 	var interact_ray:InteractRay = collision_box.box_rays.get(CCollisionBox.BoxRayName.INTERACT)
@@ -77,8 +113,8 @@ func _shoot_effect():
 		var context = {"start_direction": direction.rotated(deg_to_rad(rand_angle)), "target_range": rand_range }
 		SObjectPool._spawn("projectile", projectile_scene, context, fire_point.global_position - Vector2(0, hand_offset_y))
 
-
-
+func _fhoot_failed():
+	_shoot_audio("failed")
 #endregion
 
 

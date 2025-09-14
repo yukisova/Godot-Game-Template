@@ -26,6 +26,8 @@ enum HandMoveType {
 		hand_move_type = value
 		notify_property_list_changed()
 
+## 拼接纹理的父节点，用于控制纹理的着色器与幅度并不大的位移
+@export var whole_node: Node2D
 
 #region 工具按钮
 @export var fixed_head_y: int:
@@ -156,13 +158,13 @@ func update_hands_rotation(direction: Vector2, offset: Vector2, base: PackedPart
 			if base.sprite is EquipmentNode:
 				# EquipmentNode类型：根据角度阈值设置垂直翻转
 				var should_flip = abs(rotation_angle) > 0.25
-				base.x_纹理反转 = should_flip == left_or_right
+				base.x_纹理反转 = should_flip != left_or_right
 				if (!base.x_竖握) and (!base.x_反握):
 					base.x_基础纹理旋转 = direction.angle()
 			else:
 				# 普通精灵：根据角度和手部位置设置水平翻转
 				var should_flip = rotation_angle < 0
-				base.x_纹理反转 = should_flip == left_or_right
+				base.x_纹理反转 = should_flip != left_or_right
 		HandMoveType.LINE:
 			pass
 			# var line_x = line_body_offset_x * cos(angle)
@@ -210,4 +212,36 @@ func _update(_delta: float) -> void:
 	for part in control_parts.values():
 		if part is PackedPart:
 			part._update(_delta)
-			
+
+#region tween动画
+func 受伤():
+	if whole_node == null:
+		push_error("whole_node 未设置，无法执行受伤动画")
+		return
+	
+	# 确保whole_node有material
+	if whole_node.material == null:
+		push_error("whole_node.material 为空，无法执行受伤动画")
+		return
+	
+	var tween: Tween = get_tree().create_tween()
+	
+	# 设置闪烁颜色为红色
+	whole_node.material.set_shader_parameter("blink_color", Color.RED)
+	
+	# 创建闪烁动画：从0到1再回到0，重复几次
+	tween.tween_method(_set_blink_intensity, 0.0, 1.0, 0.1)
+	tween.tween_method(_set_blink_intensity, 1.0, 0.0, 0.1)
+	tween.tween_method(_set_blink_intensity, 0.0, 1.0, 0.1)
+	tween.tween_method(_set_blink_intensity, 1.0, 0.0, 0.1)
+	tween.tween_method(_set_blink_intensity, 0.0, 1.0, 0.1)
+	tween.tween_method(_set_blink_intensity, 1.0, 0.0, 0.1)
+	
+	# 确保最后回到0
+	tween.tween_callback(func(): _set_blink_intensity(0.0))
+
+## 设置闪烁强度的辅助方法
+func _set_blink_intensity(intensity: float):
+	if whole_node != null and whole_node.material != null:
+		whole_node.material.set_shader_parameter("blink_intensity", intensity)
+#endregion

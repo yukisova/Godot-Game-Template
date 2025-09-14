@@ -50,6 +50,8 @@ const sfx_player_num: int = 6
 ## 音效播放器数组
 ## 管理所有可用的音效播放器，类型为 [Array] of [AudioStreamPlayer]
 var sfx_players: Array[AudioStreamPlayer] = []
+## 活跃的音效播放器索引
+var active_sfx_players: Array[AudioStreamPlayer] = []
 
 #endregion
 
@@ -95,6 +97,25 @@ func _resetup():
 	for sfx_player in sfx_players:
 		if sfx_player.playing:
 			sfx_player.stop()
+
+#endregion
+
+#region 音效控制
+
+## 播放音效
+func play_sfx(sfx: AudioStream):
+	if sfx:
+		if sfx_players.is_empty():
+			return
+		var audio_player = sfx_players.pop_front()
+		audio_player.stream = sfx
+		audio_player.play()
+		active_sfx_players.append(audio_player)
+		await audio_player.finished
+		active_sfx_players.erase(audio_player)
+		sfx_players.append(audio_player)
+	else:
+		push_error("音效为空")
 
 #endregion
 

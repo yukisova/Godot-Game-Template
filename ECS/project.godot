@@ -25,8 +25,8 @@ buses/default_bus_layout="uid://dipqogdumys7a"
 [autoload]
 
 DialogueManager="*res://addons/dialogue_manager/dialogue_manager.gd"
-SCameraController="*res://system/s_camera_controller/s_viewport_manager_global.tscn"
 SAudioMaster="*res://system/s_audio_master/s_audio_master_global.tscn"
+SViewportManager="*res://system/s_camera_controller/s_viewport_manager_global.tscn"
 SGameState="*res://system/s_game_state/s_game_state_global.tscn"
 SLoadAndSave="*res://system/s_load_save/s_load_and_save_global.tscn"
 SMapData="*res://system/s_map_data/s_map_data_global.tscn"
@@ -37,7 +37,6 @@ SGlobalConfig="*res://system/s_global_config/s_global_config_global.tscn"
 SObjectPool="*res://system/s_object_pool/s_object_pool_global.tscn"
 SCommandParser="*res://system/s_command_parser/s_command_parser.tscn"
 SBlackboard="*res://system/s_blackboard/s_blackboard_global.tscn"
-SViewportManager="*res://system/s_camera_controller/s_viewport_manager_global.tscn"
 
 [dialogue_manager]
 

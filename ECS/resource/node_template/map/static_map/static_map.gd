@@ -11,6 +11,8 @@ extends Node
 
 #region 玩家配置
 
+@export var bg_music: AudioStream
+
 ## 玩家出生点
 ## 指定玩家在此地图中的初始位置和层级，类型为 [PlayerSpawn]
 @export var player_spawns: Array[PlayerSpawn]
@@ -96,6 +98,8 @@ func _enter_tree() -> void:
 			SUiSpawner._get_hud("transition").fade_in()
 			for level in levels_array:
 				level._late_initialize()
+			if !(SCommandParser.debug_setting & SCommandParser.DebugFlag.无bgm):
+				SAudioMaster.play_music(bg_music)
 		)
 
 ## 所有楼层的信息全部完成加载后发出

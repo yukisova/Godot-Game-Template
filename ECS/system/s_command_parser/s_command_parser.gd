@@ -6,6 +6,12 @@ extends ISystem
 
 signal command_run_started(command_string: String)
 
+@export_flags("无bgm" ) var debug_setting: int
+enum DebugFlag{
+	无bgm = 1 << 0
+}
+
+
 const command_meta: Array[String] = ["quit"]
 
 func _setup():

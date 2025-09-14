@@ -1,9 +1,10 @@
-[gd_scene load_steps=9 format=3 uid="uid://6dpqakv78nkp"]
+[gd_scene load_steps=10 format=3 uid="uid://6dpqakv78nkp"]
 
 [ext_resource type="Script" uid="uid://cdnd3coaj1drm" path="res://resource/node_template/map/level.gd" id="1_o3xit"]
 [ext_resource type="Shader" uid="uid://8g3lxhjc26wl" path="res://resource/node_template/map/war_fog.gdshader" id="2_bm21c"]
 [ext_resource type="Texture2D" uid="uid://bj5r82depcnqo" path="res://resource/resource_template/time_gradient.tres" id="2_rdm6c"]
 [ext_resource type="Script" uid="uid://b36hyix3bkmtb" path="res://resource/node_template/map/static_map/fog.gd" id="2_wvb50"]
+[ext_resource type="Script" uid="uid://8qsbi4w6ladu" path="res://resource/node_template/map/paint_floor.gd" id="3_mbilp"]
 [ext_resource type="Script" uid="uid://dvbhjxtkp7mpl" path="res://resource/node_template/map/rooms.gd" id="4_thopi"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_thopi"]
@@ -23,13 +24,14 @@ fill = 1
 fill_from = Vector2(0.5, 0.5)
 metadata/_snap_enabled = true
 
-[node name="Level" type="Node2D" node_paths=PackedStringArray("camera_limit", "rooms", "level_object_pool", "level_fog", "map_filter", "directional_light")]
+[node name="Level" type="Node2D" node_paths=PackedStringArray("camera_limit", "rooms", "level_object_pool", "level_fog", "paint_floor", "map_filter", "directional_light")]
 y_sort_enabled = true
 script = ExtResource("1_o3xit")
 camera_limit = NodePath("CameraLimit")
 rooms = NodePath("Rooms")
 level_object_pool = NodePath("ObjectPool")
 level_fog = NodePath("CameraLimit/Fog")
+paint_floor = NodePath("CameraLimit/PaintFloor")
 map_filter = NodePath("MapFilter")
 directional_light = NodePath("DirectionalLight2D")
 filter_gradient = ExtResource("2_rdm6c")
@@ -38,6 +40,12 @@ filter_gradient = ExtResource("2_rdm6c")
 custom_minimum_size = Vector2(50, 50)
 layout_mode = 3
 anchors_preset = 0
+
+[node name="PaintFloor" type="TextureRect" parent="CameraLimit"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("3_mbilp")
 
 [node name="Fog" type="TextureRect" parent="CameraLimit" node_paths=PackedStringArray("camera_limit")]
 z_index = 10

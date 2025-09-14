@@ -14,3 +14,7 @@ func try_animation(animation_name: String) -> bool:
 		return true
 
 	return false
+
+func try_tween(tween_name) -> bool:
+	var tween_lib = packed_sprite_editor
+	return false

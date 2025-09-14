@@ -1,5 +1,6 @@
-[gd_scene load_steps=10 format=3 uid="uid://dlwowmvdbw73s"]
+[gd_scene load_steps=12 format=3 uid="uid://dlwowmvdbw73s"]
 
+[ext_resource type="Shader" uid="uid://ybp62d200rx5" path="res://resource/shader/纹理闪烁.gdshader" id="1_e4yeb"]
 [ext_resource type="Script" uid="uid://bpx3sbnjyivcx" path="res://component/c_texture_controller/packed_texture/packed_texture/people/packed_texture_people.gd" id="1_q1wl7"]
 [ext_resource type="Texture2D" uid="uid://b7owcyhft6c20" path="res://asset/char_set/测试用角色.png" id="2_e4yeb"]
 [ext_resource type="Script" uid="uid://borj824dr1kti" path="res://component/c_texture_controller/packed_texture/packed_texture/packed_part.gd" id="3_q7rp6"]
@@ -17,6 +18,12 @@ fill = 1
 fill_from = Vector2(0.5, 0.5)
 fill_to = Vector2(0.90000004, 0)
 metadata/_snap_enabled = true
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_e4yeb"]
+resource_local_to_scene = true
+shader = ExtResource("1_e4yeb")
+shader_parameter/blink_color = Color(1, 1, 1, 1)
+shader_parameter/blink_intensity = 0.0
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_gy206"]
 atlas = ExtResource("2_e4yeb")
@@ -40,44 +47,49 @@ texture = SubResource("GradientTexture2D_gy206")
 
 [node name="Whole" type="Node2D" parent="."]
 y_sort_enabled = true
+material = SubResource("ShaderMaterial_e4yeb")
 
 [node name="BH" type="Node2D" parent="Whole"]
+use_parent_material = true
 position = Vector2(0, -9)
 
 [node name="Body" type="Sprite2D" parent="Whole/BH"]
 unique_name_in_owner = true
+use_parent_material = true
 position = Vector2(0, 5)
 texture = SubResource("AtlasTexture_gy206")
 hframes = 2
 
 [node name="Head" type="Sprite2D" parent="Whole/BH"]
 unique_name_in_owner = true
+use_parent_material = true
 position = Vector2(0, -17)
 texture = SubResource("AtlasTexture_wd04a")
 hframes = 2
 
 [node name="Right" type="Node2D" parent="Whole" node_paths=PackedStringArray("sprite", "packed_sprite_editor")]
-position = Vector2(-6.6573954, -9.309017)
+use_parent_material = true
 script = ExtResource("3_q7rp6")
 default_texture = SubResource("AtlasTexture_hbyip")
-sprite = NodePath("@Sprite2D@72700")
+sprite = NodePath("@Sprite2D@78086")
 packed_sprite_editor = NodePath("../../PackedSpriteEditor")
 metadata/_custom_type_script = "uid://borj824dr1kti"
 
 [node name="Left" type="Node2D" parent="Whole" node_paths=PackedStringArray("sprite", "packed_sprite_editor")]
-position = Vector2(6.6573954, -8.690983)
+use_parent_material = true
 script = ExtResource("3_q7rp6")
 default_texture = SubResource("AtlasTexture_hbyip")
-sprite = NodePath("@Sprite2D@72699")
+sprite = NodePath("@Sprite2D@78087")
 packed_sprite_editor = NodePath("../../PackedSpriteEditor")
 metadata/_custom_type_script = "uid://borj824dr1kti"
 
 [node name="HeightMarker" type="Marker2D" parent="Whole"]
 position = Vector2(0, -27)
 
-[node name="PackedSpriteEditor" type="Node" parent="." node_paths=PackedStringArray("main_part", "control_parts", "animation_player")]
+[node name="PackedSpriteEditor" type="Node" parent="." node_paths=PackedStringArray("whole_node", "main_part", "control_parts", "animation_player")]
 script = ExtResource("4_jgvai")
 hand_offset_y = -9.0
+whole_node = NodePath("../Whole")
 fixed_head_y = -22
 fixed_body_y = 29
 ellipse_body_radius_x = 7.0

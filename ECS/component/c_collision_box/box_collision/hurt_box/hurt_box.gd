@@ -6,18 +6,21 @@
 class_name Hurtbox
 extends BoxCollision
 
+## 受伤特效行为
+var hurt_effect
+## 受伤粒子效果
+var hurt_particle
+
+
 ## 受伤信号
 ## 当实体受到伤害时发出
 ## [param hit_damage]: 实际受到的伤害值
-signal hurted(hit_damage: int)
+signal hurted(hitbox: IHitbox, hit_damage: int)
 
 ## 状态组件引用
 ## 获取和更新实体的状态信息
 @export var c_status: CStatusList
-
-## 受伤特效行为
-## 受到伤害时执行的特效
-@export var hurt_effect: IAction
+@export var c_texture_controller: CTextureController
 
 func _enter_tree() -> void:
 	box_collision_name = CCollisionBox.BoxCollisionName.HURT
@@ -39,17 +42,14 @@ func _on_area_entered(area: Area2D):
 		var hitbox = area
 		# 验证攻击类型匹配
 			
-
-
-
 		# 计算伤害值
 		var damage = _calculate_hit(hitbox)
 		if damage > 0:
-			hurted.emit(damage)
+			hurted.emit(area, damage)
 
 ## 处理实际的伤害应用和特效触发
 ## [param hit_damage]: 受到的伤害值
-func _on_hurted(hit_damage: int):
+func _on_hurted(hitbox: IHitbox,hit_damage: int):
 	# 应用伤害到生命值
 	if c_status and c_status.status_list.has(SoraConstant.StatusEnum.Health):
 		c_status.status_list[SoraConstant.StatusEnum.Health].value -= hit_damage
@@ -57,9 +57,9 @@ func _on_hurted(hit_damage: int):
 		push_error("实体", c_status.component_owner.name, "不存在健康状态")
 	
 	# 触发受伤特效
-	if hurt_effect != null:
-		hurt_effect._trigger_update()
-	
+	_hurted_animation()
+	_hurted_particle(hitbox)
+
 	print("实体受伤: ", hit_damage, " 点伤害", )
 
 ## 结合攻击力和防御力计算最终伤害
@@ -81,3 +81,17 @@ func _calculate_hit(hitbox: IHitbox) -> int:
 			pass
 	# 计算最终伤害（基础伤害 - 防御力，最小为1）
 	return max(1, effective_damage)
+
+## 受伤动画
+func _hurted_animation():
+	c_texture_controller.packed_sprite.packed_sprite_editor.受伤()
+	pass
+
+## 受伤粒子效果
+func _hurted_particle(hitbox: IHitbox):
+	var hitbox_position = hitbox.global_position
+	var hitbox_direction = hitbox.c_collision.get_blackboard().get_value("start_direction", Vector2.RIGHT, true)
+	
+	var effect_marker: EffectMarker = c_collision.box_markers.get(CCollisionBox.BoxMarkerType.EFFECT)
+	if effect_marker:
+		effect_marker.hurted_effect(hitbox_position, -hitbox_direction)

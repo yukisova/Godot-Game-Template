@@ -59,9 +59,13 @@ signal target_losed
 @export var chase_target_group_name: Array[StringName]
 
 ## 当前视野内的目标列表
-## 
 ## 存储所有在视野范围内的目标实体，类型为 [Array] of [Node2D]。
 var sight_target: Array[Node2D]
+
+func get_target_direction() -> Vector2:
+	if sight_target.is_empty(): return Vector2.ZERO
+	return c_collision.component_body.global_position.direction_to(sight_target[-1].global_position).normalized()
+
 
 ## 目标最后位置
 ## 
@@ -70,6 +74,7 @@ var sight_target_last_position: Vector2
 
 func _enter_tree() -> void:
 	box_collision_name = CCollisionBox.BoxCollisionName.SIGHT
+
 
 ## 初始化碰撞检测
 ## 根据配置的视野资源生成对应的碰撞形状
@@ -93,13 +98,12 @@ func initialize_collision():
 
 ## 视觉系统初始化
 ## 设置碰撞检测和信号连接
-func _ready() -> void:
-	# 编辑器模式下不执行运行时逻辑
-	if Engine.is_editor_hint(): 
-		return
-	
+func _initialize() -> void:
 	# 初始化碰撞检测形状
 	initialize_collision()
+
+	# 启用朝向旋转
+	enable_rotate_by_award = true
 	
 	# 连接检测信号
 	body_entered.connect(_on_body_entered)

@@ -9,11 +9,10 @@
 ## - 巡逻方式：巡逻方式
 
 @tool
-extends BTAction
+extends BTA_TargetJudgment
 
 func _setup() -> void:
-	var c_behaviour_tree = agent as CBehaviourTree
-	var c_navigation = c_behaviour_tree.get_other_component(IComponent.ComponentName.C_NAVIGATION_AGENT)
+	pass
 
 func _enter() -> void:
 	var ai_state_normal = blackboard.get_var("ai_state_normal", -1)
@@ -25,5 +24,10 @@ func _tick(delta: float) -> Status:
 	var ai_state_normal = blackboard.get_var("ai_state_normal", -1)
 	if ai_state_normal != SoraConstant.AiStateNormal.路径巡逻:
 		return Status.SUCCESS
+
+	## 2. 利用父类方法判断是否需要追击目标
+	var target_chase_state : Status = super(delta)
+	if target_chase_state != Status.SUCCESS:
+		return target_chase_state
 
 	return Status.RUNNING

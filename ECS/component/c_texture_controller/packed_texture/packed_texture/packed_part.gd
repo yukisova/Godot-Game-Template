@@ -40,6 +40,7 @@ extends Node2D
 		if sprite != null:
 			sprite.queue_free()
 		sprite = value
+		sprite.use_parent_material = true
 
 ## [b]初始化方法[/b]
 ## 
@@ -81,9 +82,9 @@ var x_纹理反转: bool:
 		if !is_node_ready():
 			return
 		if sprite is Sprite2D:
-			sprite.flip_h = x_纹理反转
+			sprite.flip_v = x_纹理反转
 		elif sprite is EquipmentNode:
-			sprite.fixed_flip_h(x_纹理反转)
+			sprite.fixed_flip_v(x_纹理反转)
 
 ## 默认是逆时针挥舞，如果为true则顺时针挥舞
 @export var x_挥舞方向: bool
@@ -123,12 +124,11 @@ func _fixed_transform() -> void:
 	position = Vector2(ellipse_x, ellipse_y) + x_基础位置 + Vector2(0, x_高度偏移) + x_突刺进度 * x_基础方向
 	var rotation_offset = deg_to_rad(x_自转偏移)
 	if !x_竖握 and !x_反握:
-		if x_纹理反转:
-			rotation_offset = -deg_to_rad(x_自转偏移)
+		#if x_纹理反转:
+			#rotation_offset = -deg_to_rad(x_自转偏移)
 		rotation = x_基础纹理旋转 + rotation_offset
 	else:
-		if x_纹理反转:
-			rotation_offset = -deg_to_rad(x_自转偏移)
+		#if x_纹理反ion_offset = -deg_to_rad(x_自转偏移)
 		rotation = rotation_offset
 
 func _update(_delta: float) -> void:

@@ -10,4 +10,11 @@
 @abstract class_name BoxMarker
 extends Marker2D
 
+var box_marker_name: CCollisionBox.BoxMarkerType
+var c_collision: CCollisionBox
+var enable_rotate_by_award: bool
+
 @abstract func _update(_delta: float) -> void
+
+func _initialize():
+	pass

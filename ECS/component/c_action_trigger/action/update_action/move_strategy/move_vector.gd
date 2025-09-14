@@ -20,12 +20,13 @@ var toward_control_by_move: bool = true:
 ## 移动向量
 ## 控制实体的移动方向和强度，自动处理输入控制和AI控制两种模式
 
-func get_move_vector() -> Vector2:
+func _get_move_vector() -> Vector2:
 	if binding_entity.main_control is CharacterBody2D:
 		if c_input:
 			# 输入控制模式：从输入组件获取移动向量
 			var input_vector = c_input.input_vector_dict.move
-			toward_direction_target = input_vector.normalized()
+			if toward_control_by_move:
+				_set_target_direction(self, input_vector.normalized())
 			return input_vector
 		else:
 			return move_vector
@@ -33,10 +34,11 @@ func get_move_vector() -> Vector2:
 		push_error("向量移动策略: 目标实体不支持移动，请使用其他移动方案")
 		return Vector2.ZERO
 
-func set_move_vector(vector: Vector2):
+func _set_move_vector(vector: Vector2):
 	move_vector = vector
 	if !move_vector.is_zero_approx():
-		toward_direction_target = move_vector.normalized()
+		if toward_control_by_move:
+			_set_target_direction(self, move_vector.normalized())
 
 ## 移动速度
 ## 控制实体移动的速度倍数
@@ -48,12 +50,30 @@ var toward_direction_current: Vector2:
 	set(v):
 		toward_direction_current = v
 
+		var c_collision_box: CCollisionBox = c_action.get_other_component(IComponent.ComponentName.C_COLLISION_BOX)
+		## 将朝向方向应用到所有启用朝向旋转的碰撞体
+		if c_collision_box:
+			for rotate_enable_box in c_collision_box.box_collision.values().filter(func(box_collision: BoxCollision): return box_collision.enable_rotate_by_award):
+				rotate_enable_box.rotation = v.angle()
+			for rotate_enable_ray in c_collision_box.box_rays.values().filter(func(box_ray: BoxRay): return box_ray.enable_rotate_by_award):
+				rotate_enable_ray.rotation = v.angle()
+			for rotate_enable_marker in c_collision_box.box_markers.values().filter(func(box_marker: BoxMarker): return box_marker.enable_rotate_by_award):
+				rotate_enable_marker.rotation = v.angle()
+
+
 		var c_texture_controller: CTextureController = c_action.get_other_component(IComponent.ComponentName.C_TEXTURE_CONTROLLER)
 		if c_texture_controller:
 			c_texture_controller.packed_sprite.texture_toward = v
 
+## 目标朝向方向，由toward_direction_current进行平滑过渡，如果toward_control_by_move为false，则由外部控制
 var toward_direction_target: Vector2
-
+		
+func _set_target_direction(source: Node2D, vector: Vector2):
+	if source == self and toward_control_by_move:
+		toward_direction_target = vector
+	
+	elif source != self and !toward_control_by_move:
+		toward_direction_target = vector
 
 ## 移动状态检测阈值
 ## 用于判断实体是否在移动的速度阈值
@@ -91,9 +111,9 @@ func _update(_delta: float):
 	# 只有具有输入组件的实体才会自动移动（玩家控制）
 	# AI控制的实体需要外部代码设置move_vector
 	if c_input:
-		if not get_move_vector().is_zero_approx():
+		if not _get_move_vector().is_zero_approx():
 			# 应用移动：使用lerp实现平滑的速度过渡
-			body.velocity = body.velocity.lerp(get_move_vector() * _delta * 10 * move_speed, _delta * 10)
+			body.velocity = body.velocity.lerp(_get_move_vector() * _delta * 10 * move_speed, _delta * 10)
 		else:
 			# 停止移动：平滑减速到零
 			body.velocity = body.velocity.lerp(Vector2.ZERO, _delta * 10)

@@ -4,3 +4,4 @@
 
 [node name="S_CommandParser" type="Node"]
 script = ExtResource("1_1cfn7")
+debug_setting = 1

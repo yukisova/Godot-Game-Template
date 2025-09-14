@@ -57,11 +57,21 @@ func _initialize(need_disconnect: bool = false):
 	if need_disconnect:
 		SSignalBus.entity_initialize_started.disconnect(_initialize)
 	
+	# 延迟初始化
+	_late_initialize()
+
 	# 发出初始化完成信号
 	initialize_complete.emit()
 
 ## 主循环更新—在正常游戏状态下更新所有组件
 ## [param _delta]: 帧时间间隔
+
+func _late_initialize():
+	for component in list_base_components.values():
+		component._late_initialize()
+	for component in list_interface_components.values():
+		component._late_initialize()
+
 
 func _update(_delta: float):
 	# 只在正常游戏状态下更新组件

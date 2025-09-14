@@ -1,9 +1,12 @@
-[gd_scene load_steps=16 format=3 uid="uid://ht3v3wnr5dy"]
+[gd_scene load_steps=20 format=3 uid="uid://ht3v3wnr5dy"]
 
 [ext_resource type="PackedScene" uid="uid://2g3kd2w3tlq6" path="res://entity/entity_packed/fixed_entity/enemy/i_enemy.tscn" id="1_x70oi"]
 [ext_resource type="PackedScene" uid="uid://dlwowmvdbw73s" path="res://component/c_texture_controller/packed_texture/packed_texture/people/packed_texture_people.tscn" id="2_tstgw"]
+[ext_resource type="Shader" uid="uid://ybp62d200rx5" path="res://resource/shader/纹理闪烁.gdshader" id="3_61qwx"]
 [ext_resource type="Script" uid="uid://dv2hokmyuu03y" path="res://component/c_collision_box/box_collision/sight_box/sight_box.gd" id="8_60u6p"]
 [ext_resource type="Script" uid="uid://cf4bsx3i08rsi" path="res://component/c_collision_box/box_collision/sight_box/sight_collision_resource.gd" id="9_61qwx"]
+[ext_resource type="Script" uid="uid://dcwvjurg4cyaf" path="res://component/c_collision_box/box_marker/effect_marker/effect_marker.gd" id="11_vb6wt"]
+[ext_resource type="PackedScene" uid="uid://4r451e5tvfdj" path="res://component/c_collision_box/box_marker/effect_marker/hurt_effect_basic.tscn" id="12_3cp8q"]
 [ext_resource type="Script" uid="uid://dwt0prmf31a5" path="res://component/c_action_trigger/action/update_action/move_strategy/move_vector.gd" id="14_yctlp"]
 [ext_resource type="PackedScene" uid="uid://cps21xspaovit" path="res://component/c_collision_box/c_collision_box.tscn" id="15_url74"]
 [ext_resource type="Script" uid="uid://g2bwyajee348" path="res://component/c_collision_box/box_collision/sound_box/sound_box.gd" id="18_0a0wt"]
@@ -11,6 +14,12 @@
 [ext_resource type="PackedScene" uid="uid://caj56l0yail7q" path="res://component/c_status_list/c_status_list.tscn" id="19_cjx0m"]
 [ext_resource type="PackedScene" uid="uid://bcj7edirvdy16" path="res://component/c_behaviour_tree/c_behaviour_tree.tscn" id="19_x70oi"]
 [ext_resource type="BehaviorTree" uid="uid://b3wlxiiafwld5" path="res://resource/plugins_resource/limbo/trees/敌人基础ai.tres" id="20_tstgw"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_3th7k"]
+resource_local_to_scene = true
+shader = ExtResource("3_61qwx")
+shader_parameter/blink_color = Color(1, 1, 1, 1)
+shader_parameter/blink_intensity = 0.0
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_7ss8r"]
 radius = 6.0
@@ -20,8 +29,8 @@ height = 28.0
 
 [sub_resource type="Resource" id="Resource_3th7k"]
 script = ExtResource("9_61qwx")
-sight_wide = 30.0
-sight_range = 100.0
+sight_wide = 100.0
+sight_range = 200.0
 metadata/_custom_type_script = "uid://cf4bsx3i08rsi"
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_imnk3"]
@@ -31,13 +40,14 @@ size = Vector2(8, 8)
 
 [node name="PackedManSe" parent="CharacterBody/ComponentContainer/CTextureController" index="0" instance=ExtResource("2_tstgw")]
 
+[node name="Whole" parent="CharacterBody/ComponentContainer/CTextureController/PackedManSe" index="1"]
+material = SubResource("ShaderMaterial_3th7k")
+
 [node name="Right" parent="CharacterBody/ComponentContainer/CTextureController/PackedManSe/Whole" index="1" node_paths=PackedStringArray("sprite")]
-position = Vector2(0, 0)
-sprite = NodePath("@Sprite2D@24014")
+sprite = NodePath("@Sprite2D@24013")
 
 [node name="Left" parent="CharacterBody/ComponentContainer/CTextureController/PackedManSe/Whole" index="2" node_paths=PackedStringArray("sprite")]
-position = Vector2(0, 0)
-sprite = NodePath("@Sprite2D@24015")
+sprite = NodePath("@Sprite2D@24014")
 
 [node name="PackedSpriteEditor" parent="CharacterBody/ComponentContainer/CTextureController/PackedManSe" index="2" node_paths=PackedStringArray("control_parts")]
 control_parts = {
@@ -61,11 +71,12 @@ basic_info = Dictionary[int, float]({
 
 [node name="CCollisionBox" parent="CharacterBody/ComponentContainer" index="4" instance=ExtResource("15_url74")]
 
-[node name="Hurtbox" type="Area2D" parent="CharacterBody/ComponentContainer/CCollisionBox" index="0" node_paths=PackedStringArray("c_status")]
+[node name="Hurtbox" type="Area2D" parent="CharacterBody/ComponentContainer/CCollisionBox" index="0" node_paths=PackedStringArray("c_status", "c_texture_controller")]
 collision_layer = 4
 collision_mask = 4
 script = ExtResource("18_yho02")
 c_status = NodePath("../../CStatus")
+c_texture_controller = NodePath("../../CTextureController")
 metadata/_custom_type_script = "uid://g2h7s2qmcn31"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody/ComponentContainer/CCollisionBox/Hurtbox" index="0"]
@@ -84,6 +95,11 @@ script = ExtResource("8_60u6p")
 sight_box_resource = Array[ExtResource("9_61qwx")]([SubResource("Resource_3th7k")])
 chase_target_group_name = Array[StringName]([&"player"])
 metadata/_custom_type_script = "uid://dv2hokmyuu03y"
+
+[node name="EffectMarker" type="Marker2D" parent="CharacterBody/ComponentContainer/CCollisionBox" index="3"]
+script = ExtResource("11_vb6wt")
+hurt_effect = ExtResource("12_3cp8q")
+metadata/_custom_type_script = "uid://dcwvjurg4cyaf"
 
 [node name="CBehaviourTree" parent="CharacterBody/ComponentContainer" index="5" instance=ExtResource("19_x70oi")]
 behaviour_tree = ExtResource("20_tstgw")

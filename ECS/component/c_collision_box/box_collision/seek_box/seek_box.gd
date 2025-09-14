@@ -12,3 +12,6 @@ var seek_target : Array[Interaction] = []
 
 func _enter_tree() -> void:
 	box_collision_name = CCollisionBox.BoxCollisionName.SEEK
+
+func _initialize():
+	pass

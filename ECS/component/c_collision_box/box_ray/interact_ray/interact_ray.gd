@@ -36,6 +36,9 @@ func _update(_delta: float):
 		# 没有检测到碰撞，清空当前目标
 		interact_target = null
 
+func _initialize() -> void:
+	enable_rotate_by_award = true
+
 ## 获取当前交互目标
 ## 
 ## 返回射线当前指向的交互目标。

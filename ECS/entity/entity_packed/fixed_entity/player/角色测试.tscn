@@ -246,7 +246,6 @@ y_sort_enabled = true
 
 [node name="Body" parent="CharacterBody/ComponentContainer/CTextureController/PackedManSe/Whole/BH" index="0"]
 texture = SubResource("AtlasTexture_fojvx")
-flip_h = true
 metadata/_aseprite_wizard_interface_config_ = {
 "layer_section": true,
 "output_section": true,
@@ -276,20 +275,16 @@ metadata/_aseprite_wizard_config_ = {
 
 [node name="Head" parent="CharacterBody/ComponentContainer/CTextureController/PackedManSe/Whole/BH" index="1"]
 texture = SubResource("AtlasTexture_dwa3q")
-flip_h = true
 
 [node name="Right" parent="CharacterBody/ComponentContainer/CTextureController/PackedManSe/Whole" index="1" node_paths=PackedStringArray("sprite")]
-position = Vector2(0, 0)
 default_texture = SubResource("AtlasTexture_jrw4v")
-sprite = NodePath("@Sprite2D@27312")
+sprite = NodePath("@Sprite2D@24013")
 
 [node name="Left" parent="CharacterBody/ComponentContainer/CTextureController/PackedManSe/Whole" index="2" node_paths=PackedStringArray("sprite")]
-position = Vector2(0, 0)
 default_texture = SubResource("AtlasTexture_jrw4v")
-sprite = NodePath("@Sprite2D@27313")
+sprite = NodePath("@Sprite2D@24014")
 
 [node name="PackedSpriteEditor" parent="CharacterBody/ComponentContainer/CTextureController/PackedManSe" index="2" node_paths=PackedStringArray("control_parts")]
-rotation_angle = -0.08000000000000002
 line_body_offset_x = 12.5
 hand_offset_x_left = 10.0
 hand_offset_x_right = -10.0

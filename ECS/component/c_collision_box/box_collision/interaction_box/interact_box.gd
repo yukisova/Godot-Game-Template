@@ -9,3 +9,6 @@ extends BoxCollision
 func _enter_tree() -> void:
 	box_collision_name = CCollisionBox.BoxCollisionName.INTERACT
 	collision_layer = Main.PhysicsLayer.Interactable
+
+func _initialize():
+	pass
