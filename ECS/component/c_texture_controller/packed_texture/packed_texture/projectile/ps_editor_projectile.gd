@@ -24,13 +24,16 @@ func fixed_packed_sprite():
 	body.position = Vector2(0, fixed_body_y)
 #endregion
 
-
 @export var path_node: Curve2D 
-
 
 func _change_height(value: float):
 	control_parts.get(&"Main").position.y = path_node.sample(0, value).y
 
+## 子弹落地的情况
+## 1. 销毁
+## 2. 变为地雷类的子弹，有另外的逻辑
+func _body_on_floor():
+	pass
 
 func _initialize():
 	_change_height(current_range_ratio)

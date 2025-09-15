@@ -19,7 +19,8 @@ func _initialize(_owner: IEntity, _load_data: Dictionary = {}):
 	for i in get_children():
 		if i is IPackedSprite:
 			packed_sprite = i
-	
+			i.c_texture_controller = self
+			
 	# 验证纹理路径是否有效
 	if packed_sprite:
 		packed_sprite._initialize()
@@ -29,6 +30,9 @@ func _initialize(_owner: IEntity, _load_data: Dictionary = {}):
 func _update(_delta: float):
 	if packed_sprite:
 		packed_sprite._update(_delta)
+
+func _reset():
+	packed_sprite._reset()
 
 #region :存档系统:
 func _save() -> Dictionary:

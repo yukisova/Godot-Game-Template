@@ -49,7 +49,7 @@ signal level_entity_fully_initialize
 ## 用于实现一些恐怖效果，但可以选择关闭
 @export var level_fog: Fog
 
-@export var paint_floor: PaintFloor
+@export var paint_floors: PaintFloor
 
 ## 地图滤镜
 @export var map_filter: CanvasModulate
@@ -144,8 +144,9 @@ func _late_initialize():
 	if !is_need_fog:
 		level_fog.hide()
 	level_fog._initialize()
-	paint_floor._initialize()
+	paint_floors._initialize()
 	rooms._initialize()
+	_initialize_paint_batch()  # 初始化批处理机制
 	#var timeloop = SBlackboard.get_sub_system(ISubSystem.SubSystemType.TIME_LOOP) as SSTimeLoop
 	#timeloop.time_updated.connect(time_change_filter)
 
@@ -349,7 +350,71 @@ func get_collision_navigation_info() -> Dictionary:
 		"level_id": level_id,
 		"collision_enabled": collision_navigation_enabled
 	}
+#endregion
 
-# 简化版本已完成，不再需要额外的测试方法
+#region decal - 优化版本
+# 批处理相关变量
+var _paint_batch: Array[Dictionary] = []
+var _paint_timer: Timer
+var _max_batch_size: int = 10
+var _batch_delay: float = 0.1  # 100ms延迟进行批处理
 
+func _initialize_paint_batch():
+	# 初始化批处理计时器
+	if not _paint_timer:
+		_paint_timer = Timer.new()
+		_paint_timer.timeout.connect(_process_paint_batch)
+		_paint_timer.one_shot = true
+		add_child(_paint_timer)
+
+## 优化的地面绘制 - 使用批处理
+func try_paint_floor(target_position: Vector2, target_image: Image):
+	# 添加到批处理队列
+	_paint_batch.append({
+		"position": target_position,
+		"image": target_image,
+		"image_position": SoraEvent._get_image_position(paint_floors, target_position, target_image.get_size())
+	})
+	
+	# 如果达到批处理大小上限，立即处理
+	if _paint_batch.size() >= _max_batch_size:
+		_process_paint_batch()
+		_paint_timer.stop()
+	# 否则启动/重置计时器
+	elif not _paint_timer.is_stopped():
+		_paint_timer.start(_batch_delay)
+	else:
+		_paint_timer.start(_batch_delay)
+
+## 批处理绘制所有待处理的decal
+func _process_paint_batch():
+	if _paint_batch.is_empty():
+		return
+	
+	var _batch_count = _paint_batch.size()	
+	# 一次性获取原始图像
+	var origin_image = paint_floors.texture.get_image()
+	
+	# 批量处理所有decal
+	for paint_data in _paint_batch:
+		origin_image.blend_rect(
+			paint_data.image, 
+			Rect2i(Vector2.ZERO, paint_data.image.get_size()), 
+			Vector2i(paint_data.image_position)
+		)
+	
+	# 一次性更新texture
+	(paint_floors.texture as ImageTexture).set_image(origin_image)
+	
+	# 清空批处理队列
+	_paint_batch.clear()
+	
+	# 输出性能信息（可选）
+	#print("批处理完成，处理了 ", _batch_count, " 个decal")
+
+## 立即处理所有待处理的decal（用于游戏结束等情况）
+func flush_paint_batch():
+	if not _paint_batch.is_empty():
+		_process_paint_batch()
+		_paint_timer.stop()
 #endregion

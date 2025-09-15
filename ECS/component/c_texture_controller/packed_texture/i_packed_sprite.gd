@@ -15,6 +15,8 @@ var texture_toward: Vector2 = Vector2.RIGHT:
 @export var height_top_marker: Marker2D ## 高度标记1，根据它来判断角色的高度
 @export var height_bottom_marker: Marker2D ## 高度标记2，根据它来判断角色的高度
 
+var c_texture_controller: CTextureController
+
 
 func _initialize():
 	packed_sprite_editor._initialize()
@@ -25,3 +27,6 @@ func _update(_delta: float) -> void:
 ## 尝试播放动画
 func try_animation(_animation_name: String) -> bool:
 	return false
+
+func _reset():
+	pass

@@ -13,6 +13,8 @@ extends Node
 
 @export var bg_music: AudioStream
 
+@export_file_path("*.tscn") var decal_path: String
+
 ## 玩家出生点
 ## 指定玩家在此地图中的初始位置和层级，类型为 [PlayerSpawn]
 @export var player_spawns: Array[PlayerSpawn]
@@ -94,13 +96,22 @@ func _enter_tree() -> void:
 		for cutscene in autoload_cutscene.get_children():
 			SSignalBus.game_loop_start.connect(cutscene._start)
 	else:
-		SSignalBus.game_loop_start.connect(func():
-			SUiSpawner._get_hud("transition").fade_in()
-			for level in levels_array:
-				level._late_initialize()
-			if !(SCommandParser.debug_setting & SCommandParser.DebugFlag.无bgm):
-				SAudioMaster.play_music(bg_music)
-		)
+		SSignalBus.game_loop_start.connect(_on_game_loop_start)
+
+func _on_game_loop_start():
+	SUiSpawner._get_hud("transition").fade_in()
+	## 初始化所有层级的后期组件—确保迷雾和房间系统正确初始化
+	for level in levels_array:
+		level._late_initialize()
+	## 根据预设配置决定调试模式
+	if !(SCommandParser.debug_setting & SCommandParser.DebugFlag.无bgm):
+		SAudioMaster.play_music(bg_music)
+	
+	## 注册当前层级的血迹Decal地板对象池
+	if decal_path:
+		var decal_scene: PackedScene = load(decal_path)
+		SObjectPool.register_pool("decal", decal_scene, 10)
+
 
 ## 所有楼层的信息全部完成加载后发出
 func _on_level_fully_loaded():

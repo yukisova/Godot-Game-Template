@@ -1,0 +1,56 @@
+[gd_scene load_steps=11 format=3 uid="uid://bx3uqbq4wsbe7"]
+
+[ext_resource type="PackedScene" uid="uid://co817hl4s2rr7" path="res://entity/entity_packed/temp_entity/temp_entity.tscn" id="1_w30m5"]
+[ext_resource type="PackedScene" uid="uid://cq0u8u1qie88t" path="res://entity/entity_packed/entity_template/character_body.tscn" id="2_pk3m5"]
+[ext_resource type="PackedScene" uid="uid://bvjy63fua1sx2" path="res://component/c_texture_controller/c_texture_controller.tscn" id="3_cxqyp"]
+[ext_resource type="PackedScene" uid="uid://cps21xspaovit" path="res://component/c_collision_box/c_collision_box.tscn" id="5_kmo12"]
+[ext_resource type="PackedScene" uid="uid://buv8brrrw8uix" path="res://component/c_texture_controller/packed_texture/packed_texture/decal/packed_texture_decal.tscn" id="5_vifqc"]
+[ext_resource type="Shader" uid="uid://ybp62d200rx5" path="res://resource/shader/纹理闪烁.gdshader" id="6_kmo12"]
+[ext_resource type="PackedScene" uid="uid://b3vbfhugiqyva" path="res://component/c_action_trigger/c_action_trigger.tscn" id="6_l4b84"]
+[ext_resource type="Script" uid="uid://cxvnftaawgynr" path="res://component/c_action_trigger/action/update_action/move_strategy/move_cubic.gd" id="7_w0wsr"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_l4b84"]
+resource_local_to_scene = true
+shader = ExtResource("6_kmo12")
+shader_parameter/blink_color = Color(1, 1, 1, 1)
+shader_parameter/blink_intensity = 0.0
+
+[sub_resource type="Curve2D" id="Curve2D_w30m5"]
+_data = {
+"points": PackedVector2Array(-195.42564, 33.927273, 195.42564, -33.927273, 0, 0, 1.7979927, -39.76129, -1.7979927, 39.76129, 233, 1)
+}
+point_count = 2
+
+[node name="Decal" node_paths=PackedStringArray("main_control", "component_container") instance=ExtResource("1_w30m5")]
+main_control = NodePath("CharacterBody")
+component_container = NodePath("CharacterBody/ComponentContainer")
+
+[node name="CharacterBody" parent="." index="0" instance=ExtResource("2_pk3m5")]
+
+[node name="CTextureController" parent="CharacterBody/ComponentContainer" index="0" instance=ExtResource("3_cxqyp")]
+
+[node name="PackedTextureDecal" parent="CharacterBody/ComponentContainer/CTextureController" index="0" instance=ExtResource("5_vifqc")]
+
+[node name="Whole" parent="CharacterBody/ComponentContainer/CTextureController/PackedTextureDecal" index="1"]
+material = SubResource("ShaderMaterial_l4b84")
+
+[node name="PackedSpriteEditor" parent="CharacterBody/ComponentContainer/CTextureController/PackedTextureDecal" index="2" node_paths=PackedStringArray("control_parts")]
+path_node = SubResource("Curve2D_w30m5")
+control_parts = {
+&"Main": NodePath("../Whole/BH/Main")
+}
+
+[node name="CCollisionBox" parent="CharacterBody/ComponentContainer" index="1" instance=ExtResource("5_kmo12")]
+
+[node name="CActionTrigger" parent="CharacterBody/ComponentContainer" index="2" instance=ExtResource("6_l4b84")]
+
+[node name="MoveStrategyCubic" type="Node2D" parent="CharacterBody/ComponentContainer/CActionTrigger" index="0" node_paths=PackedStringArray("blackboard")]
+script = ExtResource("7_w0wsr")
+curve = SubResource("Curve2D_w30m5")
+blackboard = NodePath("../..")
+
+[node name="Path2D" type="Path2D" parent="CharacterBody/ComponentContainer/CActionTrigger/MoveStrategyCubic" index="0"]
+curve = SubResource("Curve2D_w30m5")
+
+[editable path="CharacterBody"]
+[editable path="CharacterBody/ComponentContainer/CTextureController/PackedTextureDecal"]

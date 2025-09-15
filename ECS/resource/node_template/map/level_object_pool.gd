@@ -50,7 +50,7 @@ func _init(prefab: PackedScene, _initial_size: int):
 		obj.level_object_pool = self
 		obj.despawned.connect(despawn)
 	
-	print("对象池: 初始化完成，预分配 %d 个对象" % _initial_size)
+	# print("对象池: 初始化完成，预分配 %d 个对象" % _initial_size)
 	initial_size = _initial_size
 	current_size = _initial_size
 

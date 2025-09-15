@@ -37,7 +37,11 @@ func _resetup():
 func _spawn(_pool_key: StringName, _prefab: PackedScene, _context: Dictionary, _position: Vector2) -> TempEntity:
 	var pool_key_name = StringName(_pool_key)
 	if !_pools.has(pool_key_name) or !_pools[pool_key_name]:
-		register_pool(pool_key_name , _prefab, 20)
+		if _prefab:
+			register_pool(pool_key_name , _prefab, 20)
+		else:
+			# push_warning("对象池: 对象池不存在，且未提供预制体，无法生成临时实体")
+			return null
 	var temp_entity = _pools[pool_key_name].spawn(_position, _context)
 	return temp_entity
 
@@ -47,7 +51,7 @@ func _spawn(_pool_key: StringName, _prefab: PackedScene, _context: Dictionary, _
 ## [param _initial_pool_size]: 初始池大小
 func register_pool(_pool_key:StringName, _prefab:PackedScene, _initial_pool_size:int):
 	if _pools.has(_pool_key) and _pools[_pool_key] != null:
-		print("目前已经存在",_pool_key, "请检查代码")
+		# print("目前已经存在",_pool_key, "请检查代码")
 		return
 	var new_pool = LevelObjectPool.new(_prefab, _initial_pool_size)
 	_pools[_pool_key] = new_pool

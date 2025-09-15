@@ -1,0 +1,110 @@
+[gd_scene load_steps=45 format=3 uid="uid://buv8brrrw8uix"]
+
+[ext_resource type="Shader" uid="uid://ybp62d200rx5" path="res://resource/shader/纹理闪烁.gdshader" id="1_eyj8y"]
+[ext_resource type="Script" uid="uid://bdinxwwi4reid" path="res://component/c_texture_controller/packed_texture/packed_texture/decal/packed_texture_decal.gd" id="1_i3e0g"]
+[ext_resource type="Script" uid="uid://byjcygcisiqe4" path="res://component/c_texture_controller/packed_texture/packed_texture/decal/ps_editor_decal.gd" id="4_eyj8y"]
+[ext_resource type="Texture2D" uid="uid://by0plnfddr0u8" path="res://asset/tile_set/Default (256px)/splat00.png" id="5_t8akf"]
+[ext_resource type="Texture2D" uid="uid://cwbpl7mwhwtpe" path="res://asset/tile_set/Default (256px)/splat01.png" id="6_i2etl"]
+[ext_resource type="Texture2D" uid="uid://tf8kjqea6m58" path="res://asset/tile_set/Default (256px)/splat02.png" id="7_l2p2l"]
+[ext_resource type="Texture2D" uid="uid://bsr0jkj31yam4" path="res://asset/tile_set/Default (256px)/splat03.png" id="8_ksfeg"]
+[ext_resource type="Texture2D" uid="uid://ctt5y0f74i4ra" path="res://asset/tile_set/Default (256px)/splat04.png" id="9_jieh3"]
+[ext_resource type="Texture2D" uid="uid://dgxd2skky6n1m" path="res://asset/tile_set/Default (256px)/splat05.png" id="10_6yxj8"]
+[ext_resource type="Texture2D" uid="uid://dcdn1v6lg1vo3" path="res://asset/tile_set/Default (256px)/splat06.png" id="11_1msvs"]
+[ext_resource type="Texture2D" uid="uid://cv8j148o46arq" path="res://asset/tile_set/Default (256px)/splat07.png" id="12_spgub"]
+[ext_resource type="Texture2D" uid="uid://03lu4fwl1p20" path="res://asset/tile_set/Default (256px)/splat08.png" id="13_feh3x"]
+[ext_resource type="Texture2D" uid="uid://drj5nm1joglqh" path="res://asset/tile_set/Default (256px)/splat09.png" id="14_n0mu6"]
+[ext_resource type="Texture2D" uid="uid://b3fc5jk3p6prb" path="res://asset/tile_set/Default (256px)/splat10.png" id="15_f8vso"]
+[ext_resource type="Texture2D" uid="uid://b06gwyaic8nsp" path="res://asset/tile_set/Default (256px)/splat11.png" id="16_3jmsi"]
+[ext_resource type="Texture2D" uid="uid://cbvjw5br0oshu" path="res://asset/tile_set/Default (256px)/splat12.png" id="17_kdmss"]
+[ext_resource type="Texture2D" uid="uid://dbbokfmgxrft2" path="res://asset/tile_set/Default (256px)/splat13.png" id="18_45881"]
+[ext_resource type="Texture2D" uid="uid://ccwf4lgmp8hdo" path="res://asset/tile_set/Default (256px)/splat14.png" id="19_y4abl"]
+[ext_resource type="Texture2D" uid="uid://dv7u8kerfothc" path="res://asset/tile_set/Default (256px)/splat15.png" id="20_tut3p"]
+[ext_resource type="Texture2D" uid="uid://cogag8ve0yiu1" path="res://asset/tile_set/Default (256px)/splat16.png" id="21_pasfw"]
+[ext_resource type="Texture2D" uid="uid://brk5xw17eqjoe" path="res://asset/tile_set/Default (256px)/splat17.png" id="22_kccok"]
+[ext_resource type="Texture2D" uid="uid://d0y3myapthabg" path="res://asset/tile_set/Default (256px)/splat18.png" id="23_rvt4y"]
+[ext_resource type="Texture2D" uid="uid://dx25c8x53vgpx" path="res://asset/tile_set/Default (256px)/splat19.png" id="24_ahk4g"]
+[ext_resource type="Texture2D" uid="uid://bymy2h4pkk2m" path="res://asset/tile_set/Default (256px)/splat20.png" id="25_txi5n"]
+[ext_resource type="Texture2D" uid="uid://burf52skoglhc" path="res://asset/tile_set/Default (256px)/splat21.png" id="26_d0x6o"]
+[ext_resource type="Texture2D" uid="uid://s28slgvx7e88" path="res://asset/tile_set/Default (256px)/splat22.png" id="27_ji2gn"]
+[ext_resource type="Texture2D" uid="uid://bnh3u41hlnxvj" path="res://asset/tile_set/Default (256px)/splat23.png" id="28_lu2fq"]
+[ext_resource type="Texture2D" uid="uid://bmm5ui2702sis" path="res://asset/tile_set/Default (256px)/splat24.png" id="29_odu1u"]
+[ext_resource type="Texture2D" uid="uid://dc226fxgwqnh0" path="res://asset/tile_set/Default (256px)/splat25.png" id="30_7jj6h"]
+[ext_resource type="Texture2D" uid="uid://cg1mxq7kwypft" path="res://asset/tile_set/Default (256px)/splat26.png" id="31_3wi0g"]
+[ext_resource type="Texture2D" uid="uid://d2g2j3fe7kkpn" path="res://asset/tile_set/Default (256px)/splat27.png" id="32_nffvy"]
+[ext_resource type="Texture2D" uid="uid://bve4bp8fhotul" path="res://asset/tile_set/Default (256px)/splat28.png" id="33_m3d6w"]
+[ext_resource type="Texture2D" uid="uid://djns52j3okr43" path="res://asset/tile_set/Default (256px)/splat29.png" id="34_6bag0"]
+[ext_resource type="Texture2D" uid="uid://i8t1b118vtdy" path="res://asset/tile_set/Default (256px)/splat30.png" id="35_j3qb2"]
+[ext_resource type="Texture2D" uid="uid://vs0b67705cp5" path="res://asset/tile_set/Default (256px)/splat31.png" id="36_qosj6"]
+[ext_resource type="Texture2D" uid="uid://k5me5hyijrv7" path="res://asset/tile_set/Default (256px)/splat32.png" id="37_g6o0l"]
+[ext_resource type="Texture2D" uid="uid://d05afwpn4acsf" path="res://asset/tile_set/Default (256px)/splat33.png" id="38_pgbad"]
+[ext_resource type="Texture2D" uid="uid://de1pbewe2q5w7" path="res://asset/tile_set/Default (256px)/splat34.png" id="39_reold"]
+[ext_resource type="Texture2D" uid="uid://gvhni1qy4ny3" path="res://asset/tile_set/Default (256px)/splat35.png" id="40_xqxsu"]
+
+[sub_resource type="Gradient" id="Gradient_2wmdp"]
+offsets = PackedFloat32Array(0.7268519, 0.875)
+colors = PackedColorArray(0, 0, 0, 0.39607844, 0, 0, 0, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_fp7vv"]
+gradient = SubResource("Gradient_2wmdp")
+width = 16
+height = 8
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(0.90000004, 0)
+metadata/_snap_enabled = true
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_8a553"]
+resource_local_to_scene = true
+shader = ExtResource("1_eyj8y")
+shader_parameter/blink_color = Color(1, 1, 1, 1)
+shader_parameter/blink_intensity = 0.0
+
+[sub_resource type="Gradient" id="Gradient_pl7mo"]
+offsets = PackedFloat32Array(0, 0.48958334, 0.7083333)
+colors = PackedColorArray(4.813075e-08, 0.62604684, 0.5059835, 1, 2.2621452e-06, 0.6407789, 0.3300223, 1, 0, 0.64411134, 0.26883295, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_t8akf"]
+gradient = SubResource("Gradient_pl7mo")
+width = 16
+height = 16
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+metadata/_snap_enabled = true
+
+[node name="PackedTextureDecal" type="Node2D" node_paths=PackedStringArray("packed_sprite_editor", "shadow")]
+script = ExtResource("1_i3e0g")
+packed_sprite_editor = NodePath("PackedSpriteEditor")
+shadow = NodePath("OnFloor")
+
+[node name="OnFloor" type="Sprite2D" parent="."]
+visible = false
+texture = SubResource("GradientTexture2D_fp7vv")
+
+[node name="Whole" type="Node2D" parent="."]
+y_sort_enabled = true
+material = SubResource("ShaderMaterial_8a553")
+
+[node name="BH" type="Node2D" parent="Whole"]
+use_parent_material = true
+
+[node name="Main" type="Sprite2D" parent="Whole/BH"]
+unique_name_in_owner = true
+use_parent_material = true
+texture = SubResource("GradientTexture2D_t8akf")
+
+[node name="HeightMarker" type="Marker2D" parent="Whole"]
+position = Vector2(0, -27)
+
+[node name="PackedSpriteEditor" type="Node" parent="." node_paths=PackedStringArray("main_part", "control_parts", "animation_player")]
+script = ExtResource("4_eyj8y")
+decal_image = Array[Texture2D]([ExtResource("5_t8akf"), ExtResource("6_i2etl"), ExtResource("7_l2p2l"), ExtResource("8_ksfeg"), ExtResource("9_jieh3"), ExtResource("10_6yxj8"), ExtResource("11_1msvs"), ExtResource("12_spgub"), ExtResource("13_feh3x"), ExtResource("14_n0mu6"), ExtResource("15_f8vso"), ExtResource("16_3jmsi"), ExtResource("17_kdmss"), ExtResource("18_45881"), ExtResource("19_y4abl"), ExtResource("20_tut3p"), ExtResource("21_pasfw"), ExtResource("22_kccok"), ExtResource("23_rvt4y"), ExtResource("24_ahk4g"), ExtResource("25_txi5n"), ExtResource("26_d0x6o"), ExtResource("27_ji2gn"), ExtResource("28_lu2fq"), ExtResource("29_odu1u"), ExtResource("30_7jj6h"), ExtResource("31_3wi0g"), ExtResource("32_nffvy"), ExtResource("33_m3d6w"), ExtResource("34_6bag0"), ExtResource("35_j3qb2"), ExtResource("36_qosj6"), ExtResource("37_g6o0l"), ExtResource("38_pgbad"), ExtResource("39_reold"), ExtResource("40_xqxsu")])
+main_part = NodePath("..")
+control_parts = {
+&"Main": NodePath("../Whole/BH/Main")
+}
+animation_player = NodePath("../AnimationPlayer")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+
+[node name="Camera2D" type="Camera2D" parent="."]
+zoom = Vector2(2, 2)

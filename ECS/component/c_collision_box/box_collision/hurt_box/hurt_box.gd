@@ -11,7 +11,6 @@ var hurt_effect
 ## 受伤粒子效果
 var hurt_particle
 
-
 ## 受伤信号
 ## 当实体受到伤害时发出
 ## [param hit_damage]: 实际受到的伤害值
@@ -59,6 +58,7 @@ func _on_hurted(hitbox: IHitbox,hit_damage: int):
 	# 触发受伤特效
 	_hurted_animation()
 	_hurted_particle(hitbox)
+	_hurted_decal(hitbox)
 
 	print("实体受伤: ", hit_damage, " 点伤害", )
 
@@ -95,3 +95,11 @@ func _hurted_particle(hitbox: IHitbox):
 	var effect_marker: EffectMarker = c_collision.box_markers.get(CCollisionBox.BoxMarkerType.EFFECT)
 	if effect_marker:
 		effect_marker.hurted_effect(hitbox_position, -hitbox_direction)
+
+func _hurted_decal(hitbox: IHitbox):
+	var hitbox_direction = hitbox.c_collision.get_blackboard().get_value("start_direction", Vector2.RIGHT, true)
+	var decal_range = randi_range(50, 100)
+	var context = {"start_direction": hitbox_direction, "target_range": decal_range}
+
+	SObjectPool._spawn("decal", null, context, hitbox.global_position)
+	

@@ -31,6 +31,7 @@ extends RefCounted
 ## 用于网格对齐和位置计算的基本单位（像素）。
 const BASIC_CELL_SIZE: int = 8
 
+
 ## 实体状态枚举
 ## 
 ## 定义实体可拥有的各种状态类型。

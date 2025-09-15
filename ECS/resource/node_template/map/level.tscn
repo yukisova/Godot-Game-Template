@@ -24,14 +24,14 @@ fill = 1
 fill_from = Vector2(0.5, 0.5)
 metadata/_snap_enabled = true
 
-[node name="Level" type="Node2D" node_paths=PackedStringArray("camera_limit", "rooms", "level_object_pool", "level_fog", "paint_floor", "map_filter", "directional_light")]
+[node name="Level" type="Node2D" node_paths=PackedStringArray("camera_limit", "rooms", "level_object_pool", "level_fog", "paint_floors", "map_filter", "directional_light")]
 y_sort_enabled = true
 script = ExtResource("1_o3xit")
 camera_limit = NodePath("CameraLimit")
 rooms = NodePath("Rooms")
 level_object_pool = NodePath("ObjectPool")
 level_fog = NodePath("CameraLimit/Fog")
-paint_floor = NodePath("CameraLimit/PaintFloor")
+paint_floors = NodePath("CameraLimit/PaintFloor")
 map_filter = NodePath("MapFilter")
 directional_light = NodePath("DirectionalLight2D")
 filter_gradient = ExtResource("2_rdm6c")

@@ -19,10 +19,10 @@ metadata/_snap_enabled = true
 [node name="PackedTextureProjectile" type="Node2D" node_paths=PackedStringArray("packed_sprite_editor", "shadow", "height_top_marker")]
 script = ExtResource("1_tuh6x")
 packed_sprite_editor = NodePath("PSEditorProjectile")
-shadow = NodePath("Shadow")
+shadow = NodePath("OnFloor")
 height_top_marker = NodePath("Whole/Body/HeightTopMarker")
 
-[node name="Shadow" type="Sprite2D" parent="."]
+[node name="OnFloor" type="Sprite2D" parent="."]
 texture = SubResource("GradientTexture2D_0ojem")
 
 [node name="Whole" type="Node2D" parent="."]
@@ -33,8 +33,6 @@ texture = SubResource("GradientTexture2D_0ojem")
 
 [node name="PSEditorProjectile" type="Node" parent="." node_paths=PackedStringArray("main_part", "control_parts", "animation_player")]
 script = ExtResource("2_2wxhe")
-current_range_ratio = null
-fixed_body_y = null
 main_part = NodePath("..")
 control_parts = {
 &"Main": NodePath("../Whole/Body")

@@ -4,6 +4,7 @@
 
 [node name="StaticMap" type="Node" node_paths=PackedStringArray("player_spawns", "levels", "autoload_cutscene")]
 script = ExtResource("1_fy625")
+decal_path = "res://entity/entity_packed/temp_entity/decal/decal.tscn"
 player_spawns = [null, null]
 levels = NodePath("Levels")
 autoload_cutscene = NodePath("AutoLoadCutscene")
