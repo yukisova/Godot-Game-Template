@@ -20,9 +20,8 @@ fill_to = Vector2(0.90000004, 0)
 metadata/_snap_enabled = true
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_e4yeb"]
-resource_local_to_scene = true
 shader = ExtResource("1_e4yeb")
-shader_parameter/blink_color = Color(1, 1, 1, 1)
+shader_parameter/blink_color = Color(0, 0, 0, 1)
 shader_parameter/blink_intensity = 0.0
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_gy206"]
@@ -43,11 +42,13 @@ packed_sprite_editor = NodePath("PackedSpriteEditor")
 shadow = NodePath("Shadow")
 
 [node name="Shadow" type="Sprite2D" parent="."]
+use_parent_material = true
 texture = SubResource("GradientTexture2D_gy206")
 
 [node name="Whole" type="Node2D" parent="."]
 y_sort_enabled = true
 material = SubResource("ShaderMaterial_e4yeb")
+use_parent_material = true
 
 [node name="BH" type="Node2D" parent="Whole"]
 use_parent_material = true
@@ -71,7 +72,7 @@ hframes = 2
 use_parent_material = true
 script = ExtResource("3_q7rp6")
 default_texture = SubResource("AtlasTexture_hbyip")
-sprite = NodePath("@Sprite2D@78086")
+sprite = NodePath("@Sprite2D@689803")
 packed_sprite_editor = NodePath("../../PackedSpriteEditor")
 metadata/_custom_type_script = "uid://borj824dr1kti"
 
@@ -79,7 +80,7 @@ metadata/_custom_type_script = "uid://borj824dr1kti"
 use_parent_material = true
 script = ExtResource("3_q7rp6")
 default_texture = SubResource("AtlasTexture_hbyip")
-sprite = NodePath("@Sprite2D@78087")
+sprite = NodePath("@Sprite2D@689804")
 packed_sprite_editor = NodePath("../../PackedSpriteEditor")
 metadata/_custom_type_script = "uid://borj824dr1kti"
 

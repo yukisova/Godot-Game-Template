@@ -58,6 +58,17 @@ signal level_entity_fully_initialize
 @export var directional_light: DirectionalLight2D
 
 @export var filter_gradient: GradientTexture1D
+
+
+## 隐藏纹理列表更新
+signal hidden_packed_sprite_updated
+## 隐藏的纹理
+## 这一类实体的纹理只能通过手电筒着色器的方式进行观测
+var hidden_packed_sprites: Array[IPackedSprite]:
+	set(v):
+		hidden_packed_sprites = v
+		hidden_packed_sprite_updated.emit()
+
 ## 由外部系统（如时间子系统）调用来更新地图时间
 ## [param point]: 时间点值
 func time_change_filter(point: float):

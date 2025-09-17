@@ -13,6 +13,7 @@ extends IHud
 @export var left_hand_texture: TextureRect
 @export var right_hand_texture: TextureRect
 
+var binding_entitys: Array
 var c_status_list: CStatusList
 
 func _refresh():

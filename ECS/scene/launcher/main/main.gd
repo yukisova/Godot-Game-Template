@@ -13,7 +13,9 @@ signal system_setup_completed
 
 ## 实体初始化状态标志
 ## 控制实体的创建时机，true表示可以创建实体，实体分为预定义实体和系统加载时定义实体
-static var entity_initialzable: bool = false
+static var entity_initialzable: bool = false:
+	set(v):
+		entity_initialzable = v
 
 ## 游戏视图容器
 ## 所有游戏内容（地图、实体、特效等）都放置在此节点下
@@ -79,9 +81,6 @@ func _on_system_reset_state():
 ## 游戏主循环开始—系统初始化完成后的启动逻辑，根据启动模式执行不同的流程
 func _main_loop_start():
 	print("主进程: 游戏主循环开始")
-	
-	# 实体现在可以被创建
-	entity_initialzable = true
 	
 	# 根据启动模式执行相应逻辑
 	if Launcher.mode == Launcher.GameMode.FIRST_ENTER:

@@ -8,6 +8,10 @@ extends IComponent
 
 var packed_sprite: IPackedSprite
 
+## 是否可见
+## 如果为false，则其下的所有PackedSprite不会被渲染，只能通过手电筒着色器的方式进行观测
+@export var unwatchable: bool
+
 func _enter_tree() -> void:
 	component_name = ComponentName.C_TEXTURE_CONTROLLER
 
@@ -20,6 +24,8 @@ func _initialize(_owner: IEntity, _load_data: Dictionary = {}):
 		if i is IPackedSprite:
 			packed_sprite = i
 			i.c_texture_controller = self
+			if unwatchable:
+				SMapData.current_level.hidden_packed_sprites.append(i)
 			
 	# 验证纹理路径是否有效
 	if packed_sprite:
@@ -42,4 +48,9 @@ func _save() -> Dictionary:
 ## [param _dict]: 要加载的数据字典
 func _load(_dict: Dictionary):
 	pass
+
+func _exit_tree() -> void:
+	if Engine.is_editor_hint(): return
+	if unwatchable:
+		SMapData.current_level.hidden_packed_sprites.erase(packed_sprite)
 #endregion

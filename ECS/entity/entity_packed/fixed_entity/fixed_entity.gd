@@ -8,7 +8,6 @@
 class_name FixedEntity
 extends IEntity
 
-
 @export_group("初始化数据配置")
 
 ## 统一初始化数据

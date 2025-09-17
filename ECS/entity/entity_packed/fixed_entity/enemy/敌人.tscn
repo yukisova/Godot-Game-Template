@@ -42,12 +42,13 @@ size = Vector2(8, 8)
 
 [node name="Whole" parent="CharacterBody/ComponentContainer/CTextureController/PackedManSe" index="1"]
 material = SubResource("ShaderMaterial_3th7k")
+use_parent_material = true
 
 [node name="Right" parent="CharacterBody/ComponentContainer/CTextureController/PackedManSe/Whole" index="1" node_paths=PackedStringArray("sprite")]
-sprite = NodePath("@Sprite2D@24013")
+sprite = NodePath("@Sprite2D@693379")
 
 [node name="Left" parent="CharacterBody/ComponentContainer/CTextureController/PackedManSe/Whole" index="2" node_paths=PackedStringArray("sprite")]
-sprite = NodePath("@Sprite2D@24014")
+sprite = NodePath("@Sprite2D@693380")
 
 [node name="PackedSpriteEditor" parent="CharacterBody/ComponentContainer/CTextureController/PackedManSe" index="2" node_paths=PackedStringArray("control_parts")]
 control_parts = {

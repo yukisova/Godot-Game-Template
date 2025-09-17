@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=4 uid="uid://nqh6sy3jpxp3"]
+[gd_scene load_steps=24 format=4 uid="uid://nqh6sy3jpxp3"]
 
 [ext_resource type="PackedScene" uid="uid://dx8lfcn7h43ea" path="res://resource/node_template/map/static_map/static_map.tscn" id="1_8b7id"]
 [ext_resource type="AudioStream" uid="uid://cshvyslspontd" path="res://asset/audio/旖旎飞雪 - 02 Walking.ogg" id="2_320cn"]
@@ -12,10 +12,10 @@
 [ext_resource type="Resource" uid="uid://beo0dmy38xpw6" path="res://resource/custom_resource/item/item_equipment/1_手电筒/E_A_FLASHLIGHT.tres" id="11_320cn"]
 [ext_resource type="Script" uid="uid://dyicjmjyi8vve" path="res://component/c_interactable/interaction/interaction_collect.gd" id="11_mtn5c"]
 [ext_resource type="Resource" uid="uid://f8x8v2iu6h6e" path="res://resource/custom_resource/item/item_weapon/1_左轮/W_A_REVOVLER.tres" id="13_ervho"]
-[ext_resource type="PackedScene" uid="uid://bnjfqkssgqn5r" path="res://resource/custom_resource/item/item_equipment/1_手电筒/equipment_node_FLASHLIGHT.tscn" id="13_qubac"]
 [ext_resource type="Resource" uid="uid://cgtgigqia4o2a" path="res://resource/custom_resource/item/item_weapon/1_左轮/左轮子弹/左轮_子弹_普通.tres" id="15_8b7id"]
 [ext_resource type="PackedScene" uid="uid://ht3v3wnr5dy" path="res://entity/entity_packed/fixed_entity/enemy/敌人.tscn" id="16_8b7id"]
 [ext_resource type="PackedScene" uid="uid://bnl0vt21ig8ew" path="res://resource/custom_resource/item/item_weapon/1_左轮/attack_node_REVOVLER.tscn" id="17_kqh3t"]
+[ext_resource type="Shader" uid="uid://ybp62d200rx5" path="res://resource/shader/纹理闪烁.gdshader" id="18_320cn"]
 [ext_resource type="PackedScene" uid="uid://dofu8tj40v5it" path="res://entity/entity_packed/object_entity/transport_point/transport_point.tscn" id="29_nfrqy"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_phtbu"]
@@ -36,6 +36,12 @@ height = 32
 vertices = PackedVector2Array(-11.59375, 255.25, -271.46875, 284.95313, -308.6875, 24.4375, -56.242188, -12.6796875)
 polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
 outlines = Array[PackedVector2Array]([PackedVector2Array(-320, 16, -48, -24, 0, 264, -280, 296)])
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_p2mf1"]
+resource_local_to_scene = true
+shader = ExtResource("18_320cn")
+shader_parameter/blink_color = Color(1, 1, 1, 1)
+shader_parameter/blink_intensity = 0.0
 
 [node name="m_测试场景" node_paths=PackedStringArray("player_spawns") instance=ExtResource("1_8b7id")]
 bg_music = ExtResource("2_320cn")
@@ -85,10 +91,7 @@ script = ExtResource("11_mtn5c")
 binding_item = ExtResource("11_320cn")
 metadata/_custom_type_script = "uid://dyicjmjyi8vve"
 
-[node name="手电筒" parent="Levels/Level/OneshotPoint" index="2" instance=ExtResource("13_qubac")]
-position = Vector2(-168, -96)
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Levels/Level/OneshotPoint" index="3"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Levels/Level/OneshotPoint" index="2"]
 shape = SubResource("RectangleShape2D_qubac")
 
 [node name="OneshotPoint2" parent="Levels/Level" index="11" instance=ExtResource("10_2y2ga")]
@@ -128,11 +131,17 @@ position = Vector2(-16, 280)
 [node name="CharacterBody" parent="Levels/Level/敌人" index="0"]
 position = Vector2(-120, -344)
 
+[node name="CTextureController" parent="Levels/Level/敌人/CharacterBody/ComponentContainer" index="0"]
+unwatchable = true
+
+[node name="Whole" parent="Levels/Level/敌人/CharacterBody/ComponentContainer/CTextureController/PackedManSe" index="1"]
+material = SubResource("ShaderMaterial_p2mf1")
+
 [node name="Right" parent="Levels/Level/敌人/CharacterBody/ComponentContainer/CTextureController/PackedManSe/Whole" index="1" node_paths=PackedStringArray("sprite")]
-sprite = NodePath("@Sprite2D@26182")
+sprite = NodePath("@Sprite2D@696336")
 
 [node name="Left" parent="Levels/Level/敌人/CharacterBody/ComponentContainer/CTextureController/PackedManSe/Whole" index="2" node_paths=PackedStringArray("sprite")]
-sprite = NodePath("@Sprite2D@26183")
+sprite = NodePath("@Sprite2D@696337")
 
 [node name="PackedSpriteEditor" parent="Levels/Level/敌人/CharacterBody/ComponentContainer/CTextureController/PackedManSe" index="2" node_paths=PackedStringArray("control_parts")]
 control_parts = {

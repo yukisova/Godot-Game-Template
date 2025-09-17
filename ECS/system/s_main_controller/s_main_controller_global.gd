@@ -119,6 +119,7 @@ func _on_player_located(target_level: Level, _context: Dictionary):
 			push_error("未知的玩家初始化信息类型: %s" % _context.get("type", "Initialize"))
 	
 	SSignalBus.entity_initialize_started.emit()
+	Main.entity_initialzable = true
 
 #region 角色的主要移动方法(工具方法)
 

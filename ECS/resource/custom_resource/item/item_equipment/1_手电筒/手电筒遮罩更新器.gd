@@ -3,10 +3,15 @@
 ## 这类敌人的特点是无法被肉眼看见，但是可以通过某些手段看见，比如手电筒的光线
 ## [br][b]编辑者:[/b] Sora
 @tool
-extends Node2D
+extends Node
 
-@export var mask_sprite: Sprite2D
-@export var be_mask_sprites: Array[Node2D]
+@export var mask_sprite: PointLight2D
+
+var be_mask_sprites: Array :
+	get:
+		if is_node_ready():
+			return SMapData.current_level.hidden_packed_sprites
+		return []
 
 ## 遮罩着色器文件路径
 @export_file_path("*.gdshader") var mask_shader_path: String
@@ -20,8 +25,32 @@ var mask_material: ShaderMaterial
 @export var mask_strength: float = 1.0 : set = set_mask_strength
 @export var invert_mask: bool = false : set = set_invert_mask
 
-func _ready():
+var is_initialized: bool = false
+
+func _process(_delta):
+	if !is_initialized and Main.entity_initialzable:
+		initialize()
+		is_initialized = true
+	
+	# 在编辑器中减少更新频率，避免不必要的计算
+	if Engine.is_editor_hint():
+		# 只在编辑器中偶尔更新
+		if randf() < 0.1:  # 10% 的概率更新
+			update_mask_parameters()
+	else:
+		# 游戏运行时每帧更新
+		update_mask_parameters()
+
+func _exit_tree() -> void:
+	if Engine.is_editor_hint(): return
+	SMapData.current_level.hidden_packed_sprite_updated.disconnect(setup_mask_shader)
+	for sprite in be_mask_sprites:
+		sprite.material = null
+
+## 自定义初始化方法
+func initialize():
 	setup_mask_shader()
+	SMapData.current_level.hidden_packed_sprite_updated.connect(setup_mask_shader)
 
 func setup_mask_shader():
 	# 检查着色器文件是否存在
@@ -42,16 +71,6 @@ func setup_mask_shader():
 	if be_mask_sprites:
 		for sprite in be_mask_sprites:
 			sprite.material = mask_material
-		update_mask_parameters()
-
-func _process(_delta):
-	# 在编辑器中减少更新频率，避免不必要的计算
-	if Engine.is_editor_hint():
-		# 只在编辑器中偶尔更新
-		if randf() < 0.1:  # 10% 的概率更新
-			update_mask_parameters()
-	else:
-		# 游戏运行时每帧更新
 		update_mask_parameters()
 
 func update_mask_parameters():

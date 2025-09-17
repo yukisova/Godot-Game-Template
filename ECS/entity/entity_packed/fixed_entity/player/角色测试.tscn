@@ -245,14 +245,17 @@ y_sort_enabled = true
 
 [node name="CTextureController" parent="CharacterBody/ComponentContainer" index="0" instance=ExtResource("4_spbj0")]
 y_sort_enabled = true
+watchable = null
 
 [node name="PackedManSe" parent="CharacterBody/ComponentContainer/CTextureController" index="0" instance=ExtResource("5_aw2yj")]
 
 [node name="Shadow" parent="CharacterBody/ComponentContainer/CTextureController/PackedManSe" index="0"]
 y_sort_enabled = true
+use_parent_material = true
 
 [node name="Whole" parent="CharacterBody/ComponentContainer/CTextureController/PackedManSe" index="1"]
 material = SubResource("ShaderMaterial_hjqly")
+use_parent_material = true
 
 [node name="Body" parent="CharacterBody/ComponentContainer/CTextureController/PackedManSe/Whole/BH" index="0"]
 texture = SubResource("AtlasTexture_fojvx")
@@ -287,14 +290,12 @@ metadata/_aseprite_wizard_config_ = {
 texture = SubResource("AtlasTexture_dwa3q")
 
 [node name="Right" parent="CharacterBody/ComponentContainer/CTextureController/PackedManSe/Whole" index="1" node_paths=PackedStringArray("sprite")]
-position = Vector2(-6.6573954, -9.309017)
 default_texture = SubResource("AtlasTexture_jrw4v")
-sprite = NodePath("@Sprite2D@25186")
+sprite = NodePath("@Sprite2D@24005")
 
 [node name="Left" parent="CharacterBody/ComponentContainer/CTextureController/PackedManSe/Whole" index="2" node_paths=PackedStringArray("sprite")]
-position = Vector2(6.6573954, -8.690983)
 default_texture = SubResource("AtlasTexture_jrw4v")
-sprite = NodePath("@Sprite2D@25185")
+sprite = NodePath("@Sprite2D@24006")
 
 [node name="PackedSpriteEditor" parent="CharacterBody/ComponentContainer/CTextureController/PackedManSe" index="2" node_paths=PackedStringArray("control_parts")]
 line_body_offset_x = 12.5
