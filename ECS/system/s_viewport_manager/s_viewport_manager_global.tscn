@@ -1,9 +1,9 @@
 [gd_scene load_steps=6 format=3 uid="uid://23x0berpjxvo"]
 
-[ext_resource type="Script" uid="uid://dl1pna0gq0jpl" path="res://system/s_camera_controller/s_viewport_manager_global.gd" id="1_jr4t4"]
-[ext_resource type="PackedScene" uid="uid://bt6ugweawmepr" path="res://system/s_camera_controller/camera_viewport.tscn" id="2_n7rtb"]
-[ext_resource type="Script" uid="uid://b8mthqb12hrcf" path="res://system/s_camera_controller/camera_follow_strategy/camera_follow_strategy.gd" id="3_timvi"]
-[ext_resource type="Script" uid="uid://b1kgwv70jiajt" path="res://system/s_camera_controller/camera_follow_strategy/cfs_mouse_follow.gd" id="4_7pif8"]
+[ext_resource type="Script" uid="uid://dl1pna0gq0jpl" path="res://system/s_viewport_manager/s_viewport_manager_global.gd" id="1_jr4t4"]
+[ext_resource type="PackedScene" uid="uid://bt6ugweawmepr" path="res://system/s_viewport_manager/camera_viewport.tscn" id="2_n7rtb"]
+[ext_resource type="Script" uid="uid://b8mthqb12hrcf" path="res://system/s_viewport_manager/camera_follow_strategy/camera_follow_strategy.gd" id="3_timvi"]
+[ext_resource type="Script" uid="uid://b1kgwv70jiajt" path="res://system/s_viewport_manager/camera_follow_strategy/cfs_mouse_follow.gd" id="4_7pif8"]
 
 [sub_resource type="Resource" id="Resource_fss1v"]
 script = ExtResource("4_7pif8")

@@ -13,7 +13,7 @@ var c_input_reactor: CInputReactor
 @export var disabled: bool = false
 
 ## 每帧调用的输入监听逻辑
-@abstract func _setup()
+@abstract func _late_initialize()
 
 @abstract func _listen()
 

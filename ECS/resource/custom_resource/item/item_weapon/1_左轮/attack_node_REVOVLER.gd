@@ -117,8 +117,6 @@ func _fhoot_failed():
 	_shoot_audio("failed")
 #endregion
 
-
-
 #region 对象池管理
 ## 注册子弹到对象池系统
 func _register_to_pool():

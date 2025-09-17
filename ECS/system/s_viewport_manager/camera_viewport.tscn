@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://bt6ugweawmepr"]
 
-[ext_resource type="Script" uid="uid://dhhe83ywn3067" path="res://system/s_camera_controller/camera_viewport.gd" id="1_gpenl"]
+[ext_resource type="Script" uid="uid://dhhe83ywn3067" path="res://system/s_viewport_manager/camera_viewport.gd" id="1_gpenl"]
 
 [node name="SubViewportContainer" type="SubViewportContainer" node_paths=PackedStringArray("camera", "viewport")]
 anchors_preset = 15

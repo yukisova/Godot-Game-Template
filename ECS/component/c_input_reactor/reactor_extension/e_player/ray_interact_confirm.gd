@@ -13,13 +13,14 @@ extends ReactorExtension
 ## 状态组件，用于访问装备系统
 @export var c_status: CStatusList
 
-func _setup():
+func _late_initialize():
 	if toward_control_by_mouse:
 		var c_action_trigger :CActionTrigger= c_input_reactor.get_other_component(IComponent.ComponentName.C_ACTION_TRIGGER)
 		var move_strategy = c_action_trigger.move_strategy
-		if move_strategy:
-			move_strategy.toward_control_by_move = false
-	pass
+		if !move_strategy.is_empty():
+			var move_strategy_vector = move_strategy[0] as MoveStrategyVector
+			if move_strategy_vector:
+				move_strategy_vector.toward_control_by_move = false
 
 ## 更新射线朝向并处理交互确认和攻击操作
 func _listen():
@@ -30,7 +31,7 @@ func _listen():
 		var mouse_info = SoraEvent.fixed_mouse_position(c_input_reactor.component_owner.main_control)
 		if !mouse_info.is_empty():
 			# 获取视口中的鼠标位置
-			var mouse_pos = mouse_info["mouse_pos"]
+			var mouse_pos = mouse_info["viewport_mouse_pos"]
 			# 获取玩家在世界中的位置
 			var player_pos = mouse_info["player_pos"]
 			# 计算鼠标相对于相机的位置

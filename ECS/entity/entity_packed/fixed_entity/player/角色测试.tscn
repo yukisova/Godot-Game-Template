@@ -1,10 +1,11 @@
-[gd_scene load_steps=43 format=3 uid="uid://dq753g4b1nmk8"]
+[gd_scene load_steps=45 format=3 uid="uid://dq753g4b1nmk8"]
 
 [ext_resource type="PackedScene" uid="uid://6jpwo3n27sj2" path="res://entity/entity_packed/fixed_entity/fixed_entity.tscn" id="1_fojvx"]
 [ext_resource type="Script" uid="uid://815l8mjrysw1" path="res://entity/entity_packed/fixed_entity/player/i_player.gd" id="2_dwa3q"]
 [ext_resource type="PackedScene" uid="uid://cq0u8u1qie88t" path="res://entity/entity_packed/entity_template/character_body.tscn" id="3_vp0n8"]
 [ext_resource type="PackedScene" uid="uid://bvjy63fua1sx2" path="res://component/c_texture_controller/c_texture_controller.tscn" id="4_spbj0"]
 [ext_resource type="PackedScene" uid="uid://dlwowmvdbw73s" path="res://component/c_texture_controller/packed_texture/packed_texture/people/packed_texture_people.tscn" id="5_aw2yj"]
+[ext_resource type="Shader" uid="uid://ybp62d200rx5" path="res://resource/shader/纹理闪烁.gdshader" id="6_d7dlf"]
 [ext_resource type="Texture2D" uid="uid://b7owcyhft6c20" path="res://asset/char_set/测试用角色.png" id="6_fojvx"]
 [ext_resource type="PackedScene" uid="uid://caj56l0yail7q" path="res://component/c_status_list/c_status_list.tscn" id="9_l7t6h"]
 [ext_resource type="Script" uid="uid://0y7pq6c8rex1" path="res://component/c_status_list/status_extension/inventory/inventory.gd" id="10_aajhb"]
@@ -28,6 +29,12 @@
 [ext_resource type="PackedScene" uid="uid://b3vbfhugiqyva" path="res://component/c_action_trigger/c_action_trigger.tscn" id="31_dw5ky"]
 [ext_resource type="Script" uid="uid://dwt0prmf31a5" path="res://component/c_action_trigger/action/update_action/move_strategy/move_vector.gd" id="32_co28p"]
 [ext_resource type="Script" uid="uid://hais8gm07sce" path="res://entity/entity_packed/fixed_entity/player/action_input_map_nobita.gd" id="32_jrw4v"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_hjqly"]
+resource_local_to_scene = true
+shader = ExtResource("6_d7dlf")
+shader_parameter/blink_color = Color(1, 1, 1, 1)
+shader_parameter/blink_intensity = 0.0
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_fojvx"]
 atlas = ExtResource("6_fojvx")
@@ -244,6 +251,9 @@ y_sort_enabled = true
 [node name="Shadow" parent="CharacterBody/ComponentContainer/CTextureController/PackedManSe" index="0"]
 y_sort_enabled = true
 
+[node name="Whole" parent="CharacterBody/ComponentContainer/CTextureController/PackedManSe" index="1"]
+material = SubResource("ShaderMaterial_hjqly")
+
 [node name="Body" parent="CharacterBody/ComponentContainer/CTextureController/PackedManSe/Whole/BH" index="0"]
 texture = SubResource("AtlasTexture_fojvx")
 metadata/_aseprite_wizard_interface_config_ = {
@@ -277,12 +287,14 @@ metadata/_aseprite_wizard_config_ = {
 texture = SubResource("AtlasTexture_dwa3q")
 
 [node name="Right" parent="CharacterBody/ComponentContainer/CTextureController/PackedManSe/Whole" index="1" node_paths=PackedStringArray("sprite")]
+position = Vector2(-6.6573954, -9.309017)
 default_texture = SubResource("AtlasTexture_jrw4v")
-sprite = NodePath("@Sprite2D@24013")
+sprite = NodePath("@Sprite2D@25186")
 
 [node name="Left" parent="CharacterBody/ComponentContainer/CTextureController/PackedManSe/Whole" index="2" node_paths=PackedStringArray("sprite")]
+position = Vector2(6.6573954, -8.690983)
 default_texture = SubResource("AtlasTexture_jrw4v")
-sprite = NodePath("@Sprite2D@24014")
+sprite = NodePath("@Sprite2D@25185")
 
 [node name="PackedSpriteEditor" parent="CharacterBody/ComponentContainer/CTextureController/PackedManSe" index="2" node_paths=PackedStringArray("control_parts")]
 line_body_offset_x = 12.5
@@ -345,7 +357,7 @@ collision_mask = 2
 script = ExtResource("22_i270p")
 
 [node name="CInputReactor" parent="CharacterBody/ComponentContainer" index="4" instance=ExtResource("23_0eqlr")]
-award_mode = "全向"
+award_mode = "八向"
 
 [node name="TestCheckInfo" type="Node" parent="CharacterBody/ComponentContainer/CInputReactor" index="0"]
 script = ExtResource("24_mptg6")
@@ -353,6 +365,7 @@ disabled = true
 
 [node name="RayInteractConfirm" type="Node" parent="CharacterBody/ComponentContainer/CInputReactor" index="1" node_paths=PackedStringArray("interact_ray", "c_status")]
 script = ExtResource("25_dqk21")
+toward_control_by_mouse = true
 interact_ray = NodePath("../../CCollisionBox/InteractRay")
 c_status = NodePath("../../CStatusList")
 

@@ -41,7 +41,7 @@ extends ReactorExtension
 ## 负责检测交互目标的区域检测组件，类型为 [SeekBox]。
 @export var seek_box: SeekBox
 
-func _setup():
+func _late_initialize():
 	pass
 
 ## 监听查找确认操作（重写方法）

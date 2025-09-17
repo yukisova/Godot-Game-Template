@@ -17,7 +17,7 @@ extends ReactorExtension
 ## 包含游戏设置、退出游戏等界面
 @export var pause_ui: PackedScene
 
-func _setup():
+func _late_initialize():
 	if c_input_reactor.component_owner in SMainController.player_static.values():
 		disabled = false
 	else:

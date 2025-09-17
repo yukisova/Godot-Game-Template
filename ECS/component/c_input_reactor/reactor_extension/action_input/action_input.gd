@@ -4,7 +4,7 @@ extends ReactorExtension
 @export var input_parameter: Array[ActionInputRecord]
 
 ## 每帧调用的输入监听逻辑
-func _setup():
+func _late_initialize():
 	pass
 
 func _listen():

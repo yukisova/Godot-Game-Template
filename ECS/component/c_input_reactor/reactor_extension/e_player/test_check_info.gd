@@ -37,7 +37,7 @@
 ## [br][b]编辑者:[/b] Sora
 extends ReactorExtension
 
-func _setup():
+func _late_initialize():
 	pass
 
 ## 监听调试输入（重写方法）

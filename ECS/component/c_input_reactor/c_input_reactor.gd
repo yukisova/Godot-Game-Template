@@ -52,10 +52,12 @@ func _initialize(_owner: IEntity, _load_data: Dictionary = {}):
 		if i is ReactorExtension:
 			reactor_extension.append(i)
 			i.c_input_reactor = self
-			i._setup()
 	
 	initialize_complete.emit()
-			
+
+func _late_initialize():
+	for i in reactor_extension:
+		i._late_initialize()
 
 ## 验证控制输入
 ## 

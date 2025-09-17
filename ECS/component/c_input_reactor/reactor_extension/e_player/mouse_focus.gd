@@ -11,7 +11,7 @@ extends ReactorExtension
 ## 是否限制鼠标在右半屏幕
 @export var restrict_to_right_half: bool = false
 
-func _setup():
+func _late_initialize():
 	pass
 
 ## 每帧更新所有焦点节点位置到鼠标位置
