@@ -1,16 +1,22 @@
-[gd_scene load_steps=2 format=3 uid="uid://7bn4a56gypuj"]
+[gd_scene load_steps=3 format=3 uid="uid://7bn4a56gypuj"]
 
-[ext_resource type="Script" uid="uid://c8pkw2hs14qni" path="res://ui/hud/attribute_hud/attribute_hud.gd" id="1_m0gie"]
+[ext_resource type="Script" path="res://ui/hud/attribute_hud/mvc/attribute_hud_controller.gd" id="1_controller"]
+[ext_resource type="Script" path="res://ui/hud/attribute_hud/mvc/attribute_hud_view.gd" id="2_view"]
 
-[node name="AttributeHud" type="CanvasLayer" node_paths=PackedStringArray("health_bar", "sound_bar", "fitness_bar", "left_hand_texture", "right_hand_texture")]
-script = ExtResource("1_m0gie")
+[node name="AttributeHud" type="CanvasLayer"]
+script = ExtResource("1_controller")
+player_index = 0
+auto_initialize = true
+
+[node name="AttributeHudView" type="CanvasLayer" parent="." node_paths=PackedStringArray("health_bar", "sound_bar", "fitness_bar", "left_hand_texture", "right_hand_texture")]
+script = ExtResource("2_view")
 health_bar = NodePath("Control/HBoxContainer/VBoxContainer/HealthBar")
 sound_bar = NodePath("Control/HBoxContainer/VBoxContainer/SoundBar")
 fitness_bar = NodePath("Control/HBoxContainer/VBoxContainer/FitnessBar")
 left_hand_texture = NodePath("Control/HBoxContainer/LeftHand/TextureRect")
 right_hand_texture = NodePath("Control/HBoxContainer/RightHand/TextureRect")
 
-[node name="Control" type="Control" parent="."]
+[node name="Control" type="Control" parent="AttributeHudView"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -18,42 +24,42 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="Control"]
+[node name="HBoxContainer" type="HBoxContainer" parent="AttributeHudView/Control"]
 layout_mode = 0
 offset_right = 40.0
 offset_bottom = 40.0
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Control/HBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="AttributeHudView/Control/HBoxContainer"]
 layout_mode = 2
 
-[node name="HealthBar" type="ProgressBar" parent="Control/HBoxContainer/VBoxContainer"]
+[node name="HealthBar" type="ProgressBar" parent="AttributeHudView/Control/HBoxContainer/VBoxContainer"]
 custom_minimum_size = Vector2(200, 60)
 layout_mode = 2
 show_percentage = false
 
-[node name="SoundBar" type="ProgressBar" parent="Control/HBoxContainer/VBoxContainer"]
+[node name="SoundBar" type="ProgressBar" parent="AttributeHudView/Control/HBoxContainer/VBoxContainer"]
 self_modulate = Color(1, 1, 1, 0)
 custom_minimum_size = Vector2(200, 20)
 layout_mode = 2
 show_percentage = false
 
-[node name="FitnessBar" type="ProgressBar" parent="Control/HBoxContainer/VBoxContainer"]
+[node name="FitnessBar" type="ProgressBar" parent="AttributeHudView/Control/HBoxContainer/VBoxContainer"]
 custom_minimum_size = Vector2(200, 10)
 layout_mode = 2
 show_percentage = false
 
-[node name="LeftHand" type="PanelContainer" parent="Control/HBoxContainer"]
+[node name="LeftHand" type="PanelContainer" parent="AttributeHudView/Control/HBoxContainer"]
 custom_minimum_size = Vector2(98, 0)
 layout_mode = 2
 
-[node name="TextureRect" type="TextureRect" parent="Control/HBoxContainer/LeftHand"]
+[node name="TextureRect" type="TextureRect" parent="AttributeHudView/Control/HBoxContainer/LeftHand"]
 layout_mode = 2
 expand_mode = 1
 stretch_mode = 5
 
-[node name="RightHand" type="PanelContainer" parent="Control/HBoxContainer"]
+[node name="RightHand" type="PanelContainer" parent="AttributeHudView/Control/HBoxContainer"]
 custom_minimum_size = Vector2(98, 0)
 layout_mode = 2
 
-[node name="TextureRect" type="TextureRect" parent="Control/HBoxContainer/RightHand"]
+[node name="TextureRect" type="TextureRect" parent="AttributeHudView/Control/HBoxContainer/RightHand"]
 layout_mode = 2

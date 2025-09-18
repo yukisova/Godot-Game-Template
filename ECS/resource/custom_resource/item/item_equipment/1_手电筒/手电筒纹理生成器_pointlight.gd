@@ -12,6 +12,8 @@ enum FlashLightMode{
 @export var flashlight_radius: float = 20
 @export var light_radius: float = 40.0
 @export var light_length: float = 100.0
+
+@export var image_padding: float = 10
 @export var triangle_color: Color = Color.WHITE
 
 var c_status: CStatusList
@@ -51,17 +53,17 @@ func _shoot_mode_process(_delta: float) -> void:
 	var trapezoid_light: Image = create_trapezoid_texture()
 	var spot_light: Image = create_circle_texture_end()
 
-	# 将起始圆形纹理混合到梯形纹理上（在梯形的起始端）
-	var start_offset_x = int(light_radius - start_light.get_width() * 0.5)
-	var start_offset_y = int(light_radius - start_light.get_height() * 0.5)
+	# 将起始圆形纹理混合到梯形纹理上（在梯形的起始端，考虑padding偏移）
+	var start_offset_x = int(light_radius + image_padding - start_light.get_width() * 0.5)
+	var start_offset_y = int(light_radius + image_padding - start_light.get_height() * 0.5)
 	trapezoid_light.blend_rect(
 		start_light, 
 		Rect2i(Vector2.ZERO, start_light.get_size()), 
 		Vector2i(start_offset_x, start_offset_y)
 	)
 	
-	# 将终点圆形纹理混合到梯形纹理上（在梯形的终点端）
-	var end_offset_x = int(light_length - light_radius)
+	# 将终点圆形纹理混合到梯形纹理上（在梯形的终点端，考虑padding偏移）
+	var end_offset_x = 0  # 终点圆形已经在正确位置（包含padding）
 	var end_offset_y = 0  # 终点圆形已经在正确位置
 	trapezoid_light.blend_rect(
 		spot_light, 
@@ -73,16 +75,18 @@ func _shoot_mode_process(_delta: float) -> void:
 
 #region 创建三角形纹理
 func create_triangle_texture() -> Image:
-	# 创建一个新的图像
-	var image = Image.create(int(light_length+light_radius), int(light_radius*2), false, Image.FORMAT_RGBA8)
+	# 创建一个新的图像（加上padding）
+	var image_width = int(light_length + light_radius + image_padding * 2)
+	var image_height = int(light_radius * 2 + image_padding * 2)
+	var image = Image.create(image_width, image_height, false, Image.FORMAT_RGBA8)
 	
 	# 填充透明背景
 	image.fill(Color(0, 0, 0, 0))
 	
-	# 计算三角形顶点坐标（向上指向的三角形）
-	var vertex3 = Vector2(light_length, light_radius*2)
-	var vertex2 = Vector2(light_length, 0)
-	var vertex1 = Vector2(light_radius, light_radius)
+	# 计算三角形顶点坐标（向上指向的三角形，加上padding偏移）
+	var vertex3 = Vector2(light_length + image_padding, light_radius * 2 + image_padding)
+	var vertex2 = Vector2(light_length + image_padding, image_padding)
+	var vertex1 = Vector2(light_radius + image_padding, light_radius + image_padding)
 	
 	# 绘制三角形
 	draw_triangle_on_image(image, vertex1, vertex2, vertex3, triangle_color)
@@ -152,23 +156,25 @@ func add_edge_intersection(intersections: Array, p1: Vector2, p2: Vector2, y: fl
 #region 创建梯形纹理
 ## 创建梯形纹理 - 手电筒光束形状
 func create_trapezoid_texture() -> Image:
-	# 创建图像，尺寸与之前的三角形相同
-	var image = Image.create(int(light_length+light_radius), int(light_radius*2), false, Image.FORMAT_RGBA8)
+	# 创建图像，尺寸加上padding
+	var image_width = int(light_length + light_radius + image_padding * 2)
+	var image_height = int(light_radius * 2 + image_padding * 2)
+	var image = Image.create(image_width, image_height, false, Image.FORMAT_RGBA8)
 	
 	# 填充透明背景
 	image.fill(Color(0, 0, 0, 0))
 	
-	# 定义梯形的四个顶点
+	# 定义梯形的四个顶点（加上padding偏移）
 	# 起始端较窄，终点端较宽
 	var start_width = flashlight_radius*2# 起始端宽度
 	var end_width = light_radius         # 终点端宽度
 	var length = light_length            # 长度
 	
-	# 梯形四个顶点坐标
-	var v1 = Vector2(light_radius, light_radius - start_width/2)  # 左上
-	var v2 = Vector2(light_radius, light_radius + start_width/2)  # 左下
-	var v3 = Vector2(length, light_radius + end_width)          # 右下
-	var v4 = Vector2(length, light_radius - end_width)          # 右上
+	# 梯形四个顶点坐标（加上padding偏移）
+	var v1 = Vector2(light_radius + image_padding, light_radius - start_width/2 + image_padding)  # 左上
+	var v2 = Vector2(light_radius + image_padding, light_radius + start_width/2 + image_padding)  # 左下
+	var v3 = Vector2(length + image_padding, light_radius + end_width + image_padding)          # 右下
+	var v4 = Vector2(length + image_padding, light_radius - end_width + image_padding)          # 右上
 	
 	# 绘制梯形（通过两个三角形组合）
 	draw_triangle_on_image(image, v1, v2, v3, triangle_color)
@@ -176,46 +182,24 @@ func create_trapezoid_texture() -> Image:
 	
 	# 创建并返回 ImageTexture
 	return image
-
-## 优化的梯形绘制方法 - 使用扫描线算法
-func draw_trapezoid_on_image(image: Image, start_pos: Vector2, end_pos: Vector2, start_width: float, end_width: float, fill_color: Color) -> void:
-	var length = end_pos.x - start_pos.x
-	if length <= 0:
-		return
-	
-	# 逐列扫描填充梯形
-	for x in range(int(start_pos.x), int(end_pos.x) + 1):
-		var progress = float(x - start_pos.x) / length
-		var current_width = lerp(start_width, end_width, progress)
-		var current_y = lerp(start_pos.y, end_pos.y, progress)
-		
-		# 填充当前列的像素
-		var half_width = current_width / 2
-		var y_start = int(current_y - half_width)
-		var y_end = int(current_y + half_width)
-		
-		# 确保y坐标在图像边界内
-		y_start = max(0, y_start)
-		y_end = min(image.get_height() - 1, y_end)
-		
-		for y in range(y_start, y_end + 1):
-			if x >= 0 and x < image.get_width():
-				image.set_pixel(x, y, fill_color)
 #endregion
 
 #region 创建圆形纹理
 # 创建圆形纹理 聚光点
 func create_circle_texture_end() -> Image:
-	var image = Image.create(int(light_radius+light_length), int(light_radius*2), false, Image.FORMAT_RGBA8)
+	var image_width = int(light_radius + light_length + image_padding * 2)
+	var image_height = int(light_radius * 2 + image_padding * 2)
+	var image = Image.create(image_width, image_height, false, Image.FORMAT_RGBA8)
 	image.fill(Color(0, 0, 0, 0))
-	draw_circle_on_image(image, Vector2(light_length, light_radius), light_radius, Color.WHITE)
+	draw_circle_on_image(image, Vector2(light_length + image_padding, light_radius + image_padding), light_radius, Color.WHITE)
 	return image
 
 # 创建圆形纹理 起始点 - 与梯形起始端匹配
 func create_circle_texture_start() -> Image:
-	var image = Image.create(int(light_radius*2), int(light_radius*2), false, Image.FORMAT_RGBA8)
+	var image_size = int(light_radius * 2 + image_padding * 2)
+	var image = Image.create(image_size, image_size, false, Image.FORMAT_RGBA8)
 	image.fill(Color(0, 0, 0, 0))
-	draw_circle_on_image(image, Vector2(light_radius, light_radius), flashlight_radius, Color.WHITE)
+	draw_circle_on_image(image, Vector2(light_radius + image_padding, light_radius + image_padding), flashlight_radius, Color.WHITE)
 	return image
 
 func draw_circle_on_image(image: Image, center: Vector2, radius: float, fill_color: Color) -> void:
