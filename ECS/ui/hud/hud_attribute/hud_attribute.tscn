@@ -1,0 +1,60 @@
+[gd_scene load_steps=5 format=3 uid="uid://c7aapu28f0k58"]
+
+[ext_resource type="PackedScene" uid="uid://bavog73s6cd1p" path="res://ui/i_ui.tscn" id="1_sgb02"]
+[ext_resource type="Script" uid="uid://c8pkw2hs14qni" path="res://ui/hud/hud_attribute/hud_attribute.gd" id="2_b2ail"]
+[ext_resource type="Script" uid="uid://bgp8l5kxkfhmb" path="res://ui/hud/hud_attribute/view_hud_attribute.gd" id="3_m81ed"]
+[ext_resource type="Script" uid="uid://sxyokesbo8l1" path="res://ui/hud/hud_attribute/model_hud_attribute.gd" id="4_uvujm"]
+
+[node name="ControllerHudAttribute" instance=ExtResource("1_sgb02")]
+script = ExtResource("2_b2ail")
+
+[node name="View" parent="." index="0" node_paths=PackedStringArray("health_bar", "sound_bar", "fitness_bar", "left_hand_texture", "right_hand_texture")]
+script = ExtResource("3_m81ed")
+health_bar = NodePath("HBoxContainer/VBoxContainer/HealthBar")
+sound_bar = NodePath("HBoxContainer/VBoxContainer/SoundBar")
+fitness_bar = NodePath("HBoxContainer/VBoxContainer/FitnessBar")
+left_hand_texture = NodePath("HBoxContainer/LeftHand/TextureRect")
+right_hand_texture = NodePath("HBoxContainer/RightHand/TextureRect")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="View" index="0"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="View/HBoxContainer" index="0"]
+layout_mode = 2
+
+[node name="HealthBar" type="ProgressBar" parent="View/HBoxContainer/VBoxContainer" index="0"]
+custom_minimum_size = Vector2(200, 60)
+layout_mode = 2
+show_percentage = false
+
+[node name="SoundBar" type="ProgressBar" parent="View/HBoxContainer/VBoxContainer" index="1"]
+self_modulate = Color(1, 1, 1, 0)
+custom_minimum_size = Vector2(200, 20)
+layout_mode = 2
+show_percentage = false
+
+[node name="FitnessBar" type="ProgressBar" parent="View/HBoxContainer/VBoxContainer" index="2"]
+custom_minimum_size = Vector2(200, 10)
+layout_mode = 2
+show_percentage = false
+
+[node name="LeftHand" type="PanelContainer" parent="View/HBoxContainer" index="1"]
+custom_minimum_size = Vector2(98, 0)
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="View/HBoxContainer/LeftHand" index="0"]
+layout_mode = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="RightHand" type="PanelContainer" parent="View/HBoxContainer" index="2"]
+custom_minimum_size = Vector2(98, 0)
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="View/HBoxContainer/RightHand" index="0"]
+layout_mode = 2
+
+[node name="Model" parent="." index="1"]
+script = ExtResource("4_uvujm")

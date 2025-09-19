@@ -5,7 +5,7 @@
 ## 功能特性：双模式初始化、信号驱动的生命周期管理、上下文数据绑定、焦点状态处理
 ## 架构设计：基于 [CanvasLayer] 的界面层级管理，通过 [signal _unspawned] 的生命周期通知
 ## [br][b]编辑者:[/b] Sora
-@abstract class_name IUi
+@abstract class_name UIController
 extends CanvasLayer
 
 ## UI销毁信号
@@ -15,6 +15,16 @@ signal _unspawned
 ## 测试模式标志
 ## 用于在编辑器中进行UI单元测试的标志位
 @export var is_testing: bool
+
+var ui_view: UIView
+var ui_model: UIModel
+
+func _enter_tree() -> void:
+	for i in get_children():
+		if i is UIView:
+			ui_view = i
+		elif i is UIModel:
+			ui_model = i
 
 ## 根据运行环境选择不同的初始化流程
 func _ready() -> void:
@@ -38,6 +48,9 @@ func unspawn():
 ## 使用上下文数据初始化UI内容
 ## [param _context]: 包含初始化数据的上下文字典
 func _initilize_info(_context: Dictionary):
+	pass
+
+func _bind_model_view():
 	pass
 
 ## 当UI获得焦点时的输入监听和处理逻辑，子类应重写此方法以实现具体的焦点处理行为

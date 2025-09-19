@@ -1,14 +1,20 @@
-[gd_scene load_steps=7 format=3 uid="uid://dtbox62ysxhqs"]
+[gd_scene load_steps=10 format=3 uid="uid://c8qw0qwk7xvms"]
 
+[ext_resource type="PackedScene" uid="uid://bavog73s6cd1p" path="res://ui/i_ui.tscn" id="1_4fbp4"]
 [ext_resource type="Script" uid="uid://fqkh2lkuaxp4" path="res://ui/ui/ui_main/ui_main.gd" id="1_8moro"]
 [ext_resource type="Theme" uid="uid://cbvflgkah1pwb" path="res://resource/resource_template/basic_theme.tres" id="2_1q3r7"]
 [ext_resource type="Texture2D" uid="uid://lepubibq4jmd" path="res://asset/sightlight_gj/索拉的世界-logo.png" id="2_mqo0q"]
-[ext_resource type="Script" uid="uid://b77vti74tgrbe" path="res://ui/ui_composite/func_button.gd" id="3_3ko51"]
-[ext_resource type="Script" uid="uid://22228lam2w6p" path="res://ui/ui_composite/link_button.gd" id="5_63x8v"]
-[ext_resource type="PackedScene" uid="uid://ckmbalibndnve" path="res://ui/ui_composite/canvas/setting_panel/setting_panel.tscn" id="6_8k5ru"]
+[ext_resource type="Script" uid="uid://b77vti74tgrbe" path="res://ui/ui_c/func_button.gd" id="3_3ko51"]
+[ext_resource type="Script" uid="uid://jmm3rxvhbstb" path="res://ui/ui/ui_main/view_ui_main.gd" id="3_xlgux"]
+[ext_resource type="Script" uid="uid://22228lam2w6p" path="res://ui/ui_c/link_button.gd" id="5_63x8v"]
+[ext_resource type="PackedScene" uid="uid://ckmbalibndnve" path="res://ui/ui_c/canvas/setting_panel/setting_panel.tscn" id="6_8k5ru"]
+[ext_resource type="Script" uid="uid://ved08ng5ux5m" path="res://ui/ui/ui_main/model_ui_main.gd" id="9_5tsq2"]
 
-[node name="UiMain" type="CanvasLayer" node_paths=PackedStringArray("continue_game_button", "test_game_button", "start_game_button", "load_game_button", "game_setting_button", "quit_game_button")]
+[node name="UIMain" instance=ExtResource("1_4fbp4")]
 script = ExtResource("1_8moro")
+
+[node name="View" parent="." index="0" node_paths=PackedStringArray("continue_game_button", "test_game_button", "start_game_button", "load_game_button", "game_setting_button", "quit_game_button")]
+script = ExtResource("3_xlgux")
 continue_game_button = NodePath("Control/MarginContainer/VBoxContainer/ContinueGame")
 test_game_button = NodePath("Control/MarginContainer/VBoxContainer/TestingGame")
 start_game_button = NodePath("Control/MarginContainer/VBoxContainer/StartGame")
@@ -16,15 +22,15 @@ load_game_button = NodePath("Control/MarginContainer/VBoxContainer/LoadGame")
 game_setting_button = NodePath("Control/MarginContainer/VBoxContainer/GameSetting")
 quit_game_button = NodePath("Control/MarginContainer/VBoxContainer/QuitGame")
 
-[node name="Control" type="Control" parent="."]
-layout_mode = 3
+[node name="Control" type="Control" parent="View" index="0"]
+layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="TextureRect" type="TextureRect" parent="Control"]
+[node name="TextureRect" type="TextureRect" parent="View/Control" index="0"]
 layout_mode = 1
 anchors_preset = 4
 anchor_top = 0.5
@@ -36,7 +42,7 @@ grow_vertical = 2
 texture = ExtResource("2_mqo0q")
 stretch_mode = 2
 
-[node name="MarginContainer" type="MarginContainer" parent="Control"]
+[node name="MarginContainer" type="MarginContainer" parent="View/Control" index="1"]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 1.0
@@ -51,62 +57,53 @@ grow_vertical = 2
 theme = ExtResource("2_1q3r7")
 theme_override_constants/margin_right = 80
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Control/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="View/Control/MarginContainer" index="0"]
 layout_mode = 2
 size_flags_horizontal = 8
 size_flags_vertical = 8
 
-[node name="ContinueGame" type="Button" parent="Control/MarginContainer/VBoxContainer"]
+[node name="ContinueGame" type="Button" parent="View/Control/MarginContainer/VBoxContainer" index="0"]
 visible = false
 custom_minimum_size = Vector2(300, 80)
 layout_mode = 2
 text = "ContinueGame"
 script = ExtResource("3_3ko51")
 
-[node name="TestingGame" type="Button" parent="Control/MarginContainer/VBoxContainer"]
+[node name="TestingGame" type="Button" parent="View/Control/MarginContainer/VBoxContainer" index="1"]
 custom_minimum_size = Vector2(300, 80)
 layout_mode = 2
 text = "测试游戏"
 script = ExtResource("3_3ko51")
 args = ["res://scene/static_map/m_测试场景.tscn"]
 
-[node name="StartGame" type="Button" parent="Control/MarginContainer/VBoxContainer"]
+[node name="StartGame" type="Button" parent="View/Control/MarginContainer/VBoxContainer" index="2"]
 custom_minimum_size = Vector2(300, 80)
 layout_mode = 2
 text = "开始游戏"
 script = ExtResource("3_3ko51")
 args = ["res://ui/ui/ui_start_game_cutscene/ui_start_game_cutscene_2/ui_start_game_cutscene_2.tscn"]
 
-[node name="LoadGame" type="Button" parent="Control/MarginContainer/VBoxContainer"]
+[node name="LoadGame" type="Button" parent="View/Control/MarginContainer/VBoxContainer" index="3"]
 visible = false
 custom_minimum_size = Vector2(300, 80)
 layout_mode = 2
 text = "加载游戏"
 script = ExtResource("3_3ko51")
 
-[node name="GameSetting" type="Button" parent="Control/MarginContainer/VBoxContainer" node_paths=PackedStringArray("g_scene_parent")]
+[node name="GameSetting" type="Button" parent="View/Control/MarginContainer/VBoxContainer" index="4"]
 custom_minimum_size = Vector2(300, 80)
 layout_mode = 2
 text = "游戏设置"
 script = ExtResource("5_63x8v")
 generator_scene = ExtResource("6_8k5ru")
-g_scene_parent = NodePath("../../../..")
 
-[node name="QuitGame" type="Button" parent="Control/MarginContainer/VBoxContainer"]
+[node name="QuitGame" type="Button" parent="View/Control/MarginContainer/VBoxContainer" index="5"]
 custom_minimum_size = Vector2(300, 80)
 layout_mode = 2
 text = "退出游戏"
 script = ExtResource("3_3ko51")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Control"]
-visible = false
-layout_mode = 0
-offset_left = 728.0
-offset_top = 361.0
-offset_right = 768.0
-offset_bottom = 401.0
-
-[node name="Button" type="Button" parent="Control/VBoxContainer"]
-layout_mode = 2
-text = "等待玩家1 wasd
-等待玩家2 上下左右"
+[node name="Model" parent="." index="1"]
+script = ExtResource("9_5tsq2")
+bgm = null
+play_type = 0

@@ -1,4 +1,4 @@
-extends IUi
+extends UIController
 
 #region 对话资源配置
 ## 开始游戏场景

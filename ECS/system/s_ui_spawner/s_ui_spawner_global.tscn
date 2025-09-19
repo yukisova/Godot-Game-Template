@@ -1,45 +1,29 @@
-[gd_scene load_steps=14 format=3 uid="uid://dwngxugx7dmav"]
+[gd_scene load_steps=9 format=3 uid="uid://dwngxugx7dmav"]
 
 [ext_resource type="Script" uid="uid://c2sd1paa8daua" path="res://system/s_ui_spawner/s_ui_spawner_global.gd" id="1_gywde"]
-[ext_resource type="PackedScene" uid="uid://dtbox62ysxhqs" path="res://ui/ui/ui_main/ui_main.tscn" id="2_djtn5"]
 [ext_resource type="PackedScene" uid="uid://qvegob1cp74r" path="res://ui/ui/ui_logo_transition/ui_logo_transition.tscn" id="2_v0jy8"]
-[ext_resource type="PackedScene" uid="uid://dhook0pgtvcv0" path="res://ui/ui/ui_open_game_cutscene/ui_open_game_cutscene.tscn" id="3_kk0m5"]
-[ext_resource type="PackedScene" uid="uid://7bn4a56gypuj" path="res://ui/hud/attribute_hud/attribute_hud.tscn" id="3_m3ao3"]
-[ext_resource type="PackedScene" uid="uid://mx521by2gurk" path="res://ui/hud/transition_hud/transition_hud.tscn" id="4_djtn5"]
-[ext_resource type="PackedScene" uid="uid://7vlmn8051138" path="res://ui/hud/tip_hud/tip_hud.tscn" id="5_m3ao3"]
+[ext_resource type="PackedScene" uid="uid://c8qw0qwk7xvms" path="res://ui/ui/ui_main/ui_main.tscn" id="3_v0jy8"]
 [ext_resource type="Script" uid="uid://bt5qlcyb68ufe" path="res://system/s_ui_spawner/hud_init_setting.gd" id="5_uno6n"]
-[ext_resource type="PackedScene" uid="uid://cbp78yrfmc7yl" path="res://ui/hud/mobile_controller_hud/mobile_controller_hud.tscn" id="9_ibpeg"]
+[ext_resource type="PackedScene" uid="uid://c7aapu28f0k58" path="res://ui/hud/hud_attribute/hud_attribute.tscn" id="6_ibpeg"]
+[ext_resource type="PackedScene" uid="uid://ymffwioeqkhf" path="res://ui/hud/hud_transition/hud_transition.tscn" id="7_v0jy8"]
+
+[sub_resource type="Resource" id="Resource_uno6n"]
+script = ExtResource("5_uno6n")
+hud_scene = ExtResource("6_ibpeg")
+is_preload = true
+metadata/_custom_type_script = "uid://bt5qlcyb68ufe"
 
 [sub_resource type="Resource" id="Resource_ibpeg"]
 script = ExtResource("5_uno6n")
-hud_scene = ExtResource("3_m3ao3")
+hud_scene = ExtResource("7_v0jy8")
 is_preload = true
-metadata/_custom_type_script = "uid://bt5qlcyb68ufe"
-
-[sub_resource type="Resource" id="Resource_6qq2n"]
-script = ExtResource("5_uno6n")
-hud_scene = ExtResource("4_djtn5")
-is_preload = true
-metadata/_custom_type_script = "uid://bt5qlcyb68ufe"
-
-[sub_resource type="Resource" id="Resource_o5gxu"]
-script = ExtResource("5_uno6n")
-hud_scene = ExtResource("5_m3ao3")
-metadata/_custom_type_script = "uid://bt5qlcyb68ufe"
-
-[sub_resource type="Resource" id="Resource_yx48h"]
-script = ExtResource("5_uno6n")
-hud_scene = ExtResource("9_ibpeg")
 metadata/_custom_type_script = "uid://bt5qlcyb68ufe"
 
 [node name="S_UiSpawner" type="Node"]
 script = ExtResource("1_gywde")
 logo_transition_scene = ExtResource("2_v0jy8")
-main_menu_scene = ExtResource("2_djtn5")
-cutscene_scene = ExtResource("3_kk0m5")
+main_menu_scene = ExtResource("3_v0jy8")
 all_hud = Dictionary[StringName, ExtResource("5_uno6n")]({
-&"": SubResource("Resource_ibpeg"),
-&"mobile": SubResource("Resource_yx48h"),
-&"tip": SubResource("Resource_o5gxu"),
-&"transition": SubResource("Resource_6qq2n")
+&"": SubResource("Resource_uno6n"),
+&"transition": SubResource("Resource_ibpeg")
 })

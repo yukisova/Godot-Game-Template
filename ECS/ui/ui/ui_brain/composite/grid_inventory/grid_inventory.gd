@@ -47,7 +47,7 @@ extends MarginContainer
 
 ## 绑定的状态组件
 ## 与背包系统关联的角色状态组件，类型为 [CStatusList]。
-var binding_status: CStatusList
+var c_status_list: CStatusList
 
 ## 当前按钮容器
 ## 已经存在的按钮容器实例，类型为 [ButtonContainer]。
@@ -512,7 +512,7 @@ func drop_item():
 	else:
 		## 如果鼠标下有弹仓槽位，则可以尝试填装子弹
 		if target_bullet_slot.try_reload_bullet(current_held_item):
-			var inventory = binding_status.status_extension.get(StatusExtension.ExtensionType.INVENTORY)
+			var inventory = c_status_list.status_extension.get(StatusExtension.ExtensionType.INVENTORY)
 			inventory.try_remove_inventory(current_held_item.binding_item)
 			current_held_item.queue_free()
 			print("弹仓: 成功填装子弹", current_held_item.binding_item.item_name)
@@ -728,7 +728,7 @@ func _select_item(item: DragableItem, at_position: Vector2):
 	
 	button_container = button_container_popum.instantiate() as ButtonContainer
 	button_container_control.add_child(button_container)
-	button_container._generate(ButtonContainer.get_button_info_from(item.binding_item.get_func_callable(), [binding_status]), at_position)
+	button_container._generate(ButtonContainer.get_button_info_from(item.binding_item.get_func_callable(), [c_status_list]), at_position)
 	
 	# 重置按压时间，但保持当前交互状态
 	press_time = 0.0

@@ -85,3 +85,24 @@ func _on_target_noticed():
 ## 定时器到期时的搜索行为，当前为空实现。
 func _on_try_searching():
 	pass
+
+func _blur_update(_delta: float) -> void:
+	pass
+
+func _pause() -> void:
+	pass
+
+func _continue() -> void:
+	pass	
+
+func _update(_delta: float) -> void:
+	pass
+
+func _fixed_update(_delta: float) -> void:
+	pass
+
+func _exit() -> void:
+	pass
+
+func _enter() -> void:
+	pass

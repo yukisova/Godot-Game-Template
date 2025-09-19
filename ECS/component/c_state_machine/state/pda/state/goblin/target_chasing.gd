@@ -84,3 +84,6 @@ func _pause():
 
 func _continue():
 	velocity_computed_enable = true
+
+func _blur_update(_delta: float) -> void:
+	pass

@@ -1,0 +1,21 @@
+[gd_scene load_steps=4 format=3 uid="uid://ymffwioeqkhf"]
+
+[ext_resource type="PackedScene" uid="uid://bavog73s6cd1p" path="res://ui/i_ui.tscn" id="1_q22um"]
+[ext_resource type="Script" uid="uid://ch6yb6ouwri5s" path="res://ui/hud/hud_transition/hud_transition.gd" id="2_aivqf"]
+[ext_resource type="Script" uid="uid://di0kgq440jkhp" path="res://ui/hud/hud_transition/view_hud_transition.gd" id="3_aivqf"]
+
+[node name="HudTransition" instance=ExtResource("1_q22um")]
+script = ExtResource("2_aivqf")
+
+[node name="View" parent="." index="0" node_paths=PackedStringArray("pure_black_rect")]
+script = ExtResource("3_aivqf")
+pure_black_rect = NodePath("PureBlack")
+
+[node name="PureBlack" type="ColorRect" parent="View" index="0"]
+modulate = Color(0, 0, 0, 1)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2

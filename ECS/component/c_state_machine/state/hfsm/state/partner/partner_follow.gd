@@ -119,3 +119,18 @@ func set_movement_target_to_player() -> void:
 	var nav_agent = c_navigation.nav_agent
 	var target_position = SMainController._get_player_info_by_index(0).main_control.global_position
 	nav_agent.target_position = target_position
+
+func _blur_update(_delta: float) -> void:
+	pass
+
+func _pause() -> void:
+	pass
+
+func _continue() -> void:
+	pass	
+
+func _update(_delta: float) -> void:
+	pass
+
+func _exit() -> void:
+	pass

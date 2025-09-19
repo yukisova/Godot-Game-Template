@@ -17,10 +17,10 @@ extends ISystem
 @export var all_hud: Dictionary[StringName, HudInitSetting]
 
 ## 当前活跃的HUD实例字典，存储所有已实例化的HUD对象，用于统一管理
-var current_hud: Dictionary[StringName, IHud] = {}
+var current_hud: Dictionary[StringName, UIHudController] = {}
 
 ## 当前活跃的UI实例，指向当前显示的弹窗UI，采用单例模式
-var current_ui: IUi
+var current_ui: UIController
 
 ## 系统设置，预加载所有HUD并连接游戏状态信号
 func _setup():
@@ -29,19 +29,19 @@ func _setup():
 		if all_hud[key].is_preload:
 			var hud = all_hud[key].hud_scene.instantiate()
 			Main.ui_view.add_child(hud)
-			current_hud[key] = hud as IHud
+			current_hud[key] = hud as UIHudController
 			current_hud[key].hide()  # 初始状态隐藏
 	
 	# 连接游戏循环开始信号 - 初始化所有HUD
 	SSignalBus.game_loop_start.connect(func():
-		for hud: IHud in current_hud.values():
+		for hud: UIHudController in current_hud.values():
 			hud._initialize()
 		_hide_hud([""])
 	)
 	
 	# 连接游戏循环继续信号 - 刷新所有HUD显示
 	SSignalBus.game_loop_continue.connect(func():
-		for hud: IHud in current_hud.values():
+		for hud: UIHudController in current_hud.values():
 			hud._refresh()
 		_hide_hud([""])
 	)
@@ -61,14 +61,14 @@ func _resetup():
 ## [param context]: 传递给UI的初始化上下文数据
 ## [param is_main]: 传入的scene如果是主菜单性质的UI，则可以忽略状态机直接打开
 ## [br][br][b]返回:[/b] 生成的UI实例，失败则返回null
-func _spawn_ui(scene: PackedScene, context: Dictionary = {}, is_main_or_cutscene: bool = false) -> IUi:
+func _spawn_ui(scene: PackedScene, context: Dictionary = {}, is_main_or_cutscene: bool = false) -> UIController:
 	if scene == null:
 		push_warning("UI生成器: 尝试生成空的UI场景")
 		return null
 	
 	# 实例化UI场景
 	var canvas = scene.instantiate()
-	if canvas is IUi:
+	if canvas is UIController:
 		# 清理现有UI（单例模式）
 		if current_ui:
 			current_ui.queue_free()
@@ -107,8 +107,8 @@ func _hide_hud(except_hud_name: Array):
 			current_hud[hud_name].hide()
 
 ## 销毁UI界面，处理UI的销毁请求，并恢复游戏状态
-## [param target_ui]: 要销毁的UI实例，类型为 [IUi]
-func _unspawn_ui(target_ui: IUi):
+## [param target_ui]: 要销毁的UI实例，类型为 [UIController]
+func _unspawn_ui(target_ui: UIController):
 	if target_ui == current_ui:
 		target_ui.queue_free()
 		current_ui = null

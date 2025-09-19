@@ -45,3 +45,24 @@ func _enter_tree() -> void:
 		await get_tree().process_frame
 		state_transition.emit(get_transition_state())
 		)
+
+func _fixed_update(_delta: float) -> void:
+	pass
+
+func _blur_update(_delta: float) -> void:
+	pass
+
+func _pause() -> void:
+	pass
+
+func _continue() -> void:
+	pass
+
+func _enter() -> void:
+	pass
+
+func _update(_delta: float) -> void:
+	pass
+
+func _exit() -> void:
+	pass

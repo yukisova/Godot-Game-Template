@@ -35,3 +35,15 @@ func _update(_delta: float) -> void:
 ## 清理移动状态，停止移动动画。
 func _exit():
 	print("玩家状态: 退出移动状态")
+
+func _fixed_update(_delta: float) -> void:
+	pass
+
+func _blur_update(_delta: float) -> void:
+	pass
+
+func _pause() -> void:
+	pass
+
+func _continue() -> void:
+	pass

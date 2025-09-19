@@ -21,7 +21,7 @@ const dialogue_label: Dictionary = {\
 const ui_game_over = preload("res://ui/ui/ui_game_over/ui_game_over.tscn")
 
 func _start() -> void:
-	var transition = SUiSpawner.current_hud[&"transition"] as IHud
+	var transition = SUiSpawner.current_hud[&"transition"] as UIHudController
 	transition.fade_out()
 
 	var dialogue = SUiSpawner._spawn_ui(dialogue_packed, {}, true)

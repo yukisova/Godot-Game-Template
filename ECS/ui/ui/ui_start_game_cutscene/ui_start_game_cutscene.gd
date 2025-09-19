@@ -1,5 +1,5 @@
 ## [br][b]编辑者:[/b] Sora
-extends IUi
+extends UIController
 
 #region 场景配置
 

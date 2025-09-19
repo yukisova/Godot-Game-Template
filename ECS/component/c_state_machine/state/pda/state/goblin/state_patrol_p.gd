@@ -95,3 +95,12 @@ func _exit():
 	if wait_timer:
 		wait_timer.stop()
 	print("哥布林状态: 退出巡逻")
+
+func _blur_update(_delta: float) -> void:
+	pass
+
+func _pause() -> void:
+	pass
+
+func _continue() -> void:
+	pass	

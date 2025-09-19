@@ -49,3 +49,15 @@ func _exit():
 	super()
 	update_trigger = false
 	SSignalBus.ui_main_returned.emit()
+
+func _fixed_update(_delta: float) -> void:
+	pass
+
+func _blur_update(_delta: float) -> void:
+	pass
+
+func _pause() -> void:
+	pass
+
+func _continue() -> void:
+	pass

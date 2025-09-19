@@ -1,0 +1,146 @@
+[gd_scene load_steps=14 format=3 uid="uid://b5iiob0hwsh3v"]
+
+[ext_resource type="Script" uid="uid://c2klbyu7dgsv7" path="res://component/c_texture_controller/packed_texture/packed_texture/ball/packed_sprite_ball.gd" id="1_a4vqd"]
+[ext_resource type="Script" uid="uid://ilvu417xg56w" path="res://component/c_texture_controller/packed_texture/packed_texture/ball/ps_editor_ball.gd" id="2_a4vqd"]
+[ext_resource type="Texture2D" uid="uid://bm3u42eopcqca" path="res://asset/sightlight_21gj/原型_小圆球.png" id="2_jj7oq"]
+[ext_resource type="Script" uid="uid://borj824dr1kti" path="res://component/c_texture_controller/packed_texture/packed_texture/packed_part.gd" id="2_tguvx"]
+
+[sub_resource type="Gradient" id="Gradient_tuh6x"]
+offsets = PackedFloat32Array(0.7268519, 0.875)
+colors = PackedColorArray(0, 0, 0, 0.7411765, 0, 0, 0, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_tguvx"]
+gradient = SubResource("Gradient_tuh6x")
+width = 16
+height = 8
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(0.90000004, 0)
+metadata/_snap_enabled = true
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jj7oq"]
+atlas = ExtResource("2_jj7oq")
+region = Rect2(0, 0, 64, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tguvx"]
+atlas = ExtResource("2_jj7oq")
+region = Rect2(0, 32, 32, 32)
+
+[sub_resource type="Animation" id="Animation_jj7oq"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Whole/BF/Body:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_tguvx"]
+resource_name = "蹲下"
+loop_mode = 1
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Whole/BF/Body:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5, 1),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(1, 0.9), Vector2(1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_wyr4q"]
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Whole/BF/Body:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.36666667, 0.96666664),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(1, 1), Vector2(1, 0.5)]
+}
+
+[sub_resource type="Animation" id="Animation_70hgh"]
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_wyr4q"]
+_data = {
+&"RESET": SubResource("Animation_jj7oq"),
+&"正常": SubResource("Animation_tguvx"),
+&"蹲下": SubResource("Animation_wyr4q"),
+&"靠墙": SubResource("Animation_70hgh")
+}
+
+[node name="Ball" type="Node2D" node_paths=PackedStringArray("packed_sprite_editor", "shadow")]
+script = ExtResource("1_a4vqd")
+packed_sprite_editor = NodePath("PSEditorBall")
+shadow = NodePath("OnFloor")
+
+[node name="OnFloor" type="Sprite2D" parent="."]
+texture = SubResource("GradientTexture2D_tguvx")
+
+[node name="Whole" type="Node2D" parent="."]
+y_sort_enabled = true
+
+[node name="BF" type="Node2D" parent="Whole"]
+position = Vector2(0, -8)
+
+[node name="Body" type="Sprite2D" parent="Whole/BF"]
+position = Vector2(0, 8)
+texture = SubResource("AtlasTexture_jj7oq")
+offset = Vector2(0, -16)
+hframes = 2
+
+[node name="Face" type="Sprite2D" parent="Whole/BF"]
+
+[node name="Left" type="Node2D" parent="Whole" node_paths=PackedStringArray("sprite", "packed_sprite_editor")]
+use_parent_material = true
+position = Vector2(15.216905, -7.454915)
+script = ExtResource("2_tguvx")
+default_texture = SubResource("AtlasTexture_tguvx")
+sprite = NodePath("@Sprite2D@97362")
+packed_sprite_editor = NodePath("../../PSEditorBall")
+metadata/_custom_type_script = "uid://borj824dr1kti"
+
+[node name="Right" type="Node2D" parent="Whole" node_paths=PackedStringArray("sprite", "packed_sprite_editor")]
+use_parent_material = true
+position = Vector2(-15.216904, -10.545085)
+script = ExtResource("2_tguvx")
+default_texture = SubResource("AtlasTexture_tguvx")
+sprite = NodePath("@Sprite2D@97363")
+packed_sprite_editor = NodePath("../../PSEditorBall")
+metadata/_custom_type_script = "uid://borj824dr1kti"
+
+[node name="PSEditorBall" type="Node" parent="." node_paths=PackedStringArray("whole_node", "main_part", "control_parts", "animation_player")]
+script = ExtResource("2_a4vqd")
+hand_offset_y = -9.0
+whole_node = NodePath("../Whole")
+ellipse_body_radius_x = 16.0
+ellipse_body_radius_y = 5.0
+fixed_body_y = 40
+main_part = NodePath("..")
+control_parts = {
+&"Body": NodePath("../Whole/BF/Body"),
+&"Face": NodePath("../Whole/BF/Face"),
+&"Left": NodePath("../Whole/Left"),
+&"Right": NodePath("../Whole/Right")
+}
+animation_player = NodePath("../AnimationPlayer")
+metadata/_custom_type_script = "uid://bkarxlrkjktqy"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_wyr4q")
+}
+autoplay = "正常"

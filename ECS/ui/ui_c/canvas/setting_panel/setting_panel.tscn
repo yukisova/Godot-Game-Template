@@ -1,0 +1,280 @@
+[gd_scene load_steps=6 format=3 uid="uid://ckmbalibndnve"]
+
+[ext_resource type="Theme" uid="uid://cbvflgkah1pwb" path="res://resource/resource_template/basic_theme.tres" id="1_gsna7"]
+[ext_resource type="Script" uid="uid://cnbl0806w3oj7" path="res://ui/ui_c/canvas/setting_panel/setting_panel.gd" id="1_uhrsv"]
+[ext_resource type="Script" uid="uid://b77vti74tgrbe" path="res://ui/ui_c/func_button.gd" id="2_vsn45"]
+
+[sub_resource type="ButtonGroup" id="ButtonGroup_gsna7"]
+
+[sub_resource type="ButtonGroup" id="ButtonGroup_bqiu1"]
+
+[node name="SettingPanel" type="Control" node_paths=PackedStringArray("keymap_container", "display_setting", "audio_setting", "audio_setting_master", "audio_setting_sfx", "audio_setting_bgm", "window_windowed", "window_fullscreen", "translation_english", "translation_chinese", "confirm", "reset")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_gsna7")
+script = ExtResource("1_uhrsv")
+keymap_container = NodePath("MarginContainer/VBoxContainer/TabContainer/按键/MarginContainer/ScrollContainer/VBoxContainer2/KeymapContainer")
+display_setting = NodePath("MarginContainer/VBoxContainer/TabContainer/显示/MarginContainer/ScrollContainer/VBoxContainer/DisplayContainer")
+audio_setting = NodePath("MarginContainer/VBoxContainer/TabContainer/声音/MarginContainer/ScrollContainer/VBoxContainer/AudioContainer")
+audio_setting_master = NodePath("MarginContainer/VBoxContainer/TabContainer/声音/MarginContainer/ScrollContainer/VBoxContainer/AudioContainer/HBoxContainer/AudioSettingMaster")
+audio_setting_sfx = NodePath("MarginContainer/VBoxContainer/TabContainer/声音/MarginContainer/ScrollContainer/VBoxContainer/AudioContainer/HBoxContainer2/AudioSettingSfx")
+audio_setting_bgm = NodePath("MarginContainer/VBoxContainer/TabContainer/声音/MarginContainer/ScrollContainer/VBoxContainer/AudioContainer/HBoxContainer3/AudioSettingBgm")
+window_windowed = NodePath("MarginContainer/VBoxContainer/TabContainer/显示/MarginContainer/ScrollContainer/VBoxContainer/DisplayContainer/HBoxContainer/HBoxContainer/WindowWindowed")
+window_fullscreen = NodePath("MarginContainer/VBoxContainer/TabContainer/显示/MarginContainer/ScrollContainer/VBoxContainer/DisplayContainer/HBoxContainer/HBoxContainer/WindowFullScreen")
+translation_english = NodePath("MarginContainer/VBoxContainer/TabContainer/显示/MarginContainer/ScrollContainer/VBoxContainer/DisplayContainer/HBoxContainer3/HBoxContainer/TranslationEnglish")
+translation_chinese = NodePath("MarginContainer/VBoxContainer/TabContainer/显示/MarginContainer/ScrollContainer/VBoxContainer/DisplayContainer/HBoxContainer3/HBoxContainer/TranslationChinese")
+confirm = NodePath("MarginContainer/VBoxContainer/HBoxContainer/ConfirmButton")
+reset = NodePath("MarginContainer/VBoxContainer/HBoxContainer/ResetButton")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 0
+offset_right = 1152.0
+offset_bottom = 648.0
+size_flags_vertical = 3
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="TabContainer" type="TabContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+current_tab = 1
+
+[node name="声音" type="PanelContainer" parent="MarginContainer/VBoxContainer/TabContainer"]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 0
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/TabContainer/声音"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer/VBoxContainer/TabContainer/声音/MarginContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/TabContainer/声音/MarginContainer/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/TabContainer/声音/MarginContainer/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+text = "音频设置"
+horizontal_alignment = 1
+
+[node name="AudioContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/TabContainer/声音/MarginContainer/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/TabContainer/声音/MarginContainer/ScrollContainer/VBoxContainer/AudioContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/TabContainer/声音/MarginContainer/ScrollContainer/VBoxContainer/AudioContainer/HBoxContainer"]
+custom_minimum_size = Vector2(140, 0)
+layout_mode = 2
+text = "主音量"
+
+[node name="AudioSettingMaster" type="HSlider" parent="MarginContainer/VBoxContainer/TabContainer/声音/MarginContainer/ScrollContainer/VBoxContainer/AudioContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+max_value = 2.0
+step = 0.10000000000582077
+ticks_position = 2
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/VBoxContainer/TabContainer/声音/MarginContainer/ScrollContainer/VBoxContainer/AudioContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/TabContainer/声音/MarginContainer/ScrollContainer/VBoxContainer/AudioContainer/HBoxContainer2"]
+custom_minimum_size = Vector2(140, 0)
+layout_mode = 2
+text = "音效音量"
+
+[node name="AudioSettingSfx" type="HSlider" parent="MarginContainer/VBoxContainer/TabContainer/声音/MarginContainer/ScrollContainer/VBoxContainer/AudioContainer/HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+max_value = 2.0
+step = 0.10000000000582077
+ticks_position = 2
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="MarginContainer/VBoxContainer/TabContainer/声音/MarginContainer/ScrollContainer/VBoxContainer/AudioContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/TabContainer/声音/MarginContainer/ScrollContainer/VBoxContainer/AudioContainer/HBoxContainer3"]
+custom_minimum_size = Vector2(140, 0)
+layout_mode = 2
+text = "背景音量"
+
+[node name="AudioSettingBgm" type="HSlider" parent="MarginContainer/VBoxContainer/TabContainer/声音/MarginContainer/ScrollContainer/VBoxContainer/AudioContainer/HBoxContainer3"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+max_value = 2.0
+step = 0.10000000000582077
+ticks_position = 2
+
+[node name="显示" type="PanelContainer" parent="MarginContainer/VBoxContainer/TabContainer"]
+layout_mode = 2
+metadata/_tab_index = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/TabContainer/显示"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer/VBoxContainer/TabContainer/显示/MarginContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/TabContainer/显示/MarginContainer/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/TabContainer/显示/MarginContainer/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+text = "显示设置"
+horizontal_alignment = 1
+
+[node name="DisplayContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/TabContainer/显示/MarginContainer/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/TabContainer/显示/MarginContainer/ScrollContainer/VBoxContainer/DisplayContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/TabContainer/显示/MarginContainer/ScrollContainer/VBoxContainer/DisplayContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "显示方式"
+vertical_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/TabContainer/显示/MarginContainer/ScrollContainer/VBoxContainer/DisplayContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+alignment = 1
+
+[node name="WindowWindowed" type="Button" parent="MarginContainer/VBoxContainer/TabContainer/显示/MarginContainer/ScrollContainer/VBoxContainer/DisplayContainer/HBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+toggle_mode = true
+button_group = SubResource("ButtonGroup_gsna7")
+text = "Windowed"
+
+[node name="WindowFullScreen" type="Button" parent="MarginContainer/VBoxContainer/TabContainer/显示/MarginContainer/ScrollContainer/VBoxContainer/DisplayContainer/HBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+toggle_mode = true
+button_group = SubResource("ButtonGroup_gsna7")
+text = "Fullscreen"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/VBoxContainer/TabContainer/显示/MarginContainer/ScrollContainer/VBoxContainer/DisplayContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/TabContainer/显示/MarginContainer/ScrollContainer/VBoxContainer/DisplayContainer/HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "显示分辨率"
+vertical_alignment = 1
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="MarginContainer/VBoxContainer/TabContainer/显示/MarginContainer/ScrollContainer/VBoxContainer/DisplayContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/TabContainer/显示/MarginContainer/ScrollContainer/VBoxContainer/DisplayContainer/HBoxContainer3"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "语言"
+vertical_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/TabContainer/显示/MarginContainer/ScrollContainer/VBoxContainer/DisplayContainer/HBoxContainer3"]
+layout_mode = 2
+size_flags_horizontal = 3
+alignment = 1
+
+[node name="TranslationEnglish" type="Button" parent="MarginContainer/VBoxContainer/TabContainer/显示/MarginContainer/ScrollContainer/VBoxContainer/DisplayContainer/HBoxContainer3/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+toggle_mode = true
+button_group = SubResource("ButtonGroup_bqiu1")
+text = "English"
+
+[node name="TranslationChinese" type="Button" parent="MarginContainer/VBoxContainer/TabContainer/显示/MarginContainer/ScrollContainer/VBoxContainer/DisplayContainer/HBoxContainer3/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+toggle_mode = true
+button_group = SubResource("ButtonGroup_bqiu1")
+text = "简体中文"
+
+[node name="按键" type="PanelContainer" parent="MarginContainer/VBoxContainer/TabContainer"]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/TabContainer/按键"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer/VBoxContainer/TabContainer/按键/MarginContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="MarginContainer/VBoxContainer/TabContainer/按键/MarginContainer/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/TabContainer/按键/MarginContainer/ScrollContainer/VBoxContainer2"]
+layout_mode = 2
+text = "主要操作设置"
+horizontal_alignment = 1
+
+[node name="KeymapContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/TabContainer/按键/MarginContainer/ScrollContainer/VBoxContainer2"]
+layout_mode = 2
+
+[node name="KeymapInfo" type="Button" parent="MarginContainer/VBoxContainer/TabContainer/按键/MarginContainer/ScrollContainer/VBoxContainer2/KeymapContainer"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+toggle_mode = true
+text = "键位名"
+alignment = 0
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/TabContainer/按键/MarginContainer/ScrollContainer/VBoxContainer2/KeymapContainer/KeymapInfo"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -9.0
+offset_top = -11.5
+offset_right = 9.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "对应键位"
+horizontal_alignment = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+alignment = 2
+
+[node name="ConfirmButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "确定"
+script = ExtResource("2_vsn45")
+
+[node name="ResetButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "重置"
+script = ExtResource("2_vsn45")

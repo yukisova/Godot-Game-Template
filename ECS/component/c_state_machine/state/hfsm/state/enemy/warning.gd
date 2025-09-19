@@ -34,3 +34,24 @@ func _on_target_losed():
 func _on_target_noticed():
 	if belong_state_machine.current_state == self:
 		state_pushed.emit(confirm_pda_state_dict["target_lock"])
+
+func _blur_update(_delta: float) -> void:
+	pass
+
+func _pause() -> void:
+	pass
+
+func _continue() -> void:
+	pass	
+
+func _update(_delta: float) -> void:
+	pass
+
+func _fixed_update(_delta: float) -> void:
+	pass
+
+func _exit() -> void:
+	pass
+
+func _enter() -> void:
+	pass

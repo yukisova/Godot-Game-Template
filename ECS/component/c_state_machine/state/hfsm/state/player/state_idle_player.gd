@@ -38,3 +38,18 @@ func get_direction_string(direction: Vector2) -> String:
 		return "right" if direction.x > 0 else "left"
 	else:
 		return "down" if direction.y > 0 else "up"
+
+func _fixed_update(_delta: float) -> void:
+	pass
+
+func _blur_update(_delta: float) -> void:
+	pass
+
+func _pause() -> void:
+	pass
+
+func _continue() -> void:
+	pass	
+
+func _enter() -> void:
+	pass

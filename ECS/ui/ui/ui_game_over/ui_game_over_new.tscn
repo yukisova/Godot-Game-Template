@@ -1,0 +1,31 @@
+[gd_scene load_steps=4 format=3 uid="uid://grdqlwahflib"]
+
+[ext_resource type="PackedScene" uid="uid://bavog73s6cd1p" path="res://ui/i_ui.tscn" id="1_jr4fh"]
+[ext_resource type="Script" uid="uid://cm5svlhabnw36" path="res://ui/ui/ui_game_over/ui_game_over.gd" id="2_g2ref"]
+[ext_resource type="Texture2D" uid="uid://dlratxmjif30d" path="res://asset/sightlight_gj/游戏结束_logo.png" id="3_4w5qi"]
+
+[node name="UIGameOver" instance=ExtResource("1_jr4fh")]
+script = ExtResource("2_g2ref")
+
+[node name="Control" type="Control" parent="View" index="0"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TextureRect" type="TextureRect" parent="View/Control" index="0"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -400.0
+offset_top = -65.0
+offset_right = 400.0
+offset_bottom = 65.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("3_4w5qi")

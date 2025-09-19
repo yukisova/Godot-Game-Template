@@ -1,0 +1,18 @@
+[gd_scene load_steps=3 format=3 uid="uid://bavog73s6cd1p"]
+
+[ext_resource type="Script" uid="uid://b7m8g5o5j1vek" path="res://ui/ui_view.gd" id="1_ncnna"]
+[ext_resource type="Script" uid="uid://bj0shomkmjskc" path="res://ui/ui_model.gd" id="2_lowld"]
+
+[node name="Controller" type="CanvasLayer"]
+
+[node name="View" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_ncnna")
+
+[node name="Model" type="Node" parent="."]
+script = ExtResource("2_lowld")

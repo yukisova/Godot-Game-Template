@@ -2,8 +2,8 @@
 
 [ext_resource type="Script" uid="uid://ras5n0uokri5" path="res://ui/ui/ui_pause/ui_pause.gd" id="1_bnqym"]
 [ext_resource type="Theme" uid="uid://cbvflgkah1pwb" path="res://resource/resource_template/basic_theme.tres" id="2_6mkpu"]
-[ext_resource type="Script" uid="uid://22228lam2w6p" path="res://ui/ui_composite/link_button.gd" id="3_uf1wk"]
-[ext_resource type="PackedScene" uid="uid://ckmbalibndnve" path="res://ui/ui_composite/canvas/setting_panel/setting_panel.tscn" id="4_xqg6c"]
+[ext_resource type="Script" uid="uid://22228lam2w6p" path="res://ui/ui_c/link_button.gd" id="3_uf1wk"]
+[ext_resource type="PackedScene" uid="uid://ckmbalibndnve" path="res://ui/ui_c/canvas/setting_panel/setting_panel.tscn" id="4_xqg6c"]
 
 [node name="UiPause" type="CanvasLayer" node_paths=PackedStringArray("control_game_retry", "control_game_setting", "control_return_menu")]
 script = ExtResource("1_bnqym")

@@ -1,0 +1,85 @@
+[gd_scene load_steps=2 format=3 uid="uid://0bre4snf5or8"]
+
+[ext_resource type="Script" uid="uid://dgvbqjddvbwm2" path="res://ui/hud/hud_tip/start_staff/start_staff.gd" id="1_vln7h"]
+
+[node name="StartStaff" type="Control" node_paths=PackedStringArray("label_list")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_vln7h")
+label_list = [NodePath("01"), NodePath("02"), NodePath("03"), NodePath("04"), NodePath("05"), NodePath("06"), NodePath("07"), NodePath("08")]
+
+[node name="01" type="Label" parent="."]
+layout_mode = 0
+offset_left = 85.0
+offset_top = 84.0
+offset_right = 574.0
+offset_bottom = 130.0
+theme_override_font_sizes/font_size = 32
+text = "《野比大雄的生化危机》原作: aaa"
+
+[node name="02" type="Label" parent="."]
+layout_mode = 0
+offset_left = 144.0
+offset_top = 137.0
+offset_right = 705.0
+offset_bottom = 183.0
+theme_override_font_sizes/font_size = 32
+text = "初期剧本参考: 《野比大雄的恶灵附身》"
+
+[node name="03" type="Label" parent="."]
+layout_mode = 0
+offset_left = 178.0
+offset_top = 190.0
+offset_right = 719.0
+offset_bottom = 236.0
+theme_override_font_sizes/font_size = 32
+text = "《野比大雄的恶灵附身》原作: nobina"
+
+[node name="04" type="Label" parent="."]
+layout_mode = 0
+offset_left = 89.0
+offset_top = 293.0
+offset_right = 360.0
+offset_bottom = 339.0
+theme_override_font_sizes/font_size = 32
+text = "程序: 萧萧sora"
+
+[node name="05" type="Label" parent="."]
+layout_mode = 0
+offset_left = 831.0
+offset_top = 358.0
+offset_right = 1102.0
+offset_bottom = 404.0
+theme_override_font_sizes/font_size = 32
+text = "美工: 三角"
+
+[node name="06" type="Label" parent="."]
+layout_mode = 0
+offset_left = 91.0
+offset_top = 454.0
+offset_right = 362.0
+offset_bottom = 500.0
+theme_override_font_sizes/font_size = 32
+text = "剧本: 萧萧sora"
+
+[node name="07" type="Label" parent="."]
+layout_mode = 0
+offset_left = 831.0
+offset_top = 506.0
+offset_right = 1102.0
+offset_bottom = 552.0
+theme_override_font_sizes/font_size = 32
+text = "玩法设计: 萧萧sora"
+
+[node name="08" type="Label" parent="."]
+layout_mode = 0
+offset_left = 799.0
+offset_top = 79.0
+offset_right = 1070.0
+offset_bottom = 125.0
+theme_override_font_sizes/font_size = 32
+text = "野比大雄的雾城"

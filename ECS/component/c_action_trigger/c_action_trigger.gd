@@ -104,7 +104,6 @@ func add_time_record(record: TimeRecord):
 func remove_time_record(record: TimeRecord):
 	_action_list_time_record.erase(record)
 
-
 #endregion
 
 ## 获取所有可用行为

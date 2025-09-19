@@ -33,7 +33,7 @@ func _start():
 	await SGameState.state_machine.state_transition_finished
 	
 	# 获取过渡HUD界面的引用
-	var transition = SUiSpawner.current_hud[&"transition"] as IHud
+	var transition = SUiSpawner.current_hud[&"transition"] as UIHudController
 
 	# 生成对话UI界面并启动对话
 	var dialogue = SUiSpawner._spawn_ui(dialogue_packed)

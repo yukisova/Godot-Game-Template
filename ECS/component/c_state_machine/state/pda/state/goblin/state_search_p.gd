@@ -52,3 +52,21 @@ func _enter():
 	# - 获取目标最后已知位置
 	# - 规划搜索路径
 	# - 开始搜索移动 
+
+func _blur_update(_delta: float) -> void:
+	pass
+
+func _pause() -> void:
+	pass
+
+func _continue() -> void:
+	pass	
+
+func _update(_delta: float) -> void:
+	pass
+
+func _fixed_update(_delta: float) -> void:
+	pass
+
+func _exit() -> void:
+	pass

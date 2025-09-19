@@ -15,7 +15,7 @@
 ## - 模态对话框形式显示
 ## - 与设置界面的联动交互
 ## - 安全的状态机状态检查
-extends IUi
+extends UIController
 
 #region UI控件组件
 

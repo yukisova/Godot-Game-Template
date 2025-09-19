@@ -109,3 +109,18 @@ func _on_target_noticed():
 func _on_try_patroling():
 	if pda_state_stack.size() == 1:
 		state_pushed.emit(confirm_pda_state_dict["random_patrol"])
+
+func _pause() -> void:
+	pass
+
+func _continue() -> void:
+	pass	
+
+func _update(_delta: float) -> void:
+	pass
+
+func _exit() -> void:
+	pass
+
+func _fixed_update(_delta: float) -> void:
+	pass

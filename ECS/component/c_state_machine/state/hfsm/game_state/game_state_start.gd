@@ -23,21 +23,27 @@
 class_name GameStartState
 extends StateHfsm
 
-## 更新触发器
-## 
-## 控制状态转换的触发标志，当设置为true时将触发状态转换。
 var update_trigger = false
 
-## 状态更新（重写方法）
-## 
-## 检查更新触发器并在满足条件时触发状态转换。
-## [param _delta]: 帧时间间隔
+func _continue() -> void:
+	pass
+
+func _enter() -> void:
+	pass
+
+func _fixed_update(_delta: float) -> void:
+	pass
+
 func _update(_delta: float) -> void:
 	if update_trigger:
 		state_transition.emit(get_transition_state())
 
-## 退出状态（重写方法）
-## 
-## 重置更新触发器，为下次进入状态做准备。
-func _exit():
+func _exit() -> void:
 	update_trigger = false
+	pass
+
+func _blur_update(_delta: float) -> void:
+	pass
+
+func _pause() -> void:
+	pass

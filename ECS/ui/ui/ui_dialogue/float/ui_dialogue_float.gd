@@ -1,4 +1,4 @@
-extends IUi
+extends UIController
 
 ## The action to use for advancing the dialogue
 const NEXT_ACTION = &"ui_accept"

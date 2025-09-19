@@ -124,3 +124,9 @@ func _get_leaf_state() -> StateHfsm:
 		result = result.current_state
 	
 	return result
+
+func _blur_update(_delta: float) -> void:
+	pass
+
+func _continue() -> void:
+	pass

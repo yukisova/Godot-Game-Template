@@ -71,3 +71,18 @@ func _exit():
 	# 发出全局游戏继续信号
 	SSignalBus.game_loop_continue.emit()
 	print("游戏状态: 退出暂停状态，恢复游戏运行")
+
+func _fixed_update(_delta: float) -> void:
+	pass
+
+func _blur_update(_delta: float) -> void:
+	pass
+
+func _pause() -> void:
+	pass
+
+func _continue() -> void:
+	pass
+
+func _update(_delta: float) -> void:
+	pass

@@ -41,3 +41,18 @@ func _enter():
 func _exit():
 	print("游戏状态: 退出正常游戏状态")
 	# 基础清理工作在父类中处理
+
+func _fixed_update(_delta: float) -> void:
+	pass
+
+func _blur_update(_delta: float) -> void:
+	pass
+
+func _pause() -> void:
+	pass
+
+func _continue() -> void:
+	pass
+
+func _update(_delta: float) -> void:
+	pass

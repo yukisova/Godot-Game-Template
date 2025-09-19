@@ -1,45 +1,16 @@
 ## 角色状态界面UI - 显示玩家属性、背包和装备信息
 ## 该UI是玩家的主要信息查看界面，集成了背包管理、物品展示和角色状态查看等功能。
 ## 架构设计:
-## - 继承自 [IUi] 基类
+## - 继承自 [UIController] 基类
 ## - 集成 [GridInventory] 网格背包系统
 ## - 基于 [TabContainer] 的多页面管理
 ## - 与 [InventoryExtension] 的数据绑定
 ## - 支持 [CStatusList] 组件的状态管理
 ##
 ## [br][b]编辑者:[/b] Sora
-extends IUi
-
-#region UI组件依赖
-
-@export_subgroup("依赖")
-
-## 网格背包组件
-## 
-## 负责物品的网格化显示和交互管理，类型为 [GridInventory]。
-@export var grid_inventory: GridInventory
-
-@export var panel_button_weapon_prototype: PanelButtonWeapon
-@export var item_weapon_list: VBoxContainer
-
-## 列表容器
-## 
-## 存放各种列表信息的容器组件，类型为 [ListDocument]。
-@export var list_container: ListDocument
-
-#endregion
-
-#region 场景节点引用
-
-## 标签容器
-## 
-## 管理多个信息标签页的容器，类型为 [TabContainer]。
-@onready var tab_container: TabContainer = $Control/TabContainer
-
-#endregion
+extends UIController
 
 #region UI生命周期
-
 ## UI准备就绪（重写方法）
 ## 
 ## 连接信号和设置初始状态。
@@ -65,46 +36,24 @@ func _initilize_info(_context: Dictionary) -> void:
 
 	# 1. 加载背包数据
 	var status: CStatusList = _context["status"]
+
 	var inventory: InventoryExtension = status.status_extension[StatusExtension.ExtensionType.INVENTORY]
-	
-	grid_inventory.grid_num = inventory.inventory_pack_num
-	grid_inventory.col_num = inventory.inventory_pack_col
-	
-	grid_inventory.binding_status = status
-	
-	# 加载所有背包物品
-	for i in inventory.inventory_array:
-		if i != null:
-			grid_inventory.add_item(i)
-	
-	for i in inventory.inventory_array_weapon.values():
-		if i != null and (i is ItemWeapon or i is ItemEquipment):
-			# 1. 根据按钮的原型，复制并绑定按钮信息
-			var new_button: PanelButtonWeapon = panel_button_weapon_prototype.duplicate()
-			item_weapon_list.add_child(new_button)
-			new_button.binding_item = i
-			new_button.target_c_status = status
-			new_button.button.pressed.connect(new_button.button_func.bind({}))
-	# 2. 加载装备数据
 	var equipment: EquipmentExtension = status.status_extension[StatusExtension.ExtensionType.EQUIPMENT]
-	if equipment:
-		equipment.equipment_node_changed.connect(_on_equipment_node_changed)
-		equipment.attack_node_changed.connect(_on_attack_node_changed)
+	var context: Dictionary = {
+		"equipment": equipment,
+		"inventory": inventory
+	}
 
-		if equipment.current_weapon and equipment.current_weapon.equipment_control:
-			grid_inventory.equipment_control = equipment.current_weapon.equipment_control.instantiate()
-			grid_inventory.equipment_control.binding_equipment = equipment.current_weapon
-			grid_inventory.equipment_control._initialize()
-
-func _on_equipment_node_changed(item_equipment: ItemEquipment):
-	pass
-
-func _on_attack_node_changed(item_weapon: ItemWeapon):
-	grid_inventory.equipment_control = item_weapon.equipment_control.instantiate()
-	grid_inventory.equipment_control.binding_equipment = item_weapon
-	grid_inventory.equipment_control._initialize()
+	ui_view._initialize(context)
+	ui_model._initialize(context)
+	
+	_bind_model_view()
 
 #endregion
+
+func _bind_model_view():
+	ui_model.equipment_node_changed.connect(ui_view._on_equipment_node_changed)
+	ui_model.attack_node_changed.connect(ui_view._on_attack_node_changed)
 
 #region 输入处理
 

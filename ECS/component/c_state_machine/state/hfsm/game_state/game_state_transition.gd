@@ -59,3 +59,15 @@ func _exit():
 	Main.entity_initialzable = true
 	
 	SSignalBus.game_loop_start.emit()
+
+func _fixed_update(_delta: float) -> void:
+	pass
+
+func _blur_update(_delta: float) -> void:
+	pass
+
+func _pause() -> void:
+	pass
+
+func _continue() -> void:
+	pass

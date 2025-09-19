@@ -1,6 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://7vlmn8051138"]
-
-[ext_resource type="Script" uid="uid://cpymc0eknem0l" path="res://ui/hud/tip_hud/tip_hud.gd" id="1_8n1ia"]
-
-[node name="TipHud" type="CanvasLayer"]
-script = ExtResource("1_8n1ia")

@@ -1,4 +1,4 @@
-extends IUi
+extends UIController
 
 @onready var control: Control = $Control
 

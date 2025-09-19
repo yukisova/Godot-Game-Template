@@ -52,3 +52,21 @@ func _enter():
 	# - 提高感知范围
 	# - 规划探查路径
 	# - 开始朝目标区域移动 
+
+func _blur_update(_delta: float) -> void:
+	pass
+
+func _pause() -> void:
+	pass
+
+func _continue() -> void:
+	pass	
+
+func _update(_delta: float) -> void:
+	pass
+
+func _fixed_update(_delta: float) -> void:
+	pass
+
+func _exit() -> void:
+	pass

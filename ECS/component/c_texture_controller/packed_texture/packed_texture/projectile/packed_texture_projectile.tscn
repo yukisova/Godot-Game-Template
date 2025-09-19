@@ -3,12 +3,12 @@
 [ext_resource type="Script" uid="uid://bnbrmwrcswq0q" path="res://component/c_texture_controller/packed_texture/packed_texture/projectile/packed_texture_projectile.gd" id="1_tuh6x"]
 [ext_resource type="Script" uid="uid://di6mu1cfjyfir" path="res://component/c_texture_controller/packed_texture/packed_texture/projectile/ps_editor_projectile.gd" id="2_2wxhe"]
 
-[sub_resource type="Gradient" id="Gradient_tuh6x"]
+[sub_resource type="Gradient" id="Gradient_dq6ar"]
 offsets = PackedFloat32Array(0.7268519, 0.875)
 colors = PackedColorArray(0, 0, 0, 0.7411765, 0, 0, 0, 0)
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_0ojem"]
-gradient = SubResource("Gradient_tuh6x")
+gradient = SubResource("Gradient_dq6ar")
 width = 16
 height = 8
 fill = 1

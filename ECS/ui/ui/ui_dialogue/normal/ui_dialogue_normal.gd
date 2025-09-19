@@ -25,7 +25,7 @@
 ## - 任务提示对话
 ##
 ## 架构设计：
-## - 继承自 [IUi] 基类
+## - 继承自 [UIController] 基类
 ## - 集成 [DialogueLabel] 打字机效果
 ## - 基于 [DialogueResponsesMenu] 的选择系统
 ## - 支持 [DialogueResource] 资源管理
@@ -33,7 +33,7 @@
 ##
 ## [br][b]编辑者:[/b] Sora
 class_name UiDialogue
-extends IUi
+extends UIController
 
 #region 输入配置
 

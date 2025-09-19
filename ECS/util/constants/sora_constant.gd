@@ -1,27 +1,4 @@
 ## 游戏常量定义类 - 存储游戏中使用的所有静态常量
-##
-## 该类集中管理游戏中的各种常量定义，包括：
-## - 游戏基础设置参数
-## - 状态和数值枚举
-## - 默认配置值
-## - 输入类型定义
-##
-## 设计原则：
-## - 所有魔法数字都应在此处定义
-## - 提供类型安全的枚举定义
-## - 便于维护和修改游戏参数
-##
-## 常量分类：
-## - 基础尺寸常量：用于游戏网格和对齐
-## - 枚举定义：状态、输入、显示模式等
-## - 配置字典：默认设置和键位映射
-##
-## 架构设计：
-## - 继承自 [RefCounted] 基类
-## - 使用 [enum StatusEnum] 定义实体状态类型
-## - 通过 [const BASIC_SETTING] 字典管理默认配置
-## - 基于 [enum InputType] 的输入检测类型
-##
 ## [br][b]编辑者:[/b] Sora
 class_name SoraConstant
 extends RefCounted
@@ -92,6 +69,18 @@ const BASIC_SETTING: Dictionary = {
 			"special_action": {        # 特殊动作（Ctrl+鼠标左键）
 				"type": "mouse",
 				"keycode": MOUSE_BUTTON_MIDDLE
+			},
+			"state_0": {			   # 状态切换键 拟设计为加速键
+				"type": "key",
+				"keycode": KEY_SHIFT
+			},
+			"state_1": {			   # 状态切换键 拟设计为蹲趴键
+				"type": "key",
+				"keycode": KEY_CTRL
+			},
+			"state_2": {			   # 状态切换键 拟设计为躲藏键，与状态1同时长按时屏息
+				"type": "key",
+				"keycode": KEY_ALT
 			},
 			"skill_0": {
 				"type": "mouse",
