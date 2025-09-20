@@ -4,11 +4,12 @@
 ## 应用场景：AI行为树、游戏状态、角色状态、UI流程
 ## [br][b]编辑者:[/b] Sora
 @tool
-class_name StateMachineHfsm
+class_name StateMachine
 extends StateHfsm
 
 ## 状态切换完成信号，当状态机完成状态切换后发出
 signal state_transition_finished
+signal state_temp_updated(dynamic_state: StateTemp)
 
 ## 初始状态节点路径，指定状态机启动时的初始状态，必须是直接子节点
 @export_node_path("StateHfsm") var init_state: NodePath:
@@ -40,6 +41,8 @@ signal state_transition_finished
 
 ## 当前激活的状态，指向当前正在执行的子状态
 var current_state: StateHfsm
+## 当前动态状态，所谓的动态状态，是临时的状态，在状态机中不会被持久化，也不会被保存
+var current_temp_state: StateTemp
 
 ## 是否为根状态机标志，标识此状态机是否为整个状态机层次结构的根节点
 var is_root: bool = false
@@ -48,6 +51,7 @@ var is_root: bool = false
 func _enter_tree() -> void:
 	if Engine.is_editor_hint():
 		notify_property_list_changed()
+	state_temp_updated.connect(_on_state_temp_updated)
 
 ## 状态机设置，初始化所有子状态，建立状态机层次结构和信号连接
 func _setup() -> void:
@@ -59,6 +63,23 @@ func _setup() -> void:
 			child.state_transition.connect(_on_state_transition)
 			# 递归设置子状态
 			child._setup()
+
+func _on_state_temp_updated(temp_state: StateTemp):
+	if current_temp_state == temp_state:
+		return
+	if temp_state and temp_state.conflict_states.has(get_active_state()):
+		return
+	if current_temp_state:
+		current_temp_state._exit()
+		current_temp_state = null
+	if temp_state:
+		current_temp_state = temp_state
+		current_temp_state._enter()
+	else:
+		_temp_state_all_exit()
+
+## 当temp_state为空时的状态回滚
+func _temp_state_all_exit(): pass
 
 ## 状态过渡处理，处理子状态发出的状态切换请求，执行状态切换逻辑
 ## [param to_state]: 目标状态
@@ -88,12 +109,17 @@ func _exit():
 	if current_state:
 		current_state._exit()
 		current_state = null
+	if current_temp_state:
+		current_temp_state._exit()
+		current_temp_state = null
 
 ## 固定更新，将物理帧更新传递给当前激活的状态
 ## [param _delta]: 物理帧时间间隔
 func _fixed_update(_delta: float) -> void:
 	if current_state:
 		current_state._f_u(_delta)
+	if current_temp_state:
+		current_temp_state._fixed_update(_delta)
 
 ## 状态更新，执行模糊更新和当前状态的主更新逻辑
 ## [param _delta]: 帧时间间隔
@@ -103,30 +129,39 @@ func _update(_delta: float) -> void:
 	# 执行当前状态的主更新
 	if current_state:
 		current_state._u(_delta)
+	if current_temp_state:
+		current_temp_state._update(_delta)
 
 ## 暂停状态机，将暂停指令传递给当前激活的状态
 func _pause():
 	if current_state:
 		current_state._p()
+	if current_temp_state:
+		current_temp_state._pause()
+
+func _continue():
+	if current_state:
+		current_state._continue()
+	if current_temp_state:
+		current_temp_state._continue()
 
 ## 获取当前激活状态
 ## [br][br][b]返回:[/b] 当前正在执行的状态
-func _get_active_state() -> StateHfsm:
+func get_active_state() -> StateHfsm:
 	return current_state
 
 ## 获取叶子状态，递归查找最底层的激活状态（非状态机的状态）
 ## [br][br][b]返回:[/b] 最底层的叶子状态
-func _get_leaf_state() -> StateHfsm:
+func get_leaf_state() -> StateHfsm:
 	var result = current_state
 	
 	# 递归向下查找，直到找到非状态机的叶子状态
-	while result is StateMachineHfsm:
+	while result is StateMachine:
 		result = result.current_state
 	
 	return result
 
-func _blur_update(_delta: float) -> void:
-	pass
+func get_dynamic_state() -> StateTemp:
+	return current_temp_state
 
-func _continue() -> void:
-	pass
+func _blur_update(_delta: float) -> void: pass

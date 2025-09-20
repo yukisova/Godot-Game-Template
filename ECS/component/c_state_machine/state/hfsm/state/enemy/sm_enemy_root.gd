@@ -4,4 +4,4 @@
 ## AI行为控制：视线检测与目标发现、巡逻路径规划、搜索行为触发、战斗状态激活
 ## [br][b]编辑者:[/b] Sora
 @tool
-extends StateMachineHfsm
+extends StateMachine

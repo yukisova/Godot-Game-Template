@@ -20,6 +20,13 @@ func _setup() -> void:
 
 ## 进入范围内，设置随机的导航目标
 func _enter() -> void:
+	var ss_environment: SSEnvironment = SBlackboard.get_sub_system(ISubSystem.SubSystemType.ENVIRONMENT)
+	ss_environment.enemy_lost_player.emit(agent.component_owner, ss_environment.current_player)
+	
+	var move_vector: MoveStrategyVector = blackboard.get_var("move_vector", null, false)
+	if move_vector:
+		move_vector.toward_control_by_move = true
+
 	var ai_state_normal = blackboard.get_var("ai_state_normal", -1)
 	if ai_state_normal != SoraConstant.AiStateNormal.区域巡逻:
 		return

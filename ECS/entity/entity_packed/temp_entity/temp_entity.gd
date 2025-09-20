@@ -49,14 +49,14 @@ func _initialize():
 
 func _update(_delta: float):
 	# 只在正常游戏状态下更新组件
-	if SGameState.state_machine._get_leaf_state() is GamingStateNormal:
+	if SGameState.state_machine.get_leaf_state() is GamingStateNormal:
 		for base_component in list_base_components.values():
 			base_component._update(_delta)
 	pass
 
 func _fixed_update(_delta: float):
 	# 只在正常游戏状态下更新组件
-	if SGameState.state_machine._get_leaf_state() is GamingStateNormal:
+	if SGameState.state_machine.get_leaf_state() is GamingStateNormal:
 		for base_component in list_base_components.values():
 			base_component._fixed_update(_delta)
 

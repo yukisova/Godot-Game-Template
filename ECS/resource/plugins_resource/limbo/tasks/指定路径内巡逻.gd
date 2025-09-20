@@ -15,6 +15,10 @@ func _setup() -> void:
 	pass
 
 func _enter() -> void:
+	var move_vector: MoveStrategyVector = blackboard.get_var("move_vector", null, false)
+	if move_vector:
+		move_vector.toward_control_by_move = true
+
 	var ai_state_normal = blackboard.get_var("ai_state_normal", -1)
 	if ai_state_normal != SoraConstant.AiStateNormal.路径巡逻:
 		return

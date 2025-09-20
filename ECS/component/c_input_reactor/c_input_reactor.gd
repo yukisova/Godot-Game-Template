@@ -46,7 +46,7 @@ func _initialize(_owner: IEntity, _load_data: Dictionary = {}):
 	super._initialize(_owner, _load_data)
 	
 	if component_owner in SMainController.player_static.values():
-		SMainController._create_listener_by_player(component_owner, self)
+		SMainController.create_listener_by_player(component_owner, self)
 	
 	for i in get_children():
 		if i is ReactorExtension:

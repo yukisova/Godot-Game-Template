@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=4 uid="uid://nqh6sy3jpxp3"]
+[gd_scene load_steps=25 format=4 uid="uid://nqh6sy3jpxp3"]
 
 [ext_resource type="PackedScene" uid="uid://dx8lfcn7h43ea" path="res://resource/node_template/map/static_map/static_map.tscn" id="1_8b7id"]
 [ext_resource type="AudioStream" uid="uid://cshvyslspontd" path="res://asset/audio/旖旎飞雪 - 02 Walking.ogg" id="2_320cn"]
@@ -42,6 +42,8 @@ resource_local_to_scene = true
 shader = ExtResource("18_320cn")
 shader_parameter/blink_color = Color(1, 1, 1, 1)
 shader_parameter/blink_intensity = 0.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_kqh3t"]
 
 [node name="m_测试场景" node_paths=PackedStringArray("player_spawns") instance=ExtResource("1_8b7id")]
 bg_music = ExtResource("2_320cn")
@@ -138,10 +140,10 @@ unwatchable = true
 material = SubResource("ShaderMaterial_p2mf1")
 
 [node name="Right" parent="Levels/Level/敌人/CharacterBody/ComponentContainer/CTextureController/PackedManSe/Whole" index="1" node_paths=PackedStringArray("sprite")]
-sprite = NodePath("@Sprite2D@696336")
+sprite = NodePath("@Sprite2D@38923")
 
 [node name="Left" parent="Levels/Level/敌人/CharacterBody/ComponentContainer/CTextureController/PackedManSe/Whole" index="2" node_paths=PackedStringArray("sprite")]
-sprite = NodePath("@Sprite2D@696337")
+sprite = NodePath("@Sprite2D@38924")
 
 [node name="PackedSpriteEditor" parent="Levels/Level/敌人/CharacterBody/ComponentContainer/CTextureController/PackedManSe" index="2" node_paths=PackedStringArray("control_parts")]
 control_parts = {
@@ -158,6 +160,11 @@ blackboard_data = Dictionary[String, Variant]({
 "sight_box": NodePath("../CCollisionBox/SightBox"),
 "sound_box": NodePath("../CCollisionBox/SoundBox")
 })
+
+[node name="StaticBody2D" type="StaticBody2D" parent="Levels/Level" index="15" groups=["obstacle"]]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Levels/Level/StaticBody2D" index="0"]
+shape = SubResource("RectangleShape2D_kqh3t")
 
 [editable path="Levels/Level"]
 [editable path="Levels/Level/敌人"]

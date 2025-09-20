@@ -1,9 +1,10 @@
-[gd_scene load_steps=10 format=3 uid="uid://tchbnx2hwx8n"]
+[gd_scene load_steps=11 format=3 uid="uid://tchbnx2hwx8n"]
 
 [ext_resource type="Script" uid="uid://cpq243e8lv5ol" path="res://system/s_blackboard/s_blackboard_global.gd" id="1_c40g4"]
 [ext_resource type="Script" uid="uid://fidlw0yv63sq" path="res://system/s_blackboard/sub_system/ss_time_loop/ss_time_loop.gd" id="2_iso6r"]
 [ext_resource type="Script" uid="uid://cpffolto6nais" path="res://system/s_blackboard/sub_system/ss_item_fusion/ss_item_fusion.gd" id="4_1kceg"]
 [ext_resource type="Script" uid="uid://dwj6fnotps370" path="res://system/s_blackboard/sub_system/ss_item_fusion/fusion_record.gd" id="5_vcqlq"]
+[ext_resource type="Script" uid="uid://nshn37c7roqt" path="res://system/s_blackboard/sub_system/ss_environment/ss_environment.gd" id="6_cdig5"]
 [ext_resource type="Script" uid="uid://0y58wickfubb" path="res://resource/custom_resource/item/item.gd" id="6_ifld1"]
 
 [sub_resource type="Gradient" id="Gradient_ifld1"]
@@ -43,3 +44,6 @@ script = ExtResource("2_iso6r")
 [node name="SSItemFusion" type="Node" parent="."]
 script = ExtResource("4_1kceg")
 fusion_records = Array[ExtResource("5_vcqlq")]([SubResource("Resource_ifld1")])
+
+[node name="SSEnvironment" type="Node" parent="."]
+script = ExtResource("6_cdig5")

@@ -6,7 +6,7 @@ extends ISystem
 
 ## 主状态机
 ## 管理游戏的所有状态流转
-@export var state_machine: StateMachineHfsm
+@export var state_machine: StateMachine
 
 ## 系统初始化标志
 ## 确保状态机初始化后才开始更新

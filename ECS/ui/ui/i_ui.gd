@@ -41,11 +41,8 @@ func _main_setup():
 func _test_setup():
 	pass
 
-## 触发UI销毁流程并发送相应信号
-func unspawn():
-	_unspawned.emit(self)
-
 ## 使用上下文数据初始化UI内容
+## 顺序: _initilize_info -> _enter_tree -> main_setup -> _bind_model_view -> _focus_listen
 ## [param _context]: 包含初始化数据的上下文字典
 func _initilize_info(_context: Dictionary):
 	pass
@@ -56,3 +53,7 @@ func _bind_model_view():
 ## 当UI获得焦点时的输入监听和处理逻辑，子类应重写此方法以实现具体的焦点处理行为
 func _focus_listen():
 	pass
+
+## 触发UI销毁流程并发送相应信号
+func unspawn():
+	_unspawned.emit(self)

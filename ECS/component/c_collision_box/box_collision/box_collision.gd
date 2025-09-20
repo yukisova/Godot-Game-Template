@@ -41,6 +41,8 @@ func _initialize():
 func _update(_delta: float):
 	pass
 
+func _fixed_update(_delta: float):
+	pass
 
 ## 如果父节点是CCollisionBox，则隐藏c_collision属性，因为父节点会自动赋值
 ## 反之，如果父节点不是CCollisionBox，则显示c_collision属性，因为需要手动赋值

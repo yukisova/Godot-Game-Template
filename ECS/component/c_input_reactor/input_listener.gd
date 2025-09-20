@@ -13,7 +13,7 @@ var binding_input_component: CInputReactor = null
 func _listen():
 	if binding_input_component != null:
 		# 获取当前游戏状态
-		var current_gaming_state = SGameState.state_machine._get_leaf_state()
+		var current_gaming_state = SGameState.state_machine.get_leaf_state()
 		
 		# 只在正常游戏状态下处理输入
 		if current_gaming_state is GamingStateNormal:

@@ -14,7 +14,7 @@ func _ready() -> void:
 @abstract func _finished()
 
 func _on_cutscene_started() -> void:
-	var current_state = SGameState.state_machine._get_leaf_state()
+	var current_state = SGameState.state_machine.get_leaf_state()
 	if current_state is GamingStateNormal:
 		current_state.game_cutscene_started.emit()
 		await current_state.belong_state_machine.state_transition_finished
@@ -27,7 +27,7 @@ func _on_cutscene_started() -> void:
 
 
 func _on_cutscene_ended() -> void:
-	var current_state = SGameState.state_machine._get_leaf_state()
+	var current_state = SGameState.state_machine.get_leaf_state()
 	if current_state is GamingStateCutscene:    
 		current_state.game_retryed.emit()
 		await current_state.belong_state_machine.state_transition_finished

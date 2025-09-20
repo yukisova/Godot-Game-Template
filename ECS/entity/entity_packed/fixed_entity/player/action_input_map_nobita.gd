@@ -13,10 +13,6 @@ func _match_action(action_id: int):
 			_skill_1()
 		4:
 			_skill_2()
-		5:
-			_state_1()
-		6:
-			_state_2()
 
 func _trigger_update_finish():
 	pass
@@ -43,16 +39,4 @@ func _special_action():
 func _skill_1():
 	pass
 func _skill_2():
-	pass
-
-## 进入加速状态
-func _state_0():
-	pass
-
-## 进入蹲趴状态
-func _state_1():
-	pass
-
-## 进入躲藏状态
-func _state_2():
 	pass

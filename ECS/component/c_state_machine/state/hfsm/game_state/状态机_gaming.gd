@@ -4,7 +4,7 @@
 ## 提供完整的游戏状态管理和子系统协调功能。
 ##
 ## 架构设计：
-## - 继承自 [StateMachineHfsm] 基类
+## - 继承自 [StateMachine] 基类
 ## - 使用 [annotation @tool] 支持编辑器功能
 ## - 与 [SBlackboard] 子系统的集成
 ## - 基于 [SSignalBus] 的UI通信
@@ -13,7 +13,7 @@
 
 @tool
 class_name GamingChildStateMachine
-extends StateMachineHfsm
+extends StateMachine
 
 ## 更新触发器
 ## 
@@ -31,7 +31,6 @@ func _setup() -> void:
 ## 激活子系统并开始游戏循环。
 func _enter():
 	super()
-	SBlackboard.sub_systems_setup_start.emit()
 
 ## 状态机更新（重写方法）
 ## 

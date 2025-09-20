@@ -22,5 +22,3 @@ func _tick(delta: float) -> Status:
 	else:
 		print("敌人没有听觉")
 	return Status.SUCCESS
-
-

@@ -1,15 +1,15 @@
 [gd_scene load_steps=18 format=3 uid="uid://2x6xqipjlwry"]
 
 [ext_resource type="Script" uid="uid://pbe14mqip01v" path="res://system/s_game_state/s_game_state_global.gd" id="1_t4e6g"]
-[ext_resource type="Script" uid="uid://b5ywitjyd2ccg" path="res://component/c_state_machine/state/hfsm/state_machine_hfsm.gd" id="2_i5g57"]
-[ext_resource type="Script" uid="uid://dl3k6gt6akppx" path="res://component/c_state_machine/state/hfsm/game_state/game_state_start.gd" id="4_6q7b1"]
+[ext_resource type="Script" uid="uid://b5ywitjyd2ccg" path="res://component/c_state_machine/state/state_machine.gd" id="2_i5g57"]
+[ext_resource type="Script" uid="uid://dl3k6gt6akppx" path="res://component/c_state_machine/state/hfsm/game_state/状态_game_start.gd" id="4_6q7b1"]
 [ext_resource type="Script" uid="uid://cpdkw72ahtbjj" path="res://component/c_state_machine/transition_record.gd" id="4_t4e6g"]
-[ext_resource type="Script" uid="uid://d07bul8fnqiu7" path="res://component/c_state_machine/state/hfsm/game_state/game_state_transition.gd" id="5_8gfhu"]
-[ext_resource type="Script" uid="uid://p143vwhudqhs" path="res://component/c_state_machine/state/hfsm/game_state/gaming_csm.gd" id="6_6f08a"]
-[ext_resource type="Script" uid="uid://dbmyewjmvf2v0" path="res://component/c_state_machine/state/hfsm/game_state/gaming_normal.gd" id="7_qp31e"]
-[ext_resource type="Script" uid="uid://dcrr4ixsmsp40" path="res://component/c_state_machine/state/hfsm/game_state/gaming_pause.gd" id="8_lnw6v"]
-[ext_resource type="Script" uid="uid://pihnviy45w5k" path="res://component/c_state_machine/state/hfsm/game_state/gaming_cutscene.gd" id="9_y2rt6"]
-[ext_resource type="Script" uid="uid://cjd3dnt4njxmp" path="res://component/c_state_machine/state/hfsm/game_state/gaming_loading.gd" id="10_i5g57"]
+[ext_resource type="Script" uid="uid://d07bul8fnqiu7" path="res://component/c_state_machine/state/hfsm/game_state/状态_game_transition.gd" id="5_8gfhu"]
+[ext_resource type="Script" uid="uid://p143vwhudqhs" path="res://component/c_state_machine/state/hfsm/game_state/状态机_gaming.gd" id="6_6f08a"]
+[ext_resource type="Script" uid="uid://dbmyewjmvf2v0" path="res://component/c_state_machine/state/hfsm/game_state/状态_gaming_normal.gd" id="7_qp31e"]
+[ext_resource type="Script" uid="uid://dcrr4ixsmsp40" path="res://component/c_state_machine/state/hfsm/game_state/状态_gaming_pause.gd" id="8_lnw6v"]
+[ext_resource type="Script" uid="uid://pihnviy45w5k" path="res://component/c_state_machine/state/hfsm/game_state/状态_gaming_cutscene.gd" id="9_y2rt6"]
+[ext_resource type="Script" uid="uid://cjd3dnt4njxmp" path="res://component/c_state_machine/state/hfsm/game_state/状态_gaming_loading.gd" id="10_i5g57"]
 
 [sub_resource type="Resource" id="Resource_i5g57"]
 script = ExtResource("4_t4e6g")

@@ -4,6 +4,8 @@
 
 [node name="CStateMachine" type="Node" node_paths=PackedStringArray("pda_states")]
 script = ExtResource("1_ylpjt")
-pda_states = NodePath("PdaStates")
+pda_states = NodePath("TempStates")
 
-[node name="PdaStates" type="Node" parent="."]
+[node name="TempStates" type="Node" parent="."]
+
+[node name="StackStates" type="Node" parent="."]

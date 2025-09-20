@@ -46,7 +46,7 @@ func _late_initialize():
 func _listen():
 	if Input.is_key_pressed(KEY_1):
 		# 查看全局状态机现在的状态
-		var state = SGameState.state_machine._get_leaf_state()
+		var state = SGameState.state_machine.get_leaf_state()
 		print("当前游戏状态: ", state.name)
 	elif c_input_reactor.validate_control("test_saving", SoraConstant.InputType.JUST_PRESSED, true):
 		# 手动触发存档保存

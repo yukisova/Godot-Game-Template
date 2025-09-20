@@ -34,9 +34,9 @@ func _on_continue_game_button_pressed(_args):
 func _on_test_game_button_pressed(_args):
 	print("主菜单UI: 启动测试游戏")
 	# SMainController.play_type = play_type
-	var game_state_machine = SGameState.state_machine as StateMachineHfsm 
+	var game_state_machine = SGameState.state_machine as StateMachine 
 	
-	var current_state = game_state_machine._get_active_state()
+	var current_state = game_state_machine.get_active_state()
 	if current_state is GameStartState:
 		current_state.update_trigger = true
 		# 动态加载测试场景，避免循环引用
@@ -51,14 +51,26 @@ func _on_start_game_button_pressed(_args):
 	print("主菜单UI: 开始新游戏")
 	SAudioMaster.play_music(null)
 		
-	var start_game_ui = load(_args[0] as String) as PackedScene
-	SUiSpawner._spawn_ui(start_game_ui, {}, true)
+	#var start_game_ui = load(_args[0] as String) as PackedScene
+	#SUiSpawner._spawn_ui(start_game_ui, {}, true)
+	var game_state_machine = SGameState.state_machine as StateMachine 
+	
+	var current_state = game_state_machine.get_active_state()
+	if current_state is GameStartState:
+		current_state.update_trigger = true
+		# 动态加载测试场景，避免循环引用
+		var test_scene = load(_args[0] as String) as PackedScene
+		SMapData.map_registered.emit(test_scene)
+		SAudioMaster.play_music(null)
+		ui_controller.unspawn()
+	else:
+		push_error("主菜单UI: 状态机错误，当前状态: %s" % [current_state.name])
 
 func _on_load_game_button_pressed(_args):
 	print("主菜单UI: 加载游戏存档")
-	var game_state_machine = SGameState.state_machine as StateMachineHfsm 
+	var game_state_machine = SGameState.state_machine as StateMachine 
 	
-	var current_state = game_state_machine._get_active_state()
+	var current_state = game_state_machine.get_active_state()
 	if current_state is GameStartState:
 		current_state.update_trigger = true
 		SAudioMaster.play_music(null)

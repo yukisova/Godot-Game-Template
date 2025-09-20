@@ -73,7 +73,7 @@ func _spawn_ui(scene: PackedScene, context: Dictionary = {}, is_main_or_cutscene
 		if current_ui:
 			current_ui.queue_free()
 		
-		var current_game_state = SGameState.state_machine._get_leaf_state()
+		var current_game_state = SGameState.state_machine.get_leaf_state()
 		if current_game_state is GamingStateNormal:
 			current_game_state.game_paused.emit()
 		elif !is_main_or_cutscene:
@@ -114,7 +114,7 @@ func _unspawn_ui(target_ui: UIController):
 		current_ui = null
 		
 		# 如果当前处于暂停状态，则自动恢复游戏
-		var current_game_state = SGameState.state_machine._get_leaf_state()
+		var current_game_state = SGameState.state_machine.get_leaf_state()
 		if current_game_state is GamingStatePause:
 			current_game_state.game_retry.emit()
 		

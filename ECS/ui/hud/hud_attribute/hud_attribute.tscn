@@ -1,20 +1,28 @@
-[gd_scene load_steps=5 format=3 uid="uid://c7aapu28f0k58"]
+[gd_scene load_steps=7 format=3 uid="uid://c7aapu28f0k58"]
 
 [ext_resource type="PackedScene" uid="uid://bavog73s6cd1p" path="res://ui/i_ui.tscn" id="1_sgb02"]
 [ext_resource type="Script" uid="uid://c8pkw2hs14qni" path="res://ui/hud/hud_attribute/hud_attribute.gd" id="2_b2ail"]
 [ext_resource type="Script" uid="uid://bgp8l5kxkfhmb" path="res://ui/hud/hud_attribute/view_hud_attribute.gd" id="3_m81ed"]
 [ext_resource type="Script" uid="uid://sxyokesbo8l1" path="res://ui/hud/hud_attribute/model_hud_attribute.gd" id="4_uvujm"]
 
+[sub_resource type="Gradient" id="Gradient_3057i"]
+offsets = PackedFloat32Array(1)
+colors = PackedColorArray(1, 1, 1, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_485ns"]
+gradient = SubResource("Gradient_3057i")
+
 [node name="ControllerHudAttribute" instance=ExtResource("1_sgb02")]
 script = ExtResource("2_b2ail")
 
-[node name="View" parent="." index="0" node_paths=PackedStringArray("health_bar", "sound_bar", "fitness_bar", "left_hand_texture", "right_hand_texture")]
+[node name="View" parent="." index="0" node_paths=PackedStringArray("health_bar", "sound_bar", "fitness_bar", "left_hand_texture", "right_hand_texture", "seek_state")]
 script = ExtResource("3_m81ed")
 health_bar = NodePath("HBoxContainer/VBoxContainer/HealthBar")
 sound_bar = NodePath("HBoxContainer/VBoxContainer/SoundBar")
 fitness_bar = NodePath("HBoxContainer/VBoxContainer/FitnessBar")
 left_hand_texture = NodePath("HBoxContainer/LeftHand/TextureRect")
 right_hand_texture = NodePath("HBoxContainer/RightHand/TextureRect")
+seek_state = NodePath("HBoxContainer/SeekState/TextureRect")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="View" index="0"]
 layout_mode = 0
@@ -55,6 +63,15 @@ layout_mode = 2
 
 [node name="TextureRect" type="TextureRect" parent="View/HBoxContainer/RightHand" index="0"]
 layout_mode = 2
+
+[node name="SeekState" type="PanelContainer" parent="View/HBoxContainer" index="3"]
+self_modulate = Color(1, 1, 1, 0)
+custom_minimum_size = Vector2(98, 0)
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="View/HBoxContainer/SeekState" index="0"]
+layout_mode = 2
+texture = SubResource("GradientTexture2D_485ns")
 
 [node name="Model" parent="." index="1"]
 script = ExtResource("4_uvujm")

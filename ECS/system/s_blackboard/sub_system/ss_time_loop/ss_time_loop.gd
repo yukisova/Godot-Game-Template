@@ -45,7 +45,7 @@ func _update(_delta: float) -> void:
 	var current_time = Time.get_ticks_msec() / 1000
 	if current_time != past_time:
 		past_time = current_time
-		if SGameState.state_machine._get_leaf_state() is GamingStateNormal:
+		if SGameState.state_machine.get_leaf_state() is GamingStateNormal:
 			real_time += 1
 
 #endregion

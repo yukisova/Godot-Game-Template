@@ -8,30 +8,31 @@
 extends IState
 
 signal state_poped
-signal state_pushed(to_state: StatePda)
+signal state_pushed(to_state: StatePda, is_replace: bool)
 signal state_plused(to_state: StatePda)
 signal state_transition(to_state)
 
 @export var hfsm_state_transition: Dictionary[StringName, TrainsitionRecord]
-@export var possible_pda_state_push: Array[StatePda]
-var belong_state_machine: StateMachineHfsm
+var belong_state_machine: StateMachine
 var confirm_pda_state_dict: Dictionary[String, StatePda]
 var pda_state_stack: Array[IState] = [self]
 
 func _setup():
 	state_poped.connect(_on_state_poped)
-	state_pushed.connect(_on_state_pushed_rolled)
+	state_pushed.connect(_on_state_pushed)
 	state_plused.connect(_on_state_plused)
-	
-	# 构建PDA状态的快速查找字典
-	for pda_state in possible_pda_state_push:
-		confirm_pda_state_dict[pda_state.keyword] = pda_state
 
 ## 与push不同，push的主要是由state_hfsm传入，plus的主要是由state_pda传入
 func _on_state_plused(to_state: StatePda):
 	state_pushed.emit(to_state)
 
-func _on_state_pushed_rolled(to_state: StatePda = null):
+## push的信息主要是由state_hfsm传入，用于状态机的状态切换
+## 1. 如果to_state为null，则判定为清空栈
+## 2. 如果to_state不为null，分为三种情况
+## 2.1 如果to_state在栈中不存在，则作为新状态压入栈
+## 2.2 如果to_state位于栈顶，则无需操作
+## 2.3 如果to_state在栈中存在，则回滚到历史状态，弹出栈中位于目标状态之上的所有状态，重新进入to_state
+func _on_state_pushed(to_state: StatePda = null, is_replace: bool = false):
 	var roll_index: int = 0
 	
 	if to_state:
@@ -39,20 +40,20 @@ func _on_state_pushed_rolled(to_state: StatePda = null):
 		roll_index = pda_state_stack.find(to_state)
 	
 	if roll_index == -1:
-		# 新状态压入栈
-		if pda_state_stack.size() > 1:
-			pda_state_stack[-1].pop_trigger = false
-		
-		# 退出当前栈顶状态
-		pda_state_stack[-1]._exit()
-		
-		# 压入新状态
-		pda_state_stack.push_back(to_state)
-		pda_state_stack[-1]._enter()
-		pda_state_stack[-1].belong_state = self
+		if is_replace:
+			# 新状态压入栈
+			if pda_state_stack.size() > 1:
+				pda_state_stack[-1].pop_trigger = false
+			
+			# 退出当前栈顶状态
+			pda_state_stack[-1]._exit()
+			
+			# 压入新状态
+			pda_state_stack.push_back(to_state)
+			pda_state_stack[-1]._enter()
+			pda_state_stack[-1].belong_state = self
 		
 	elif roll_index == pda_state_stack.size() - 1:
-		# 目标状态已经是栈顶，无需操作
 		return
 	else:
 		# 回滚到历史状态
@@ -119,7 +120,9 @@ func _u(_delta: float) -> void:
 func _p():
 	var top_state = pda_state_stack[-1]
 	top_state._pause()
-	await SSignalBus.game_loop_continue
+
+func _c():
+	var top_state = pda_state_stack[-1]
 	top_state._continue()
 
 func get_transition_state(keyword: StringName = ""):
@@ -132,7 +135,7 @@ func get_transition_state(keyword: StringName = ""):
 func get_root_statemachine():
 	var current = self
 	while current is StateHfsm:
-		if current is StateMachineHfsm:
+		if current is StateMachine:
 			if current.is_root:
 				return current
 		else:
@@ -141,9 +144,9 @@ func get_root_statemachine():
 
 func _validate_property(property: Dictionary) -> void:
 	if property.name == "hfsm_state_transition":
-		if self is StateMachineHfsm and self.get_parent() is not StateMachineHfsm:
+		if self is StateMachine and self.get_parent() is not StateMachine:
 			property.usage = PROPERTY_USAGE_NO_EDITOR
 	elif property.name == "possible_pda_state_push":
-		if self is StateMachineHfsm:
+		if self is StateMachine:
 			property.usage = PROPERTY_USAGE_NO_EDITOR
 

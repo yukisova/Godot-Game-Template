@@ -6,7 +6,11 @@ func _generate_name() -> String:
 
 ## 警戒状态下，敌人会停止将移动方向作为面朝的方向，而是面朝主要追踪目标
 func _enter() -> void:
-	print("敌人正式进入警戒状态")
+	## 判断是通过什么方式进入的警戒状态，视线还是声音
+	var ss_environment: SSEnvironment = SBlackboard.get_sub_system(ISubSystem.SubSystemType.ENVIRONMENT)
+	ss_environment.enemy_notice_player.emit(agent.component_owner, ss_environment.current_player)
+
+	## 2. 停止移动
 	var c_action_trigger: CActionTrigger = agent.get_other_component(IComponent.ComponentName.C_ACTION_TRIGGER)
 	if c_action_trigger:
 		for move_strategy in c_action_trigger.move_strategy:
@@ -21,11 +25,10 @@ func _tick(delta: float) -> Status:
 	if sight_box:
 		if sight_box.sight_target.is_empty():
 			## 可疑目标消失，离开警戒状态
-			return Status.SUCCESS
+			return Status.FAILURE
 		else:
-			var target_direction: Vector2 = sight_box.get_target_direction()
-			if !target_direction.is_zero_approx():
-				move_vector._set_target_direction(null, target_direction)
+			## 可疑目标存在，正式进行追踪
+			return Status.SUCCESS
 	else:
 		print("敌人没有视觉")
 
@@ -37,9 +40,3 @@ func _tick(delta: float) -> Status:
 	# else:
 	# 	print("敌人没有听觉")
 	return Status.RUNNING
-
-func _exit() -> void:
-	print("敌人退出正式警戒状态")
-	var move_vector: MoveStrategyVector = blackboard.get_var("move_vector", null, false)
-	if move_vector:
-		move_vector.toward_control_by_move = true

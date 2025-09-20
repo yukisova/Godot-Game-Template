@@ -20,8 +20,7 @@ enum HandMoveType {
 		hand_move_type = value
 		notify_property_list_changed()
 
-## 拼接纹理的父节点，用于控制纹理的着色器与幅度并不大的位移
-@export var whole_node: Node2D
+
 
 ## 椭圆参数组，控制手臂椭圆运动轨迹的参数设置
 @export_group("椭圆参数", "ellipse_body_")
@@ -74,6 +73,7 @@ func fixed_packed_sprite():
 
 ## 初始化方法，在节点准备就绪时调用，初始化主精灵部件的引用
 func _initialize():
+	super()
 	rotation_angle = -0.3
 
 func _update(_delta: float) -> void:
@@ -135,4 +135,17 @@ func update_hands_rotation(direction: Vector2, offset: Vector2, base: PackedPart
 				# 普通精灵：根据角度和手部位置设置水平翻转
 				var should_flip = rotation_angle < 0
 				base.x_纹理反转 = should_flip != left_or_right
-	
+
+#region 纹理切换命令
+## 位于texture_switch_command中的信息: 
+func _initialize_texture_switch_command():
+	texture_switch_command["Hiding"] = func():
+		var texture_switch_record = texture_lib.find(control_parts["Body"], "Hiding")
+		if texture_switch_record != null:
+			control_parts["Body"].texture = texture_switch_record
+
+	texture_switch_command["Normal"] = func():
+		var texture_switch_record = texture_lib.find(control_parts["Body"], "Normal")
+		if texture_switch_record != null:
+			control_parts["Body"].texture = texture_switch_record
+#endregion

@@ -1,9 +1,11 @@
-[gd_scene load_steps=14 format=3 uid="uid://b5iiob0hwsh3v"]
+[gd_scene load_steps=19 format=3 uid="uid://b5iiob0hwsh3v"]
 
 [ext_resource type="Script" uid="uid://c2klbyu7dgsv7" path="res://component/c_texture_controller/packed_texture/packed_texture/ball/packed_sprite_ball.gd" id="1_a4vqd"]
 [ext_resource type="Script" uid="uid://ilvu417xg56w" path="res://component/c_texture_controller/packed_texture/packed_texture/ball/ps_editor_ball.gd" id="2_a4vqd"]
 [ext_resource type="Texture2D" uid="uid://bm3u42eopcqca" path="res://asset/sightlight_21gj/原型_小圆球.png" id="2_jj7oq"]
 [ext_resource type="Script" uid="uid://borj824dr1kti" path="res://component/c_texture_controller/packed_texture/packed_texture/packed_part.gd" id="2_tguvx"]
+[ext_resource type="Script" uid="uid://clawe2mmb85cx" path="res://component/c_texture_controller/packed_texture/texture_lib.gd" id="2_wyr4q"]
+[ext_resource type="Script" uid="uid://bckovp82ds7j5" path="res://component/c_texture_controller/packed_texture/texture_lib_record.gd" id="3_70hgh"]
 
 [sub_resource type="Gradient" id="Gradient_tuh6x"]
 offsets = PackedFloat32Array(0.7268519, 0.875)
@@ -22,6 +24,24 @@ metadata/_snap_enabled = true
 atlas = ExtResource("2_jj7oq")
 region = Rect2(0, 0, 64, 32)
 
+[sub_resource type="Resource" id="Resource_wyr4q"]
+script = ExtResource("3_70hgh")
+belong_node = NodePath("BF/Body")
+texture_name = &"Normal"
+texture = SubResource("AtlasTexture_jj7oq")
+metadata/_custom_type_script = "uid://bckovp82ds7j5"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_70hgh"]
+atlas = ExtResource("2_jj7oq")
+region = Rect2(64, 0, 64, 32)
+
+[sub_resource type="Resource" id="Resource_ika8r"]
+script = ExtResource("3_70hgh")
+belong_node = NodePath("BF/Body")
+texture_name = &"Hiding"
+texture = SubResource("AtlasTexture_70hgh")
+metadata/_custom_type_script = "uid://bckovp82ds7j5"
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_tguvx"]
 atlas = ExtResource("2_jj7oq")
 region = Rect2(0, 32, 32, 32)
@@ -31,7 +51,7 @@ length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Whole/BF/Body:scale")
+tracks/0/path = NodePath("Lib/BF/Body:scale")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -48,7 +68,7 @@ step = 0.1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Whole/BF/Body:scale")
+tracks/0/path = NodePath("Lib/BF/Body:scale")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -62,7 +82,7 @@ tracks/0/keys = {
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Whole/BF/Body:scale")
+tracks/0/path = NodePath("Lib/BF/Body:scale")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -90,53 +110,53 @@ shadow = NodePath("OnFloor")
 [node name="OnFloor" type="Sprite2D" parent="."]
 texture = SubResource("GradientTexture2D_tguvx")
 
-[node name="Whole" type="Node2D" parent="."]
+[node name="Lib" type="Node2D" parent="."]
 y_sort_enabled = true
+script = ExtResource("2_wyr4q")
+lib = Array[ExtResource("3_70hgh")]([SubResource("Resource_wyr4q"), SubResource("Resource_ika8r")])
 
-[node name="BF" type="Node2D" parent="Whole"]
+[node name="BF" type="Node2D" parent="Lib"]
 position = Vector2(0, -8)
 
-[node name="Body" type="Sprite2D" parent="Whole/BF"]
+[node name="Body" type="Sprite2D" parent="Lib/BF"]
 position = Vector2(0, 8)
 texture = SubResource("AtlasTexture_jj7oq")
 offset = Vector2(0, -16)
 hframes = 2
 
-[node name="Face" type="Sprite2D" parent="Whole/BF"]
+[node name="Face" type="Sprite2D" parent="Lib/BF"]
 
-[node name="Left" type="Node2D" parent="Whole" node_paths=PackedStringArray("sprite", "packed_sprite_editor")]
+[node name="Left" type="Node2D" parent="Lib" node_paths=PackedStringArray("sprite", "packed_sprite_editor")]
 use_parent_material = true
-position = Vector2(15.216905, -7.454915)
 script = ExtResource("2_tguvx")
 default_texture = SubResource("AtlasTexture_tguvx")
-sprite = NodePath("@Sprite2D@97362")
+sprite = NodePath("@Sprite2D@37158")
 packed_sprite_editor = NodePath("../../PSEditorBall")
 metadata/_custom_type_script = "uid://borj824dr1kti"
 
-[node name="Right" type="Node2D" parent="Whole" node_paths=PackedStringArray("sprite", "packed_sprite_editor")]
+[node name="Right" type="Node2D" parent="Lib" node_paths=PackedStringArray("sprite", "packed_sprite_editor")]
 use_parent_material = true
-position = Vector2(-15.216904, -10.545085)
 script = ExtResource("2_tguvx")
 default_texture = SubResource("AtlasTexture_tguvx")
-sprite = NodePath("@Sprite2D@97363")
+sprite = NodePath("@Sprite2D@37159")
 packed_sprite_editor = NodePath("../../PSEditorBall")
 metadata/_custom_type_script = "uid://borj824dr1kti"
 
-[node name="PSEditorBall" type="Node" parent="." node_paths=PackedStringArray("whole_node", "main_part", "control_parts", "animation_player")]
+[node name="PSEditorBall" type="Node" parent="." node_paths=PackedStringArray("main_part", "control_parts", "animation_player", "texture_lib")]
 script = ExtResource("2_a4vqd")
 hand_offset_y = -9.0
-whole_node = NodePath("../Whole")
 ellipse_body_radius_x = 16.0
 ellipse_body_radius_y = 5.0
 fixed_body_y = 40
 main_part = NodePath("..")
 control_parts = {
-&"Body": NodePath("../Whole/BF/Body"),
-&"Face": NodePath("../Whole/BF/Face"),
-&"Left": NodePath("../Whole/Left"),
-&"Right": NodePath("../Whole/Right")
+&"Body": NodePath("../Lib/BF/Body"),
+&"Face": NodePath("../Lib/BF/Face"),
+&"Left": NodePath("../Lib/Left"),
+&"Right": NodePath("../Lib/Right")
 }
 animation_player = NodePath("../AnimationPlayer")
+texture_lib = NodePath("../Lib")
 metadata/_custom_type_script = "uid://bkarxlrkjktqy"
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]

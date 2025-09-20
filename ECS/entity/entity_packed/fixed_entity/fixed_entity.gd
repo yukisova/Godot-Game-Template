@@ -74,7 +74,7 @@ func _late_initialize():
 
 func _update(_delta: float):
 	# 只在正常游戏状态下更新组件
-	if SGameState.state_machine._get_leaf_state() is GamingStateNormal:
+	if SGameState.state_machine.get_leaf_state() is GamingStateNormal:
 		for base_component in list_base_components.values():
 			base_component._update(_delta)
 		for interface_component in list_interface_components.values():
@@ -84,7 +84,7 @@ func _update(_delta: float):
 ## [param _delta]: 物理帧时间间隔
 func _fixed_update(_delta: float):
 	# 只在正常游戏状态下执行物理更新
-	if SGameState.state_machine._get_leaf_state() is GamingStateNormal:
+	if SGameState.state_machine.get_leaf_state() is GamingStateNormal:
 		for base_component in list_base_components.values():
 			base_component._fixed_update(_delta)
 		for interface_component in list_interface_components.values():

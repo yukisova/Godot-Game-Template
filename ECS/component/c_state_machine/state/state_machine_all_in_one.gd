@@ -5,7 +5,7 @@
 ## [br][b]编辑者:[/b] Sora
 @tool
 @abstract class_name StateMachineAIO
-extends StateMachineHfsm
+extends StateMachine
 
 
 ## 状态方法字典，存储所有状态的方法实现
@@ -67,7 +67,7 @@ func _on_state_transition(to_state):
 ## 
 ## 一体化状态机不支持HFSM的层次结构。
 ## [br][br][b]返回:[/b] [StateHfsm] 总是返回null
-func _get_active_state() -> StateHfsm:
+func get_active_state() -> StateHfsm:
 	push_error("在过场状态机中，不支持HFSM")
 	return null
 
@@ -75,7 +75,7 @@ func _get_active_state() -> StateHfsm:
 ## 
 ## 一体化状态机不支持HFSM的层次结构。
 ## [br][br][b]返回:[/b] [StateHfsm] 总是返回null
-func _get_leaf_state() -> StateHfsm:
+func get_leaf_state() -> StateHfsm:
 	push_error("在过场状态机中，不支持HFSM")
 	return null
 

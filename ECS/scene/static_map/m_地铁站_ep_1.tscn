@@ -1,4 +1,4 @@
-[gd_scene load_steps=32 format=4 uid="uid://db1m4fs2mf0ed"]
+[gd_scene load_steps=14 format=4 uid="uid://db1m4fs2mf0ed"]
 
 [ext_resource type="PackedScene" uid="uid://dx8lfcn7h43ea" path="res://resource/node_template/map/static_map/static_map.tscn" id="1_fu8gc"]
 [ext_resource type="PackedScene" uid="uid://6dpqakv78nkp" path="res://resource/node_template/map/level.tscn" id="2_2brbm"]
@@ -7,22 +7,8 @@
 [ext_resource type="TileSet" uid="uid://uv8m2iijojh1" path="res://resource/resource_template/tileset/tileset_test_wall_16.tres" id="4_65ioy"]
 [ext_resource type="Texture2D" uid="uid://bre1j1344tmx2" path="res://resource/resource_template/tileset/tileset_test_floor_16.png" id="4_248kk"]
 [ext_resource type="PackedScene" uid="uid://de3o6pll5kxdx" path="res://resource/node_template/map/player_spawn.tscn" id="6_65ioy"]
-[ext_resource type="PackedScene" uid="uid://ceewa82bai01n" path="res://entity/entity_packed/fixed_entity/people/出木杉.tscn" id="8_7m8jj"]
 [ext_resource type="Script" uid="uid://c8or3bxk4a1s5" path="res://scene/static_map/cutscene/ep0_暴雨之中/cu_ep0_00_暴雨之中.gd" id="8_ykcdb"]
-[ext_resource type="PackedScene" uid="uid://d0kiagyc2yilx" path="res://entity/entity_packed/fixed_entity/people/源静香.tscn" id="9_56a6r"]
-[ext_resource type="PackedScene" uid="uid://dbswip03t13sy" path="res://component/c_interactable/c_interactable.tscn" id="9_r01i5"]
-[ext_resource type="Script" uid="uid://ccu2saj6ovslc" path="res://component/c_interactable/interaction_record.gd" id="10_16jjo"]
-[ext_resource type="PackedScene" uid="uid://cvl4a2oc006pj" path="res://entity/entity_packed/fixed_entity/people/翁蛾健治.tscn" id="10_32ser"]
-[ext_resource type="Script" uid="uid://djglhr34yxc4x" path="res://component/c_interactable/interaction/interaction_dialogue.gd" id="11_30y63"]
-[ext_resource type="PackedScene" uid="uid://shdn4eldwjpu" path="res://ui/ui/ui_dialogue/normal/ui_dialogue_normal.tscn" id="12_30y63"]
-[ext_resource type="Resource" uid="uid://dnsdhsw7d2jqs" path="res://resource/plugins_resource/dialogue/ep0_暴雨之中.dialogue" id="13_dkhrp"]
-[ext_resource type="PackedScene" uid="uid://cur1e6dfde4tl" path="res://entity/entity_packed/fixed_entity/people/绿川圣奈_pe.tscn" id="16_8hc6y"]
-[ext_resource type="PackedScene" uid="uid://ca1hb1m2dinl2" path="res://component/c_state_machine/c_state_machine.tscn" id="16_k3qqy"]
 [ext_resource type="Script" uid="uid://do4tqekxfbcbq" path="res://component/c_action_trigger/time_record.gd" id="17_dkhrp"]
-[ext_resource type="PackedScene" uid="uid://cl2k6r335pke0" path="res://component/c_navigation_agent/c_navigation_agent.tscn" id="17_kia6t"]
-[ext_resource type="Script" uid="uid://c3cklpcfivxlr" path="res://component/c_state_machine/state/hfsm/state/runtime_cutscene/rcu_ep0_健治.gd" id="19_ltsi2"]
-[ext_resource type="PackedScene" uid="uid://cps21xspaovit" path="res://component/c_collision_box/c_collision_box.tscn" id="20_2oc23"]
-[ext_resource type="Script" uid="uid://dqxey3deyxpb4" path="res://component/c_collision_box/box_collision/interaction_box/interact_box.gd" id="21_kia6t"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_kia6t"]
 vertices = PackedVector2Array(8, 16, -8, 16, -8, 0, 8, 0)
@@ -38,28 +24,6 @@ texture = ExtResource("4_248kk")
 [sub_resource type="TileSet" id="TileSet_k30nv"]
 navigation_layer_0/layers = 1
 sources/0 = SubResource("TileSetAtlasSource_ykcdb")
-
-[sub_resource type="Resource" id="Resource_30y63"]
-script = ExtResource("10_16jjo")
-interact_type = 2
-interaction = NodePath("InteractionDialogue")
-metadata/_custom_type_script = "uid://ccu2saj6ovslc"
-
-[sub_resource type="Resource" id="Resource_dkhrp"]
-script = ExtResource("10_16jjo")
-interact_type = 2
-interaction = NodePath("InteractionDialogue")
-metadata/_custom_type_script = "uid://ccu2saj6ovslc"
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_e5kyu"]
-size = Vector2(50, 20)
-
-[sub_resource type="Resource" id="Resource_1788p"]
-script = ExtResource("10_16jjo")
-is_passive = true
-interaction = NodePath("InteractionDialogue")
-interact_box = NodePath("../CCollision/InteractionBox")
-metadata/_custom_type_script = "uid://ccu2saj6ovslc"
 
 [sub_resource type="Resource" id="Resource_nohml"]
 script = ExtResource("17_dkhrp")
@@ -91,68 +55,6 @@ tile_set = ExtResource("4_65ioy")
 
 [node name="PlayerSpawn" parent="Levels/Level" index="4" instance=ExtResource("6_65ioy")]
 position = Vector2(-104, -24)
-
-[node name="出木杉" parent="Levels/Level" index="5" instance=ExtResource("8_7m8jj")]
-position = Vector2(305, -1)
-
-[node name="CInteractable" parent="Levels/Level/出木杉" index="1" instance=ExtResource("9_r01i5")]
-interactions_resources = Array[ExtResource("10_16jjo")]([SubResource("Resource_30y63")])
-
-[node name="InteractionDialogue" type="Node" parent="Levels/Level/出木杉/CInteractable" index="0"]
-script = ExtResource("11_30y63")
-test_dialogue_ui = ExtResource("12_30y63")
-test_dialogue = ExtResource("13_dkhrp")
-test_dialogue_label = &"ep0_出木杉"
-
-[node name="源静香" parent="Levels/Level" index="6" instance=ExtResource("9_56a6r")]
-position = Vector2(357, -4)
-
-[node name="CInteractable" parent="Levels/Level/源静香" index="1" instance=ExtResource("9_r01i5")]
-interactions_resources = Array[ExtResource("10_16jjo")]([SubResource("Resource_dkhrp")])
-
-[node name="InteractionDialogue" type="Node" parent="Levels/Level/源静香/CInteractable" index="0"]
-script = ExtResource("11_30y63")
-test_dialogue_ui = ExtResource("12_30y63")
-test_dialogue = ExtResource("13_dkhrp")
-test_dialogue_label = &"ep0_源静香"
-
-[node name="绿川圣奈Pe" parent="Levels/Level" index="7" instance=ExtResource("16_8hc6y")]
-position = Vector2(407, -1)
-
-[node name="翁蛾健治" parent="Levels/Level" index="8" instance=ExtResource("10_32ser")]
-position = Vector2(218, -34)
-
-[node name="CNavigation" parent="Levels/Level/翁蛾健治" index="1" instance=ExtResource("17_kia6t")]
-
-[node name="CState" parent="Levels/Level/翁蛾健治" index="2" node_paths=PackedStringArray("root_state_machine") instance=ExtResource("16_k3qqy")]
-root_state_machine = NodePath("RuntimeCutscene")
-
-[node name="RuntimeCutscene" type="Node" parent="Levels/Level/翁蛾健治/CState" index="1" node_paths=PackedStringArray("c_navigation", "target_marker", "c_interactable")]
-script = ExtResource("19_ltsi2")
-c_navigation = NodePath("../../CNavigation")
-target_marker = NodePath("TargetMarker")
-c_interactable = NodePath("../../CInteractable")
-current_state = null
-metadata/_custom_type_script = "uid://b5ywitjyd2ccg"
-
-[node name="TargetMarker" type="Marker2D" parent="Levels/Level/翁蛾健治/CState/RuntimeCutscene" index="0"]
-position = Vector2(-241, -9)
-
-[node name="CCollision" parent="Levels/Level/翁蛾健治" index="3" instance=ExtResource("20_2oc23")]
-
-[node name="InteractionBox" type="Area2D" parent="Levels/Level/翁蛾健治/CCollision" index="0"]
-script = ExtResource("21_kia6t")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Levels/Level/翁蛾健治/CCollision/InteractionBox" index="0"]
-shape = SubResource("RectangleShape2D_e5kyu")
-
-[node name="CInteractable" parent="Levels/Level/翁蛾健治" index="4" instance=ExtResource("9_r01i5")]
-interactions_resources = Array[ExtResource("10_16jjo")]([SubResource("Resource_1788p")])
-
-[node name="InteractionDialogue" type="Node" parent="Levels/Level/翁蛾健治/CInteractable" index="0"]
-script = ExtResource("11_30y63")
-test_dialogue_ui = ExtResource("12_30y63")
-test_dialogue = ExtResource("13_dkhrp")
 
 [node name="cu_暴雨之中_00" type="Node" parent="AutoLoadCutscene" index="0"]
 script = ExtResource("8_ykcdb")

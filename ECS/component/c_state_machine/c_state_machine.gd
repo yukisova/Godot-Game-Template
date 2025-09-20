@@ -8,7 +8,7 @@ class_name CStateMachine
 extends IComponent
 
 ## 根状态机，层次化有限状态机的根节点，管理主要的状态流转逻辑
-@export var root_state_machine: StateMachineHfsm
+@export var root_state_machine: StateMachine
 
 ## 下推状态集合节点，包含所有离散下推状态的容器节点
 @export var pda_states: Node
@@ -78,5 +78,5 @@ func get_pda_state(keyword: StringName) -> StatePda:
 ## [br][br][b]返回:[/b] 当前根状态机的活跃状态，如果状态机不存在则返回null
 func get_current_state():
 	if root_state_machine:
-		return root_state_machine._get_active_state()
+		return root_state_machine.get_active_state()
 	return null

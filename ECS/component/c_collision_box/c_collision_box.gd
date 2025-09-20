@@ -83,6 +83,10 @@ func _update(_delta: float):
 	for ray in box_rays.values():
 		ray._update(_delta)
 
+func _fixed_update(_delta: float):
+	for collision in box_collision.values():
+		collision._fixed_update(_delta)
+
 ## 根据名称获取碰撞区域
 ## [param collision_name]: 碰撞区域名称
 func get_collision(collision_name: StringName) -> BoxCollision:

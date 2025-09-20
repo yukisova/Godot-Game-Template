@@ -27,7 +27,7 @@ enum HandMoveType {
 		notify_property_list_changed()
 
 ## 拼接纹理的父节点，用于控制纹理的着色器与幅度并不大的位移
-@export var whole_node: Node2D
+@export var whole_node: TextureLib
 
 #region 工具按钮
 @export var fixed_head_y: int:
@@ -103,6 +103,7 @@ func fixed_packed_sprite():
 
 ## 初始化方法，在节点准备就绪时调用，初始化主精灵部件的引用
 func _initialize():
+	super()
 	rotation_angle = -0.3
 
 ## 角色朝向控制方法，根据给定的方向向量更新角色各部位的朝向和显示状态，同时触发手臂的椭圆运动更新

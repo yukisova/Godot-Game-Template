@@ -10,7 +10,7 @@ config_version=5
 
 [application]
 
-config/name="ECS"
+config/name="组合架构ECS"
 config/tags=PackedStringArray("ecs_template")
 run/main_scene="uid://bbjp7uh4lqym8"
 config/features=PackedStringArray("4.5", "Forward Plus")
@@ -69,6 +69,7 @@ player=""
 people=""
 breakable=""
 partner=""
+obstacle=""
 
 [internationalization]
 

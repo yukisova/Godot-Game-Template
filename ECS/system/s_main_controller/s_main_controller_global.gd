@@ -47,7 +47,11 @@ class PlayerRecordInfo extends Resource:
 
 func _enter_tree() -> void:
 	set_process_unhandled_input(false)
-	
+		
+func _process(_delta: float) -> void:
+	for _input_listener in input_listener_list.values():
+		_input_listener._listen()
+
 func _setup():
 	partner_joined.connect(func(_partner: IEntity):
 		if partner:
@@ -58,7 +62,6 @@ func _setup():
 	
 	await Launcher.main.system_setup_completed
 	set_process_unhandled_input(true)
-	
 
 func _get_player_info_by_index(scene_index: int) -> IEntity:
 	for i: PlayerRecordInfo in player_static.keys():
@@ -310,12 +313,7 @@ func _vec_input_m_toward(entity_input_target: SoraConstant.InputTarget) -> Dicti
 #endregion
 
 
-func _process(_delta: float) -> void:
-	for _input_listener in input_listener_list.values():
-		_input_listener._listen()
-
-
-func _create_listener_by_player(player: IEntity, input_component: CInputReactor):
+func create_listener_by_player(player: IEntity, input_component: CInputReactor):
 	var new_listener = InputListener.new()
 	new_listener.binding_input_component = input_component
 	var player_record_info: PlayerRecordInfo = player_static.find_key(player)

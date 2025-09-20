@@ -44,12 +44,12 @@ func _setup():
 	# 连接游戏数据加载完成信号的处理逻辑
 	game_data_loaded_compelete.connect(func():
 		var game_state_machine = SGameState.state_machine
-		var current_state = game_state_machine._get_active_state()
+		var current_state = game_state_machine.get_active_state()
 		
 		# 处理进入游戏加载地图的情况
 		if current_state is GameStartState:
 			await game_state_machine.state_transition_finished
-			current_state = game_state_machine._get_active_state()
+			current_state = game_state_machine.get_active_state()
 			if current_state is GameStartTransition:
 				current_state.update_trigger = true
 			else:

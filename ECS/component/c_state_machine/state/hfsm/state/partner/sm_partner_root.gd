@@ -22,14 +22,14 @@
 ## - 导航状态的集中管理
 ##
 ## 架构设计：
-## - 继承自 [StateMachineHfsm] 基类
+## - 继承自 [StateMachine] 基类
 ## - 使用 [annotation @tool] 支持编辑器功能
 ## - 集成 [CNavigationAgent] 导航组件
 ## - 基于模糊更新的性能优化
 ##
 ## [br][b]编辑者:[/b] Sora
 @tool
-extends StateMachineHfsm
+extends StateMachine
 
 ## 导航组件
 ## 

@@ -36,6 +36,7 @@ func _body_on_floor():
 	pass
 
 func _initialize():
+	super()
 	_change_height(current_range_ratio)
 
 func _update(_delta: float):

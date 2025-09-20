@@ -24,7 +24,7 @@ extends UIController
 ## 对话面板预制体
 ## 
 ## 用于显示剧情对话的UI组件预制体。
-const dialog_panel_pack = preload("res://ui/ui_composite/canvas/dialogue_panel/dialog_panel.tscn")
+const dialog_panel_pack = preload("res://ui/ui_c/canvas/dialogue_panel/dialog_panel.tscn")
 
 ## 对话资源文件
 ## 
@@ -69,8 +69,8 @@ func _ready() -> void:
 ## 
 ## 验证状态机并启动主游戏流程。
 func _transition_to_game():
-	var game_state_machine = SGameState.state_machine as StateMachineHfsm 
-	var current_state = game_state_machine._get_active_state()
+	var game_state_machine = SGameState.state_machine as StateMachine 
+	var current_state = game_state_machine.get_active_state()
 	
 	if current_state is GameStartState:
 		print("开场过场UI: 状态机验证通过，开始游戏")

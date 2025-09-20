@@ -8,6 +8,7 @@ signal fitness_changed(value: float, max: float)
 signal sound_changed(value: float, max: float)
 signal weapon_changed(value: Texture2D)
 signal equipment_changed(value: Texture2D)
+signal seek_state_changed(value: bool)
 #endregion
 
 #region 属性
@@ -50,6 +51,11 @@ var equipment: Texture2D:
 	set(v):
 		equipment = v
 		equipment_changed.emit(equipment)
+
+var seek_state: bool:
+	set(v):
+		seek_state = v
+		seek_state_changed.emit(seek_state)
 #endregion
 
 func _initialize(_context: Dictionary):
@@ -81,3 +87,8 @@ func _initialize(_context: Dictionary):
 	)
 	equipment_extension.attack_node_changed.connect(func(item_weapon: ItemWeapon): weapon = item_weapon.item_texture)
 	equipment_extension.equipment_node_changed.connect(func(item_equipment: ItemEquipment): equipment = item_equipment.item_texture)
+
+	var ss_environment: SSEnvironment = SBlackboard.get_sub_system(ISubSystem.SubSystemType.ENVIRONMENT)
+	ss_environment.player_seek_state_changed.connect(func(_i_entity: IEntity, _seek_state: bool): seek_state = _seek_state)
+
+	

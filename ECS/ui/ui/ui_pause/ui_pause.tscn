@@ -1,53 +1,57 @@
-[gd_scene load_steps=5 format=3 uid="uid://dyxr8eofrj3pw"]
+[gd_scene load_steps=7 format=3 uid="uid://mfy1sd1we68u"]
 
-[ext_resource type="Script" uid="uid://ras5n0uokri5" path="res://ui/ui/ui_pause/ui_pause.gd" id="1_bnqym"]
-[ext_resource type="Theme" uid="uid://cbvflgkah1pwb" path="res://resource/resource_template/basic_theme.tres" id="2_6mkpu"]
-[ext_resource type="Script" uid="uid://22228lam2w6p" path="res://ui/ui_c/link_button.gd" id="3_uf1wk"]
-[ext_resource type="PackedScene" uid="uid://ckmbalibndnve" path="res://ui/ui_c/canvas/setting_panel/setting_panel.tscn" id="4_xqg6c"]
+[ext_resource type="PackedScene" uid="uid://bavog73s6cd1p" path="res://ui/i_ui.tscn" id="1_60lyc"]
+[ext_resource type="Script" uid="uid://ras5n0uokri5" path="res://ui/ui/ui_pause/ui_pause.gd" id="2_u7050"]
+[ext_resource type="Script" uid="uid://brdfhmg20qwkv" path="res://ui/ui/ui_pause/view_ui_pause.gd" id="3_o1x3i"]
+[ext_resource type="Theme" uid="uid://cbvflgkah1pwb" path="res://resource/resource_template/basic_theme.tres" id="3_o8ip2"]
+[ext_resource type="Script" uid="uid://22228lam2w6p" path="res://ui/ui_c/link_button.gd" id="4_2hkmv"]
+[ext_resource type="PackedScene" uid="uid://ckmbalibndnve" path="res://ui/ui_c/canvas/setting_panel/setting_panel.tscn" id="5_45uxp"]
 
-[node name="UiPause" type="CanvasLayer" node_paths=PackedStringArray("control_game_retry", "control_game_setting", "control_return_menu")]
-script = ExtResource("1_bnqym")
+[node name="UIPause" instance=ExtResource("1_60lyc")]
+script = ExtResource("2_u7050")
+
+[node name="View" parent="." index="0" node_paths=PackedStringArray("control_game_retry", "control_game_setting", "control_return_menu")]
+script = ExtResource("3_o1x3i")
 control_game_retry = NodePath("Control/PanelContainer/MarginContainer/VBoxContainer/GameRetry")
 control_game_setting = NodePath("Control/PanelContainer/MarginContainer/VBoxContainer/GameSetting")
 control_return_menu = NodePath("Control/PanelContainer/MarginContainer/VBoxContainer/ReturnMenu")
 
-[node name="Control" type="Control" parent="."]
-layout_mode = 3
+[node name="Control" type="Control" parent="View" index="0"]
+layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme = ExtResource("2_6mkpu")
+theme = ExtResource("3_o8ip2")
 
-[node name="PanelContainer" type="PanelContainer" parent="Control"]
+[node name="PanelContainer" type="PanelContainer" parent="View/Control" index="0"]
 layout_mode = 0
 offset_left = 723.0
 offset_top = 168.0
 offset_right = 962.0
 offset_bottom = 367.0
 
-[node name="MarginContainer" type="MarginContainer" parent="Control/PanelContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="View/Control/PanelContainer" index="0"]
 layout_mode = 2
 theme_override_constants/margin_left = 16
 theme_override_constants/margin_top = 16
 theme_override_constants/margin_right = 16
 theme_override_constants/margin_bottom = 16
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Control/PanelContainer/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="View/Control/PanelContainer/MarginContainer" index="0"]
 layout_mode = 2
 
-[node name="GameRetry" type="Button" parent="Control/PanelContainer/MarginContainer/VBoxContainer"]
+[node name="GameRetry" type="Button" parent="View/Control/PanelContainer/MarginContainer/VBoxContainer" index="0"]
 layout_mode = 2
 text = "GameRetry"
 
-[node name="GameSetting" type="Button" parent="Control/PanelContainer/MarginContainer/VBoxContainer" node_paths=PackedStringArray("g_scene_parent")]
+[node name="GameSetting" type="Button" parent="View/Control/PanelContainer/MarginContainer/VBoxContainer" index="1"]
 layout_mode = 2
 text = "GameSetting"
-script = ExtResource("3_uf1wk")
-generator_scene = ExtResource("4_xqg6c")
-g_scene_parent = NodePath("../../../../..")
+script = ExtResource("4_2hkmv")
+generator_scene = ExtResource("5_45uxp")
 
-[node name="ReturnMenu" type="Button" parent="Control/PanelContainer/MarginContainer/VBoxContainer"]
+[node name="ReturnMenu" type="Button" parent="View/Control/PanelContainer/MarginContainer/VBoxContainer" index="2"]
 layout_mode = 2
 text = "ReturnMenu"
