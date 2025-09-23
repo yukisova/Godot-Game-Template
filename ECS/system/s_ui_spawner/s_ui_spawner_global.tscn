@@ -1,10 +1,11 @@
-[gd_scene load_steps=9 format=3 uid="uid://dwngxugx7dmav"]
+[gd_scene load_steps=11 format=3 uid="uid://dwngxugx7dmav"]
 
 [ext_resource type="Script" uid="uid://c2sd1paa8daua" path="res://system/s_ui_spawner/s_ui_spawner_global.gd" id="1_gywde"]
 [ext_resource type="PackedScene" uid="uid://qvegob1cp74r" path="res://ui/ui/ui_logo_transition/ui_logo_transition.tscn" id="2_v0jy8"]
 [ext_resource type="PackedScene" uid="uid://c8qw0qwk7xvms" path="res://ui/ui/ui_main/ui_main.tscn" id="3_v0jy8"]
 [ext_resource type="Script" uid="uid://bt5qlcyb68ufe" path="res://system/s_ui_spawner/hud_init_setting.gd" id="5_uno6n"]
 [ext_resource type="PackedScene" uid="uid://c7aapu28f0k58" path="res://ui/hud/hud_attribute/hud_attribute.tscn" id="6_ibpeg"]
+[ext_resource type="PackedScene" uid="uid://cdsw0hlt0fw4x" path="res://ui/hud/hud_dialogue/caption/hud_dialogue_caption.tscn" id="7_uno6n"]
 [ext_resource type="PackedScene" uid="uid://ymffwioeqkhf" path="res://ui/hud/hud_transition/hud_transition.tscn" id="7_v0jy8"]
 
 [sub_resource type="Resource" id="Resource_uno6n"]
@@ -19,11 +20,18 @@ hud_scene = ExtResource("7_v0jy8")
 is_preload = true
 metadata/_custom_type_script = "uid://bt5qlcyb68ufe"
 
+[sub_resource type="Resource" id="Resource_6qq2n"]
+script = ExtResource("5_uno6n")
+hud_scene = ExtResource("7_uno6n")
+is_preload = true
+metadata/_custom_type_script = "uid://bt5qlcyb68ufe"
+
 [node name="S_UiSpawner" type="Node"]
 script = ExtResource("1_gywde")
 logo_transition_scene = ExtResource("2_v0jy8")
 main_menu_scene = ExtResource("3_v0jy8")
 all_hud = Dictionary[StringName, ExtResource("5_uno6n")]({
 &"": SubResource("Resource_uno6n"),
+&"caption": SubResource("Resource_6qq2n"),
 &"transition": SubResource("Resource_ibpeg")
 })

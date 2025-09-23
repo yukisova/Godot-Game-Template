@@ -51,7 +51,7 @@ var is_waiting_for_input: bool = false
 var will_hide_balloon: bool = false
 
 ## 由外部提供， 用于确认对话锚点的所在位置
-var dialogue_marker: Marker2D
+var dialogue_marker: DialogueMarker
 
 ## 当前的对话信息行
 var dialogue_line: DialogueLine:
@@ -132,8 +132,11 @@ func apply_dialogue_line() -> void:
 	# Find the character on screen that is talking
 	## 利用分组过滤的方式，筛选出对话的角色所在的DialogueMarker
 	var dialogue_markers = get_tree().get_nodes_in_group("dialogue_markers").filter(func(m): return m.character_name == dialogue_line.character)
+
 	dialogue_marker = dialogue_markers[0]
-	get_viewport().get_camera_2d().current_target = dialogue_marker.owner
+
+	var main_player = SMainController._get_player_info_by_index(0)
+	SViewportManager.get_viewport_container(main_player.main_control).temp_target = dialogue_marker.owner
 
 	## 根据dialogue_marker的信息，设置目标的Marker应当在的位置
 	if dialogue_marker.position.y > 0:
@@ -153,23 +156,23 @@ func apply_dialogue_line() -> void:
 		dialogue_label = dialogue_label_up
 		responses_menu = responses_menu_up
 
-	# Set the colors for the balloon based on the character
-	var panel: StyleBoxFlat = balloon.theme.get_stylebox("panel", "PanelContainer")
-	panel.bg_color = dialogue_marker.balloon_color
-	pin.color = dialogue_marker.balloon_color
-	dialogue_label.add_theme_color_override("default_color", dialogue_marker.text_color)
-	response_template.add_theme_color_override("font_color", Color(dialogue_marker.text_color, 0.6))
+	# # Set the colors for the balloon based on the character
+	# var panel: StyleBoxFlat = balloon.theme.get_stylebox("panel", "PanelContainer")
+	# panel.bg_color = dialogue_marker.balloon_color
+	# pin.color = dialogue_marker.balloon_color
+	# dialogue_label.add_theme_color_override("default_color", dialogue_marker.text_color)
+	# response_template.add_theme_color_override("font_color", Color(dialogue_marker.text_color, 0.6))
 
-	# Work out a good width for the dialogue text based on its length
-	var dialogue_label_font_size: int = balloon.theme.get_font_size("normal_font", "RichTextLabel")
-	var optimal_width: float = dialogue_label.get_theme_font("normal_font").get_string_size(dialogue_line.text, HORIZONTAL_ALIGNMENT_LEFT, -1, dialogue_label_font_size).x + 20
-	if optimal_width > 500:
-		optimal_width = optimal_width / ceil(optimal_width * 1.1 / 500)
-	elif optimal_width > 400:
-		optimal_width = optimal_width / ceil(optimal_width * 1.1 / 400)
-	dialogue_label.hide()
-	responses_menu.hide()
-	balloon.custom_minimum_size = Vector2(optimal_width + panel.content_margin_left + panel.content_margin_right, 0)
+	# # Work out a good width for the dialogue text based on its length
+	# var dialogue_label_font_size: int = balloon.theme.get_font_size("normal_font", "RichTextLabel")
+	# var optimal_width: float = dialogue_label.get_theme_font("normal_font").get_string_size(dialogue_line.text, HORIZONTAL_ALIGNMENT_LEFT, -1, dialogue_label_font_size).x + 20
+	# if optimal_width > 500:
+	# 	optimal_width = optimal_width / ceil(optimal_width * 1.1 / 500)
+	# elif optimal_width > 400:
+	# 	optimal_width = optimal_width / ceil(optimal_width * 1.1 / 400)
+	# dialogue_label.hide()
+	# responses_menu.hide()
+	# balloon.custom_minimum_size = Vector2(optimal_width + panel.content_margin_left + panel.content_margin_right, 0)
 
 	dialogue_label.dialogue_line = dialogue_line
 	dialogue_label.show()
@@ -219,8 +222,10 @@ func apply_dialogue_line() -> void:
 ## Make sure the balloon is attached to the relevant character
 func position_balloon() -> void:
 	if is_instance_valid(dialogue_marker):
-		anchor.global_position = get_viewport().get_camera_2d().world_position_to_screen_position(dialogue_marker.global_position)
-
+		# anchor.global_position = get_viewport().get_camera_2d().world_position_to_screen_position(dialogue_marker.global_position)
+		var main_player = SMainController._get_player_info_by_index(0)
+		var camera_position = SoraEvent.fixed_camera_position(main_player.main_control)
+		anchor.global_position = camera_position["camera_center"]
 
 #region Signals
 
@@ -238,7 +243,8 @@ func _on_mutated(_mutation: Dictionary) -> void:
 
 
 func _on_dialogue_ended(_resource: DialogueResource) -> void:
-	get_viewport().get_camera_2d().current_target = null
+	var main_player = SMainController._get_player_info_by_index(0)
+	SViewportManager.get_viewport_container(main_player.main_control).temp_target = null
 
 
 func _on_balloon_gui_input(event: InputEvent) -> void:

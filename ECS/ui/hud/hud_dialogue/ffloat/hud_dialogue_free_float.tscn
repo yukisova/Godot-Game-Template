@@ -1,0 +1,5 @@
+[gd_scene load_steps=2 format=3 uid="uid://dk0rtwee1arw0"]
+
+[ext_resource type="PackedScene" uid="uid://bavog73s6cd1p" path="res://ui/i_ui.tscn" id="1_nd12y"]
+
+[node name="HudDialogueFreeFloat" instance=ExtResource("1_nd12y")]

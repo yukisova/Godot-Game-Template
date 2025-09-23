@@ -8,7 +8,10 @@ extends SubViewportContainer
 @export var viewport: SubViewport
 
 var camera_limit: Vector4
+## 相机主跟踪目标，当temp_target为空时，相机跟踪camera_target
 var camera_target: Node2D
+## 相机临时跟踪目标，当temp_target不为空时，相机跟踪temp_target
+var temp_target: Node2D
 var camera_strategy: CameraFollowStrategy
 
 ## 当前分割类型
@@ -29,7 +32,9 @@ func _ready():
 		viewport.handle_input_locally = false # 输入由主视口处理
 
 func _process(_delta: float) -> void:
-	if camera_strategy:
+	if temp_target:
+		camera.position = temp_target.global_position
+	elif camera_strategy:
 		camera_strategy._strategy(self, _delta)
 
 ## 设置视口分割配置

@@ -10,7 +10,7 @@ extends MoveStrategy
 
 ## 输入响应组件引用
 ## 如果设置，将从该组件获取移动输入；如果为null，则需要手动设置move_vector
-@export var c_input: CInputReactor = null
+@export var movement_input: REMovementInput = null
 
 ## 是否基于移动方向控制角色朝向(由外部控制)
 var toward_control_by_move: bool = true:
@@ -21,10 +21,10 @@ var toward_control_by_move: bool = true:
 ## 控制实体的移动方向和强度，自动处理输入控制和AI控制两种模式
 
 func _get_move_vector() -> Vector2:
-	if binding_entity.main_control is CharacterBody2D:
-		if c_input:
+	if c_action.component_body is CharacterBody2D:
+		if movement_input:
 			# 输入控制模式：从输入组件获取移动向量
-			var input_vector = c_input.input_vector_dict.move
+			var input_vector = movement_input.input_vector_dict.move as Vector2
 			if toward_control_by_move:
 				_set_target_direction(self, input_vector.normalized())
 			return input_vector
@@ -99,18 +99,18 @@ func get_movement_status() -> bool:
 ## 返回实体当前的实际移动速度大小（不包含方向）
 ## [br][br][b]返回:[/b] [float] 当前速度的大小
 func get_current_speed() -> float:
-	if binding_entity and binding_entity.main_control is CharacterBody2D:
-		return binding_entity.main_control.velocity.length()
+	if c_action.component_body is CharacterBody2D:
+		return c_action.component_body.velocity.length()
 	return 0.0
 
 ## 根据移动向量和速度更新实体的velocity，并应用平滑过渡效果
 ## [param _delta]: 帧时间间隔
 func _update(_delta: float):
-	var body = binding_entity.main_control
+	var body = c_action.component_body
 	
 	# 只有具有输入组件的实体才会自动移动（玩家控制）
 	# AI控制的实体需要外部代码设置move_vector
-	if c_input:
+	if movement_input:
 		if not _get_move_vector().is_zero_approx():
 			# 应用移动：使用lerp实现平滑的速度过渡
 			body.velocity = body.velocity.lerp(_get_move_vector() * _delta * 10 * move_speed, _delta * 10)
@@ -153,7 +153,6 @@ func _reset():
 ## [br][br][b]返回:[/b] [Dictionary] 包含策略类型、朝向、移动向量、速度和当前状态的字典
 func _save_as() -> Dictionary:
 	return {
-		"type": MoveStrategyType.VectorMove,
 		"toward_direction_target": toward_direction_target,
 		"move_vector": Vector2.ZERO,  # 移动向量重置，避免存档时保持移动状态
 		"move_speed": move_speed,
@@ -161,6 +160,6 @@ func _save_as() -> Dictionary:
 	}
 
 func _validate_property(property: Dictionary) -> void:
-	if c_input:
+	if movement_input:
 		if property.name == "move_speed":
 			property.usage = PROPERTY_USAGE_NO_EDITOR

@@ -36,14 +36,13 @@ var _action_list_update: Array[IUpdateAction]
 func _initialize(_owner: IEntity, _load_data: Dictionary = {}):
 	super._initialize(_owner, _load_data)
 
-	initialize_complete.emit()
+	initialize_completed.emit()
 	# 绑定所有Action子节点
 	for action in get_children():
 		if action is IAction:
 			action.c_action = self
 			if action is IUpdateAction:
 				_action_list_update.append(action)
-				action.binding_entity = component_owner
 				current_action_list[action as IAction] = action.current_action_state
 				if action is MoveStrategy:
 					move_strategy.append(action)
@@ -52,7 +51,7 @@ func _initialize(_owner: IEntity, _load_data: Dictionary = {}):
 				action.action_triggered_finished.connect(_on_action_triggered_finished)
 			action._initialize()
 		
-	initialize_complete.emit()
+	initialize_completed.emit()
 
 #region 触发监听相关
 

@@ -82,26 +82,6 @@ func get_target_position() -> Vector2:
 func _enter_tree() -> void:
 	box_collision_name = CCollisionBox.BoxCollisionName.SIGHT
 
-## 初始化碰撞检测
-## 根据配置的视野资源生成对应的碰撞形状
-func initialize_collision():
-	# 清理现有的碰撞形状
-	for child in get_children():
-		child.queue_free()
-	
-	# 根据配置生成新的碰撞形状
-	for resource in sight_box_resource:
-		if resource == null: 
-			continue
-		
-		match resource.sight_collision_type:
-			SightCollisionResource.SightCollisionType.Sector:
-				sector_generate(resource)
-			SightCollisionResource.SightCollisionType.Capsule:
-				circle_generate(resource)
-			SightCollisionResource.SightCollisionType.Rectangle:
-				rectangle_generate(resource)
-
 ## 视觉系统初始化
 ## 设置碰撞检测和信号连接
 func _initialize() -> void:
@@ -140,12 +120,10 @@ func _on_body_entered(body: Node2D):
 			if sight_target.is_empty():
 				target_noticed.emit()
 			sight_target.append(body)
-			print("视觉检测: 目标可见，加入视野列表 -> ", body.get_parent().name if body.get_parent() else body.name)
 		else:
 			# 目标被遮挡，加入待定列表，稍后进行验证
 			if not await_sight_target.has(body):
 				await_sight_target.append(body)
-				print("视觉检测: 目标暂时被遮挡，加入待定列表 -> ", body.get_parent().name if body.get_parent() else body.name)
 
 ## 目标离开视野处理
 ## 
@@ -178,6 +156,27 @@ func _on_body_exited(body: Node2D):
 				target_losed.emit()
 		else:
 			print("视觉检测: 待定目标离开检测区域 -> ", body.get_parent().name if body.get_parent() else body.name)
+
+## 初始化碰撞检测
+## 根据配置的视野资源生成对应的碰撞形状
+func initialize_collision():
+	# 清理现有的碰撞形状
+	for child in get_children():
+		child.queue_free()
+	
+	# 根据配置生成新的碰撞形状
+	for resource in sight_box_resource:
+		if resource == null: 
+			continue
+		
+		match resource.sight_collision_type:
+			SightCollisionResource.SightCollisionType.Sector:
+				sector_generate(resource)
+			SightCollisionResource.SightCollisionType.Capsule:
+				circle_generate(resource)
+			SightCollisionResource.SightCollisionType.Rectangle:
+				rectangle_generate(resource)
+
 
 #region 射线检测系统
 
@@ -264,8 +263,6 @@ func is_obstacle(body: Node2D) -> bool:
 	return false
 
 func validate_sight_targets():
-	print("视觉检测: 验证视野目标列表")
-	print("视野目标列表: ", sight_target.map(func(v): return v.get_parent().name if v.get_parent() else v.name))
 	if sight_target.is_empty():
 		return
 	
@@ -286,8 +283,6 @@ func validate_sight_targets():
 ## 定期检查await_sight_target列表中的目标是否变为可见状态。
 ## 应该在_fixed_update中调用此方法。
 func validate_awaiting_targets():
-	print("视觉检测: 验证待定目标列表")
-	print("待定目标列表: ", await_sight_target.map(func(v): return v.get_parent().name if v.get_parent() else v.name))
 	if await_sight_target.is_empty():
 		return
 	
@@ -306,8 +301,6 @@ func validate_awaiting_targets():
 			if sight_target.is_empty():
 				target_noticed.emit()
 			sight_target.append(target)
-			print("视觉检测: 目标可见，加入视野列表 -> ", target.get_parent().name if target.get_parent() else target.name)
-
 #endregion
 
 #region 碰撞体生成

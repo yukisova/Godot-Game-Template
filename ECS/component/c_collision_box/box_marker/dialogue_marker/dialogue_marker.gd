@@ -4,6 +4,7 @@
 ## 主要用于对话框的显示和隐藏。
 ## [br][b]编辑者:[/b] Sora
 @tool
+class_name DialogueMarker
 extends BoxMarker
 
 ## 目标
@@ -14,7 +15,7 @@ extends BoxMarker
 @export var text_color: Color = Color.BLACK
 
 func _ready() -> void:
-    add_to_group("dialogue_marker")
+	add_to_group("dialogue_markers")
 
 func _update(_delta: float) -> void:
-    pass
+	pass

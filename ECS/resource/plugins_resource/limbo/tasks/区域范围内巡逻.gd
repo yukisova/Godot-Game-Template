@@ -31,7 +31,6 @@ func _enter() -> void:
 	if ai_state_normal != SoraConstant.AiStateNormal.区域巡逻:
 		return
 
-	print("敌人进入区域范围内巡逻")
 
 	var c_navigation_agent = blackboard.get_var("c_navigation_agent", null)
 
@@ -40,7 +39,6 @@ func _enter() -> void:
 		nav_agent.get_navigation_map(),
 		nav_agent.navigation_layers,
 		false)
-	print("敌人进入区域范围内巡逻，目标位置: ", target_position)
 	c_navigation_agent.set_target_position(target_position)
 
 func _tick(delta: float) -> Status:
@@ -64,7 +62,6 @@ func _tick(delta: float) -> Status:
 	return Status.RUNNING
 
 func _exit() -> void:
-	print("敌人退出区域范围内巡逻")
 	var c_navigation_agent = blackboard.get_var("c_navigation_agent", null)
 	c_navigation_agent.stop_navigation()
 

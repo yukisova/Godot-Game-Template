@@ -25,4 +25,4 @@ func _initialize(_owner: IEntity, _load_data: Dictionary = {}):
 		var fixed_blackboard_data = SoraEvent.fixed_dictionary(self, blackboard_data)
 		for key in fixed_blackboard_data.keys():
 			behaviour_tree_player.blackboard.set_var(key, fixed_blackboard_data[key])
-	initialize_complete.emit()
+	initialize_completed.emit()

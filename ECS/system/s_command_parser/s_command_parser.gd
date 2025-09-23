@@ -26,4 +26,6 @@ func _on_command_run_started(command_string: String):
 
 class 游戏状态修改:
 	pass
-	
+
+func dialogue_time(time: float):
+	await get_tree().create_timer(time).timeout

@@ -30,17 +30,17 @@ func _initialize():
 	current_action_state = action_states[0]  # 初始化为idle状态
 
 	# 验证实体类型兼容性
-	direction = blackboard.get_value("start_direction", Vector2.RIGHT)
+	direction = c_action.get_value("start_direction", Vector2.RIGHT)
 
-	if binding_entity.main_control is not CharacterBody2D:
+	if c_action.component_body is not CharacterBody2D:
 		push_error("直线飞行策略: 只适用于CharacterBody2D类型的实体")
 		return
-	if binding_entity is not TempEntity:
+	if c_action.component_owner is not TempEntity:
 		push_error("直线飞行策略: 实体不是TempEntity类型")
 		return
 	
 	# 从黑板获取初始移动方向和参数
-	max_lifetime = blackboard.get_value("max_lifetime", 2.0)
+	max_lifetime = c_action.get_value("max_lifetime", 2.0)
 	
 	# 直线移动开始后立即进入移动状态
 	_update_movement_state(action_states[1])  # "movement"
@@ -49,7 +49,7 @@ func _initialize():
 ## [param _delta]: 帧时间间隔
 func _update(_delta: float):
 	# 应用高速直线移动
-	binding_entity.main_control.velocity = direction * 5000 * _delta
+	c_action.component_body.velocity = direction * 5000 * _delta
 	_time += _delta
 	
 	# 检测移动状态变化
@@ -58,12 +58,12 @@ func _update(_delta: float):
 	# 检查生命周期
 	if _time > max_lifetime:
 		_update_movement_state(action_states[2])  # "destroying"
-		binding_entity.main_control.velocity = Vector2.ZERO
-		(binding_entity as TempEntity).despawn()
+		c_action.component_body.velocity = Vector2.ZERO
+		(c_action.component_owner as TempEntity).despawn()
 		return
 	
 	# 应用物理移动
-	binding_entity.main_control.move_and_slide()
+	c_action.component_body.move_and_slide()
 
 ## 根据移动状态变化更新行为状态列表和current_action_state
 ## [param new_state]: 新的状态值
@@ -80,8 +80,8 @@ func get_movement_status() -> bool:
 ## 返回实体当前的实际移动速度大小（不包含方向）
 ## [br][br][b]返回:[/b] [float] 当前速度的大小
 func get_current_speed() -> float:
-	if binding_entity and binding_entity.main_control is CharacterBody2D:
-		return binding_entity.main_control.velocity.length()
+	if c_action.component_body is CharacterBody2D:
+		return c_action.component_body.velocity.length()
 	return 0.0
 
 ## 检查实体是否接近生命周期结束
@@ -110,9 +110,9 @@ func _detect_state():
 ## 将移动状态重置为初始状态，通常在实体被重新初始化时调用
 func _reset():
 		# 验证实体类型兼容性
-	direction = blackboard.get_value("start_direction", Vector2.RIGHT, true)
+	direction = c_action.get_value("start_direction", Vector2.RIGHT)
 
-	max_lifetime = blackboard.get_value("max_lifetime", 2.0)
+	max_lifetime = c_action.get_value("max_lifetime", 2.0)
 	_time = 0
 	current_action_state = action_states[0]  # "idle"
 	# 重置action状态为idle

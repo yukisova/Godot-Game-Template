@@ -6,10 +6,11 @@
 @abstract class_name IComponent
 extends Node
 
-signal initialize_complete
+signal initialize_completed
 
 ## 组件名称枚举，定义ECS系统中所有可用组件的标识符，用于组件的注册和管理
 enum ComponentName {
+	NONE = -1, ## 保留用，用于初始化数据
 	C_ACTION_TRIGGER = 0, ## 见 [CActionTrigger] 行为触发组件
 	C_TEXTURE_CONTROLLER, ## 见 [CTextureController] 纹理渲染组件
 	C_COLLISION_BOX, ## 见 [CCollisionBox] 碰撞检测组件
@@ -41,7 +42,7 @@ func _initialize(_owner: IEntity, _load_data: Dictionary = {}):
 	if Engine.is_editor_hint():
 		return
 	if _load_data.size() > 0:
-		initialize_complete.connect(_load.bind(_load_data))
+		initialize_completed.connect(_load.bind(_load_data))
 
 	component_owner = _owner
 	component_body = component_owner.main_control
@@ -77,6 +78,12 @@ func _load(_dict: Dictionary):
 ## [br][br][b]返回:[/b] 黑板容器实例
 func get_blackboard() -> ContainerBlackboard:
 	return component_owner.component_container
+
+func set_value(data_name: StringName, data_value: Variant):
+	get_blackboard().set_value(component_name, data_name, data_value)
+
+func get_value(data_name: StringName, default: Variant = null, target_component_name: ComponentName = ComponentName.NONE) -> Variant:
+	return get_blackboard().get_value(target_component_name, data_name, default)
 
 func get_other_component(target_component_name: ComponentName) -> IComponent:
 	var result: IComponent = component_owner.list_base_components.get(target_component_name)

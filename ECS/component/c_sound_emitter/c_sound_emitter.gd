@@ -20,10 +20,8 @@ func _enter_tree() -> void:
 
 func _initialize(_owner: IEntity, _load_data: Dictionary = {}):
 	super._initialize(_owner, _load_data)
-	for i in sound_pool_size:
-		_create_sound_area()
 
-	initialize_complete.emit()
+	initialize_completed.emit()
 
 func _update(_delta: float):
 	if Input.is_action_just_pressed("ui_accept"):
@@ -56,6 +54,7 @@ func play_sound_static(sound_name: String, sound_force: int, sound_range: float,
 		return
 	## 2. 如果可用声音区域为空，则创建一个新的声音区域
 	if available_sound_areas.is_empty():
+		print("声音不够，新建来凑")
 		_create_sound_area()
 	print("新建声音区域")
 	## 3. 此时可用声音区域不为空，则从可用声音区域中获取一个声音区域，并设置相关的参数
@@ -68,9 +67,6 @@ func play_sound_static(sound_name: String, sound_force: int, sound_range: float,
 		"sound_spread_speed": sound_spread_speed
 	})
 	_spawn_sound_area(sound_area)
-
-func play_sound_dynamic():
-	pass
 
 ## [param sound_name]: 要停止的声音名称
 func stop_sound(sound_name: String):
@@ -95,8 +91,6 @@ func _load(_dict: Dictionary):
 func _spawn_sound_area(sound_area: ISoundArea):
 	active_sound_areas[sound_area.sound_name] = sound_area
 	sound_area.show()
-	sound_area.monitorable = true
-	sound_area.monitoring = true
 	sound_area.process_mode = Node.PROCESS_MODE_INHERIT
 
 func _create_sound_area():
@@ -105,18 +99,13 @@ func _create_sound_area():
 	add_child(sound_area)
 	# 连接声音完成信号
 	sound_area.process_mode = Node.PROCESS_MODE_DISABLED
-	sound_area.monitorable = false
-	sound_area.monitoring = false
-	sound_area.hide()
 	sound_area.sound_finished.connect(_on_sound_area_finished)
 	available_sound_areas.append(sound_area)
 
 func _on_sound_area_finished(sound_area: ISoundArea):
 	if active_sound_areas.has(sound_area.sound_name):
 		active_sound_areas.erase(sound_area.sound_name)
-	sound_area.process_mode = Node.PROCESS_MODE_DISABLED
-	sound_area.monitorable = false
-	sound_area.monitoring = false
 	sound_area.hide()
+	sound_area.process_mode = Node.PROCESS_MODE_DISABLED
 	if sound_area not in available_sound_areas:
 		available_sound_areas.append(sound_area)

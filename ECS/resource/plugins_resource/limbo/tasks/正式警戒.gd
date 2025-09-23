@@ -18,25 +18,25 @@ func _enter() -> void:
 				move_strategy.toward_control_by_move = false
 				blackboard.set_var("move_vector", move_strategy)
 
-func _tick(delta: float) -> Status:
-	var move_vector: MoveStrategyVector = blackboard.get_var("move_vector", null, false)
+func _tick(_delta: float) -> Status:
 	## 1. 判断视线范围内是否存在可疑目标
 	var sight_box: SightBox = blackboard.get_var("sight_box", null, false)
 	if sight_box:
 		if sight_box.sight_target.is_empty():
-			## 可疑目标消失，离开警戒状态
-			return Status.FAILURE
+			pass
 		else:
 			## 可疑目标存在，正式进行追踪
 			return Status.SUCCESS
 	else:
 		print("敌人没有视觉")
 
-	# var sound_box: SoundBox = blackboard.get_var("sound_box", null, false)
-	# if sound_box:
-	# 	## 可疑声音消失，离开警戒状态
-	# 	if sound_box.sound_target.is_empty():
-	# 		return Status.SUCCESS
-	# else:
-	# 	print("敌人没有听觉")
+	var sound_box: SoundBox = blackboard.get_var("sound_box", null, false)
+	if sound_box:
+		## 可疑声音消失，离开警戒状态
+		if sound_box.sound_target.is_empty():
+			return Status.FAILURE
+		else:
+			return Status.SUCCESS
+	else:
+		print("敌人没有听觉")
 	return Status.RUNNING

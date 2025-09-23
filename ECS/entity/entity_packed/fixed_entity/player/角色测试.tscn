@@ -1,4 +1,4 @@
-[gd_scene load_steps=44 format=3 uid="uid://dq753g4b1nmk8"]
+[gd_scene load_steps=46 format=3 uid="uid://dq753g4b1nmk8"]
 
 [ext_resource type="PackedScene" uid="uid://6jpwo3n27sj2" path="res://entity/entity_packed/fixed_entity/fixed_entity.tscn" id="1_fojvx"]
 [ext_resource type="Script" uid="uid://815l8mjrysw1" path="res://entity/entity_packed/fixed_entity/player/i_player.gd" id="2_dwa3q"]
@@ -18,6 +18,7 @@
 [ext_resource type="Script" uid="uid://gqqa50hcj824" path="res://component/c_state_machine/state/hfsm/state/player/状态_temp_屏息.gd" id="19_x5pf7"]
 [ext_resource type="Script" uid="uid://cpdkw72ahtbjj" path="res://component/c_state_machine/transition_record.gd" id="19_xt4na"]
 [ext_resource type="Script" uid="uid://dj1d6vr2iy6ds" path="res://component/c_state_machine/state/hfsm/state/player/状态_hfsm_移动.gd" id="20_8pq8l"]
+[ext_resource type="Script" uid="uid://dhx2hakp6ogox" path="res://component/c_collision_box/box_marker/dialogue_marker/dialogue_marker.gd" id="21_0fo6k"]
 [ext_resource type="PackedScene" uid="uid://cps21xspaovit" path="res://component/c_collision_box/c_collision_box.tscn" id="21_g7054"]
 [ext_resource type="Script" uid="uid://3c3x3bgxinnw" path="res://component/c_collision_box/box_ray/interact_ray/interact_ray.gd" id="22_i270p"]
 [ext_resource type="PackedScene" uid="uid://lu3gu1tfxdey" path="res://component/c_input_reactor/c_input_reactor.tscn" id="23_0eqlr"]
@@ -29,6 +30,7 @@
 [ext_resource type="PackedScene" uid="uid://tj8n3dnv556c" path="res://component/c_sound_emitter/c_sound_emitter.tscn" id="28_mlq86"]
 [ext_resource type="Script" uid="uid://dgr6bmwmusu73" path="res://component/c_input_reactor/reactor_extension/action_input/action_input.gd" id="29_rgjey"]
 [ext_resource type="Script" uid="uid://05a7wc4gf3hk" path="res://component/c_input_reactor/reactor_extension/action_input/action_input_record.gd" id="30_byc33"]
+[ext_resource type="Script" uid="uid://1csckupoqggl" path="res://component/c_input_reactor/reactor_extension/e_player/movement_input.gd" id="30_lmw8w"]
 [ext_resource type="PackedScene" uid="uid://b3vbfhugiqyva" path="res://component/c_action_trigger/c_action_trigger.tscn" id="31_dw5ky"]
 [ext_resource type="Script" uid="uid://dwt0prmf31a5" path="res://component/c_action_trigger/action/update_action/move_strategy/move_vector.gd" id="32_co28p"]
 [ext_resource type="Script" uid="uid://hais8gm07sce" path="res://entity/entity_packed/fixed_entity/player/action_input_map_nobita.gd" id="32_jrw4v"]
@@ -177,6 +179,8 @@ script = ExtResource("18_ey2ar")
 [node name="屏息" type="Node" parent="CharacterBody/ComponentContainer/CStateMachine/TempStates" index="3"]
 script = ExtResource("19_x5pf7")
 
+[node name="贴墙" type="Node" parent="CharacterBody/ComponentContainer/CStateMachine/TempStates" index="4"]
+
 [node name="CCollisionBox" parent="CharacterBody/ComponentContainer" index="3" instance=ExtResource("21_g7054")]
 
 [node name="InteractRay" type="RayCast2D" parent="CharacterBody/ComponentContainer/CCollisionBox" index="0"]
@@ -184,8 +188,11 @@ target_position = Vector2(30, 0)
 collision_mask = 2
 script = ExtResource("22_i270p")
 
+[node name="DialogueMarker" type="Marker2D" parent="CharacterBody/ComponentContainer/CCollisionBox" index="1"]
+script = ExtResource("21_0fo6k")
+character_name = "Nathan"
+
 [node name="CInputReactor" parent="CharacterBody/ComponentContainer" index="4" instance=ExtResource("23_0eqlr")]
-award_mode = "八向"
 
 [node name="TestCheckInfo" type="Node" parent="CharacterBody/ComponentContainer/CInputReactor" index="0"]
 script = ExtResource("24_mptg6")
@@ -207,14 +214,18 @@ pause_ui = ExtResource("28_hqspv")
 script = ExtResource("29_rgjey")
 input_parameter = Array[ExtResource("30_byc33")]([SubResource("Resource_hn80f"), SubResource("Resource_s1eqv"), SubResource("Resource_2yrpb"), SubResource("Resource_7ry0g"), SubResource("Resource_0mlm6"), SubResource("Resource_tnsi2"), SubResource("Resource_ajxtt"), SubResource("Resource_mlq86")])
 
+[node name="REMovementInput" type="Node" parent="CharacterBody/ComponentContainer/CInputReactor" index="4"]
+script = ExtResource("30_lmw8w")
+award_mode = 2
+metadata/_custom_type_script = "uid://1csckupoqggl"
+
 [node name="CActionTrigger" parent="CharacterBody/ComponentContainer" index="5" instance=ExtResource("31_dw5ky")]
 
-[node name="VectorMove" type="Node2D" parent="CharacterBody/ComponentContainer/CActionTrigger" index="0" node_paths=PackedStringArray("c_input", "blackboard")]
+[node name="VectorMove" type="Node2D" parent="CharacterBody/ComponentContainer/CActionTrigger" index="0" node_paths=PackedStringArray("movement_input")]
 script = ExtResource("32_co28p")
-c_input = NodePath("../../CInputReactor")
+movement_input = NodePath("../../CInputReactor/REMovementInput")
 move_speed = 2000.0
 movement_threshold = 100.0
-blackboard = NodePath("../..")
 
 [node name="ActionInputMap" type="Node2D" parent="CharacterBody/ComponentContainer/CActionTrigger" index="1" node_paths=PackedStringArray("c_texture_controller", "c_status")]
 script = ExtResource("32_jrw4v")

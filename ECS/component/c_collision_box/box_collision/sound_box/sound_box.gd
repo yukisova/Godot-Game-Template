@@ -28,10 +28,20 @@ func _enter_tree() -> void:
 	box_collision_name = CCollisionBox.BoxCollisionName.SOUND
 	collision_layer = Main.PhysicsLayer.Sound
 	collision_mask = Main.PhysicsLayer.Sound
+	
 	area_entered.connect(_on_area_entered)
+	area_exited.connect(_on_area_exited)
 
 func _initialize():
 	pass
+
+func get_target_direction() -> Vector2:
+	if sound_target.is_empty(): return Vector2.ZERO
+	return c_collision.component_body.global_position.direction_to(sound_target[-1].global_position).normalized()
+
+func get_target_position() -> Vector2:
+	if sound_target.is_empty(): return Vector2.INF
+	return sound_target[-1].global_position
 
 func _on_area_entered(area: Area2D):
 	if area is ISoundArea:

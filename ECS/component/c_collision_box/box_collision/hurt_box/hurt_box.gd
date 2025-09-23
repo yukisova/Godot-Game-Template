@@ -90,14 +90,14 @@ func _hurted_animation():
 ## 受伤粒子效果
 func _hurted_particle(hitbox: IHitbox):
 	var hitbox_position = hitbox.global_position
-	var hitbox_direction = hitbox.c_collision.get_blackboard().get_value("start_direction", Vector2.RIGHT, true)
+	var hitbox_direction = hitbox.c_collision.get_value("start_direction", Vector2.RIGHT)
 	
 	var effect_marker: EffectMarker = c_collision.box_markers.get(CCollisionBox.BoxMarkerType.EFFECT)
 	if effect_marker:
 		effect_marker.hurted_effect(hitbox_position, -hitbox_direction)
 
 func _hurted_decal(hitbox: IHitbox):
-	var hitbox_direction = hitbox.c_collision.get_blackboard().get_value("start_direction", Vector2.RIGHT, true)
+	var hitbox_direction = hitbox.c_collision.get_value("start_direction", Vector2.RIGHT)
 	var decal_range = randi_range(50, 100)
 	var context = {"start_direction": hitbox_direction, "target_range": decal_range}
 

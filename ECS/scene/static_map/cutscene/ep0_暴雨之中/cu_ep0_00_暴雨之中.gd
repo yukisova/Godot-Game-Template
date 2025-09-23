@@ -12,7 +12,7 @@ extends ICutscene
 const dialogue_packed = preload("res://ui/ui/ui_dialogue/normal/ui_dialogue_normal.tscn")
 
 ## 对话资源
-const dialogue_resource = preload("res://resource/plugins_resource/dialogue/ep0_暴雨之中.dialogue")
+const dialogue_resource = preload("res://resource/plugins_resource/dialogue/第一章测试用文本.dialogue")
 
 ## 对话标签字典
 const dialogue_label: Dictionary = {\
@@ -26,6 +26,7 @@ const dialogue_label: Dictionary = {\
 
 ## 开始过场剧情—执行EP0暴雨之中开场剧情的完整流程
 func _start():
+	return
 	# 设置时间循环系统的读取时间
 	SBlackboard.sub_systems[SBlackboard.SubSystemType.TIME_LOOP].read_time = 511
 	

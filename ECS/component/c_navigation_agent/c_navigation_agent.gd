@@ -68,7 +68,7 @@ func _initialize(_owner: IEntity, _load_data: Dictionary = {}):
 	trace_refresh_timer.stop()
 	#endregion
 	
-	initialize_complete.emit()
+	initialize_completed.emit()
 
 #region 设置目标的导航位置
 ## 设置导航目标位置，设置AI要导航到的固定位置坐标

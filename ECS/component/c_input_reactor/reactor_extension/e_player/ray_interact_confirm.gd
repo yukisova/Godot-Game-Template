@@ -1,8 +1,4 @@
-## 射线交互确认扩展 - 处理基于射线的交互和攻击操作
-## 射线自动朝向鼠标方向，检测交互目标并触发交互事件
-## 同时控制武器朝向和攻击动作，适用于远程交互和精确瞄准
-## [br][b]编辑者:[/b] Sora
-class_name RayInteractConfirmExtension
+class_name RERayInteractConfirm
 extends ReactorExtension
 ## 是否控制朝向瞄准鼠标方向
 @export var toward_control_by_mouse: bool = false
@@ -15,7 +11,7 @@ extends ReactorExtension
 
 func _late_initialize():
 	if toward_control_by_mouse:
-		var c_action_trigger :CActionTrigger= c_input_reactor.get_other_component(IComponent.ComponentName.C_ACTION_TRIGGER)
+		var c_action_trigger: CActionTrigger= c_input_reactor.get_other_component(IComponent.ComponentName.C_ACTION_TRIGGER)
 		var move_strategy = c_action_trigger.move_strategy
 		if !move_strategy.is_empty():
 			var move_strategy_vector = move_strategy[0] as MoveStrategyVector
@@ -28,7 +24,7 @@ func _listen():
 	var vector: Vector2
 	
 	if toward_control_by_mouse:
-		var mouse_info = SoraEvent.fixed_mouse_position(c_input_reactor.component_owner.main_control)
+		var mouse_info = SoraEvent.fixed_camera_position(c_input_reactor.component_owner.main_control)
 		if !mouse_info.is_empty():
 			# 获取视口中的鼠标位置
 			var mouse_pos = mouse_info["viewport_mouse_pos"]

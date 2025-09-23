@@ -1,6 +1,31 @@
-[gd_resource type="TileSet" load_steps=3 format=3 uid="uid://dcn0ivbub3x32"]
+[gd_resource type="TileSet" load_steps=17 format=3 uid="uid://dcn0ivbub3x32"]
 
 [ext_resource type="Texture2D" uid="uid://dg4ky1oa5lwpl" path="res://asset/tileset/Room_Bulder_subfiles_32x32/Room_Builder_3d_walls_32x32.png" id="1_51l21"]
+[ext_resource type="Texture2D" uid="uid://0nqg00bid7wr" path="res://asset/tileset/Room_Bulder_subfiles_32x32/Room_Builder_Arched_Entryways_32x32.png" id="1_pfdbt"]
+[ext_resource type="Texture2D" uid="uid://xtme05ektn01" path="res://asset/tileset/Room_Bulder_subfiles_32x32/Room_Builder_baseboards_32x32.png" id="2_cdisb"]
+[ext_resource type="Texture2D" uid="uid://bbxrbxamw3enj" path="res://asset/tileset/Room_Bulder_subfiles_32x32/Room_Builder_borders_32x32.png" id="4_po2w2"]
+[ext_resource type="Texture2D" uid="uid://7chxa370bx2v" path="res://asset/tileset/Room_Bulder_subfiles_32x32/Room_Builder_Floors_32x32.png" id="5_yhgfa"]
+[ext_resource type="Texture2D" uid="uid://4m3escrgekro" path="res://asset/tileset/Room_Bulder_subfiles_32x32/Room_Builder_Floor_Connectors_32x32.png" id="6_fcwic"]
+[ext_resource type="Texture2D" uid="uid://cdvteqyho1fhr" path="res://asset/tileset/Room_Bulder_subfiles_32x32/Room_Builder_Floor_Paths_32x32.png" id="7_8ajsm"]
+[ext_resource type="Texture2D" uid="uid://djp4l2rumq56j" path="res://asset/tileset/Room_Bulder_subfiles_32x32/Room_Builder_Floor_Shadows_32x32.png" id="8_n2kmy"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_c0we4"]
+texture = ExtResource("1_pfdbt")
+texture_region_size = Vector2i(32, 32)
+2:26/0 = 0
+3:26/0 = 0
+3:27/0 = 0
+2:27/0 = 0
+2:0/0 = 0
+3:0/0 = 0
+3:1/0 = 0
+2:2/0 = 0
+2:1/0 = 0
+3:2/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_f3kut"]
+texture = ExtResource("2_cdisb")
+texture_region_size = Vector2i(32, 32)
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_u7xpe"]
 texture = ExtResource("1_51l21")
@@ -104,6 +129,26 @@ texture_region_size = Vector2i(32, 32)
 17:0/0 = 0
 17:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-16, -16, 16, -16, 16, 16, -16, 16)
 
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_dm7ol"]
+texture = ExtResource("4_po2w2")
+texture_region_size = Vector2i(32, 32)
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ur01o"]
+texture = ExtResource("5_yhgfa")
+texture_region_size = Vector2i(32, 32)
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_cqod7"]
+texture = ExtResource("6_fcwic")
+texture_region_size = Vector2i(32, 32)
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_qy2y4"]
+texture = ExtResource("7_8ajsm")
+texture_region_size = Vector2i(32, 32)
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_k78fw"]
+texture = ExtResource("8_n2kmy")
+texture_region_size = Vector2i(32, 32)
+
 [resource]
 tile_size = Vector2i(32, 32)
 occlusion_layer_0/light_mask = 1
@@ -113,3 +158,10 @@ terrain_set_0/terrain_0/name = "墙壁"
 terrain_set_0/terrain_0/color = Color(0.5, 0.34375, 0.25, 1)
 navigation_layer_0/layers = 1
 sources/2 = SubResource("TileSetAtlasSource_u7xpe")
+sources/0 = SubResource("TileSetAtlasSource_c0we4")
+sources/1 = SubResource("TileSetAtlasSource_f3kut")
+sources/3 = SubResource("TileSetAtlasSource_dm7ol")
+sources/4 = SubResource("TileSetAtlasSource_ur01o")
+sources/6 = SubResource("TileSetAtlasSource_cqod7")
+sources/7 = SubResource("TileSetAtlasSource_qy2y4")
+sources/8 = SubResource("TileSetAtlasSource_k78fw")

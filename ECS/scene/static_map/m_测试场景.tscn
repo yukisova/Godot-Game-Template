@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=4 uid="uid://nqh6sy3jpxp3"]
+[gd_scene load_steps=26 format=4 uid="uid://nqh6sy3jpxp3"]
 
 [ext_resource type="PackedScene" uid="uid://dx8lfcn7h43ea" path="res://resource/node_template/map/static_map/static_map.tscn" id="1_8b7id"]
 [ext_resource type="AudioStream" uid="uid://cshvyslspontd" path="res://asset/audio/旖旎飞雪 - 02 Walking.ogg" id="2_320cn"]
@@ -12,8 +12,9 @@
 [ext_resource type="Resource" uid="uid://beo0dmy38xpw6" path="res://resource/custom_resource/item/item_equipment/1_手电筒/E_A_FLASHLIGHT.tres" id="11_320cn"]
 [ext_resource type="Script" uid="uid://dyicjmjyi8vve" path="res://component/c_interactable/interaction/interaction_collect.gd" id="11_mtn5c"]
 [ext_resource type="Resource" uid="uid://f8x8v2iu6h6e" path="res://resource/custom_resource/item/item_weapon/1_左轮/W_A_REVOVLER.tres" id="13_ervho"]
-[ext_resource type="Resource" uid="uid://cgtgigqia4o2a" path="res://resource/custom_resource/item/item_weapon/1_左轮/左轮子弹/左轮_子弹_普通.tres" id="15_8b7id"]
+[ext_resource type="Script" uid="uid://djglhr34yxc4x" path="res://component/c_interactable/interaction/interaction_dialogue.gd" id="15_320cn"]
 [ext_resource type="PackedScene" uid="uid://ht3v3wnr5dy" path="res://entity/entity_packed/fixed_entity/enemy/敌人.tscn" id="16_8b7id"]
+[ext_resource type="Resource" uid="uid://qmi1oj36w1qj" path="res://resource/plugins_resource/dialogue/第一章测试用文本.dialogue" id="16_p2mf1"]
 [ext_resource type="PackedScene" uid="uid://bnl0vt21ig8ew" path="res://resource/custom_resource/item/item_weapon/1_左轮/attack_node_REVOVLER.tscn" id="17_kqh3t"]
 [ext_resource type="Shader" uid="uid://ybp62d200rx5" path="res://resource/shader/纹理闪烁.gdshader" id="18_320cn"]
 [ext_resource type="PackedScene" uid="uid://dofu8tj40v5it" path="res://entity/entity_packed/object_entity/transport_point/transport_point.tscn" id="29_nfrqy"]
@@ -112,16 +113,16 @@ shape = SubResource("RectangleShape2D_qubac")
 [node name="OneshotPoint3" parent="Levels/Level" index="12" instance=ExtResource("10_2y2ga")]
 position = Vector2(176, 216)
 
-[node name="InteractionCollect" type="Node" parent="Levels/Level/OneshotPoint3" index="1"]
-script = ExtResource("11_mtn5c")
-binding_item = ExtResource("15_8b7id")
-metadata/_custom_type_script = "uid://dyicjmjyi8vve"
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Levels/Level/OneshotPoint3" index="2"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Levels/Level/OneshotPoint3" index="1"]
 shape = SubResource("RectangleShape2D_qubac")
 
-[node name="Sprite2D" type="Sprite2D" parent="Levels/Level/OneshotPoint3" index="3"]
+[node name="Sprite2D" type="Sprite2D" parent="Levels/Level/OneshotPoint3" index="2"]
 texture = SubResource("GradientTexture2D_kqh3t")
+
+[node name="InteractionDialogue" type="Node" parent="Levels/Level/OneshotPoint3" index="3"]
+script = ExtResource("15_320cn")
+test_dialogue = ExtResource("16_p2mf1")
+metadata/_custom_type_script = "uid://djglhr34yxc4x"
 
 [node name="NavigationRegion2D" type="NavigationRegion2D" parent="Levels/Level" index="13"]
 navigation_polygon = SubResource("NavigationPolygon_8b7id")
@@ -140,10 +141,10 @@ unwatchable = true
 material = SubResource("ShaderMaterial_p2mf1")
 
 [node name="Right" parent="Levels/Level/敌人/CharacterBody/ComponentContainer/CTextureController/PackedManSe/Whole" index="1" node_paths=PackedStringArray("sprite")]
-sprite = NodePath("@Sprite2D@38923")
+sprite = NodePath("@Sprite2D@24005")
 
 [node name="Left" parent="Levels/Level/敌人/CharacterBody/ComponentContainer/CTextureController/PackedManSe/Whole" index="2" node_paths=PackedStringArray("sprite")]
-sprite = NodePath("@Sprite2D@38924")
+sprite = NodePath("@Sprite2D@24006")
 
 [node name="PackedSpriteEditor" parent="Levels/Level/敌人/CharacterBody/ComponentContainer/CTextureController/PackedManSe" index="2" node_paths=PackedStringArray("control_parts")]
 control_parts = {

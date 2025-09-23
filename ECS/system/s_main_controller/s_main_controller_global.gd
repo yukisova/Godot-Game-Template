@@ -1,8 +1,7 @@
-## 游戏主控制系统 - 管理玩家的输入信息逻辑与主要控制对象
-## 负责玩家角色生成、定位、传送和伙伴管理等核心功能
-## 支持多种移动模式并提供玩家输入的方向控制算法
-## [br][b]编辑者:[/b] Sora
 extends ISystem
+
+signal player_located(target_level: Level, _context: Dictionary)
+signal partner_joined(_partner: IEntity)
 
 enum PlayType {
 	SINGLE = 0, ## 单人模式
@@ -10,28 +9,16 @@ enum PlayType {
 	THREE = 2, ## 三人模式
 	FOUR = 3, ## 四人模式
 }
-
 enum DeviceType {
 	COMPUTER, ## 电脑
 	MOBILE, ## 移动端
 	GAMEPAD, ## 游戏手柄
 }
 
-## 默认游戏模式
-var play_type: PlayType = PlayType.SINGLE
-
-## 玩家定位信号
-## [param target_level]: 目标关卡
-## [param _context]: 定位上下文信息
-signal player_located(target_level: Level, _context: Dictionary)
-
-## 伙伴加入信号
-## [param _partner]: 加入的伙伴实体
-signal partner_joined(_partner: IEntity)
-
-## 玩家场景资源
-## 用于实例化玩家角色的预制场景
 @export var player_scene: Array[PackedScene]
+
+var play_type: PlayType = PlayType.SINGLE
+var partner: IEntity = null
 var input_listener_list: Dictionary[PlayerRecordInfo, InputListener]
 var player_static: Dictionary[PlayerRecordInfo, IEntity]
 
@@ -41,9 +28,6 @@ class PlayerRecordInfo extends Resource:
 	
 	func _init(_player_scene_index: int) -> void:
 		player_scene_index = _player_scene_index
-
-
-@export var partner: IEntity = null
 
 func _enter_tree() -> void:
 	set_process_unhandled_input(false)
@@ -75,13 +59,9 @@ func _get_player_info_by_name(player_name: String) -> IEntity:
 			return player_static[i]
 	return null
 
-## 处理玩家定位信号的回调函数
-## [param target_level]: 目标关卡
-## [param _context]: 定位上下文信息
 func _on_player_located(target_level: Level, _context: Dictionary):
 	match _context.get("type", "Initialize"):
 		"Initialize":
-			## 无论是单人还是双人，player_static都可以用来作为判断的标准
 			if (!player_static.is_empty()):
 				var index: int = 0
 				for player: IEntity in player_static.values():
@@ -124,11 +104,6 @@ func _on_player_located(target_level: Level, _context: Dictionary):
 	SSignalBus.entity_initialize_started.emit()
 	Main.entity_initialzable = true
 
-#region 角色的主要移动方法(工具方法)
-
-## 根据所需要获取的输入目标，对目标进行相关的映射
-## [param entity: 角色实体]
-## [br][br][b]返回:[/b] [SoraConstant.InputTarget] 输入目标
 func get_input_target(entity: IEntity) -> SoraConstant.InputTarget:
 	if entity == _get_player_info_by_index(0):
 		return SoraConstant.InputTarget.PLAYER1
@@ -141,6 +116,7 @@ func get_input_target(entity: IEntity) -> SoraConstant.InputTarget:
 	else:
 		return SoraConstant.InputTarget.COMMON
 
+#region 移动输入
 ## 预留的双向移动控制方法
 func _vec_input_2_toward(entity_input_target: SoraConstant.InputTarget) -> Dictionary:
 	var prefix: String
@@ -161,8 +137,6 @@ func _vec_input_2_toward(entity_input_target: SoraConstant.InputTarget) -> Dicti
 		"pre_vec": Input.get_vector(prefix + "move_l", prefix + "move_r", prefix + "move_u", prefix + "move_d")
 	}
 
-## 处理四个方向的离散移动输入
-## 优先级为：左→右→上→下
 func _vec_input_4_toward(entity_input_target: SoraConstant.InputTarget) -> Dictionary:
 	var prefix: String
 	match entity_input_target:
@@ -192,8 +166,6 @@ func _vec_input_4_toward(entity_input_target: SoraConstant.InputTarget) -> Dicti
 		vec_info["pre_vec"] = vec_info["vec"]
 	return vec_info
 
-## 处理八个方向的离散移动输入
-## 支持对角线移动，使用符号函数转换
 func _vec_input_8_toward(entity_input_target: SoraConstant.InputTarget) -> Dictionary:
 	var prefix: String
 	match entity_input_target:
@@ -214,8 +186,6 @@ func _vec_input_8_toward(entity_input_target: SoraConstant.InputTarget) -> Dicti
 		vec_info["pre_vec"] = vec_info["vec"]
 	return vec_info
 
-## 处理连续的全方向移动输入
-## 支持精确的模拟控制和部分移动
 func _vec_input_a_toward(entity_input_target: SoraConstant.InputTarget) -> Dictionary:
 	var prefix: String
 	match entity_input_target:
@@ -236,12 +206,9 @@ func _vec_input_a_toward(entity_input_target: SoraConstant.InputTarget) -> Dicti
 		vec_info["pre_vec"] = vec_info["vec"]
 	return vec_info
 
-## 根据鼠标点击的位置进行移动
-## 类似moba游戏的操控方式
 func _vec_input_m_toward(entity_input_target: SoraConstant.InputTarget) -> Dictionary:
 	var vec_info: Dictionary = {}
 	
-	# 获取当前玩家实体
 	var current_player: IEntity
 	match entity_input_target:
 		SoraConstant.InputTarget.PLAYER1:
@@ -256,36 +223,26 @@ func _vec_input_m_toward(entity_input_target: SoraConstant.InputTarget) -> Dicti
 			# 默认使用玩家1
 			current_player = _get_player_info_by_index(0)
 	
-	# 检查玩家是否存在
 	if not current_player or not is_instance_valid(current_player):
 		vec_info["vec"] = Vector2.ZERO
 		return vec_info
 	
-	# 获取玩家当前位置
 	var player_position = current_player.main_control.global_position
 	
-	# 获取鼠标在世界坐标系中的位置
 	var mouse_world_position: Vector2
 	
-	# 获取对应的相机视口
 	var camera_viewport = SViewportManager.get_viewport_container(current_player.main_control)
 	if camera_viewport and camera_viewport.camera:
-		# 获取视口中的鼠标位置
 		var mouse_screen_position = camera_viewport.get_viewport_mouse_position()
 		
-		# 获取相机中心位置
 		var camera_center = camera_viewport.camera.get_screen_center_position()
 		
-		# 计算鼠标在世界坐标系中的位置
 		mouse_world_position = (mouse_screen_position - Vector2(camera_viewport.viewport.size)/2) + camera_center
 	else:
-		# 如果没有找到相机视口，使用视口鼠标位置
 		mouse_world_position = get_viewport().get_mouse_position()
 	
-	# 计算从玩家到鼠标位置的方向向量
 	var direction_vector = mouse_world_position - player_position
 	
-	# 检查是否有鼠标输入（左键点击）
 	var prefix: String
 	match entity_input_target:
 		SoraConstant.InputTarget.PLAYER1:
@@ -299,11 +256,9 @@ func _vec_input_m_toward(entity_input_target: SoraConstant.InputTarget) -> Dicti
 		_:
 			return {}
 	
-	# 检查是否按下主要动作键（通常是鼠标左键）
 	var is_moving = Input.is_action_pressed(prefix + "movement")
 	
 	if is_moving and not direction_vector.is_zero_approx():
-		# 标准化方向向量
 		vec_info["vec"] = direction_vector.normalized()
 		vec_info["pre_vec"] = vec_info["vec"]
 	else:
@@ -311,7 +266,6 @@ func _vec_input_m_toward(entity_input_target: SoraConstant.InputTarget) -> Dicti
 	
 	return vec_info
 #endregion
-
 
 func create_listener_by_player(player: IEntity, input_component: CInputReactor):
 	var new_listener = InputListener.new()

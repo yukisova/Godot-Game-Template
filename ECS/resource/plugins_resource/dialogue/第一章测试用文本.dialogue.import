@@ -1,0 +1,16 @@
+[remap]
+
+importer="dialogue_manager"
+importer_version=15
+type="Resource"
+uid="uid://qmi1oj36w1qj"
+path="res://.godot/imported/第一章测试用文本.dialogue-6b94407c3d293e5e967c304b6689a1da.tres"
+
+[deps]
+
+source_file="res://resource/plugins_resource/dialogue/第一章测试用文本.dialogue"
+dest_files=["res://.godot/imported/第一章测试用文本.dialogue-6b94407c3d293e5e967c304b6689a1da.tres"]
+
+[params]
+
+defaults=true

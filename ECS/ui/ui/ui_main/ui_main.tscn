@@ -74,14 +74,13 @@ custom_minimum_size = Vector2(300, 80)
 layout_mode = 2
 text = "测试游戏"
 script = ExtResource("3_3ko51")
-args = ["res://scene/static_map/m_测试场景.tscn"]
+args = ["res://scene/static_map/m_03_医院.tscn"]
 
 [node name="StartGame" type="Button" parent="View/Control/MarginContainer/VBoxContainer" index="2"]
 custom_minimum_size = Vector2(300, 80)
 layout_mode = 2
 text = "开始游戏"
 script = ExtResource("3_3ko51")
-args = ["res://scene/static_map/m_地铁站_ep_1.tscn"]
 
 [node name="LoadGame" type="Button" parent="View/Control/MarginContainer/VBoxContainer" index="3"]
 visible = false

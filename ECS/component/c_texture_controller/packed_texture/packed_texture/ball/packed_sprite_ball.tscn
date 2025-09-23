@@ -130,7 +130,7 @@ hframes = 2
 use_parent_material = true
 script = ExtResource("2_tguvx")
 default_texture = SubResource("AtlasTexture_tguvx")
-sprite = NodePath("@Sprite2D@37158")
+sprite = NodePath("@Sprite2D@24011")
 packed_sprite_editor = NodePath("../../PSEditorBall")
 metadata/_custom_type_script = "uid://borj824dr1kti"
 
@@ -138,7 +138,7 @@ metadata/_custom_type_script = "uid://borj824dr1kti"
 use_parent_material = true
 script = ExtResource("2_tguvx")
 default_texture = SubResource("AtlasTexture_tguvx")
-sprite = NodePath("@Sprite2D@37159")
+sprite = NodePath("@Sprite2D@24012")
 packed_sprite_editor = NodePath("../../PSEditorBall")
 metadata/_custom_type_script = "uid://borj824dr1kti"
 

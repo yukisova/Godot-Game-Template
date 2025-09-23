@@ -1,83 +1,174 @@
-## 容器黑板 - 组件级数据共享和实体初始化管理器
-## 为组件提供局部数据共享机制，主要用于实体在运行时的动态创建和初始化
-## 核心功能：实体初始化数据解析、组件间数据共享、类型安全的数据存储、数据变化事件通知
-## 应用场景：动态创建实体参数传递、组件间临时数据共享、实体状态运行时配置、策略模式参数存储
-## [br][b]编辑者:[/b] Sora
 class_name ContainerBlackboard
 extends Node2D
 
-enum CBlackboardType{
-	Init,
-	Share
-}
+var binding_entity: IEntity
+## 已注册的数据
+var registered_data: Dictionary = {}
 
-## 数据存储核心，存储所有黑板数据，每个条目包含值和类型信息
-## 字典结构：{key: {"value": value, "type": type}}
-var data_init: Dictionary = {}
+func set_value(target_component_name: IComponent.ComponentName, data_name: StringName, data_value: Variant):
+	if not registered_data.has(target_component_name):
+		registered_data[target_component_name] = {}
+	registered_data[target_component_name][data_name] = data_value
+	
+func get_value(target_component_name: IComponent.ComponentName, data_name: StringName, default = null) -> Variant:
+	return registered_data.get(target_component_name, {}).get(data_name, default)
 
-## 存储实体在运行时的共享信息，目标是代替
-var data_share: Dictionary = {}
+func has_value(target_component_name: IComponent.ComponentName, data_name: StringName) -> bool:
+	return registered_data.get(target_component_name, {}).has(data_name)
 
-## 设置黑板数据，支持类型检查的数据写入，确保数据类型的一致性
-## [param key]: 数据键名
-## [param value]: 数据值
-## [param type]: 期望的数据类型，TYPE_NIL表示不进行类型检查
-## [br][br][b]返回:[/b] 写入是否成功
-func set_value(key: Variant, value, type: Variant.Type = TYPE_NIL, is_init: bool = false) -> bool:
-	# 类型检查：如果指定了类型且不匹配，则报错
-	if type != TYPE_NIL and typeof(value) != type:
-		push_error("容器黑板: 数据类型不匹配，键名: " + str(key) + "，期望类型: " + str(type) + "，实际类型: " + str(typeof(value)))
-		return false
-	if is_init:
-		# 存储数据和类型信息
-		data_init[key] = {"value": value, "type": type}
-	else:
-		data_share[key] = {"value": value, "type": type}
-	return true
-
-## 获取黑板数据，支持默认值的数据读取，如果键不存在则返回默认值
-## [param key]: 数据键名
-## [param default]: 默认值，当键不存在时返回
-## [br][br][b]返回:[/b] 数据值或默认值
-func get_value(key: Variant, default = null, is_init: bool = false):
-	if is_init:
-		return data_init.get(key, {"value": default}).value
-	else:
-		return data_share.get(key, {"value": default}).value
-
-## 检查数据是否存在，判断指定键名的数据是否存在于黑板中
-## [param key]: 数据键名
-## [br][br][b]返回:[/b] 数据是否存在
-func has_value(key: Variant, is_init: bool = false) -> bool:
-	if is_init:
-		return data_init.has(key)
-	else:
-		return data_share.has(key)
-## 移除黑板数据，从黑板中删除指定键名的数据
-## [param key]: 要移除的数据键名
-## [br][br][b]返回:[/b] 移除是否成功
-func remove_value(key: Variant, is_init: bool = false) -> bool:
-	if is_init:
-		if data_init.has(key):
-			data_init.erase(key)
-			return true
-	else:
-		if data_share.has(key):
-			data_share.erase(key)
-			return true
-	return false
-
-## 实体初始化数据解析，使用上下文字典对实体进行配置和初始化
-## [param context]: 包含初始化数据的字典，类型为 [Dictionary]
-func initilize_data_parse(context: Dictionary):
+## TODO
+func _data_parse(context: Dictionary):
 	for key in context.keys():
+		var data_name = context[key].get("name")
+		var data_value = context[key].get("value")
+		var data_parser: CBDataParser
 		match key:
-			"":
-				# 空键名跳过
-				continue
-			"global_position":
-				# 特殊处理：直接设置实体位置
-				owner.global_position = context[key]
+			IComponent.ComponentName.NONE:
+				data_parser = CBD_None.new(self)
+			IComponent.ComponentName.C_ACTION_TRIGGER:
+				data_parser = CBD_ActionTrigger.new(self)
+			IComponent.ComponentName.C_TEXTURE_CONTROLLER:
+				data_parser = CBD_TextureController.new(self)
+			IComponent.ComponentName.C_COLLISION_BOX:
+				data_parser = CBD_CollisionBox.new(self)
+			IComponent.ComponentName.C_INPUT_REACTOR:
+				data_parser = CBD_InputReactor.new(self)
+			IComponent.ComponentName.C_INTERACTABLE:
+				data_parser = CBD_Interactable.new(self)
+			IComponent.ComponentName.C_STATE_MACHINE:
+				data_parser = CBD_StateMachine.new(self)
+			IComponent.ComponentName.C_STATUS_LIST:
+				data_parser = CBD_StatusList.new(self)
+			IComponent.ComponentName.C_NAVIGATION_AGENT:
+				data_parser = CBD_NavigationAgent.new(self)
+			IComponent.ComponentName.C_BALLOON:
+				data_parser = CBD_Balloon.new(self)
+			IComponent.ComponentName.C_BEHAVIOUR_TREE:
+				data_parser = CBD_BehaviourTree.new(self)
+			IComponent.ComponentName.C_ENVIRONMENT_REACTOR:
+				data_parser = CBD_EnvironmentReactor.new(self)
+			IComponent.ComponentName.C_SOUND_EMITTER:
+				data_parser = CBD_SoundEmitter.new(self)
 			_:
-				# 一般数据：存储到黑板中，供组件使用
-				set_value(key, context[key], typeof(context[key]), true)
+				data_parser = CBD_None.new(self)
+		data_parser.parse(data_name, data_value)
+
+class CBDataParser:
+	var container_blackboard: ContainerBlackboard
+	func _init(_container_blackboard: ContainerBlackboard) -> void:
+		container_blackboard = _container_blackboard
+
+	func parse(data_name: StringName, data_value: Variant):
+		if data_value == null or data_name == &"":
+			return
+	func _default_parse(data_name: StringName, data_value: Variant):
+		container_blackboard.set_value(IComponent.ComponentName.NONE, data_name, data_value)
+
+class CBD_None extends CBDataParser:
+	func parse(data_name: StringName, data_value: Variant):
+		super(data_name, data_value)
+		match data_name:
+			&"global_position":
+				container_blackboard.binding_entity.main_control.global_position = data_value
+			_:
+				_default_parse(data_name, data_value)
+
+class CBD_ActionTrigger extends CBDataParser:
+	func parse(data_name: StringName, data_value: Variant):
+		super(data_name, data_value)
+		match data_name:
+			## TODO 待实现
+			_:
+				_default_parse(data_name, data_value)
+
+class CBD_TextureController extends CBDataParser:
+	func parse(data_name: StringName, data_value: Variant):
+		super(data_name, data_value)
+		match data_name:
+			## TODO 待实现
+			_:
+				_default_parse(data_name, data_value)
+
+class CBD_CollisionBox extends CBDataParser:
+	func parse(data_name: StringName, data_value: Variant):
+		super(data_name, data_value)
+		match data_name:
+			## TODO 待实现
+			_:
+				_default_parse(data_name, data_value)
+		
+class CBD_InputReactor extends CBDataParser:
+	func parse(data_name: StringName, data_value: Variant):
+		super(data_name, data_value)
+		match data_name:
+			## TODO 待实现
+			_:
+				_default_parse(data_name, data_value)
+
+class CBD_Interactable extends CBDataParser:
+	func parse(data_name: StringName, data_value: Variant):
+		super(data_name, data_value)
+		match data_name:
+			## TODO 待实现
+			_:
+				_default_parse(data_name, data_value)
+
+class CBD_StateMachine extends CBDataParser:
+	func parse(data_name: StringName, data_value: Variant):
+		super(data_name, data_value)
+		match data_name:
+			## TODO 待实现
+			_:
+				_default_parse(data_name, data_value)
+
+class CBD_StatusList extends CBDataParser:
+	func parse(data_name: StringName, data_value: Variant):
+		super(data_name, data_value)
+		match data_name:
+			## TODO 待实现
+			_:
+				_default_parse(data_name, data_value)
+
+class CBD_NavigationAgent extends CBDataParser:
+	func parse(data_name: StringName, data_value: Variant):
+		super(data_name, data_value)
+		match data_name:
+			## TODO 待实现
+			_:
+				_default_parse(data_name, data_value)
+
+class CBD_Balloon extends CBDataParser:
+	func parse(data_name: StringName, data_value: Variant):
+		super(data_name, data_value)
+		match data_name:
+			## TODO 待实现
+			_:
+				_default_parse(data_name, data_value)
+
+class CBD_BehaviourTree extends CBDataParser:
+	func parse(data_name: StringName, data_value: Variant):
+		super(data_name, data_value)
+		match data_name:
+			## TODO 待实现
+			_:
+				_default_parse(data_name, data_value)
+
+class CBD_EnvironmentReactor extends CBDataParser:
+	func parse(data_name: StringName, data_value: Variant):
+		super(data_name, data_value)
+		match data_name:
+			## TODO 待实现
+			_:
+				_default_parse(data_name, data_value)
+
+class CBD_SoundEmitter extends CBDataParser:
+	func parse(data_name: StringName, data_value: Variant):
+		super(data_name, data_value)
+		match data_name:
+			## TODO 待实现
+			_:
+				_default_parse(data_name, data_value)
+
+## 黑板内的数据类型
+## key: IComponent.ComponentName
+## value: StringName: Variant

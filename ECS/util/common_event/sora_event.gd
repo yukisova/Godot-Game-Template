@@ -51,12 +51,16 @@ static func fixed_dictionary(node: Node, data: Dictionary) -> Dictionary:
 					fixed_data[key][i] = fixed_dictionary(node, fixed_data[key][i])
 				elif fixed_data[key][i] is NodePath:
 					fixed_data[key][i] = node.get_node(fixed_data[key][i])
+		elif fixed_data[key] is ContainerBlackboardData:
+			var data_name = fixed_data[key].get_data_name()
+			var data_value = fixed_data[key].get_data_value()
+			fixed_data[key] = fixed_dictionary(node, {"name": data_name, "value": data_value}) 
 	return fixed_data
 
 
 #region 相机特效相关
 ## 根据ViewportManager中的信息，获取
-static func fixed_mouse_position(camera_target: Node2D) -> Dictionary:
+static func fixed_camera_position(camera_target: Node2D) -> Dictionary:
 	var camera_viewport = SViewportManager.get_viewport_container(camera_target)
 	var result = {}
 	if camera_viewport:
@@ -263,58 +267,58 @@ static func _set_image_scale_size_optimized(image: Image, image_size: Vector2i) 
 #endregion
 
 #region 视图相关
-## 从主视口坐标转换为子视口坐标
-## 当使用SubViewport和SubViewportContainer时，get_global_mouse_position()会返回相对于主视口的位置
-## 此函数将主视口坐标转换为子视口内的正确坐标
-## 已修复：现在支持相机zoom缩放修正
-## [param viewport_container]: 视口容器，类型为[SubViewportContainer]
-## [param main_viewport_coords]: 主视口中的坐标位置，类型为[Vector2]
-## [param camera]: 可选的相机引用，用于应用zoom缩放修正，类型为[Camera2D]
-## [br][br][b]返回:[/b] 转换后的子视口坐标
-static func main_to_subviewport_coords(viewport_container: SubViewportContainer, main_viewport_coords: Vector2, camera: Camera2D = null) -> Vector2:
-	# 1. 获取视口容器在主视口中的全局位置和尺寸
-	var container_rect = viewport_container.get_global_rect()
+# ## 从主视口坐标转换为子视口坐标
+# ## 当使用SubViewport和SubViewportContainer时，get_global_mouse_position()会返回相对于主视口的位置
+# ## 此函数将主视口坐标转换为子视口内的正确坐标
+# ## 已修复：现在支持相机zoom缩放修正
+# ## [param viewport_container]: 视口容器，类型为[SubViewportContainer]
+# ## [param main_viewport_coords]: 主视口中的坐标位置，类型为[Vector2]
+# ## [param camera]: 可选的相机引用，用于应用zoom缩放修正，类型为[Camera2D]
+# ## [br][br][b]返回:[/b] 转换后的子视口坐标
+# static func main_to_subviewport_coords(viewport_container: SubViewportContainer, main_viewport_coords: Vector2, camera: Camera2D = null) -> Vector2:
+# 	# 1. 获取视口容器在主视口中的全局位置和尺寸
+# 	var container_rect = viewport_container.get_global_rect()
 	
-	# 2. 计算鼠标在容器中的相对位置
-	var local_coords = main_viewport_coords - container_rect.position
+# 	# 2. 计算鼠标在容器中的相对位置
+# 	var local_coords = main_viewport_coords - container_rect.position
 	
-	# 3. 计算比例缩放因子（容器可能被缩放了）
-	var viewport: SubViewport = viewport_container.get("viewport") as SubViewport
-	if not viewport:
-		return local_coords
+# 	# 3. 计算比例缩放因子（容器可能被缩放了）
+# 	var viewport: SubViewport = viewport_container.get("viewport") as SubViewport
+# 	if not viewport:
+# 		return local_coords
 	
-	var scale_factor = Vector2(
-		viewport.size.x / container_rect.size.x,
-		viewport.size.y / container_rect.size.y
-	)
+# 	var scale_factor = Vector2(
+# 		viewport.size.x / container_rect.size.x,
+# 		viewport.size.y / container_rect.size.y
+# 	)
 	
-	# 4. 应用缩放因子得到子视口中的正确坐标
-	var viewport_pos = local_coords * scale_factor
+# 	# 4. 应用缩放因子得到子视口中的正确坐标
+# 	var viewport_pos = local_coords * scale_factor
 	
-	# 5. 应用相机zoom缩放修正（如果提供了相机引用）
-	if camera and is_instance_valid(camera):
-		var camera_zoom = camera.zoom
-		if camera_zoom != Vector2.ZERO:
-			var zoom_correction = Vector2(1.0 / camera_zoom.x, 1.0 / camera_zoom.y)
-			var viewport_center = viewport.size * 0.5
-			var offset_from_center = viewport_pos - viewport_center
-			offset_from_center *= zoom_correction
-			viewport_pos = viewport_center + offset_from_center
+# 	# 5. 应用相机zoom缩放修正（如果提供了相机引用）
+# 	if camera and is_instance_valid(camera):
+# 		var camera_zoom = camera.zoom
+# 		if camera_zoom != Vector2.ZERO:
+# 			var zoom_correction = Vector2(1.0 / camera_zoom.x, 1.0 / camera_zoom.y)
+# 			var viewport_center = viewport.size * 0.5
+# 			var offset_from_center = viewport_pos - viewport_center
+# 			offset_from_center *= zoom_correction
+# 			viewport_pos = viewport_center + offset_from_center
 	
-	return viewport_pos
+# 	return viewport_pos
 
-## 获取正确的子视口鼠标位置
-## 这是一个便捷方法，用于获取当前鼠标在子视口中的正确位置
-## 特别适合用于分屏显示时获取鼠标位置
-## 已修复：现在支持相机zoom缩放修正
-## [param viewport_container]: 视口容器，类型为[SubViewportContainer]
-## [param camera]: 可选的相机引用，用于应用zoom缩放修正，类型为[Camera2D]
-## [br][br][b]返回:[/b] 在子视口中的鼠标坐标
-static func get_subviewport_mouse_position(viewport_container: SubViewportContainer, camera: Camera2D = null) -> Vector2:
-	# 获取主视口中的鼠标位置
-	var main_mouse_pos = viewport_container.get_viewport().get_mouse_position()
-	# 转换为子视口坐标（包含zoom缩放修正）
-	return main_to_subviewport_coords(viewport_container, main_mouse_pos, camera)
+# ## 获取正确的子视口鼠标位置
+# ## 这是一个便捷方法，用于获取当前鼠标在子视口中的正确位置
+# ## 特别适合用于分屏显示时获取鼠标位置
+# ## 已修复：现在支持相机zoom缩放修正
+# ## [param viewport_container]: 视口容器，类型为[SubViewportContainer]
+# ## [param camera]: 可选的相机引用，用于应用zoom缩放修正，类型为[Camera2D]
+# ## [br][br][b]返回:[/b] 在子视口中的鼠标坐标
+# static func get_subviewport_mouse_position(viewport_container: SubViewportContainer, camera: Camera2D = null) -> Vector2:
+# 	# 获取主视口中的鼠标位置
+# 	var main_mouse_pos = viewport_container.get_viewport().get_mouse_position()
+# 	# 转换为子视口坐标（包含zoom缩放修正）
+# 	return main_to_subviewport_coords(viewport_container, main_mouse_pos, camera)
 
 
 #endregion

@@ -29,8 +29,8 @@ height = 28.0
 
 [sub_resource type="Resource" id="Resource_3th7k"]
 script = ExtResource("9_61qwx")
-sight_wide = 100.0
-sight_range = 200.0
+sight_wide = 30.0
+sight_range = 100.0
 metadata/_custom_type_script = "uid://cf4bsx3i08rsi"
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_imnk3"]
@@ -42,13 +42,12 @@ size = Vector2(8, 8)
 
 [node name="Whole" parent="CharacterBody/ComponentContainer/CTextureController/PackedManSe" index="1"]
 material = SubResource("ShaderMaterial_3th7k")
-use_parent_material = true
 
 [node name="Right" parent="CharacterBody/ComponentContainer/CTextureController/PackedManSe/Whole" index="1" node_paths=PackedStringArray("sprite")]
-sprite = NodePath("@Sprite2D@693379")
+sprite = NodePath("@Sprite2D@24013")
 
 [node name="Left" parent="CharacterBody/ComponentContainer/CTextureController/PackedManSe/Whole" index="2" node_paths=PackedStringArray("sprite")]
-sprite = NodePath("@Sprite2D@693380")
+sprite = NodePath("@Sprite2D@24014")
 
 [node name="PackedSpriteEditor" parent="CharacterBody/ComponentContainer/CTextureController/PackedManSe" index="2" node_paths=PackedStringArray("control_parts")]
 control_parts = {

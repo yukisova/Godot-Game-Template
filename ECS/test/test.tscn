@@ -1,0 +1,67 @@
+[gd_scene load_steps=10 format=3 uid="uid://ddof65tuvr845"]
+
+[ext_resource type="Script" uid="uid://bol2db7kis8o3" path="res://test/test.gd" id="1_yfdjg"]
+
+[sub_resource type="Gradient" id="Gradient_yfdjg"]
+offsets = PackedFloat32Array(0)
+colors = PackedColorArray(1, 1, 1, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_ik7bt"]
+gradient = SubResource("Gradient_yfdjg")
+
+[sub_resource type="Gradient" id="Gradient_wms8s"]
+offsets = PackedFloat32Array(0)
+colors = PackedColorArray(0, 1, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_g1q4x"]
+gradient = SubResource("Gradient_wms8s")
+
+[sub_resource type="Gradient" id="Gradient_ik7bt"]
+offsets = PackedFloat32Array(0)
+colors = PackedColorArray(0, 0, 0.69411767, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_wms8s"]
+gradient = SubResource("Gradient_ik7bt")
+width = 1024
+height = 1024
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_bf7fm"]
+size = Vector2(32, 32)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_yfdjg"]
+size = Vector2(1000, 20)
+
+[node name="Main" type="Node2D" node_paths=PackedStringArray("player", "collision_shape", "player_sprite")]
+script = ExtResource("1_yfdjg")
+normal_sprite = SubResource("GradientTexture2D_ik7bt")
+hide_sprite = SubResource("GradientTexture2D_g1q4x")
+player = NodePath("CharacterBody2D")
+collision_shape = NodePath("CharacterBody2D/CollisionShape2D")
+player_sprite = NodePath("CharacterBody2D/Sprite2D")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+visible = false
+texture = SubResource("GradientTexture2D_wms8s")
+
+[node name="CharacterBody2D" type="CharacterBody2D" parent="."]
+motion_mode = 1
+
+[node name="Sprite2D" type="Sprite2D" parent="CharacterBody2D"]
+visible = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D"]
+shape = SubResource("RectangleShape2D_bf7fm")
+
+[node name="Camera2D" type="Camera2D" parent="CharacterBody2D"]
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+position = Vector2(303, 202)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+shape = SubResource("RectangleShape2D_yfdjg")
+
+[node name="StaticBody2D2" type="StaticBody2D" parent="."]
+position = Vector2(304, -115)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D2"]
+shape = SubResource("RectangleShape2D_yfdjg")

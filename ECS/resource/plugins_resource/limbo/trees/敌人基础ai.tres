@@ -48,7 +48,7 @@ script = ExtResource("4_tyhla")
 script = ExtResource("6_0ps1t")
 
 [sub_resource type="BTTimeLimit" id="BTTimeLimit_mx2h4"]
-time_limit = 0.5
+time_limit = 0.3
 children = [SubResource("BTAction_jat35")]
 
 [sub_resource type="BTSequence" id="BTSequence_0ps1t"]

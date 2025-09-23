@@ -31,7 +31,7 @@ func _secondary_action():
 	var c_sound_emitter: CSoundEmitter = c_status.get_other_component(IComponent.ComponentName.C_SOUND_EMITTER)
 	if c_sound_emitter:
 		print("播放测试用的声音区域")
-		c_sound_emitter.play_sound_static("footstep", 10, 300, 100, 1)
+		c_sound_emitter.play_sound_static("footstep", 10, 70, 100, 1)
 
 func _special_action():
 	pass

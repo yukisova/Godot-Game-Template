@@ -9,7 +9,6 @@ func _tick(delta: float) -> Status:
 		if !sight_box.sight_target.is_empty():
 			## 发现可疑目标，停止区域范围内巡逻，并进一步确认目标
 			return Status.FAILURE
-
 	else:
 		print("敌人没有视觉")
 	

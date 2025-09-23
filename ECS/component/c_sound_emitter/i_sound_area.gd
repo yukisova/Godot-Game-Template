@@ -33,9 +33,9 @@ var sound_queue: Array[SoundInfo]
 var current_sound_range: float = 0:
 	set(v):
 		current_sound_range = v
-		if current_sound_range < 0:
-			## 如果当前声音范围小于0，则设置为0，会在下一帧发送信号，告诉声音已经彻底结束
-			current_sound_range = 0
+		# if current_sound_range < 0:
+		# 	## 如果当前声音范围小于0，则设置为0，会在下一帧发送信号，告诉声音已经彻底结束
+		# 	current_sound_range = 0
 		sound_collision.shape.radius = current_sound_range
 
 class SoundInfo:
@@ -46,27 +46,27 @@ class SoundInfo:
 				sound_keep_time = 0
 	var sound_range: float
 
-	enum SoundFlag {
-		Back,
-		Forward,
-		Equal,
-	}
+	# enum SoundFlag {
+	# 	Back,
+	# 	Forward,
+	# 	Equal,
+	# }
 	
 	func _init(_keep_time: float, _range: float):
 		sound_keep_time = _keep_time
 		sound_range = _range
 
-	## 检查声音是否在持续
-	func check_flag(current_range: float) -> SoundFlag:
-		## 如果当前声音范围小于主声音的范围，则说明声音要进行前进
-		if current_range < sound_range and current_range < sound_range - 10 and sound_keep_time > 0:
-			return SoundFlag.Forward
-		## 如果当前声音范围大于主声音的范围，则说明声音要进行后退
-		elif current_range > sound_range and current_range > sound_range + 10 or sound_keep_time <= 0:
-			return SoundFlag.Back
-		## 如果当前声音范围与主声音的范围相同，则说明声音可以直接相等于sound_range，防止抖动
-		else:
-			return SoundFlag.Equal
+	# ## 检查声音是否在持续
+	# func check_flag(current_range: float) -> SoundFlag:
+	# 	## 如果当前声音范围小于主声音的范围，则说明声音要进行前进
+	# 	if current_range < sound_range and current_range < sound_range - 10 and sound_keep_time > 0:
+	# 		return SoundFlag.Forward
+	# 	## 如果当前声音范围大于主声音的范围，则说明声音要进行后退
+	# 	elif current_range > sound_range and current_range > sound_range + 10 or sound_keep_time <= 0:
+	# 		return SoundFlag.Back
+	# 	## 如果当前声音范围与主声音的范围相同，则说明声音可以直接相等于sound_range，防止抖动
+	# 	else:
+	# 		return SoundFlag.Equal
 #endregion
 
 func _ready():
@@ -117,16 +117,23 @@ func _process(delta: float) -> void:
 	_update(delta)
 
 func _update(_delta: float):
+	# if main_sound:
+	# 	match main_sound.check_flag(current_sound_range):
+	# 		SoundInfo.SoundFlag.Forward:
+	# 			current_sound_range += sound_spread_speed * 10 * _delta
+	# 		SoundInfo.SoundFlag.Back:
+	# 			current_sound_range -= sound_spread_speed * 10 * _delta
+	# 		SoundInfo.SoundFlag.Equal:
+	# 			current_sound_range = main_sound.sound_range
+	# else:
+	# 	current_sound_range -= sound_spread_speed * 10 * _delta
+
 	if main_sound:
-		match main_sound.check_flag(current_sound_range):
-			SoundInfo.SoundFlag.Forward:
-				current_sound_range += sound_spread_speed * 10 * _delta
-			SoundInfo.SoundFlag.Back:
-				current_sound_range -= sound_spread_speed * 10 * _delta
-			SoundInfo.SoundFlag.Equal:
-				current_sound_range = main_sound.sound_range
+		if current_sound_range != main_sound.sound_range:
+			current_sound_range = main_sound.sound_range
 	else:
-		current_sound_range -= sound_spread_speed * 10 * _delta
+		current_sound_range = 0
+
 
 	## 如果主声音不为空，则更新主声音的持续时间
 	if main_sound:
@@ -149,9 +156,8 @@ func _update(_delta: float):
 			if longest_sound == null or i.sound_range > longest_sound.sound_range:
 				longest_sound = i
 		if longest_sound:
-			main_sound = longest_sound
 			sound_queue.erase(longest_sound)
-	
+		main_sound = longest_sound
 	## 如果当前声音范围为0，则认为声音已经彻底结束，发出信号
 	if current_sound_range == 0:
 		sound_finished.emit(self)

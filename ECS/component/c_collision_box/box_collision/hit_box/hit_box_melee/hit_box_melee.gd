@@ -9,8 +9,7 @@ extends IHitbox
 ## 从黑板获取动态攻击效果列表
 func get_hit_effect() -> Array[IHitEffect]:
 	if hit_effects.is_empty():
-		var blackboard = c_status.get_blackboard()
-		var effects = blackboard.get_value("hit_effects", [])
+		var effects = c_status.get_value("hit_effects", [])
 		var result:Array[IHitEffect] = []
 	
 		# 确保数组中的每个元素都是 IHitEffect 类型

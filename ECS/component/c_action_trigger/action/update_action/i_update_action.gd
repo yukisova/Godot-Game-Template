@@ -7,23 +7,9 @@
 @abstract class_name IUpdateAction
 extends IAction
 
-## 移动策略类型枚举
-## 用于标识和切换不同的移动策略实现
-enum MoveStrategyType {
-	VectorMove = 0  ## 向量移动策略
-}
-
-## 绑定的实体
-## 由移动组件传入，策略将作用于此实体
-var binding_entity: IEntity
-
 ## 行为状态列表
 ## IUpdateAction的子类应当实现该列表，用于标识行为
 var action_states: Array[StringName]
-
-## 黑板节点
-## 用于策略间数据共享，如移动方向、目标位置等信息
-@export var blackboard: ContainerBlackboard
 
 ## 验证策略的适用性并进行必要的初始化设置
 @abstract func _initialize()

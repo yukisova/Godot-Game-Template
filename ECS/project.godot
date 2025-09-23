@@ -73,7 +73,7 @@ obstacle=""
 
 [internationalization]
 
-locale/translations_pot_files=PackedStringArray("res://resource/plugins_resource/dialogue/item_seek_dialogue.dialogue", "res://resource/plugins_resource/dialogue/act_1.dialogue", "res://resource/plugins_resource/dialogue/ui_cutscene.dialogue", "res://resource/plugins_resource/dialogue/ep0_暴雨之中.dialogue", "res://resource/plugins_resource/dialogue/test_新功能测试.dialogue", "res://resource/plugins_resource/dialogue/sight_light_索拉的世界.dialogue")
+locale/translations_pot_files=PackedStringArray("res://resource/plugins_resource/dialogue/第一章测试用文本.dialogue")
 
 [layer_names]
 

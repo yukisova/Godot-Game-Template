@@ -40,7 +40,7 @@ func _shoot_mode_process(_delta: float) -> void:
 	else:
 		if !c_status:
 			return
-		mouse_pos = SoraEvent.fixed_mouse_position(c_status.component_body)["world_mouse_pos"]
+		mouse_pos = SoraEvent.fixed_camera_position(c_status.component_body)["world_mouse_pos"]
 		print(mouse_pos)
 	rotation = global_position.direction_to(mouse_pos).angle()
 	

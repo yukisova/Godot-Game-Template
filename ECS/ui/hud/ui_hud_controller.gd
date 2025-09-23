@@ -19,8 +19,15 @@ func _enter_tree() -> void:
 		elif i is UIModel:
 			ui_model = i
 
-## 当游戏状态或绑定实体数据发生变化时调用，子类需要实现具体的界面更新逻辑
 @abstract func _refresh()
-
-## 设置HUD的初始状态和数据绑定，子类需要实现具体的初始化逻辑
 @abstract func _initialize()
+
+## 隐藏当前hud，并发送隐藏信号
+func try_hide():
+	hide()
+
+func try_show():
+	if visible:
+		return
+	_refresh()
+	show()

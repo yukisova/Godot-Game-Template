@@ -2,9 +2,10 @@
 
 [ext_resource type="Script" uid="uid://cbu2gcdkcjssj" path="res://component/c_state_machine/c_state_machine.gd" id="1_ylpjt"]
 
-[node name="CStateMachine" type="Node" node_paths=PackedStringArray("pda_states")]
+[node name="CStateMachine" type="Node" node_paths=PackedStringArray("stack_states", "temp_states")]
 script = ExtResource("1_ylpjt")
-pda_states = NodePath("TempStates")
+stack_states = NodePath("StackStates")
+temp_states = NodePath("TempStates")
 
 [node name="TempStates" type="Node" parent="."]
 

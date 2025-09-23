@@ -1,10 +1,3 @@
-## 临时实体类 - 专为对象池系统设计的轻量级实体实现
-## 临时实体是ECS架构中专门用于频繁创建和销毁场景的优化实体，与FixedEntity不同，临时实体只支持基础组件，不支持接口组件
-## 设计特点：轻量级设计无接口组件支持、集成对象池生命周期管理、支持快速重置和状态恢复、优化的内存使用和性能
-## 适用场景：子弹特效等短生命周期对象、敌人道具等需要频繁创建的对象、任何需要对象池管理的动态实体
-## 架构设计：继承自IEntity基类、与LevelObjectPool系统集成、支持despawned回收信号、基于StringName的对象池标识
-## 注意事项：不支持存档功能、不支持接口组件动态挂载、生命周期完全由对象池系统管理
-## [br][b]编辑者:[/b] Sora
 @tool
 class_name TempEntity
 extends IEntity
@@ -23,20 +16,17 @@ signal despawned
 
 ## 初始化状态标志
 ## 标记实体是否已经完成初始化，用于防止重复初始化
-var is_initialized: bool = false
+var has_initialized: bool = false
 
 func _setup():
-	# 根据实体初始化时机决定立即初始化还是等待信号
+	## 1. TempEntity只能在地图加载完毕后才能被允许创建，否则为非法创建只能销毁
 	if Main.entity_initialzable:
 		_initialize()
 	else:
-		## 在等待状态下，不可以加入场景树，干脆删掉
-		print("临时实体在地图加载前进入场景，只能销毁")
 		queue_free()
 
 func _initialize():
-	if is_initialized:
-		print("已经初始化过了，不需再次初始化")
+	if has_initialized:
 		return
 	# 初始化基础组件（挂载在组件容器下的组件）
 	for component in component_container.get_children():
@@ -44,7 +34,7 @@ func _initialize():
 			component._initialize(self)
 			list_base_components[component.component_name] = component
 	
-	is_initialized = true
+	has_initialized = true
 	initialize_complete.emit()
 
 func _update(_delta: float):
@@ -52,7 +42,6 @@ func _update(_delta: float):
 	if SGameState.state_machine.get_leaf_state() is GamingStateNormal:
 		for base_component in list_base_components.values():
 			base_component._update(_delta)
-	pass
 
 func _fixed_update(_delta: float):
 	# 只在正常游戏状态下更新组件
@@ -70,3 +59,5 @@ func reset(_new_context: Dictionary):
 	await _init_data_binding(SoraEvent.fixed_dictionary(self, _new_context))
 	for component in list_base_components.values():
 		component._reset()
+
+## 第一次加载->initialize()->使用完毕->despawn()->在对象池中被选中->reset()->使用完毕->despawn()

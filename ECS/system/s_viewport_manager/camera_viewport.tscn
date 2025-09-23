@@ -22,5 +22,4 @@ render_target_update_mode = 4
 [node name="Node2D" type="Node2D" parent="SubViewport"]
 
 [node name="Camera2D" type="Camera2D" parent="SubViewport/Node2D"]
-zoom = Vector2(4, 4)
 position_smoothing_enabled = true

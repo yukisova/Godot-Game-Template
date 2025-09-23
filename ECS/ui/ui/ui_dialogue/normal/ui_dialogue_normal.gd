@@ -1,36 +1,3 @@
-## 对话框UI - 基于DialogueManager的对话系统界面
-##
-## 该UI组件实现了完整的对话系统界面，基于DialogueManager插件。
-## 提供富文本对话显示、打字机效果、选择分支和多语言支持等核心功能。
-##
-## 核心功能：
-## - 逐字显示对话文本（打字机效果）
-## - 处理玩家的对话选择分支
-## - 支持对话的跳过和快进
-## - 动态语言切换和本地化
-## - 集成角色名称和头像显示
-##
-## 主要特性：
-## - 基于 [DialogueManager] 插件架构
-## - 事件驱动的对话流控制
-## - 支持临时游戏状态传递
-## - 自动内存管理和生命周期清理
-## - 响应式的UI布局和交互
-##
-## 使用场景：
-## - NPC对话系统
-## - 剧情过场动画
-## - 教程指引文本
-## - 故事叙述界面
-## - 任务提示对话
-##
-## 架构设计：
-## - 继承自 [UIController] 基类
-## - 集成 [DialogueLabel] 打字机效果
-## - 基于 [DialogueResponsesMenu] 的选择系统
-## - 支持 [DialogueResource] 资源管理
-## - 与 [TranslationServer] 的多语言集成
-##
 ## [br][b]编辑者:[/b] Sora
 class_name UiDialogue
 extends UIController

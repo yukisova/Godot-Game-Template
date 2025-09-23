@@ -1,58 +1,36 @@
-## 游戏主视口管理器 - 管理游戏主视口的布局和分割
-## 负责动态视口分割和大小调整，支持单人和多人游戏模式
-## 使用ViewportManager实现动态视口分割和大小调整
-## [br][b]编辑者:[/b] Sora
 extends ISystem
 
-#region 原本在ViewportManager中的逻辑
-## 分割布局类型
 enum LayoutType {
 	SINGLE,      # 单人模式 - 1个全屏视口
 	DOUBLE_H,    # 双人模式 - 水平分割
 	DOUBLE_V,    # 双人模式 - 垂直分割
 	QUAD         # 四人模式 - 四分割
 }
-
-@export var is_horizontal_split_viewport: bool
-
-## 鼠标模式类型: 之后要进行一波完善
 enum MouseMode {
 	NORMAL,      # 正常模式 - 鼠标可以自由移动
 	LOCKED,      # 锁定模式 - 鼠标锁定在第一个视口范围内
 	CONFINED     # 限制模式 - 鼠标限制在第一个视口范围内但可以移动
 }
 
-## 鼠标固定模式相关变量
+@export var is_horizontal_split_viewport: bool
+@export var camera_viewport_scene: PackedScene
+@export var game_viewport_grid: GridContainer
+@export var camera_follow_strategy: Array[CameraFollowStrategy]
+
 var _mouse_locked: bool = false
 var _last_mouse_position: Vector2 = Vector2.ZERO
 var _first_viewport_rect: Rect2 = Rect2()
 
-#endregion
-
-## 当前的主摄像头
 var current_camera: Camera2D
-
-@export var camera_viewport_scene: PackedScene
-
-@export_group("依赖")
-@export var game_viewport_grid: GridContainer
-
-## 当前的镜头视口列表
 var camera_viewports: Array[CameraViewport] = []
 var current_layout: LayoutType
 var current_mouse_mode: MouseMode
 
-## FIXME 游戏镜头的跟随策略
-@export var camera_follow_strategy: Array[CameraFollowStrategy]
-
-## 会等待玩家节点设置之后才会正式开始
 func _setup():
 	## 监听主视口大小变化
 	get_viewport().size_changed.connect(_on_main_viewport_resized)
 	## 监听输入事件
-	get_viewport().gui_focus_changed.connect(_on_gui_focus_changed)
-	
-	## 完成游戏数据加载之后，会正式开始
+	get_viewport().gui_focus_changed.connect(_on_gui_focus_changed) ## 完成游戏数据加载之后，会正式开始
 	SSignalBus.game_loop_start.connect(_setup_viewports_for_play_type)
 
 func _resetup():

@@ -29,7 +29,7 @@ const dialog_panel_pack = preload("res://ui/ui_c/canvas/dialogue_panel/dialog_pa
 ## 对话资源文件
 ## 
 ## 包含开场剧情对话内容的 [DialogueResource] 资源。
-const dialog_resource = preload("res://resource/plugins_resource/dialogue/ui_cutscene.dialogue")
+const dialog_resource = preload("res://resource/plugins_resource/dialogue/测试对话.dialogue")
 
 ## 对话标签
 ## 

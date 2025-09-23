@@ -1,0 +1,87 @@
+[gd_scene load_steps=6 format=3 uid="uid://cdsw0hlt0fw4x"]
+
+[ext_resource type="PackedScene" uid="uid://bavog73s6cd1p" path="res://ui/i_ui.tscn" id="1_b356v"]
+[ext_resource type="Script" uid="uid://f7pe43i8r4sm" path="res://ui/hud/hud_dialogue/caption/hud_dialogue_caption.gd" id="2_avsye"]
+[ext_resource type="PackedScene" uid="uid://ckvgyvclnwggo" path="res://addons/dialogue_manager/dialogue_label.tscn" id="3_qfrk5"]
+[ext_resource type="Script" uid="uid://bb52rsfwhkxbn" path="res://addons/dialogue_manager/dialogue_responses_menu.gd" id="4_5cmmf"]
+[ext_resource type="Script" uid="uid://cevhyojk05xb7" path="res://ui/hud/hud_dialogue/caption/model_hud_dialogue_caption.gd" id="5_qfrk5"]
+
+[node name="HudDialogueCaption" instance=ExtResource("1_b356v")]
+script = ExtResource("2_avsye")
+next_action = null
+skip_action = null
+
+[node name="Balloon" type="Control" parent="View" index="0"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ResponsesMenu" type="VBoxContainer" parent="View/Balloon" index="0" node_paths=PackedStringArray("response_template")]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(400, 0)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 152.0
+offset_top = -44.0
+offset_right = 552.0
+offset_bottom = -13.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_vertical = 8
+theme_override_constants/separation = 2
+alignment = 1
+script = ExtResource("4_5cmmf")
+response_template = NodePath("ResponseExample")
+
+[node name="ResponseExample" type="Button" parent="View/Balloon/ResponsesMenu" index="0"]
+layout_mode = 2
+text = "Response example"
+
+[node name="MarginContainer2" type="MarginContainer" parent="View/Balloon" index="1"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -543.0
+offset_top = -183.0
+offset_right = 543.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="VBoxContainer" type="HBoxContainer" parent="View/Balloon/MarginContainer2" index="0"]
+layout_mode = 2
+size_flags_vertical = 4
+alignment = 1
+
+[node name="CharacterLabel" type="RichTextLabel" parent="View/Balloon/MarginContainer2/VBoxContainer" index="0"]
+unique_name_in_owner = true
+modulate = Color(1, 1, 1, 0.501961)
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+mouse_filter = 1
+bbcode_enabled = true
+text = "Character"
+fit_content = true
+scroll_active = false
+horizontal_alignment = 1
+
+[node name="DialogueLabel" parent="View/Balloon/MarginContainer2/VBoxContainer" index="1" instance=ExtResource("3_qfrk5")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 10
+text = "Dialogue..."
+autowrap_mode = 0
+horizontal_alignment = 1
+
+[node name="Model" parent="." index="1"]
+script = ExtResource("5_qfrk5")

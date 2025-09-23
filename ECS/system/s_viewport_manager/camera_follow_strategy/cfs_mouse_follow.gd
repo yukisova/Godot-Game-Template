@@ -18,8 +18,15 @@ const STATIC_ZONE = 20.0
 ## [param c_camera]: 相机组件
 ## [param _delta]: 帧时间间隔
 func _strategy(camera_viewport: CameraViewport, _delta: float) -> void:
+	## 如果主跟踪目标为空，则不执行鼠标跟随策略
 	if camera_viewport.camera_target == null:
 		return
+	
+	## 如果当前状态不是正常游戏状态，则不执行鼠标跟随策略
+	var current_state = SGameState.get_current_state()
+	if current_state is not GamingStateNormal:
+		return
+
 	# 获取玩家实体位置
 	var _entity_global_pos = camera_viewport.camera_target.global_position
 	
