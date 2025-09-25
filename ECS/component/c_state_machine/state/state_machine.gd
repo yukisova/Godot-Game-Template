@@ -51,10 +51,10 @@ var is_root: bool = false
 func _enter_tree() -> void:
 	if Engine.is_editor_hint():
 		notify_property_list_changed()
-	state_temp_updated.connect(_on_state_temp_updated)
-
+	
 ## 状态机设置，初始化所有子状态，建立状态机层次结构和信号连接
 func _setup() -> void:
+	state_temp_updated.connect(_on_state_temp_updated)
 	for child in get_children():
 		if child is StateHfsm:
 			# 设置子状态的归属状态机

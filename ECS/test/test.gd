@@ -1,175 +1,97 @@
 extends Node2D
 
-@export var normal_sprite: Texture2D
-@export var hide_sprite: Texture2D
-
-@export var player: CharacterBody2D
-@export var collision_shape: CollisionShape2D
-@export var player_sprite: Sprite2D
-
-var context: Dictionary
-var current_delta: float
-
-func fix_movement(move_direction: String, wall_tangent: Vector2, wall_normal: Vector2) -> bool:
-	# 获取物理空间状态用于射线检测
-	var world_2d = player.get_world_2d()
-	var space_state = world_2d.direct_space_state
-	
-	# 根据移动方向确定检测方向
-	#var detection_direction = wall_normal
-	var ray_start
-	var check_size = 0
-	var therehold = 3
-	match move_direction:
-		"左":
-			ray_start = player.global_position + (collision_shape.shape.size.x / 2 + therehold) * Vector2(-1, 0)
-			check_size = collision_shape.shape.size.y
-		"右":
-			ray_start = player.global_position + (collision_shape.shape.size.x / 2 + therehold) * Vector2(1, 0)
-			check_size = collision_shape.shape.size.y
-		"上":
-			ray_start = player.global_position + (collision_shape.shape.size.y / 2 + therehold) * Vector2(0, -1)
-			check_size = collision_shape.shape.size.x
-		"下":
-			ray_start = player.global_position + (collision_shape.shape.size.y / 2 + therehold) * Vector2(0, 1)
-			check_size = collision_shape.shape.size.x
-		"无":
-			ray_start = player.global_position
-
-	# 从玩家当前位置沿检测方向发射射线
-	var ray_end = ray_start - wall_normal * check_size
-	context = {
-		"start":ray_start,
-		"end":ray_end
-	}
-	queue_redraw()
-	# 创建射线查询参数
-	var query = PhysicsRayQueryParameters2D.create(ray_start, ray_end)
-	
-	query.exclude = [player.get_rid()]  # 排除玩家自己
-	
-	# 进行射线检测
-	var result = space_state.intersect_ray(query)
-	
-	## 如果result为空，说明前方到了拐角，返回
-	if result.is_empty():
-		return true
-	else:
-		return false
-
-# 分析沿墙面的移动方向
-func analyze_wall_movement_direction(move_vector: Vector2, wall_normal: Vector2) -> Vector2:
-	# 计算沿墙面的切线方向（垂直于法线）
-	var wall_tangent = Vector2(-wall_normal.y, wall_normal.x)
-	
-	# 计算移动向量在切线方向上的投影（沿墙面移动的分量）
-	var tangent_movement = wall_tangent.dot(move_vector)
-	
-	# 设置最小移动阈值，避免微小移动的误判
-	var movement_threshold = 0.1
-	
-	var current_move_direction
-	
-	# 判断墙面类型和移动方向
-	if abs(tangent_movement) < movement_threshold:
-		# 沿墙面移动分量很小，输出"无"
-		current_move_direction = "无"
-		print("沿墙面移动方向：无")
-	else:
-		# 判断是水平墙面还是垂直墙面
-		if abs(wall_normal.y) > abs(wall_normal.x):
-			# 水平墙面（法线主要是垂直方向）
-			if tangent_movement > 0:
-				current_move_direction = "右"
-				print("沿墙面移动方向：右")
-			else:
-				current_move_direction = "左"
-				print("沿墙面移动方向：左")
-		else:
-			# 垂直墙面（法线主要是水平方向）
-			if tangent_movement > 0:
-				current_move_direction = "上"
-				print("沿墙面移动方向：上")
-			else:
-				current_move_direction = "下"
-				print("沿墙面移动方向：下")
-		
-		if fix_movement(current_move_direction, wall_tangent, wall_normal):
-			if current_move_direction == "右" or current_move_direction == "左":
-				move_vector = Vector2(0, move_vector.y)
-			elif current_move_direction == "上" or current_move_direction == "下":
-				move_vector = Vector2(move_vector.x, 0)
-	# 如果有移动方向，检测与拐角的距离
-	return move_vector
-
-
-#func _draw() -> void:
-	#var start = context.get("start", Vector2.ZERO)
-	#var end = context.get("end", Vector2.ZERO)
-	##draw_line(start, end, Color.FIREBRICK)
-	#draw_circle(end, 2, Color.AQUA)
-
-func listen_蹲下():
-	if Input.is_key_pressed(KEY_SPACE) or check_player_is_in_collision():
-		player.collision_mask = 0b1000
-		player.collision_layer = 0b1000
-		collision_shape.debug_color = Color.RED
-	else:
-		player.collision_mask = 0b0001
-		player.collision_layer = 0b0001
-		collision_shape.debug_color = Color.AQUAMARINE
-
-func check_player_is_in_collision() -> bool:
-	# 1. 判断角色的
-	var world_2d = player.get_world_2d()
-	var space_state = world_2d.direct_space_state
-	
-	var query = PhysicsShapeQueryParameters2D.new()
-	query.collision_mask = 0b1
-	query.exclude = [player.get_rid()]
-	query.shape = collision_shape.shape.duplicate()
-	query.transform = collision_shape.get_global_transform()
-	
-	var result = space_state.intersect_shape(query)
-	
-	if result.is_empty():
-		return false
-	else:
-		return true
+@onready var player: CharacterBody2D = $Player
+@onready var fog_overlay: ColorRect = $FogLayer/FogOverlay
 
 func _ready():
-	player_sprite.texture = normal_sprite
-
+	print("=== 雾天着色器测试场景 ===")
+	print("控制说明：")
+	print("- WASD/方向键: 移动角色")
+	print("- 1/2: 调整雾密度")
+	print("- 3/4: 调整雾移动速度") 
+	print("- 5/6: 调整雾的缩放")
+	print("- 空格键: 快速切换雾密度")
+	print("- ESC键: 开关雾效果")
+	print("观察雾的动态移动效果！")
 
 func _process(_delta):
-	listen_蹲下()
+	handle_player_movement()
+	handle_fog_controls()
+
+func handle_player_movement():
+	if not player:
+		return
+		
+	var input_vector = Vector2.ZERO
 	
-	var vec_info = SMainController._vec_input_8_toward(SoraConstant.InputTarget.PLAYER1)
-	var move_vector = vec_info.vec
-	player.velocity = move_vector * 100
+	# 获取输入
+	if Input.is_action_pressed("ui_left"):
+		input_vector.x -= 1
+	if Input.is_action_pressed("ui_right"):
+		input_vector.x += 1
+	if Input.is_action_pressed("ui_up"):
+		input_vector.y -= 1
+	if Input.is_action_pressed("ui_down"):
+		input_vector.y += 1
+		
+	# 标准化输入向量以避免对角线移动过快
+	if input_vector.length() > 0:
+		input_vector = input_vector.normalized()
 	
-	# 检测碰撞并切换纹理（贴墙效果）
-	var should_hide = false
+	# 设置速度
+	var speed = 200.0
+	player.velocity = input_vector * speed
 	
-	# 检查是否有碰撞且玩家在朝障碍物方向移动
-	if player.get_slide_collision_count() > 0 and move_vector.length() > 0:
-		var collision = player.get_slide_collision(0)
-		var collision_normal = collision.get_normal()
-		current_delta += _delta
-		# 计算玩家输入方向与碰撞法线的点积
-		# 如果点积为负，说明玩家在朝障碍物方向移动
-		var dot_product = move_vector.dot(collision_normal)
-		if dot_product < 0:
-			if current_delta > 0.3:
-				should_hide = true
-				# 分析沿墙面的移动方向
-				move_vector = analyze_wall_movement_direction(move_vector, collision_normal)
-		else:
-			current_delta = 0
-	# 根据是否需要隐藏来切换纹理
-	if should_hide:
-		player_sprite.texture = hide_sprite
-	else:
-		player_sprite.texture = normal_sprite
-	player.velocity = move_vector * 100
+	# 移动玩家
 	player.move_and_slide()
+
+func handle_fog_controls():
+	if not fog_overlay or not fog_overlay.material:
+		return
+	
+	var shader_material = fog_overlay.material as ShaderMaterial
+	if not shader_material:
+		return
+	
+	# 调整雾密度
+	if Input.is_action_just_pressed("ui_accept"): # 空格键
+		var current_density = shader_material.get_shader_parameter("fog_density")
+		var new_density = 0.3 if current_density > 0.4 else 0.7
+		shader_material.set_shader_parameter("fog_density", new_density)
+		print("雾密度: ", new_density)
+	
+	# 开关雾效果
+	if Input.is_action_just_pressed("ui_cancel"): # ESC键
+		fog_overlay.visible = !fog_overlay.visible
+		print("雾效果: ", "开启" if fog_overlay.visible else "关闭")
+	
+	# 数字键控制
+	if Input.is_key_pressed(KEY_1):
+		var density = shader_material.get_shader_parameter("fog_density")
+		density = max(0.0, density - 0.5 * get_process_delta_time())
+		shader_material.set_shader_parameter("fog_density", density)
+	
+	if Input.is_key_pressed(KEY_2):
+		var density = shader_material.get_shader_parameter("fog_density")
+		density = min(1.0, density + 0.5 * get_process_delta_time())
+		shader_material.set_shader_parameter("fog_density", density)
+		
+	if Input.is_key_pressed(KEY_3):
+		var fog_speed = shader_material.get_shader_parameter("fog_speed")
+		fog_speed = max(0.1, fog_speed - 1.0 * get_process_delta_time())
+		shader_material.set_shader_parameter("fog_speed", fog_speed)
+		
+	if Input.is_key_pressed(KEY_4):
+		var fog_speed = shader_material.get_shader_parameter("fog_speed")
+		fog_speed = min(3.0, fog_speed + 1.0 * get_process_delta_time())
+		shader_material.set_shader_parameter("fog_speed", fog_speed)
+	
+	if Input.is_key_pressed(KEY_5):
+		var fog_scale = shader_material.get_shader_parameter("fog_scale")
+		fog_scale = max(0.3, fog_scale - 1.0 * get_process_delta_time())
+		shader_material.set_shader_parameter("fog_scale", fog_scale)
+		
+	if Input.is_key_pressed(KEY_6):
+		var fog_scale = shader_material.get_shader_parameter("fog_scale")
+		fog_scale = min(3.0, fog_scale + 1.0 * get_process_delta_time())
+		shader_material.set_shader_parameter("fog_scale", fog_scale)

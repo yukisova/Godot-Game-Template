@@ -88,11 +88,6 @@ locale/translations_pot_files=PackedStringArray("res://resource/plugins_resource
 behavior_tree/behavior_tree_default_dir="res://resource/plugins_resource/limbo/trees"
 behavior_tree/user_task_dirs=PackedStringArray("res://resource/plugins_resource/limbo/tasks")
 
-[physics]
-
-2d/run_on_separate_thread=true
-2d/physics_engine="Rapier2D"
-
 [rendering]
 
 textures/canvas_textures/default_texture_filter=0

@@ -16,4 +16,4 @@ func _tick(delta: float) -> Status:
 		return Status.SUCCESS
 
 func _exit() -> void:
-	print("敌人发动攻击结束")
+	pass

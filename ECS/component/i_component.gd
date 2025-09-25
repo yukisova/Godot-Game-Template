@@ -79,8 +79,11 @@ func _load(_dict: Dictionary):
 func get_blackboard() -> ContainerBlackboard:
 	return component_owner.component_container
 
-func set_value(data_name: StringName, data_value: Variant):
-	get_blackboard().set_value(component_name, data_name, data_value)
+func set_value(data_name: StringName, data_value: Variant, is_global: bool = false):
+	if is_global:
+		get_blackboard().set_value(ComponentName.NONE, data_name, data_value)
+	else:
+		get_blackboard().set_value(component_name, data_name, data_value)
 
 func get_value(data_name: StringName, default: Variant = null, target_component_name: ComponentName = ComponentName.NONE) -> Variant:
 	return get_blackboard().get_value(target_component_name, data_name, default)

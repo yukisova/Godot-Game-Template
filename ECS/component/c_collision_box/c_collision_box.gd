@@ -61,11 +61,11 @@ func _fixed_update(_delta: float):
 	for collision in box_collision.values():
 		collision._fixed_update(_delta)
 
-func get_collision(collision_name: StringName) -> BoxCollision:
+func get_collision(collision_name: BoxCollisionName) -> BoxCollision:
 	return box_collision.get(collision_name)
 
-func get_ray(ray_name: StringName) -> BoxRay:
+func get_ray(ray_name: BoxRayName) -> BoxRay:
 	return box_rays.get(ray_name)
 
-func get_marker(marker_name: StringName) -> BoxMarker:
+func get_marker(marker_name: BoxMarkerType) -> BoxMarker:
 	return box_markers.get(marker_name)

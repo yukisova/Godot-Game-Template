@@ -27,10 +27,7 @@ func _setup():
 ## 实体初始化
 ## [param need_disconnect]: 是否需要断开信号(地图加载前创建的实体)
 func _initialize(need_disconnect: bool = false):
-	## 1. 绑定初始化数据
-	await _init_data_binding(SoraEvent.fixed_dictionary(self, init_data))
-
-	## 2. 检查是否有存档数据，如果有则加载存档数据
+	## 1. 检查是否有存档数据，如果有则加载存档数据
 	## 2.1 fixed_entity在保存游戏的时候会存储其相关信息
 	var load_data_for_components = {}
 	if SLoadAndSave.current_saved:
@@ -58,9 +55,12 @@ func _initialize(need_disconnect: bool = false):
 
 
 func _late_initialize():
-	for component in list_base_components.values():
+	## 1. 绑定预定义数据
+	await _init_data_binding(SoraEvent.fixed_dictionary(self, init_data as Dictionary))
+
+	for component:IComponent in list_base_components.values():
 		component._late_initialize()
-	for component in list_interface_components.values():
+	for component:IComponent in list_interface_components.values():
 		component._late_initialize()
 
 

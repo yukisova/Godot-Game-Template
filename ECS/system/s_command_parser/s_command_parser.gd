@@ -6,9 +6,11 @@ extends ISystem
 
 signal command_run_started(command_string: String)
 
-@export_flags("无bgm" ) var debug_setting: int
+@export_flags("无bgm", "无时间", "无过场") var debug_setting: int
 enum DebugFlag{
-	无bgm = 1 << 0
+	无bgm = 1 << 0,
+	无时间概念 = 1 << 1,
+	无过场剧情 = 1 << 2
 }
 
 
@@ -23,9 +25,3 @@ func _on_command_run_started(command_string: String):
 	if parts[0] == "quit":
 		print("游戏根据命令强制退出")
 		get_tree().quit(200)
-
-class 游戏状态修改:
-	pass
-
-func dialogue_time(time: float):
-	await get_tree().create_timer(time).timeout

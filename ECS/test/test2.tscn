@@ -1,0 +1,33 @@
+[gd_scene load_steps=5 format=3 uid="uid://b8njpx3oxgdul"]
+
+[ext_resource type="Shader" uid="uid://c52qjsmvc7wew" path="res://resource/shader/视线边缘模糊.gdshader" id="1_1vbpq"]
+[ext_resource type="Texture2D" uid="uid://2uiavsvvf387" path="res://asset/other/godot ICON.png" id="1_wto88"]
+[ext_resource type="Script" uid="uid://do82f8hg0f6v7" path="res://test/test_2.gd" id="4_demo_script"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_bgw77"]
+shader = ExtResource("1_1vbpq")
+
+[node name="Test2" type="Node2D"]
+script = ExtResource("4_demo_script")
+
+[node name="Background" type="Sprite2D" parent="."]
+position = Vector2(260, 270)
+scale = Vector2(0.8, 0.8)
+texture = ExtResource("1_wto88")
+
+[node name="SubViewport" type="SubViewport" parent="."]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+layer = 10
+
+[node name="Overlay" type="ColorRect" parent="CanvasLayer"]
+material = SubResource("ShaderMaterial_bgw77")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 26.0
+offset_top = 16.0
+offset_right = 26.0
+offset_bottom = 16.0
+grow_horizontal = 2
+grow_vertical = 2

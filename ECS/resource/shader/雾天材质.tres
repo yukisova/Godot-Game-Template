@@ -1,0 +1,16 @@
+[gd_resource type="ShaderMaterial" load_steps=5 format=3 uid="uid://djn7wamvcg7fl"]
+
+[ext_resource type="Shader" uid="uid://cx535xk828hiq" path="res://test/雾天着色器2.gdshader" id="1_ewwk5"]
+
+[sub_resource type="Gradient" id="Gradient_ht256"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_vwf1o"]
+noise_type = 3
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_q5p62"]
+noise = SubResource("FastNoiseLite_vwf1o")
+color_ramp = SubResource("Gradient_ht256")
+
+[resource]
+shader = ExtResource("1_ewwk5")
+shader_parameter/perlin_noise = SubResource("NoiseTexture2D_q5p62")

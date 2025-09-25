@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://6dpqakv78nkp"]
+[gd_scene load_steps=11 format=3 uid="uid://6dpqakv78nkp"]
 
 [ext_resource type="Script" uid="uid://cdnd3coaj1drm" path="res://resource/node_template/map/level.gd" id="1_o3xit"]
 [ext_resource type="Shader" uid="uid://8g3lxhjc26wl" path="res://resource/node_template/map/war_fog.gdshader" id="2_bm21c"]
@@ -6,6 +6,7 @@
 [ext_resource type="Script" uid="uid://b36hyix3bkmtb" path="res://resource/node_template/map/static_map/fog.gd" id="2_wvb50"]
 [ext_resource type="Script" uid="uid://8qsbi4w6ladu" path="res://resource/node_template/map/paint_floor.gd" id="3_mbilp"]
 [ext_resource type="Script" uid="uid://dvbhjxtkp7mpl" path="res://resource/node_template/map/rooms.gd" id="4_thopi"]
+[ext_resource type="Script" uid="uid://dnal381qh8tl2" path="res://resource/node_template/map/entity_data_injecter/entity_data_injecter.gd" id="7_xxvuh"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_thopi"]
 shader = ExtResource("2_bm21c")
@@ -60,6 +61,9 @@ script = ExtResource("4_thopi")
 
 [node name="ObjectPool" type="Node2D" parent="."]
 y_sort_enabled = true
+
+[node name="EntityDataInjecter" type="Node" parent="."]
+script = ExtResource("7_xxvuh")
 
 [node name="MapFilter" type="CanvasModulate" parent="."]
 

@@ -124,7 +124,7 @@ func stop_navigation():
 
 ## 导航更新，每帧更新导航逻辑，根据导航类型执行不同的更新策略
 ## [param _delta]: 帧时间间隔，用于时间相关的计算
-func _update(_delta: float):
+func _fixed_update(_delta: float):
 	match current_nav_type:
 		NavType.DIRECTIONAL:
 			pass
@@ -138,7 +138,6 @@ func _update(_delta: float):
 				var target_position = nav_agent.get_next_path_position()
 				var direction = current_position.direction_to(target_position).normalized()
 				nav_agent.velocity = direction * current_speed * _delta
-	
 
 ## 更新跟踪导航，持续更新跟踪目标的位置，确保AI始终朝着目标移动
 func _update_tracking_navigation():

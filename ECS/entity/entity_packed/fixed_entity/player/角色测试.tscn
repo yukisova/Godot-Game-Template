@@ -1,4 +1,4 @@
-[gd_scene load_steps=46 format=3 uid="uid://dq753g4b1nmk8"]
+[gd_scene load_steps=47 format=3 uid="uid://dq753g4b1nmk8"]
 
 [ext_resource type="PackedScene" uid="uid://6jpwo3n27sj2" path="res://entity/entity_packed/fixed_entity/fixed_entity.tscn" id="1_fojvx"]
 [ext_resource type="Script" uid="uid://815l8mjrysw1" path="res://entity/entity_packed/fixed_entity/player/i_player.gd" id="2_dwa3q"]
@@ -16,6 +16,7 @@
 [ext_resource type="Script" uid="uid://d37uw5d4hcm8y" path="res://component/c_state_machine/state/hfsm/state/player/状态_temp_趴下.gd" id="18_ey2ar"]
 [ext_resource type="Script" uid="uid://b3dlfvhs4o6ii" path="res://component/c_state_machine/state/hfsm/state/player/状态_hfsm_正常.gd" id="18_hwwe4"]
 [ext_resource type="Script" uid="uid://gqqa50hcj824" path="res://component/c_state_machine/state/hfsm/state/player/状态_temp_屏息.gd" id="19_x5pf7"]
+[ext_resource type="Script" uid="uid://rehgfy8s2irr" path="res://component/c_state_machine/state/hfsm/state/player/状态_temp_贴墙.gd" id="19_xq8il"]
 [ext_resource type="Script" uid="uid://cpdkw72ahtbjj" path="res://component/c_state_machine/transition_record.gd" id="19_xt4na"]
 [ext_resource type="Script" uid="uid://dj1d6vr2iy6ds" path="res://component/c_state_machine/state/hfsm/state/player/状态_hfsm_移动.gd" id="20_8pq8l"]
 [ext_resource type="Script" uid="uid://dhx2hakp6ogox" path="res://component/c_collision_box/box_marker/dialogue_marker/dialogue_marker.gd" id="21_0fo6k"]
@@ -104,7 +105,7 @@ input_parameter = Array[int]([7])
 metadata/_custom_type_script = "uid://05a7wc4gf3hk"
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_qcfhx"]
-size = Vector2(8, 8)
+size = Vector2(32, 8)
 
 [node name="角色" node_paths=PackedStringArray("main_control", "component_container") instance=ExtResource("1_fojvx")]
 script = ExtResource("2_dwa3q")
@@ -136,12 +137,16 @@ script = ExtResource("15_ao4wf")
 [node name="CStateMachine" parent="CharacterBody/ComponentContainer" index="2" node_paths=PackedStringArray("root_state_machine") instance=ExtResource("16_j4wpd")]
 root_state_machine = NodePath("PlayerSM")
 
-[node name="PlayerSM" type="Node" parent="CharacterBody/ComponentContainer/CStateMachine" index="0" node_paths=PackedStringArray("action_input", "c_texture_controller", "state_tag_map")]
+[node name="PlayerSM" type="Node" parent="CharacterBody/ComponentContainer/CStateMachine" index="0" node_paths=PackedStringArray("action_input", "c_texture_controller", "vector_move", "collision_shape", "movement_input", "state_tag_map")]
 script = ExtResource("17_fx8n5")
 action_input = NodePath("../../CInputReactor/ActionInput")
 c_texture_controller = NodePath("../../CTextureController")
+vector_move = NodePath("../../CActionTrigger/VectorMove")
+collision_shape = NodePath("../../../CollisionShape2D")
+movement_input = NodePath("../../CInputReactor/REMovementInput")
 state_tag_map = {
-"state_0": NodePath("../TempStates/奔跑")
+"state_0": NodePath("../TempStates/奔跑"),
+"state_4": NodePath("../TempStates/贴墙")
 }
 init_state = NodePath("Idle")
 metadata/_custom_type_script = "uid://b5ywitjyd2ccg"
@@ -179,7 +184,11 @@ script = ExtResource("18_ey2ar")
 [node name="屏息" type="Node" parent="CharacterBody/ComponentContainer/CStateMachine/TempStates" index="3"]
 script = ExtResource("19_x5pf7")
 
-[node name="贴墙" type="Node" parent="CharacterBody/ComponentContainer/CStateMachine/TempStates" index="4"]
+[node name="贴墙" type="Node" parent="CharacterBody/ComponentContainer/CStateMachine/TempStates" index="4" node_paths=PackedStringArray("vector_move", "movement_input", "player")]
+script = ExtResource("19_xq8il")
+vector_move = NodePath("../../../CActionTrigger/VectorMove")
+movement_input = NodePath("../../../CInputReactor/REMovementInput")
+player = NodePath("../../../..")
 
 [node name="CCollisionBox" parent="CharacterBody/ComponentContainer" index="3" instance=ExtResource("21_g7054")]
 

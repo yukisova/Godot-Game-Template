@@ -13,19 +13,48 @@ extends StateMachine
 @export var action_input: ActionInput
 @export var c_texture_controller: CTextureController
 
+@export var vector_move: MoveStrategyVector
+@export var collision_shape: CollisionShape2D
+@export var movement_input: REMovementInput
+var current_delta: float
+
 ## 状态输入tag与pda状态的映射关系
 @export var state_tag_map: Dictionary[String, StateTemp]
 
+## 按下奔跑1+正常状态 = 奔跑状态
+## 贴近墙 = 贴墙状态
 func _blur_update(_delta: float) -> void:
 	## 状态机
-	if action_input.check_input_state("state_0"):
+	if 检测贴墙状态(_delta):
+		state_temp_updated.emit(state_tag_map["state_4"])
+	elif action_input.check_input_state("state_0"):
 		state_temp_updated.emit(state_tag_map["state_0"])
 	# elif action_input.check_input_state("state_1"):
-	# 	state_dynamic_updated.emit(state_tag_map["state_1"])
+	# 	state_temp_updated.emit(state_tag_map["state_1"])
 	# elif action_input.check_input_state("state_2"):
-	# 	state_dynamic_updated.emit(state_tag_map["state_2"])
+	# 	state_temp_updated.emit(state_tag_map["state_2"])
 	else:
 		state_temp_updated.emit(null)
 
 func _temp_state_all_exit():
 	c_texture_controller.packed_sprite.packed_sprite_editor.try_switch_texture("Normal")
+
+func 检测贴墙状态(_delta: float) -> bool:
+	# 检测碰撞并切换纹理（贴墙效果）
+	var player = c_texture_controller.component_body as CharacterBody2D
+	var move_vector = movement_input.get_move_vector()
+
+	if player.get_slide_collision_count() > 0 and move_vector.length() > 0:
+		var collision = player.get_slide_collision(0)
+		var collision_normal = collision.get_normal()
+		current_delta += _delta
+		var dot_product = move_vector.dot(collision_normal)
+		if dot_product < 0:
+			if current_delta > 0.5:
+				return true
+			else:
+				return false
+		else:
+			current_delta = 0
+	
+	return false

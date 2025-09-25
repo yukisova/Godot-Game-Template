@@ -5,9 +5,17 @@ extends IComponent
 ## 打包精灵
 var packed_sprite: IPackedSprite
 
-## 是否可见
-## 如果为false，则其下的所有IPackedSprite不会被渲染，只能通过类似手电筒着色器的方式进行观测，一般用于隐藏指定的实体，如幽灵
-@export var unwatchable: bool
+## 是否不可见
+## 如果为true，则其下的所有IPackedSprite不会被渲染，只能通过类似手电筒着色器的方式进行观测，一般用于隐藏指定的实体，如幽灵
+@export var unwatchable: bool:
+	set(v):
+		if Engine.is_editor_hint():
+			unwatchable = v
+			return
+		## 在运行时仅允许unwatchable从false变为true
+		if !unwatchable and v:
+			unwatchable = v
+			SMapData.current_level.hidden_packed_sprites.append(packed_sprite)
 
 func _enter_tree() -> void:
 	component_name = ComponentName.C_TEXTURE_CONTROLLER

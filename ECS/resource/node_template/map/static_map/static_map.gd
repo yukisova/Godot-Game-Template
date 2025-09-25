@@ -104,8 +104,11 @@ func _on_game_loop_start():
 	for level in levels_array:
 		level._late_initialize()
 	## 根据预设配置决定调试模式
-	if !(SCommandParser.debug_setting & SCommandParser.DebugFlag.无bgm):
+	var debug = SCommandParser.debug_setting
+	if !(debug & SCommandParser.DebugFlag.无bgm):
 		SAudioMaster.play_music(bg_music)
+	if !(debug & SCommandParser.DebugFlag.无时间概念):
+		pass
 	
 	## 注册当前层级的血迹Decal地板对象池
 	if decal_path:

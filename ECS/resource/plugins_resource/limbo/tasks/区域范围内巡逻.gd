@@ -1,13 +1,3 @@
-# 区域范围内巡逻
-# 在区域范围内巡逻，并返回巡逻路径
-# 参数：
-# - 区域：区域ID
-# - 巡逻路径：巡逻路径ID
-# - 巡逻速度：巡逻速度
-# - 巡逻时间：巡逻时间
-# - 巡逻距离：巡逻距离
-# - 巡逻方向：巡逻方向
-# - 巡逻方式：巡逻方式
 @tool
 extends BTA_TargetJudgment
 
@@ -31,14 +21,10 @@ func _enter() -> void:
 	if ai_state_normal != SoraConstant.AiStateNormal.区域巡逻:
 		return
 
-
 	var c_navigation_agent = blackboard.get_var("c_navigation_agent", null)
 
 	var nav_agent = c_navigation_agent.nav_agent
-	var target_position = NavigationServer2D.map_get_random_point(
-		nav_agent.get_navigation_map(),
-		nav_agent.navigation_layers,
-		false)
+	var target_position = random_set_target_position(agent.component_body, nav_agent)
 	c_navigation_agent.set_target_position(target_position)
 
 func _tick(delta: float) -> Status:
@@ -56,8 +42,6 @@ func _tick(delta: float) -> Status:
 	var nav_agent = c_navigation_agent.nav_agent
 	if nav_agent.is_navigation_finished():
 		return Status.FRESH
-
-	## 2. 判断视线范围内是否存在可疑目标
 	
 	return Status.RUNNING
 
@@ -65,6 +49,16 @@ func _exit() -> void:
 	var c_navigation_agent = blackboard.get_var("c_navigation_agent", null)
 	c_navigation_agent.stop_navigation()
 
-## 更新路径
-func _update_path():
-	pass
+func random_set_target_position(source: Node2D, nav_agent: NavigationAgent2D) -> Vector2:
+	var target_position: Vector2
+
+	while true:
+		target_position = NavigationServer2D.map_get_random_point(
+			nav_agent.get_navigation_map(),
+			nav_agent.navigation_layers,
+			false)
+		if source.get_global_position().distance_to(target_position) <= 500:
+			return target_position
+
+
+	return target_position

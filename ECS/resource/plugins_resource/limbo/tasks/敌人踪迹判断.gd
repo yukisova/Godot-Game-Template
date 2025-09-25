@@ -3,6 +3,11 @@
 class_name BTA_TargetJudgment
 extends BTAction
 
+func _setup() -> void:
+	var c_collision_box: CCollisionBox = (agent as IComponent).get_other_component(IComponent.ComponentName.C_COLLISION_BOX)
+	blackboard.set_var("sight_box", c_collision_box.get_collision(CCollisionBox.BoxCollisionName.SIGHT))
+	blackboard.set_var("sound_box", c_collision_box.get_collision(CCollisionBox.BoxCollisionName.SOUND))
+
 func _tick(delta: float) -> Status:
 	var sight_box: SightBox = blackboard.get_var("sight_box", null, false)
 	if sight_box:

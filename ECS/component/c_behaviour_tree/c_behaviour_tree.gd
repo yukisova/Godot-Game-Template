@@ -4,8 +4,6 @@ extends IComponent
 
 ## 行为树Resource
 @export var behaviour_tree: BehaviorTree
-## 行为树初始化数据
-@export var blackboard_data: Dictionary[String, Variant]
 
 @export_group("依赖")
 @export var behaviour_tree_player: BTPlayer
@@ -19,10 +17,13 @@ func _initialize(_owner: IEntity, _load_data: Dictionary = {}):
 	if behaviour_tree_player:
 		behaviour_tree_player.agent_node = get_path()
 		behaviour_tree_player.behavior_tree = behaviour_tree.duplicate()
-		behaviour_tree_player.process_mode = ProcessMode.PROCESS_MODE_INHERIT
-		behaviour_tree_player.active = true
 
-		var fixed_blackboard_data = SoraEvent.fixed_dictionary(self, blackboard_data)
-		for key in fixed_blackboard_data.keys():
-			behaviour_tree_player.blackboard.set_var(key, fixed_blackboard_data[key])
 	initialize_completed.emit()
+
+func _late_initialize():
+	var blackboard_data = get_blackboard().get_all_values(component_name)
+	for key in blackboard_data.keys():
+		behaviour_tree_player.blackboard.set_var(key, blackboard_data[key])
+		
+	behaviour_tree_player.process_mode = ProcessMode.PROCESS_MODE_INHERIT
+	behaviour_tree_player.active = true

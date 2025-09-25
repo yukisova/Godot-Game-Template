@@ -16,11 +16,13 @@ func get_value(target_component_name: IComponent.ComponentName, data_name: Strin
 func has_value(target_component_name: IComponent.ComponentName, data_name: StringName) -> bool:
 	return registered_data.get(target_component_name, {}).has(data_name)
 
+func get_all_values(target_component_name: IComponent.ComponentName) -> Dictionary:
+	return registered_data.get(target_component_name, {})
+
 ## TODO
 func _data_parse(context: Dictionary):
 	for key in context.keys():
-		var data_name = context[key].get("name")
-		var data_value = context[key].get("value")
+		var data_in_key: Dictionary = context[key] as Dictionary
 		var data_parser: CBDataParser
 		match key:
 			IComponent.ComponentName.NONE:
@@ -51,7 +53,8 @@ func _data_parse(context: Dictionary):
 				data_parser = CBD_SoundEmitter.new(self)
 			_:
 				data_parser = CBD_None.new(self)
-		data_parser.parse(data_name, data_value)
+		for key_val in data_in_key.keys():
+			data_parser.parse(key_val, data_in_key[key_val])
 
 class CBDataParser:
 	var container_blackboard: ContainerBlackboard
@@ -61,17 +64,20 @@ class CBDataParser:
 	func parse(data_name: StringName, data_value: Variant):
 		if data_value == null or data_name == &"":
 			return
-	func _default_parse(data_name: StringName, data_value: Variant):
-		container_blackboard.set_value(IComponent.ComponentName.NONE, data_name, data_value)
+	func _default_parse(data_name: StringName, data_value: Variant, by_component: IComponent.ComponentName):
+		container_blackboard.set_value(by_component, data_name, data_value)
+	func _get_other_component(component_name: IComponent.ComponentName) -> IComponent:
+		return container_blackboard.binding_entity.get_other_component(component_name)
 
 class CBD_None extends CBDataParser:
 	func parse(data_name: StringName, data_value: Variant):
 		super(data_name, data_value)
 		match data_name:
 			&"global_position":
-				container_blackboard.binding_entity.main_control.global_position = data_value
+				var binding_entity = container_blackboard.binding_entity
+				binding_entity.main_control.global_position = data_value
 			_:
-				_default_parse(data_name, data_value)
+				_default_parse(data_name, data_value, IComponent.ComponentName.NONE)
 
 class CBD_ActionTrigger extends CBDataParser:
 	func parse(data_name: StringName, data_value: Variant):
@@ -79,15 +85,17 @@ class CBD_ActionTrigger extends CBDataParser:
 		match data_name:
 			## TODO 待实现
 			_:
-				_default_parse(data_name, data_value)
+				_default_parse(data_name, data_value, IComponent.ComponentName.C_ACTION_TRIGGER)
 
 class CBD_TextureController extends CBDataParser:
 	func parse(data_name: StringName, data_value: Variant):
 		super(data_name, data_value)
 		match data_name:
 			## TODO 待实现
+			&"unwatchable":
+				(_get_other_component(IComponent.ComponentName.C_TEXTURE_CONTROLLER) as CTextureController).unwatchable = data_value
 			_:
-				_default_parse(data_name, data_value)
+				_default_parse(data_name, data_value, IComponent.ComponentName.C_TEXTURE_CONTROLLER)
 
 class CBD_CollisionBox extends CBDataParser:
 	func parse(data_name: StringName, data_value: Variant):
@@ -95,7 +103,7 @@ class CBD_CollisionBox extends CBDataParser:
 		match data_name:
 			## TODO 待实现
 			_:
-				_default_parse(data_name, data_value)
+				_default_parse(data_name, data_value, IComponent.ComponentName.C_COLLISION_BOX)
 		
 class CBD_InputReactor extends CBDataParser:
 	func parse(data_name: StringName, data_value: Variant):
@@ -103,7 +111,7 @@ class CBD_InputReactor extends CBDataParser:
 		match data_name:
 			## TODO 待实现
 			_:
-				_default_parse(data_name, data_value)
+				_default_parse(data_name, data_value, IComponent.ComponentName.C_INPUT_REACTOR)
 
 class CBD_Interactable extends CBDataParser:
 	func parse(data_name: StringName, data_value: Variant):
@@ -111,7 +119,7 @@ class CBD_Interactable extends CBDataParser:
 		match data_name:
 			## TODO 待实现
 			_:
-				_default_parse(data_name, data_value)
+				_default_parse(data_name, data_value, IComponent.ComponentName.C_INTERACTABLE)
 
 class CBD_StateMachine extends CBDataParser:
 	func parse(data_name: StringName, data_value: Variant):
@@ -119,7 +127,7 @@ class CBD_StateMachine extends CBDataParser:
 		match data_name:
 			## TODO 待实现
 			_:
-				_default_parse(data_name, data_value)
+				_default_parse(data_name, data_value, IComponent.ComponentName.C_STATE_MACHINE)
 
 class CBD_StatusList extends CBDataParser:
 	func parse(data_name: StringName, data_value: Variant):
@@ -127,7 +135,7 @@ class CBD_StatusList extends CBDataParser:
 		match data_name:
 			## TODO 待实现
 			_:
-				_default_parse(data_name, data_value)
+				_default_parse(data_name, data_value, IComponent.ComponentName.C_STATUS_LIST)
 
 class CBD_NavigationAgent extends CBDataParser:
 	func parse(data_name: StringName, data_value: Variant):
@@ -135,7 +143,7 @@ class CBD_NavigationAgent extends CBDataParser:
 		match data_name:
 			## TODO 待实现
 			_:
-				_default_parse(data_name, data_value)
+				_default_parse(data_name, data_value, IComponent.ComponentName.C_NAVIGATION_AGENT)
 
 class CBD_Balloon extends CBDataParser:
 	func parse(data_name: StringName, data_value: Variant):
@@ -143,7 +151,7 @@ class CBD_Balloon extends CBDataParser:
 		match data_name:
 			## TODO 待实现
 			_:
-				_default_parse(data_name, data_value)
+				_default_parse(data_name, data_value, IComponent.ComponentName.C_BALLOON)
 
 class CBD_BehaviourTree extends CBDataParser:
 	func parse(data_name: StringName, data_value: Variant):
@@ -151,7 +159,7 @@ class CBD_BehaviourTree extends CBDataParser:
 		match data_name:
 			## TODO 待实现
 			_:
-				_default_parse(data_name, data_value)
+				_default_parse(data_name, data_value, IComponent.ComponentName.C_BEHAVIOUR_TREE)
 
 class CBD_EnvironmentReactor extends CBDataParser:
 	func parse(data_name: StringName, data_value: Variant):
@@ -159,7 +167,7 @@ class CBD_EnvironmentReactor extends CBDataParser:
 		match data_name:
 			## TODO 待实现
 			_:
-				_default_parse(data_name, data_value)
+				_default_parse(data_name, data_value, IComponent.ComponentName.C_ENVIRONMENT_REACTOR)
 
 class CBD_SoundEmitter extends CBDataParser:
 	func parse(data_name: StringName, data_value: Variant):
@@ -167,7 +175,7 @@ class CBD_SoundEmitter extends CBDataParser:
 		match data_name:
 			## TODO 待实现
 			_:
-				_default_parse(data_name, data_value)
+				_default_parse(data_name, data_value, IComponent.ComponentName.C_SOUND_EMITTER)
 
 ## 黑板内的数据类型
 ## key: IComponent.ComponentName

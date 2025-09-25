@@ -34,28 +34,33 @@ extends Node
 ## [param data]: 包含 [NodePath] 的字典数据
 ## [br][br][b]返回:[/b] [Dictionary] 修复后的字典，所有 [NodePath] 被转换为对应的 [Node] 引用
 static func fixed_dictionary(node: Node, data: Dictionary) -> Dictionary:
-	var fixed_data = data.duplicate_deep()
-	
+	var result = {}
 	# 遍历所有键值对，处理不同类型的值
-	for key in fixed_data:
-		if fixed_data[key] is NodePath:
+	for key in data:
+		if data[key] is NodePath:
 			# 将NodePath转换为实际的节点引用
-			fixed_data[key] = node.get_node(fixed_data[key])
-		elif fixed_data[key] is Dictionary:
+			result[key] = node.get_node(data[key])
+		elif data[key] is Dictionary:
 			# 递归处理嵌套字典
-			fixed_data[key] = fixed_dictionary(node, fixed_data[key])
-		elif fixed_data[key] is Array:
-			# 处理数组中的字典和NodePath
-			for i in fixed_data[key].size():
-				if fixed_data[key][i] is Dictionary:
-					fixed_data[key][i] = fixed_dictionary(node, fixed_data[key][i])
-				elif fixed_data[key][i] is NodePath:
-					fixed_data[key][i] = node.get_node(fixed_data[key][i])
-		elif fixed_data[key] is ContainerBlackboardData:
-			var data_name = fixed_data[key].get_data_name()
-			var data_value = fixed_data[key].get_data_value()
-			fixed_data[key] = fixed_dictionary(node, {"name": data_name, "value": data_value}) 
-	return fixed_data
+			result[key] = fixed_dictionary(node, data[key])
+		elif data[key] is Array:
+			result[key] = []
+			for i in data[key].size():
+				if data[key][i] is Dictionary:
+					result[key].append(fixed_dictionary(node, data[key][i]))
+				elif data[key][i] is NodePath:
+					result[key].append(node.get_node(data[key][i]))
+				elif data[key][i] is Array:
+					printerr("不会fix嵌套Array的内容")
+					result[key].append(data[key][i])
+				else:
+					result[key].append(data[key][i])
+		elif data[key] is ContainerBlackboardData:
+			result[key] = fixed_dictionary(node, (data[key] as ContainerBlackboardData)._data as Dictionary)
+		else:
+			result[key] = data[key]
+			
+	return result
 
 
 #region 相机特效相关

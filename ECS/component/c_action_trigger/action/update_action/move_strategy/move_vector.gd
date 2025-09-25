@@ -17,6 +17,10 @@ var toward_control_by_move: bool = true:
 	set(v):
 		toward_control_by_move = v
 
+## 由外界设置的特殊移动方案，在某些情况下
+var fixed_move_callable: Callable
+var fixed_move_callable_setted: bool = false
+
 ## 移动向量
 ## 控制实体的移动方向和强度，自动处理输入控制和AI控制两种模式
 
@@ -111,15 +115,17 @@ func _update(_delta: float):
 	# 只有具有输入组件的实体才会自动移动（玩家控制）
 	# AI控制的实体需要外部代码设置move_vector
 	if movement_input:
-		if not _get_move_vector().is_zero_approx():
-			# 应用移动：使用lerp实现平滑的速度过渡
-			body.velocity = body.velocity.lerp(_get_move_vector() * _delta * 10 * move_speed, _delta * 10)
+		if fixed_move_callable and fixed_move_callable_setted:
+			fixed_move_callable.call(_delta)
 		else:
-			# 停止移动：平滑减速到零
-			body.velocity = body.velocity.lerp(Vector2.ZERO, _delta * 10)
-		
-		# 应用物理移动
-		body.move_and_slide()
+			if not _get_move_vector().is_zero_approx():
+				# 应用移动：使用lerp实现平滑的速度过渡
+				body.velocity = body.velocity.lerp(_get_move_vector() * _delta * 10 * move_speed, _delta * 10)
+			else:
+				# 停止移动：平滑减速到零
+				body.velocity = body.velocity.lerp(Vector2.ZERO, _delta * 10)
+			# 应用物理移动
+			body.move_and_slide()
 	
 	## 2. 更新朝向方向
 	if !toward_direction_target.is_equal_approx(toward_direction_current):

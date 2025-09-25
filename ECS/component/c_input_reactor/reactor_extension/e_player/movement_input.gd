@@ -21,6 +21,12 @@ var input_vector_dict: Dictionary[String, Vector2] = {
 	"toward" : Vector2.ZERO
 }
 
+func get_move_vector() -> Vector2:
+	return input_vector_dict.move
+
+func get_toward_vector() -> Vector2:
+	return input_vector_dict.toward
+
 #region 输入向量处理
 func try_input_vector() -> Dictionary:
 	var entity_input_target: SoraConstant.InputTarget = SMainController.get_input_target(c_input_reactor.component_owner)
@@ -48,7 +54,6 @@ func _try_vector_control() -> Dictionary:
 		return {}
 #endregion
 
-
 func _late_initialize():
 	pass
 
@@ -56,7 +61,7 @@ func _listen():
 	var input_vector_dict_update: Dictionary = _try_vector_control()
 	var current_move = input_vector_dict_update.get("vec", Vector2.ZERO) as Vector2
 
-	input_vector_dict.move = lerp(input_vector_dict.move, current_move, 0.3)
+	input_vector_dict.move = current_move
 	if input_vector_dict_update.has("pre_vec"):
 		var current_toward = input_vector_dict_update.get("pre_vec", Vector2.ZERO) as Vector2
-		input_vector_dict.toward = lerp(input_vector_dict.toward, current_toward, 0.3)
+		input_vector_dict.toward = current_toward
