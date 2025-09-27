@@ -48,6 +48,7 @@ func _exit():
 	super()
 	update_trigger = false
 	SSignalBus.ui_main_returned.emit()
+	Main.entity_initialzable = false
 
 func _fixed_update(_delta: float) -> void:
 	pass

@@ -1,28 +1,3 @@
-## 游戏事件工具类 - 提供常用的静态方法和事件处理
-##
-## 该类封装了游戏中常用的事件处理方法，主要包括：
-## - 对话系统的便捷调用
-## - 通用事件触发器
-## - 场景切换工具
-## - 其他常用的静态工具方法
-##
-## 设计目标：
-## - 简化复杂系统的调用流程
-## - 提供统一的事件处理接口
-## - 减少代码重复和耦合
-##
-## 工具方法：
-## - 字典数据修复和转换
-## - 节点路径解析和处理
-## - 数据结构的深度处理
-##
-## 架构设计：
-## - 继承自 [Node] 基类
-## - 提供静态方法 [method fixed_dictionary]
-## - 支持 [NodePath] 到 [Node] 的自动转换
-## - 基于递归的深度数据处理
-##
-## [br][b]编辑者:[/b] Sora
 class_name SoraEvent
 extends Node
 
@@ -30,9 +5,7 @@ extends Node
 ## 
 ## 递归地将字典中的 [NodePath] 值转换为实际的节点引用。
 ## 支持嵌套字典和数组的深度处理。
-## [param node]: 作为路径解析基准的节点
-## [param data]: 包含 [NodePath] 的字典数据
-## [br][br][b]返回:[/b] [Dictionary] 修复后的字典，所有 [NodePath] 被转换为对应的 [Node] 引用
+## [b]返回:[/b] [Dictionary] 修复后的字典，所有 [NodePath] 被转换为对应的 [Node] 引用
 static func fixed_dictionary(node: Node, data: Dictionary) -> Dictionary:
 	var result = {}
 	# 遍历所有键值对，处理不同类型的值
@@ -271,59 +244,49 @@ static func _set_image_scale_size_optimized(image: Image, image_size: Vector2i) 
 #endregion
 #endregion
 
-#region 视图相关
-# ## 从主视口坐标转换为子视口坐标
-# ## 当使用SubViewport和SubViewportContainer时，get_global_mouse_position()会返回相对于主视口的位置
-# ## 此函数将主视口坐标转换为子视口内的正确坐标
-# ## 已修复：现在支持相机zoom缩放修正
-# ## [param viewport_container]: 视口容器，类型为[SubViewportContainer]
-# ## [param main_viewport_coords]: 主视口中的坐标位置，类型为[Vector2]
-# ## [param camera]: 可选的相机引用，用于应用zoom缩放修正，类型为[Camera2D]
-# ## [br][br][b]返回:[/b] 转换后的子视口坐标
-# static func main_to_subviewport_coords(viewport_container: SubViewportContainer, main_viewport_coords: Vector2, camera: Camera2D = null) -> Vector2:
-# 	# 1. 获取视口容器在主视口中的全局位置和尺寸
-# 	var container_rect = viewport_container.get_global_rect()
+#region 代码创建特殊形状碰撞体
+## 生成扇形, sight_wide为扇形的角度(degree)
+static func sector_generate(collsion_info: BoxCollisionResource):
+	var sight_wide = collsion_info.sight_wide
+	var sight_range = collsion_info.sight_range
+	var sight_offset = collsion_info.sight_offset
 	
-# 	# 2. 计算鼠标在容器中的相对位置
-# 	var local_coords = main_viewport_coords - container_rect.position
+	var polygonVertex : PackedVector2Array = [Vector2.ZERO]
+	for i in range( -sight_wide / 2.0 ,sight_wide / 2.0 + 1 ,1): ## 加一的目的是为了避免缺失5度
+		if i % 5 == 0:
+			polygonVertex.append(Vector2(sight_range,0).rotated(-deg_to_rad(i)))
 	
-# 	# 3. 计算比例缩放因子（容器可能被缩放了）
-# 	var viewport: SubViewport = viewport_container.get("viewport") as SubViewport
-# 	if not viewport:
-# 		return local_coords
-	
-# 	var scale_factor = Vector2(
-# 		viewport.size.x / container_rect.size.x,
-# 		viewport.size.y / container_rect.size.y
-# 	)
-	
-# 	# 4. 应用缩放因子得到子视口中的正确坐标
-# 	var viewport_pos = local_coords * scale_factor
-	
-# 	# 5. 应用相机zoom缩放修正（如果提供了相机引用）
-# 	if camera and is_instance_valid(camera):
-# 		var camera_zoom = camera.zoom
-# 		if camera_zoom != Vector2.ZERO:
-# 			var zoom_correction = Vector2(1.0 / camera_zoom.x, 1.0 / camera_zoom.y)
-# 			var viewport_center = viewport.size * 0.5
-# 			var offset_from_center = viewport_pos - viewport_center
-# 			offset_from_center *= zoom_correction
-# 			viewport_pos = viewport_center + offset_from_center
-	
-# 	return viewport_pos
+	var _collision = CollisionPolygon2D.new()
+	_collision.polygon = polygonVertex
+	_collision.position = sight_offset
+	return _collision
 
-# ## 获取正确的子视口鼠标位置
-# ## 这是一个便捷方法，用于获取当前鼠标在子视口中的正确位置
-# ## 特别适合用于分屏显示时获取鼠标位置
-# ## 已修复：现在支持相机zoom缩放修正
-# ## [param viewport_container]: 视口容器，类型为[SubViewportContainer]
-# ## [param camera]: 可选的相机引用，用于应用zoom缩放修正，类型为[Camera2D]
-# ## [br][br][b]返回:[/b] 在子视口中的鼠标坐标
-# static func get_subviewport_mouse_position(viewport_container: SubViewportContainer, camera: Camera2D = null) -> Vector2:
-# 	# 获取主视口中的鼠标位置
-# 	var main_mouse_pos = viewport_container.get_viewport().get_mouse_position()
-# 	# 转换为子视口坐标（包含zoom缩放修正）
-# 	return main_to_subviewport_coords(viewport_container, main_mouse_pos, camera)
+## 生成矩形
+static func rectangle_generate(collsion_info: BoxCollisionResource):
+	var sight_wide = collsion_info.sight_wide
+	var sight_range = collsion_info.sight_range
+	var sight_offset = collsion_info.sight_offset
+	
+	var shape = RectangleShape2D.new()
+	shape.size = Vector2(sight_range, sight_wide)
+	
+	var _collision = CollisionShape2D.new()
+	_collision.shape = shape
+	_collision.position = sight_offset
+	return _collision
 
-
+## 生成胶囊
+static func circle_generate(collsion_info: BoxCollisionResource):
+	var sight_wide = collsion_info.sight_wide
+	var sight_range = collsion_info.sight_range
+	var sight_offset = collsion_info.sight_offset
+	
+	var shape = CapsuleShape2D.new()
+	shape.mid_height = sight_wide
+	shape.radius = sight_range
+	
+	var _collision = CollisionShape2D.new()
+	_collision.shape = shape
+	_collision.position = sight_offset
+	return _collision
 #endregion

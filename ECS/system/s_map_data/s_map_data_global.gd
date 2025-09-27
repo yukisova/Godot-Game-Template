@@ -85,12 +85,14 @@ func _on_map_registered(map_scene: PackedScene, _data: SavedDataFile = null):
 		SMainController.player_located.emit.call_deferred(current_level, _data.player_info)
 	
 	map_register_finished.emit()
+
 func _on_factor_added(new_factor: FixedEntity, start_position: Vector2):
 	current_level.add_child.call_deferred(new_factor)
 	
 	new_factor.main_control.global_position = start_position
 	
 	new_factor._initialize()
+
 func _on_level_changed(operate_entity: FixedEntity, new_level: Level, point: Vector2):
 	if new_level == current_level:
 		operate_entity.global_position = point

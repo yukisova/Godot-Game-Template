@@ -50,7 +50,7 @@ func _fixed_update(_delta: float):
 			base_component._fixed_update(_delta)
 
 ## 回收实体—发出销毁信号，对象池接收信号后将实体回收至可用池中等待下一次使用
-func despawn():
+func _despawn():
 	despawned.emit(self)
 
 ## 重置实体—重置实体的初始化数据和组件状态，为下次使用做准备
@@ -60,4 +60,4 @@ func reset(_new_context: Dictionary):
 	for component in list_base_components.values():
 		component._reset()
 
-## 第一次加载->initialize()->使用完毕->despawn()->在对象池中被选中->reset()->使用完毕->despawn()
+## 第一次加载->initialize()->使用完毕->_despawn()->在对象池中被选中->reset()->使用完毕->_despawn()

@@ -10,15 +10,11 @@ extends Node
 var be_mask_sprites: Array :
 	get:
 		if is_node_ready():
-			return SMapData.current_level.hidden_packed_sprites
+			return SMapData.current_level.entity_state_manager.hidding_entities.entities
 		return []
 
-## 遮罩着色器文件路径
-@export_file_path("*.gdshader") var mask_shader_path: String
-
-## 着色器和材质
+## 材质
 ## 所有的被遮罩的精灵都使用同一个着色器和材质
-var mask_shader: Shader
 var mask_material: ShaderMaterial
 
 # 遮罩参数
@@ -43,35 +39,12 @@ func _process(_delta):
 
 func _exit_tree() -> void:
 	if Engine.is_editor_hint(): return
-	SMapData.current_level.hidden_packed_sprite_updated.disconnect(setup_mask_shader)
-	for sprite in be_mask_sprites:
-		sprite.material = null
+	SMapData.current_level.entity_state_manager.hidding_entities.reset()
 
 ## 自定义初始化方法
 func initialize():
-	setup_mask_shader()
-	SMapData.current_level.hidden_packed_sprite_updated.connect(setup_mask_shader)
-
-func setup_mask_shader():
-	# 检查着色器文件是否存在
-	if not ResourceLoader.exists(mask_shader_path):
-		return
-	
-	# 加载着色器
-	mask_shader = load(mask_shader_path)
-	
-	if not mask_shader:
-		return
-	
-	# 创建着色器材质
-	mask_material = ShaderMaterial.new()
-	mask_material.shader = mask_shader
-	
-	# 应用材质到被遮罩的精灵
-	if be_mask_sprites:
-		for sprite in be_mask_sprites:
-			sprite.material = mask_material
-		update_mask_parameters()
+	mask_material = SMapData.current_level.entity_state_manager.hidding_entities.hidding_material
+	SMapData.current_level.entity_state_manager.hidding_entities.setup()
 
 func update_mask_parameters():
 	# 检查所有必要的对象是否存在

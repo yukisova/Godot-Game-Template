@@ -7,7 +7,7 @@
 ## 架构设计：继承自Interaction基类，与Item物品系统的深度集成，基于CStatusList和InventoryExtension的背包管理
 ## [br][b]编辑者:[/b] Sora
 class_name InteractionCollect
-extends Interaction
+extends IInteraction
 
 ## 绑定的物品
 ## 这个交互对象所代表的可拾取物品
@@ -47,10 +47,7 @@ func __interact_begin(_target_entity: IEntity):
 		print("拾取交互: 拾取失败，可能是背包已满 -> ", binding_item.item_name)
 		# TODO: 显示背包已满的提示
 
-## 交互取消激活处理—拾取交互通常不需要取消处理
-func _on_interact_deactivated():
-	# 拾取是即时操作，通常不需要取消处理
-	pass
+func __interact_reset() -> void: pass
 
 ## 处理成功拾取后的逻辑—可以在这里添加拾取成功后的特效、音效或对象销毁逻辑
 func _handle_successful_pickup():

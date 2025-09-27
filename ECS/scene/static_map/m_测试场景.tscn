@@ -8,7 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://tufppmw8gluy" path="res://resource/node_template/map/tilemap/floating/wall.tscn" id="5_miv26"]
 [ext_resource type="TileSet" uid="uid://dcn0ivbub3x32" path="res://resource/resource_template/tileset/tilesets/tileset_32_wall.tres" id="5_syr0d"]
 [ext_resource type="PackedScene" uid="uid://de3o6pll5kxdx" path="res://resource/node_template/map/player_spawn.tscn" id="7_05w2q"]
-[ext_resource type="PackedScene" uid="uid://bx7h1bisdrdgb" path="res://entity/entity_packed/object_entity/oneshot_point/oneshot_point.tscn" id="10_2y2ga"]
+[ext_resource type="PackedScene" uid="uid://bx7h1bisdrdgb" path="res://entity/entity_packed/object_entity/checkable_point/checkable_point.tscn" id="10_2y2ga"]
 [ext_resource type="Resource" uid="uid://beo0dmy38xpw6" path="res://resource/custom_resource/item/item_equipment/1_手电筒/E_A_FLASHLIGHT.tres" id="11_320cn"]
 [ext_resource type="Script" uid="uid://dyicjmjyi8vve" path="res://component/c_interactable/interaction/interaction_collect.gd" id="11_mtn5c"]
 [ext_resource type="Resource" uid="uid://f8x8v2iu6h6e" path="res://resource/custom_resource/item/item_weapon/1_左轮/W_A_REVOVLER.tres" id="13_ervho"]

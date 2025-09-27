@@ -4,8 +4,6 @@
 extends Node2D
 
 ## 射线交互的信号，用于射线交互组件的交互
-## TODO 可以考虑使用PhysicsRayQueryParameters2D进行优化
-@warning_ignore("unused_signal")
 signal entity_ray_interact(interact_source: IEntity)
 
 ## 实体初始化完成信号
@@ -52,6 +50,10 @@ func _ready() -> void:
 	if component_container:
 		component_container.binding_entity = self
 	_setup()
+
+## 销毁实体的方法，默认为直接释放，但是可以被重写，实现类似玩家一样的不死但是弹出游戏结束
+func _despawn():
+	queue_free()
 	
 ## 初始化数据绑定—处理动态创建实体时的初始化数据配置，确保数据正确传递给组件系统
 ## [param context_data]: 统一的初始化数据字典

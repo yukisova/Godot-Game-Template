@@ -36,7 +36,7 @@ func _setup():
 func _resetup():
 	clear_all_viewports()
 	# 重新设置
-	_setup_viewports_for_play_type()
+	#_setup_viewports_for_play_type()
 
 #region 原ViewportManager
 ## 设置布局类型并重新配置所有视口
@@ -45,6 +45,7 @@ func set_layout(layout: LayoutType):
 	current_layout = layout
 	_configure_container_layout()
 	_update_all_viewports()
+	
 ## 添加视口到管理器
 ## [param camera_viewport]: 要添加的相机视口
 func add_viewport(camera_viewport: CameraViewport):

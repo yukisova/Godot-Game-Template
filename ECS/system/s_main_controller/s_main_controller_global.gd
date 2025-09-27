@@ -47,6 +47,10 @@ func _setup():
 	await Launcher.main.system_setup_completed
 	set_process_unhandled_input(true)
 
+func _resetup():
+	player_static.clear()
+
+
 func _get_player_info_by_index(scene_index: int) -> IEntity:
 	for i: PlayerRecordInfo in player_static.keys():
 		if i.player_scene_index == scene_index:

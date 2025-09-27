@@ -95,6 +95,7 @@ func _enter_tree() -> void:
 	if cutscene_enable:
 		for cutscene in autoload_cutscene.get_children():
 			SSignalBus.game_loop_start.connect(cutscene._start)
+		SSignalBus.game_loop_start.connect(_on_game_loop_start)
 	else:
 		SSignalBus.game_loop_start.connect(_on_game_loop_start)
 

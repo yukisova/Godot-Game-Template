@@ -1,9 +1,13 @@
 class_name ContainerBlackboard
 extends Node2D
 
+@export var preregisterd_data: Dictionary[IComponent.ComponentName, ContainerBlackboardData] = {}
 var binding_entity: IEntity
 ## 已注册的数据
 var registered_data: Dictionary = {}
+
+func _enter_tree() -> void:
+	_data_parse(SoraEvent.fixed_dictionary(self, preregisterd_data))
 
 func set_value(target_component_name: IComponent.ComponentName, data_name: StringName, data_value: Variant):
 	if not registered_data.has(target_component_name):
@@ -56,7 +60,7 @@ func _data_parse(context: Dictionary):
 		for key_val in data_in_key.keys():
 			data_parser.parse(key_val, data_in_key[key_val])
 
-class CBDataParser:
+@abstract class CBDataParser:
 	var container_blackboard: ContainerBlackboard
 	func _init(_container_blackboard: ContainerBlackboard) -> void:
 		container_blackboard = _container_blackboard
@@ -93,7 +97,11 @@ class CBD_TextureController extends CBDataParser:
 		match data_name:
 			## TODO 待实现
 			&"unwatchable":
-				(_get_other_component(IComponent.ComponentName.C_TEXTURE_CONTROLLER) as CTextureController).unwatchable = data_value
+				var c_texture_controller: CTextureController = _get_other_component(IComponent.ComponentName.C_TEXTURE_CONTROLLER)
+				if c_texture_controller:
+					c_texture_controller.unwatchable = data_value
+				else:
+					print("CTextureController未发现, 跳过设置unwatchable - container_blackboard.gd")
 			_:
 				_default_parse(data_name, data_value, IComponent.ComponentName.C_TEXTURE_CONTROLLER)
 

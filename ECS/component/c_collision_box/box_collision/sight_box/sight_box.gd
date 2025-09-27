@@ -24,7 +24,7 @@
 ##
 ## 架构设计：
 ## - 继承自 [BoxCollision] 基类
-## - 基于 [SightCollisionResource] 的配置系统
+## - 基于 [BoxCollisionResource] 的配置系统
 ## - 使用 [annotation @tool] 支持编辑器预览
 ## - 通过信号系统通知目标状态变化
 ##
@@ -45,8 +45,8 @@ signal target_losed
 
 ## 视野配置资源数组
 ## 
-## 定义不同形状和参数的视野检测区域，类型为 [Array] of [SightCollisionResource]。
-@export var sight_box_resource: Array[SightCollisionResource]:
+## 定义不同形状和参数的视野检测区域，类型为 [Array] of [BoxCollisionResource]。
+@export var sight_box_resource: Array[BoxCollisionResource]:
 	set(v):
 		sight_box_resource = v
 		# 编辑器中实时更新视野显示
@@ -170,12 +170,12 @@ func initialize_collision():
 			continue
 		
 		match resource.sight_collision_type:
-			SightCollisionResource.SightCollisionType.Sector:
-				sector_generate(resource)
-			SightCollisionResource.SightCollisionType.Capsule:
-				circle_generate(resource)
-			SightCollisionResource.SightCollisionType.Rectangle:
-				rectangle_generate(resource)
+			BoxCollisionResource.SightCollisionType.Sector:
+				add_child(SoraEvent.sector_generate(resource))
+			BoxCollisionResource.SightCollisionType.Capsule:
+				add_child(SoraEvent.circle_generate(resource))
+			BoxCollisionResource.SightCollisionType.Rectangle:
+				add_child(SoraEvent.rectangle_generate(resource))
 
 
 #region 射线检测系统
@@ -301,49 +301,4 @@ func validate_awaiting_targets():
 			if sight_target.is_empty():
 				target_noticed.emit()
 			sight_target.append(target)
-#endregion
-
-#region 碰撞体生成
-## 生成扇形, sight_wide为扇形的角度(degree)
-func sector_generate(collsion_info: SightCollisionResource):
-	var sight_wide = collsion_info.sight_wide
-	var sight_range = collsion_info.sight_range
-	var sight_offset = collsion_info.sight_offset
-	
-	var polygonVertex : PackedVector2Array = [Vector2.ZERO]
-	for i in range( -sight_wide / 2.0 ,sight_wide / 2.0 + 1 ,1): ## 加一的目的是为了避免缺失5度
-		if i % 5 == 0:
-			polygonVertex.append(Vector2(sight_range,0).rotated(-deg_to_rad(i)))
-	
-	var collision = CollisionPolygon2D.new()
-	collision.polygon = polygonVertex
-	collision.position = sight_offset
-	add_child(collision)
-
-func rectangle_generate(collsion_info: SightCollisionResource):
-	var sight_wide = collsion_info.sight_wide
-	var sight_range = collsion_info.sight_range
-	var sight_offset = collsion_info.sight_offset
-	
-	var shape = RectangleShape2D.new()
-	shape.size = Vector2(sight_range, sight_wide)
-	
-	var collision = CollisionShape2D.new()
-	collision.shape = shape
-	collision.position = sight_offset
-	add_child(collision)
-
-func circle_generate(collsion_info: SightCollisionResource):
-	var sight_wide = collsion_info.sight_wide
-	var sight_range = collsion_info.sight_range
-	var sight_offset = collsion_info.sight_offset
-	
-	var shape = CapsuleShape2D.new()
-	shape.mid_height = sight_wide
-	shape.radius = sight_range
-	
-	var collision = CollisionShape2D.new()
-	collision.shape = shape
-	collision.position = sight_offset
-	add_child(collision)
 #endregion

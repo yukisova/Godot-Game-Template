@@ -23,3 +23,6 @@ func _get_move_vector() -> Vector2:
 ## [param vector]: 目标应当面朝的方向
 func _set_target_direction(source: Node2D, vector: Vector2):
 	pass
+
+func _get_current_direction() -> Vector2:
+	return Vector2.ZERO

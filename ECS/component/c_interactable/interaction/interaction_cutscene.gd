@@ -1,6 +1,6 @@
 ## 过场剧情触发器
 
-extends Interaction
+extends IInteraction
 
 var cutscenes: Array[ICutscene]
 

@@ -2,6 +2,8 @@ shader_type canvas_item;
 
 // 遮罩纹理
 uniform sampler2D mask_texture : filter_linear_mipmap;
+// 是否使用遮罩纹理
+uniform bool use_mask_texture = false;
 // 遮罩位置
 uniform vec2 mask_position = vec2(0.0, 0.0);
 // 遮罩对应的Sprite2D的偏移
@@ -82,5 +84,10 @@ void fragment() {
 	
 	// 设置最终颜色
 	COLOR = tex_color;
-	COLOR.a *= mask_value;
+
+	if (!use_mask_texture) {
+		COLOR = vec4(tex_color.rgb, 0.0);
+	} else {
+		COLOR.a *= mask_value;
+	}
 }

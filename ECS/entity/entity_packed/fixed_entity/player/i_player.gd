@@ -22,3 +22,9 @@ func _load_by(data: SavedDataFile) -> Dictionary:
 	## 这里不进行任何操作，因为玩家的位置和状态已经在s_main_controller中进行处理了
 	
 	return data.player_info.get("components", {})
+
+func _despawn():
+	print("玩家死亡，弹出游戏结束")
+	SSignalBus.game_overed.emit(1)
+
+	

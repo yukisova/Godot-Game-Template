@@ -6,6 +6,8 @@ extends ISystem
 
 @export var cutscene_scene: PackedScene
 
+@export var game_over_ui_scene: PackedScene
+
 @export var all_hud: Dictionary[StringName, HudInitSetting]
 
 var current_hud: Dictionary[StringName, UIHudController] = {}
@@ -24,7 +26,6 @@ func _setup():
 	SSignalBus.game_loop_start.connect(func():
 		for hud: UIHudController in current_hud.values():
 			hud._initialize()
-		_hide_all_hud([""])
 	)
 	
 	SSignalBus.game_loop_continue.connect(func():
@@ -55,7 +56,9 @@ func _spawn_ui(scene: PackedScene, context: Dictionary = {}, is_main_or_cutscene
 			current_game_state.game_paused.emit()
 		elif !is_main_or_cutscene:
 			return
+		
 		# 设置新UI
+		await get_tree().process_frame
 		current_ui = canvas
 		canvas._initilize_info(context)
 		Main.ui_view.add_child(current_ui)
@@ -101,13 +104,16 @@ func _all_unspawn():
 	print("UI生成器: 所有UI已清理")
 
 func _loading_start_ui():
-	_spawn_ui(main_menu_scene, {}, true)	
+	_spawn_ui(main_menu_scene, {}, true)
 
 func _loading_start_cutscene():
 	_spawn_ui(cutscene_scene, {}, true)
 
 func _loading_start_logo_transition():
 	_spawn_ui(logo_transition_scene, {}, true)
+
+func _loading_game_over_ui(info: Dictionary):
+	_spawn_ui(game_over_ui_scene, {"type":info["type"]})
 
 func _get_hud(keyword: StringName):
 	return current_hud.get(keyword)

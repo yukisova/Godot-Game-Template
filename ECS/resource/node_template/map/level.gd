@@ -3,7 +3,6 @@ extends Node2D
 
 signal level_fully_loaded
 signal level_entity_fully_initialize
-signal hidden_packed_sprite_updated
 
 @export var is_need_fog: bool
 @export_range(0, 1) var time: float:
@@ -12,23 +11,18 @@ signal hidden_packed_sprite_updated
 			time = value
 
 @export_group("依赖")
-@export var camera_limit: Control					# 相机限制
-@export var rooms: Rooms							# 房间
-@export var level_object_pool: Node2D				# 层级对象池
-@export var level_fog: Fog							# 迷雾
-@export var paint_floors: PaintFloor				# 血迹地板
-@export var map_filter: CanvasModulate				# 地图滤镜
-@export var directional_light: DirectionalLight2D	# 方向光
-@export var filter_gradient: GradientTexture1D		# 滤镜渐变
+@export var camera_limit: Control						# 相机限制
+@export var rooms: Rooms								# 房间
+@export var entity_state_manager: EntityStateManager	# 层级对象池(同时也是实体状态管理器)
+@export var level_fog: Fog								# 迷雾
+@export var paint_floors: PaintFloor					# 血迹地板
+@export var map_filter: CanvasModulate					# 地图滤镜
+@export var directional_light: DirectionalLight2D		# 方向光
+@export var filter_gradient: GradientTexture1D			# 滤镜渐变
 
 var static_map: StaticMap
 
 var transport_point_list: Dictionary[StringName, TransportPoint] = {}
-
-var hidden_packed_sprites: Array[IPackedSprite]:
-	set(v):
-		hidden_packed_sprites = v
-		hidden_packed_sprite_updated.emit()
 
 var layers_count = 0
 var layers_loaded_count = 0
@@ -72,12 +66,12 @@ func _check_all_entity_initialize():
 		level_entity_fully_initialize.emit()
 
 func _late_initialize():
-
 	if !is_need_fog:
 		level_fog.hide()
 	level_fog._initialize()
 	paint_floors._initialize()
 	rooms._initialize()
+	entity_state_manager._initialize()
 	_initialize_paint_batch()  # 初始化批处理机制
 	var timeloop = SBlackboard.get_sub_system(ISubSystem.SubSystemType.TIME_LOOP) as SSTimeLoop
 	timeloop.time_updated.connect(time_change_filter)

@@ -7,7 +7,7 @@ extends IComponent
 var interaction_infos: Dictionary[int, InteractionRecordInfo] = {}
 
 class InteractionRecordInfo:
-	var interaction: Interaction
+	var interaction: IInteraction
 	var interact_box: InteractBox
 	var is_passive: bool
 	var interact_type: InteractionRecord.InteractType = InteractionRecord.InteractType.Null:
@@ -17,7 +17,7 @@ class InteractionRecordInfo:
 	var callable_actived: Callable
 	var callable_deactived: Callable
 
-	func _init(_interaction: Interaction, _interact_box: InteractBox, _is_passive: bool, _interact_type: InteractionRecord.InteractType) -> void:
+	func _init(_interaction: IInteraction, _interact_box: InteractBox, _is_passive: bool, _interact_type: InteractionRecord.InteractType) -> void:
 		interaction = _interaction
 		interact_box = _interact_box
 		is_passive = _is_passive
@@ -33,7 +33,7 @@ func _initialize(_owner: IEntity, _load_data: Dictionary = {}):
 	for i in range(interactions_resources.size()):
 		var record = interactions_resources[i]
 		var interaction_record_info = InteractionRecordInfo.new(
-			get_node(record.interaction) as Interaction,
+			get_node(record.interaction) as IInteraction,
 			get_node(record.interact_box) as InteractBox if record.interact_type != InteractionRecord.InteractType.RayCasted else null,
 			record.is_passive,
 			record.interact_type
@@ -41,7 +41,7 @@ func _initialize(_owner: IEntity, _load_data: Dictionary = {}):
 		interaction_infos[i] = interaction_record_info
 	
 	for child in get_children():
-		if child is Interaction:
+		if child is IInteraction:
 			child.binding_entity = component_owner
 	
 	for interaction_action in interaction_infos.values():
@@ -69,13 +69,13 @@ func confirm_interact_callable(interaction_info: InteractionRecordInfo):
 						var c_input_reactor: CInputReactor = entity.get_other_component(IComponent.ComponentName.C_INPUT_REACTOR)
 						if c_input_reactor:
 							c_input_reactor.interact_obj = null )
-		InteractionRecord.InteractType.AreaEntered:
-			interaction_info.callable_actived = Callable(func(_area: Area2D):
-				if _area is SeekBox:
-					_area.seek_target.append(interaction_info.interaction))
-			interaction_info.callable_deactived = Callable(func(_area: Area2D):
-				if _area is SeekBox:
-					_area.seek_target.erase(interaction_info.interaction))
+		#InteractionRecord.InteractType.AreaEntered:
+			#interaction_info.callable_actived = Callable(func(_area: Area2D):
+				#if _area is SeekBox:
+					#_area.seek_target.append(interaction_info.interaction))
+			#interaction_info.callable_deactived = Callable(func(_area: Area2D):
+				#if _area is SeekBox:
+					#_area.seek_target.erase(interaction_info.interaction))
 		InteractionRecord.InteractType.RayCasted:
 			interaction_info.callable_actived = Callable(func(interact_source: IEntity):
 				interaction_info.interaction.interact_activated.emit(interact_source))

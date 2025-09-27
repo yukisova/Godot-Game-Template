@@ -1,9 +1,9 @@
 [gd_scene load_steps=3 format=3 uid="uid://bx7h1bisdrdgb"]
 
-[ext_resource type="Script" uid="uid://cy3jm1u1dhagc" path="res://entity/entity_packed/object_entity/oneshot_point/oneshot_point.gd" id="1_8o4ao"]
+[ext_resource type="Script" uid="uid://cy3jm1u1dhagc" path="res://entity/entity_packed/object_entity/checkable_point/checkable_point.gd" id="1_8o4ao"]
 [ext_resource type="PackedScene" uid="uid://dbswip03t13sy" path="res://component/c_interactable/c_interactable.tscn" id="3_dsgcy"]
 
-[node name="OneshotPoint" type="Node2D" node_paths=PackedStringArray("c_interactable")]
+[node name="CheckablePoint" type="Node2D" node_paths=PackedStringArray("c_interactable")]
 position = Vector2(0, -12)
 script = ExtResource("1_8o4ao")
 c_interactable = NodePath("CInteractable")

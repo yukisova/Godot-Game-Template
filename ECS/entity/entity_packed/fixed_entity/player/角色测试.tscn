@@ -1,4 +1,4 @@
-[gd_scene load_steps=47 format=3 uid="uid://dq753g4b1nmk8"]
+[gd_scene load_steps=49 format=3 uid="uid://dq753g4b1nmk8"]
 
 [ext_resource type="PackedScene" uid="uid://6jpwo3n27sj2" path="res://entity/entity_packed/fixed_entity/fixed_entity.tscn" id="1_fojvx"]
 [ext_resource type="Script" uid="uid://815l8mjrysw1" path="res://entity/entity_packed/fixed_entity/player/i_player.gd" id="2_dwa3q"]
@@ -23,6 +23,7 @@
 [ext_resource type="PackedScene" uid="uid://cps21xspaovit" path="res://component/c_collision_box/c_collision_box.tscn" id="21_g7054"]
 [ext_resource type="Script" uid="uid://3c3x3bgxinnw" path="res://component/c_collision_box/box_ray/interact_ray/interact_ray.gd" id="22_i270p"]
 [ext_resource type="PackedScene" uid="uid://lu3gu1tfxdey" path="res://component/c_input_reactor/c_input_reactor.tscn" id="23_0eqlr"]
+[ext_resource type="Script" uid="uid://g2h7s2qmcn31" path="res://component/c_collision_box/box_collision/hurt_box/hurt_box.gd" id="23_ey2ar"]
 [ext_resource type="Script" uid="uid://bj5wq8iankhmq" path="res://component/c_input_reactor/reactor_extension/e_player/test_check_info.gd" id="24_mptg6"]
 [ext_resource type="Script" uid="uid://cd4xrbwgqs7p0" path="res://component/c_input_reactor/reactor_extension/e_player/ray_interact_confirm.gd" id="25_dqk21"]
 [ext_resource type="Script" uid="uid://ceknbpsdqqm6d" path="res://component/c_input_reactor/reactor_extension/e_player/ui_panel_open.gd" id="26_bsgyj"]
@@ -45,6 +46,9 @@ metadata/_custom_type_script = "uid://cpdkw72ahtbjj"
 script = ExtResource("19_xt4na")
 to_state = NodePath("../Idle")
 metadata/_custom_type_script = "uid://cpdkw72ahtbjj"
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_x5pf7"]
+size = Vector2(32, 24)
 
 [sub_resource type="Resource" id="Resource_hn80f"]
 script = ExtResource("30_byc33")
@@ -201,11 +205,20 @@ script = ExtResource("22_i270p")
 script = ExtResource("21_0fo6k")
 character_name = "Nathan"
 
+[node name="Hurtbox" type="Area2D" parent="CharacterBody/ComponentContainer/CCollisionBox" index="2"]
+collision_layer = 4
+collision_mask = 4
+script = ExtResource("23_ey2ar")
+metadata/_custom_type_script = "uid://g2h7s2qmcn31"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody/ComponentContainer/CCollisionBox/Hurtbox" index="0"]
+position = Vector2(0, -12)
+shape = SubResource("RectangleShape2D_x5pf7")
+
 [node name="CInputReactor" parent="CharacterBody/ComponentContainer" index="4" instance=ExtResource("23_0eqlr")]
 
 [node name="TestCheckInfo" type="Node" parent="CharacterBody/ComponentContainer/CInputReactor" index="0"]
 script = ExtResource("24_mptg6")
-disabled = true
 
 [node name="RayInteractConfirm" type="Node" parent="CharacterBody/ComponentContainer/CInputReactor" index="1" node_paths=PackedStringArray("interact_ray", "c_status")]
 script = ExtResource("25_dqk21")

@@ -39,6 +39,12 @@ signal game_loop_paused
 @warning_ignore("unused_signal")
 signal ui_main_returned
 
+
+#region 游戏内信号
+
+signal game_overed(type: int)
+#endregion
+
 ## 系统启动—初始化信号总线系统，建立事件监听和响应机制
 func _setup():
 	# 连接游戏数据加载完成信号的处理逻辑
@@ -58,4 +64,14 @@ func _setup():
 		# TODO: 处理切换地图的情况
 		#elif current_state is GamingChildStateMachine:
 		#	...
+		)
+
+	game_overed.connect(func(type: int):
+		match type:
+			0:
+				## 因为游戏失败而结束游戏
+				SUiSpawner._loading_game_over_ui({"type": 0})
+			1:
+				## 因为游戏胜利而结束游戏
+				SUiSpawner._loading_game_over_ui({"type": 1})
 		)

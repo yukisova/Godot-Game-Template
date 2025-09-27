@@ -1,20 +1,22 @@
-## 列表文档容器 - 用于显示列表信息的通用容器
-##
-## 该组件作为各种列表信息显示的基础容器。
-## 提供标准化的边距和布局管理，用于承载列表类型的UI内容。
-##
-## 设计用途：
-## - 作为列表类UI组件的基础容器
-## - 提供一致的边距和布局标准
-## - 支持各种列表信息的显示需求
-##
-## 架构设计：
-## - 继承自 [MarginContainer] 基类
-## - 提供标准化的容器功能
-## - 支持灵活的内容扩展
-##
-## [br][b]注意:[/b] 此类目前为基础实现，后续版本将扩展更多功能
-##
 ## [br][b]编辑者:[/b] Sora
 class_name ListDocument
 extends MarginContainer
+
+signal document_selected(document: ItemDocument)
+
+@export var button_prototype: Button
+@export var document_list_container: VBoxContainer
+
+func _initialize_info(_context: Dictionary):
+	var inventory: InventoryExtension = _context["inventory"]
+	var documents: Array[ItemDocument] = inventory.inventory_array_document
+
+	for document in documents:
+		var new_button: Button = button_prototype.duplicate()
+		document_list_container.add_child(new_button)
+		new_button.text = document.item_name
+		new_button.args = [document]
+		new_button.pressed.connect(_on_button_selected.bind(document))
+
+func _on_button_selected(document: ItemDocument):
+	document_selected.emit(document)

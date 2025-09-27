@@ -18,10 +18,6 @@ enum FlashLightMode{
 
 var c_status: CStatusList
 
-#func _ready() -> void:
-	#if Engine.is_editor_hint(): return
-	#texture = create_triangle_texture()
-
 func _process(_delta: float) -> void:
 	#if Engine.is_editor_hint(): return
 	match flash_light_mode:
@@ -41,7 +37,6 @@ func _shoot_mode_process(_delta: float) -> void:
 		if !c_status:
 			return
 		mouse_pos = SoraEvent.fixed_camera_position(c_status.component_body)["world_mouse_pos"]
-		print(mouse_pos)
 	rotation = global_position.direction_to(mouse_pos).angle()
 	
 	light_length = global_position.distance_to(mouse_pos) + light_radius

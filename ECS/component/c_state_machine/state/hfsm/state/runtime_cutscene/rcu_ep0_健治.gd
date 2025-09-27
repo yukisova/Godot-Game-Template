@@ -58,8 +58,8 @@ var true_toward: Vector2
 
 ## 交互对话
 ## 
-## 健治角色的对话交互实例，类型为 [Interaction]。
-var interaction_dialogue: Interaction
+## 健治角色的对话交互实例，类型为 [IInteraction]。
+var interaction_dialogue: IInteraction
 
 ## 健治过场设置（重写方法）
 ## 

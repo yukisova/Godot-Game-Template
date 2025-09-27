@@ -37,7 +37,7 @@ func _unequip(...args):
 ## 根据装备状态返回不同的功能选项（装备/卸下）
 ## [br][br][b]返回:[/b] [Array] of [Dictionary] 包含功能信息的字典数组
 func get_func_callable() -> Array[Dictionary]:
-	var result = super()
+	var result = {}
 	
 	# 根据装备状态添加相应的功能选项
 	if not is_equipped:

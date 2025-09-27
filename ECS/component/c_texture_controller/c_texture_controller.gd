@@ -15,15 +15,13 @@ var packed_sprite: IPackedSprite
 		## 在运行时仅允许unwatchable从false变为true
 		if !unwatchable and v:
 			unwatchable = v
-			SMapData.current_level.hidden_packed_sprites.append(packed_sprite)
+			SMapData.current_level.entity_state_manager.hidding_entities.append(component_owner)
 
 func _enter_tree() -> void:
 	component_name = ComponentName.C_TEXTURE_CONTROLLER
 
 func _exit_tree() -> void:
 	if Engine.is_editor_hint(): return
-	if unwatchable:
-		SMapData.current_level.hidden_packed_sprites.erase(packed_sprite)
 
 func _initialize(_owner: IEntity, _load_data: Dictionary = {}):
 	super._initialize(_owner, _load_data)
@@ -31,8 +29,6 @@ func _initialize(_owner: IEntity, _load_data: Dictionary = {}):
 		if i is IPackedSprite:
 			packed_sprite = i
 			i.c_texture_controller = self
-			if unwatchable:
-				SMapData.current_level.hidden_packed_sprites.append(i)
 			
 	# 验证纹理路径是否有效
 	if packed_sprite:

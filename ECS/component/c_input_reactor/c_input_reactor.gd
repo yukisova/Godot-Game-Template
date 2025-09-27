@@ -6,7 +6,7 @@ extends IComponent
 
 
 var reactor_extension: Array[ReactorExtension] = []
-var interact_obj: Interaction = null:
+var interact_obj: IInteraction = null:
 	set(v):
 		if v == null:
 			print("交互对象重置")

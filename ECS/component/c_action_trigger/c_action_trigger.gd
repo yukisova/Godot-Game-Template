@@ -47,19 +47,15 @@ func _initialize(_owner: IEntity, _load_data: Dictionary = {}):
 				if action is MoveStrategy:
 					move_strategy.append(action)
 			elif action is ITriggerAction:
-				action.action_triggered.connect(_on_action_triggered)
-				action.action_triggered_finished.connect(_on_action_triggered_finished)
+				action.action_state_output.connect(_on_action_state_output)
 			action._initialize()
 		
 	initialize_completed.emit()
 
 #region 触发监听相关
 
-func _on_action_triggered(action: ITriggerAction):
+func _on_action_state_output(action: ITriggerAction):
 	current_action_list[action as IAction] = action.current_action_state
-
-func _on_action_triggered_finished(action: ITriggerAction):
-	current_action_list.erase(action as IAction)
 
 #endregion
 

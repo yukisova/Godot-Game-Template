@@ -59,7 +59,7 @@ func _update(_delta: float):
 	if _time > max_lifetime:
 		_update_movement_state(action_states[2])  # "destroying"
 		c_action.component_body.velocity = Vector2.ZERO
-		(c_action.component_owner as TempEntity).despawn()
+		(c_action.component_owner as TempEntity)._despawn()
 		return
 	
 	# 应用物理移动

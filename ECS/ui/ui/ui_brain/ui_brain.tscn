@@ -12,12 +12,14 @@
 [node name="UIBrain" instance=ExtResource("1_rqqsq")]
 script = ExtResource("1_hlga1")
 
-[node name="View" parent="." index="0" node_paths=PackedStringArray("grid_inventory", "panel_button_weapon_prototype", "item_weapon_list", "list_container", "tab_container")]
+[node name="View" parent="." index="0" node_paths=PackedStringArray("grid_inventory", "panel_button_weapon_prototype", "item_weapon_list", "list_document", "document_title", "document_info", "tab_container")]
 script = ExtResource("3_wk11c")
 grid_inventory = NodePath("Control/TabContainer/Inventory/HSplitContainer/ScrollContainer/PanelContainer/GridInventory")
 panel_button_weapon_prototype = NodePath("Control2/PanelButtonWeapon")
 item_weapon_list = NodePath("Control/TabContainer/Inventory/HSplitContainer/MarginContainer/ScrollContainer/VBoxContainer")
-list_container = NodePath("Control/TabContainer/Document/HSplitContainer/ScrollContainer/ListDocument")
+list_document = NodePath("Control/TabContainer/Document/HSplitContainer/ListDocument")
+document_title = NodePath("Control/TabContainer/Document/HSplitContainer/MarginContainer/VBoxContainer/Title")
+document_info = NodePath("Control/TabContainer/Document/HSplitContainer/MarginContainer/VBoxContainer/Content")
 tab_container = NodePath("Control/TabContainer")
 
 [node name="Control" type="Control" parent="View" index="0"]
@@ -37,10 +39,11 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-current_tab = 0
+current_tab = 1
 tabs_visible = false
 
 [node name="Inventory" type="MarginContainer" parent="View/Control/TabContainer" index="1"]
+visible = false
 layout_mode = 2
 theme_override_constants/margin_left = 32
 theme_override_constants/margin_top = 32
@@ -89,7 +92,6 @@ col_num = 5
 long_press_duration = 0.1999999999970896
 
 [node name="Document" type="MarginContainer" parent="View/Control/TabContainer" index="2"]
-visible = false
 layout_mode = 2
 theme_override_constants/margin_left = 32
 theme_override_constants/margin_top = 32
@@ -103,11 +105,7 @@ collapsed = true
 dragging_enabled = false
 drag_area_margin_begin = 21
 
-[node name="ScrollContainer" type="ScrollContainer" parent="View/Control/TabContainer/Document/HSplitContainer" index="0"]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="ListDocument" parent="View/Control/TabContainer/Document/HSplitContainer/ScrollContainer" index="0" instance=ExtResource("4_4wouh")]
+[node name="ListDocument" parent="View/Control/TabContainer/Document/HSplitContainer" index="0" instance=ExtResource("4_4wouh")]
 layout_mode = 2
 
 [node name="MarginContainer" type="MarginContainer" parent="View/Control/TabContainer/Document/HSplitContainer" index="1"]
@@ -123,11 +121,10 @@ layout_mode = 2
 [node name="Title" type="Label" parent="View/Control/TabContainer/Document/HSplitContainer/MarginContainer/VBoxContainer" index="0"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 32
-text = "32"
 
 [node name="Content" type="RichTextLabel" parent="View/Control/TabContainer/Document/HSplitContainer/MarginContainer/VBoxContainer" index="1"]
 layout_mode = 2
-text = "kjoijoijoijoijoijoijoijoijoijoijijijdjdjdjdjjdjdjdjdjdjoijoijoijojoijoijoijoijoijijoijoijoijjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjoifjodjofjo"
+bbcode_enabled = true
 fit_content = true
 
 [node name="Control2" type="Control" parent="View" index="1"]

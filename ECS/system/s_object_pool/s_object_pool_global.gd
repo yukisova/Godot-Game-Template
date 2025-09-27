@@ -36,10 +36,10 @@ func register_pool(_pool_key:StringName, _prefab:PackedScene, _initial_pool_size
 		return
 	var new_pool = LevelObjectPool.new(_prefab, _initial_pool_size)
 	_pools[_pool_key] = new_pool
-	SMapData.current_level.level_object_pool.add_child(new_pool)
+	SMapData.current_level.entity_state_manager.add_child(new_pool)
 
 ## 对象池清理处理—当关卡切换时清理所有对象池，释放相关资源
 func _on_pool_cleared(level: Level):
 	_pools.clear()
-	for object_pool: LevelObjectPool in level.level_object_pool.get_children():
+	for object_pool: LevelObjectPool in level.entity_state_manager.get_children():
 		object_pool.queue_free()

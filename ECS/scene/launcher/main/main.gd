@@ -76,6 +76,7 @@ func _on_system_reset_state():
 	SViewportManager._resetup()
 	print("主进程: 系统重置完成")
 	# 注意：重置时不触发system_setup_completed信号，避免循环引用
+	await get_tree().process_frame
 	system_setup_completed.emit()
 
 ## 游戏主循环开始—系统初始化完成后的启动逻辑，根据启动模式执行不同的流程

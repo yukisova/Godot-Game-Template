@@ -33,7 +33,7 @@
 ## - 与SightBox组件的集成
 ##
 ## [br][b]编辑者:[/b] Sora
-class_name SightCollisionResource
+class_name BoxCollisionResource
 extends Resource
 
 ## 视线碰撞类型枚举

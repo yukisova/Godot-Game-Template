@@ -64,7 +64,7 @@ func _update(_delta: float):
 	# 检查生命周期
 	if current_range > target_range - range_threshold:
 		_update_movement_state(action_states[2])  # "destroying"
-		(c_action.component_owner as TempEntity).despawn()
+		(c_action.component_owner as TempEntity)._despawn()
 		return
 	
 	# 应用物理移动

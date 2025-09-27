@@ -7,7 +7,7 @@
 ## 架构设计：继承自Interaction基类，集成PackedScene的UI管理，基于DialogueResource的对话内容
 ## [br][b]编辑者:[/b] Sora
 class_name InteractionDialogue
-extends Interaction
+extends IInteraction
 
 ## 对话UI场景
 ## 用于显示对话内容的UI界面场景
@@ -45,13 +45,11 @@ func __interact_begin(_target_entity: IEntity):
 		caption_hud.caption_changed.emit(test_dialogue)
 	else:
 		var float_dialogue: PackedScene = load(PATH_DIALOGUE_NORMAL)
-		var dialogue_ui = SUiSpawner._spawn_ui(float_dialogue)
+		var dialogue_ui = await SUiSpawner._spawn_ui(float_dialogue)
 	# 启动对话气泡，开始对话流程
 		DialogueManager._start_balloon(dialogue_ui, test_dialogue, test_dialogue_label, context_data)
 	
 	print("对话交互: 开始对话 -> ", test_dialogue_label)
 
-## 交互取消激活处理—当对话交互被取消时的清理工作
-func _on_interact_deactivated():
-	# 对话系统会自动处理对话结束，这里通常不需要特殊处理
-	print("对话交互: 交互取消激活")
+func __interact_reset() -> void:
+	print("对话交互: 结束对话 -> ", test_dialogue_label)

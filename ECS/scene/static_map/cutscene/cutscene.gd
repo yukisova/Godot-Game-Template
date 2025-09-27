@@ -34,3 +34,16 @@ func _on_cutscene_ended() -> void:
 	else:
 		push_error("过场剧情只能在过场剧情状态中结束， 目前状态为: ", current_state)
 	await _finished()
+
+#region
+const PATH_DIALOGUE_NORMAL: String = "res://ui/ui/ui_dialogue/normal/ui_dialogue_normal.tscn"
+
+func start_dialogue(dialogue_resource: DialogueResource, label: String, info: Dictionary):
+	var fixed_info = SoraEvent.fixed_dictionary(self, info)
+	var float_dialogue: PackedScene = load(PATH_DIALOGUE_NORMAL)
+	var dialogue_ui = await SUiSpawner._spawn_ui(float_dialogue, {}, true)
+# 启动对话气泡，开始对话流程
+	DialogueManager._start_balloon(dialogue_ui, dialogue_resource, label, [fixed_info])
+	await DialogueManager.dialogue_ended
+
+#endregion

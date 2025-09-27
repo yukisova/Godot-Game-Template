@@ -56,7 +56,7 @@ func _initialize(need_disconnect: bool = false):
 
 func _late_initialize():
 	## 1. 绑定预定义数据
-	await _init_data_binding(SoraEvent.fixed_dictionary(self, init_data as Dictionary))
+	await _init_data_binding(init_data as Dictionary)
 
 	for component:IComponent in list_base_components.values():
 		component._late_initialize()

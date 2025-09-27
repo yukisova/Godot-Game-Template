@@ -199,16 +199,20 @@ func _ready() -> void:
 	if Engine.is_editor_hint(): 
 		return
 	
-	print("网格背包: 开始初始化")
-	
 	# 设置基础组件状态
 	item_control.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	panel_prototype.hide()
 	dragable_item_prototype.hide()
 	pointer.hide()
-	
-	
-	print("网格背包: 初始化完成，网格数量: ", grid_num, ", 列数: ", col_num)
+
+func _initialize_info(_context: Dictionary):
+	var equipment: EquipmentExtension = _context["equipment"]
+	# 2. 加载装备数据
+	if equipment:
+		if equipment.current_weapon and equipment.current_weapon.equipment_control:
+			equipment_control = equipment.current_weapon.equipment_control.instantiate()
+			equipment_control.binding_equipment = equipment.current_weapon
+			equipment_control._initialize()
 
 #endregion
 

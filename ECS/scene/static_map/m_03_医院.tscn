@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=4 uid="uid://c67o831rrvqb"]
+[gd_scene load_steps=24 format=4 uid="uid://c67o831rrvqb"]
 
 [ext_resource type="PackedScene" uid="uid://dx8lfcn7h43ea" path="res://resource/node_template/map/static_map/static_map.tscn" id="1_4xkv8"]
 [ext_resource type="AudioStream" uid="uid://cshvyslspontd" path="res://asset/audio/旖旎飞雪 - 02 Walking.ogg" id="2_g56lq"]
@@ -9,16 +9,42 @@
 [ext_resource type="TileSet" uid="uid://dcn0ivbub3x32" path="res://resource/resource_template/tileset/tilesets/tileset_32_wall.tres" id="7_0nlo7"]
 [ext_resource type="PackedScene" uid="uid://dikbae8amv32i" path="res://resource/node_template/map/tilemap/floating/wall_factor.tscn" id="8_mwxg0"]
 [ext_resource type="PackedScene" uid="uid://de3o6pll5kxdx" path="res://resource/node_template/map/player_spawn.tscn" id="9_ar0lj"]
-[ext_resource type="PackedScene" uid="uid://bx7h1bisdrdgb" path="res://entity/entity_packed/object_entity/oneshot_point/oneshot_point.tscn" id="10_xaq3n"]
+[ext_resource type="PackedScene" uid="uid://bx7h1bisdrdgb" path="res://entity/entity_packed/object_entity/checkable_point/checkable_point.tscn" id="10_xaq3n"]
 [ext_resource type="Script" uid="uid://dyicjmjyi8vve" path="res://component/c_interactable/interaction/interaction_collect.gd" id="13_mwxg0"]
+[ext_resource type="Script" uid="uid://cd0f3sf5ku01w" path="res://resource/custom_resource/item/document.gd" id="13_rum8l"]
+[ext_resource type="Script" uid="uid://cfqy30llshr5t" path="res://scene/static_map/测试用过场_介绍规则.gd" id="13_xaq3n"]
+[ext_resource type="Script" uid="uid://do0gml5gi6jl8" path="res://resource/custom_resource/item/item_consumable/item_consumable.gd" id="14_0nlo7"]
 [ext_resource type="Resource" uid="uid://beo0dmy38xpw6" path="res://resource/custom_resource/item/item_equipment/1_手电筒/E_A_FLASHLIGHT.tres" id="14_rum8l"]
+[ext_resource type="Script" uid="uid://d4k5mxylwgbae" path="res://component/c_interactable/interaction/interaction_action.gd" id="15_ar0lj"]
+[ext_resource type="Script" uid="uid://obr8sa1ew3f4" path="res://component/c_action_trigger/action/trigger_action/interact_action/ia_开门.gd" id="15_mwxg0"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xaq3n"]
 
-[node name="m_医院" node_paths=PackedStringArray("player_spawns") instance=ExtResource("1_4xkv8")]
+[sub_resource type="Resource" id="Resource_0nlo7"]
+script = ExtResource("13_rum8l")
+item_nick_name = "do_note_1"
+item_name = "笔记本_测试用"
+metadata/_custom_type_script = "uid://cd0f3sf5ku01w"
+
+[sub_resource type="Gradient" id="Gradient_ar0lj"]
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_0yb30"]
+gradient = SubResource("Gradient_ar0lj")
+
+[sub_resource type="Resource" id="Resource_mwxg0"]
+script = ExtResource("14_0nlo7")
+item_description = "钥匙，用于打开特定的房间，编号为01"
+item_texture = SubResource("GradientTexture2D_0yb30")
+item_nick_name = "co_key_01"
+item_name = "门钥匙"
+metadata/_custom_type_script = "uid://do0gml5gi6jl8"
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_0nlo7"]
+size = Vector2(32, 20)
+
+[node name="m_梦境" node_paths=PackedStringArray("player_spawns") instance=ExtResource("1_4xkv8")]
 bg_music = ExtResource("2_g56lq")
 player_spawns = [NodePath("Levels/Level/PlayerSpawn")]
-cutscene_enable = false
 
 [node name="Level" parent="Levels" index="0" instance=ExtResource("3_iouo2")]
 
@@ -47,16 +73,54 @@ position = Vector2(0, -46)
 [node name="PlayerSpawn2" parent="Levels/Level" index="6" instance=ExtResource("9_ar0lj")]
 position = Vector2(64, -4)
 
-[node name="OneshotPoint" parent="Levels/Level" index="10" instance=ExtResource("10_xaq3n")]
+[node name="CheckablePoint" parent="Levels/Level" index="10" instance=ExtResource("10_xaq3n")]
 position = Vector2(653, -85)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Levels/Level/OneshotPoint" index="1"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Levels/Level/CheckablePoint" index="1"]
 shape = SubResource("RectangleShape2D_xaq3n")
 
-[node name="InteractionCollect" type="Node" parent="Levels/Level/OneshotPoint" index="2"]
+[node name="InteractionCollect" type="Node" parent="Levels/Level/CheckablePoint" index="2"]
 script = ExtResource("13_mwxg0")
 binding_item = ExtResource("14_rum8l")
 
+[node name="CheckablePoint2" parent="Levels/Level" index="11" instance=ExtResource("10_xaq3n")]
+position = Vector2(155, -260)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Levels/Level/CheckablePoint2" index="1"]
+shape = SubResource("RectangleShape2D_xaq3n")
+
+[node name="InteractionCollect" type="Node" parent="Levels/Level/CheckablePoint2" index="2"]
+script = ExtResource("13_mwxg0")
+binding_item = SubResource("Resource_0nlo7")
+
+[node name="CheckablePoint3" parent="Levels/Level" index="12" instance=ExtResource("10_xaq3n")]
+position = Vector2(432, -263)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Levels/Level/CheckablePoint3" index="1"]
+shape = SubResource("RectangleShape2D_xaq3n")
+
+[node name="InteractionCollect" type="Node" parent="Levels/Level/CheckablePoint3" index="2"]
+script = ExtResource("13_mwxg0")
+binding_item = SubResource("Resource_mwxg0")
+
+[node name="门" parent="Levels/Level" index="13" instance=ExtResource("10_xaq3n")]
+position = Vector2(288, -300)
+interact_count_type = 1
+interact_type = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Levels/Level/门" index="1"]
+shape = SubResource("RectangleShape2D_0nlo7")
+
+[node name="InteractionAction" type="Node" parent="Levels/Level/门" index="2"]
+script = ExtResource("15_ar0lj")
+
+[node name="门的开关" type="Node2D" parent="Levels/Level/门/InteractionAction" index="0" node_paths=PackedStringArray("binding_collision")]
+script = ExtResource("15_mwxg0")
+binding_collision = NodePath("../../CollisionShape2D")
+lock_key_nick_name = "co_key_01"
+
 [node name="测试用过场_介绍规则" type="Node" parent="AutoLoadCutscene" index="0"]
+script = ExtResource("13_xaq3n")
+dialogue_resource = "res://resource/plugins_resource/dialogue/第一章测试用文本.dialogue"
 
 [editable path="Levels/Level"]

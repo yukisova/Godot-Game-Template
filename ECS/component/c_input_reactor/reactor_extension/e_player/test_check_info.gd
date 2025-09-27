@@ -44,15 +44,5 @@ func _late_initialize():
 ## 
 ## 处理开发调试相关的输入操作。
 func _listen():
-	if Input.is_key_pressed(KEY_1):
-		# 查看全局状态机现在的状态
-		var state = SGameState.state_machine.get_leaf_state()
-		print("当前游戏状态: ", state.name)
-	elif c_input_reactor.validate_control("test_saving", SoraConstant.InputType.JUST_PRESSED, true):
-		# 手动触发存档保存
-		print("测试: 手动触发存档保存")
-		SLoadAndSave.saving_started.emit()
-	elif Input.is_key_pressed(KEY_2):
-		var action_trigger: CActionTrigger = c_input_reactor.get_other_component(IComponent.ComponentName.C_ACTION_TRIGGER)
-		if action_trigger:
-			print("当前行为: ", action_trigger.current_action_list)
+	if Input.is_action_just_pressed("test1"):
+		c_input_reactor.component_owner._despawn()

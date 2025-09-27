@@ -7,7 +7,7 @@ extends Node
 var ui_view: UIView
 
 func _initialize(_context: Dictionary):
-    pass
+	pass
 
 func _bind_view():
-    pass
+	pass

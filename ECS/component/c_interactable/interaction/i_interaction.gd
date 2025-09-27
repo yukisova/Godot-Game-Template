@@ -4,7 +4,7 @@
 ## 功能特性：实体绑定机制、激活/取消激活事件系统、自动信号连接、可扩展的交互逻辑
 ## 架构设计：抽象基类，继承自Node，与IEntity的绑定机制，基于信号的事件驱动架构
 ## [br][b]编辑者:[/b] Sora
-@abstract class_name Interaction
+@abstract class_name IInteraction
 extends Node
 ## 绑定的实体
 ## 拥有此交互逻辑的实体实例
@@ -30,13 +30,17 @@ func _enter_tree() -> void:
 	if not interact_deactivated.is_connected(_on_interact_deactivated):
 		interact_deactivated.connect(_on_interact_deactivated)
 
-func _on_interact_activated(_target_entity: IEntity) -> void:
-	await __interact_begin(_target_entity)
-	interact_finished.emit()
-
 ## 交互激活处理—当交互被激活时的具体逻辑实现，子类需要重写此方法
 ## [param target_entity]: 触发交互的目标实体（通常是玩家）
 @abstract func __interact_begin(target_entity: IEntity)
 
+## 交互重置处理—当交互被重置时的具体逻辑实现，子类需要重写此方法
+@abstract func __interact_reset() -> void
+
+func _on_interact_activated(_target_entity: IEntity) -> void:
+	await __interact_begin(_target_entity)
+	interact_finished.emit()
+
 ## 交互取消激活处理—当交互被取消时的清理逻辑实现，子类需要重写此方法
-@abstract func _on_interact_deactivated()
+func _on_interact_deactivated() -> void:
+	__interact_reset()

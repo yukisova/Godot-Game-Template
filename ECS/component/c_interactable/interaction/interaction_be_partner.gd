@@ -6,7 +6,7 @@
 ## 使用场景：NPC招募为队友、剧情角色加入队伍、临时伙伴的创建
 ## 架构设计：继承自Interaction基类，使用PackedScene进行伙伴实例化，与SMainController和SMapData集成
 ## [br][b]编辑者:[/b] Sora
-extends Interaction
+extends IInteraction
 
 ## 伙伴场景
 ## 用于实例化伙伴的场景资源
@@ -31,8 +31,5 @@ func __interact_begin(_interactor: IEntity):
 	SMainController.partner_joined.emit(partner)
 	
 	binding_entity.queue_free()
-	
 
-## 交互取消激活处理—成为伙伴交互通常不需要取消处理
-func _on_interact_deactivated():
-	pass
+func __interact_reset() -> void: pass

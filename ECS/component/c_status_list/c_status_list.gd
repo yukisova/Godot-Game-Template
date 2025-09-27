@@ -77,7 +77,8 @@ func _on_status_overed(_status_enum: SoraConstant.StatusEnum):
 	status_overred.emit(_status_enum)
 	match _status_enum:
 		SoraConstant.StatusEnum.Health:
-			component_owner.queue_free.call_deferred()
+			print("实体生命值归零，相当于死亡")
+			component_owner._despawn()
 
 func _save() -> Dictionary:
 	var c_status_returned = {}
@@ -131,4 +132,3 @@ func _load(_dict: Dictionary):
 
 func get_status_extension(extension_type: StatusExtension.ExtensionType) -> StatusExtension:
 	return status_extension.get(extension_type)
-

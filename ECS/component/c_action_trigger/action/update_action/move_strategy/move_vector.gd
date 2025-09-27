@@ -79,6 +79,9 @@ func _set_target_direction(source: Node2D, vector: Vector2):
 	elif source != self and !toward_control_by_move:
 		toward_direction_target = vector
 
+func _get_current_direction() -> Vector2:
+	return toward_direction_current
+
 ## 移动状态检测阈值
 ## 用于判断实体是否在移动的速度阈值
 @export var movement_threshold: float = 5.0

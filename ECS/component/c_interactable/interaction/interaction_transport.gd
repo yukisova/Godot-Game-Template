@@ -4,7 +4,7 @@
 ## 
 @tool
 class_name InteractionTransport
-extends Interaction
+extends IInteraction
 
 @export var target_level_index: int = -1 ## 目标传送层级索引，-1表示不使用
 @export var target_level_name: StringName = &"" ## 目标传送层级名称，空串表示不使用
@@ -41,5 +41,5 @@ func __interact_begin(interactor: IEntity) -> void:
 		else:
 			push_error("传送时未检测到目标楼层，请检查传送点配置")
 
-func _on_interact_deactivated() -> void:
+func __interact_reset() -> void:
 	pass

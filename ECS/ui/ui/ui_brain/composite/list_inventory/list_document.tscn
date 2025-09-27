@@ -1,24 +1,43 @@
-[gd_scene load_steps=2 format=3 uid="uid://bpdyhcsv0q6ou"]
+[gd_scene load_steps=3 format=3 uid="uid://bpdyhcsv0q6ou"]
 
 [ext_resource type="Script" uid="uid://dn2h78ybd2446" path="res://ui/ui/ui_brain/composite/list_inventory/list_document.gd" id="1_lupsm"]
+[ext_resource type="Script" uid="uid://b77vti74tgrbe" path="res://ui/ui_c/func_button.gd" id="2_jili1"]
 
-[node name="ListDocument" type="MarginContainer"]
+[node name="ListDocument" type="MarginContainer" node_paths=PackedStringArray("button_prototype", "document_list_container")]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 size_flags_horizontal = 3
 theme_override_constants/margin_left = 8
 theme_override_constants/margin_right = 8
 script = ExtResource("1_lupsm")
+button_prototype = NodePath("Control/ButtonPrototype")
+document_list_container = NodePath("ScrollContainer/VBoxContainer")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="ScrollContainer" type="ScrollContainer" parent="."]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Button" type="Button" parent="VBoxContainer"]
+[node name="Control" type="Control" parent="."]
+visible = false
 layout_mode = 2
+
+[node name="ButtonPrototype" type="Button" parent="Control"]
+layout_mode = 0
+offset_right = 88.0
+offset_bottom = 31.0
 size_flags_vertical = 0
 text = "测试用物品"
 alignment = 0
+script = ExtResource("2_jili1")
+metadata/_custom_type_script = "uid://b77vti74tgrbe"
 
-[node name="Label" type="Label" parent="VBoxContainer/Button"]
+[node name="Label" type="Label" parent="Control/ButtonPrototype"]
 layout_mode = 1
 anchors_preset = -1
 anchor_right = 1.0
@@ -26,6 +45,5 @@ anchor_bottom = 1.0
 offset_right = -14.0
 grow_horizontal = 2
 grow_vertical = 2
-text = "数量，允许叠放且大于1时显示"
 horizontal_alignment = 2
 vertical_alignment = 1
