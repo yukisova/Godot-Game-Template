@@ -30,6 +30,7 @@ var current_weapon: ItemWeapon:
 var current_attack_node: WeaponNode:
 	set(v):
 		if current_attack_node:
+			current_attack_node._deactivated()
 			current_attack_node.queue_free()
 			
 		current_attack_node = v
@@ -51,8 +52,11 @@ var current_equipment: ItemEquipment:
 var current_equipment_node: Node2D:
 	set(v):
 		if current_equipment_node:
+			current_equipment_node._deactivated()
 			current_equipment_node.queue_free()
 		current_equipment_node = v
+		if current_equipment_node:
+			current_equipment_node._activated()
 
 ## 设置扩展类型为装备系统
 func _enter_tree() -> void:
@@ -67,11 +71,9 @@ func _initialize():
 	if preload_weapon:
 		preload_weapon.c_status = c_status
 		current_attack_node = preload_weapon
-		current_attack_node._activated()
 	if preload_equipment:
 		preload_equipment.c_status = c_status
 		current_equipment_node = preload_equipment
-		current_equipment_node._activated()
 
 ## 装备系统的持续效果处理
 func _effect():

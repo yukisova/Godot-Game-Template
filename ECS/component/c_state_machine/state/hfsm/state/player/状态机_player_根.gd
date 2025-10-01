@@ -12,6 +12,7 @@ extends StateMachine
 ## 关联的ActionInput组件，用于处理玩家的输入操作，类型为 [ActionInput]。
 @export var action_input: ActionInput
 @export var c_texture_controller: CTextureController
+@export var c_state_machine: CStateMachine
 
 @export var vector_move: MoveStrategyVector
 @export var collision_shape: CollisionShape2D
@@ -25,7 +26,10 @@ var current_delta: float
 ## 贴近墙 = 贴墙状态
 func _blur_update(_delta: float) -> void:
 	## 状态机
-	if 检测贴墙状态(_delta):
+	var export = 检测外部传入()
+	if export != "":
+		state_temp_updated.emit(state_tag_map[export])
+	elif 检测贴墙状态(_delta):
 		state_temp_updated.emit(state_tag_map["state_4"])
 	elif action_input.check_input_state("state_0"):
 		state_temp_updated.emit(state_tag_map["state_0"])
@@ -38,6 +42,12 @@ func _blur_update(_delta: float) -> void:
 
 func _temp_state_all_exit():
 	c_texture_controller.packed_sprite.packed_sprite_editor.try_switch_texture("Normal")
+
+func 检测外部传入() -> String:
+	var result = c_state_machine.current_temp_state_exported
+	if result.is_empty():
+		return ""
+	return result[0]
 
 func 检测贴墙状态(_delta: float) -> bool:
 	# 检测碰撞并切换纹理（贴墙效果）

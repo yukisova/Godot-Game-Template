@@ -21,7 +21,15 @@ func _initialize(_context: Dictionary):
 	grid_inventory.col_num = inventory.inventory_pack_col
 
 	for i in inventory.inventory_array_weapon.values():
-		if i != null and (i is ItemWeapon or i is ItemEquipment):
+		if i != null and (i is ItemWeapon):
+			# 1. 根据按钮的原型，复制并绑定按钮信息
+			var new_button: PanelButtonWeapon = panel_button_weapon_prototype.duplicate()
+			item_weapon_list.add_child(new_button)
+			new_button.binding_item = i
+			new_button.target_c_status = status
+			new_button.button.pressed.connect(new_button.button_func.bind({}))
+	for i in inventory.inventory_array_equipment.values():
+		if i != null and (i is ItemEquipment):
 			# 1. 根据按钮的原型，复制并绑定按钮信息
 			var new_button: PanelButtonWeapon = panel_button_weapon_prototype.duplicate()
 			item_weapon_list.add_child(new_button)

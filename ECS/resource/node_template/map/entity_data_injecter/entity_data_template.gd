@@ -6,9 +6,9 @@ extends Resource
 @export var description: String = ""
 
 func get_template_data() -> Dictionary:
-    var result = {}
-    for component_name in template_data.keys():
-        var blackboard_data = template_data[component_name]
-        if blackboard_data:
-            result[component_name] = blackboard_data._data
-    return result
+	var result = {}
+	for component_name in template_data.keys():
+		var blackboard_data = template_data[component_name]
+		if blackboard_data:
+			result[component_name] = blackboard_data._data
+	return result

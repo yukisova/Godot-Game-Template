@@ -17,7 +17,7 @@ enum InjectionFliter {
 @export var template_name: String
 # 注入过滤器
 @export var injection_fliter: InjectionFliter
-@export var injection_timing: EntityDataInjecter.InjectionTiming = EntityDataInjecter.InjectionTiming.AUTO
+@export var injection_timing: LCEntityDataInjecter.InjectionTiming = LCEntityDataInjecter.InjectionTiming.AUTO
 
 # 组件筛选相关
 @export var component_types: Array[IComponent.ComponentName]

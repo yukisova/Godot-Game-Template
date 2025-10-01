@@ -1,0 +1,101 @@
+[gd_scene load_steps=4 format=3 uid="uid://dmfyj1ip8lo2r"]
+
+[ext_resource type="PackedScene" uid="uid://bavog73s6cd1p" path="res://ui/i_ui.tscn" id="1_gf1pp"]
+[ext_resource type="Script" uid="uid://da8256k0448gt" path="res://ui/hud/hud_whiteboard/hud_whiteboard.gd" id="2_8i2p3"]
+[ext_resource type="Script" uid="uid://dj21723ppdcg3" path="res://ui/hud/hud_whiteboard/view_hud_white_board.gd" id="3_jfw4n"]
+
+[node name="HudWhiteboard" instance=ExtResource("1_gf1pp")]
+script = ExtResource("2_8i2p3")
+
+[node name="View" parent="." index="0" node_paths=PackedStringArray("lu_container", "ld_container", "ru_container", "rd_container", "l_container", "r_container", "u_container", "d_container", "c_container")]
+script = ExtResource("3_jfw4n")
+lu_container = NodePath("LUContainer")
+ld_container = NodePath("LDContainer")
+ru_container = NodePath("RUContainer")
+rd_container = NodePath("RDContainer")
+l_container = NodePath("LContainer")
+r_container = NodePath("RContainer")
+u_container = NodePath("UContainer")
+d_container = NodePath("DContainer")
+c_container = NodePath("CContainer")
+
+[node name="LUContainer" type="MarginContainer" parent="View" index="0"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -40.0
+offset_bottom = 40.0
+grow_horizontal = 0
+
+[node name="LDContainer" type="MarginContainer" parent="View" index="1"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -40.0
+offset_bottom = 40.0
+grow_horizontal = 0
+
+[node name="RUContainer" type="MarginContainer" parent="View" index="2"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -40.0
+offset_bottom = 40.0
+grow_horizontal = 0
+
+[node name="RDContainer" type="MarginContainer" parent="View" index="3"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -40.0
+offset_bottom = 40.0
+grow_horizontal = 0
+
+[node name="LContainer" type="MarginContainer" parent="View" index="4"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -40.0
+offset_bottom = 40.0
+grow_horizontal = 0
+
+[node name="RContainer" type="MarginContainer" parent="View" index="5"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -40.0
+offset_bottom = 40.0
+grow_horizontal = 0
+
+[node name="UContainer" type="MarginContainer" parent="View" index="6"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -40.0
+offset_bottom = 40.0
+grow_horizontal = 0
+
+[node name="DContainer" type="MarginContainer" parent="View" index="7"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -40.0
+offset_bottom = 40.0
+grow_horizontal = 0
+
+[node name="CContainer" type="MarginContainer" parent="View" index="8"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -40.0
+offset_bottom = 40.0
+grow_horizontal = 0

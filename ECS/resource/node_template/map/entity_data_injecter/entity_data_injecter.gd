@@ -1,4 +1,4 @@
-class_name EntityDataInjecter
+class_name LCEntityDataInjecter
 extends Node
 
 ## 实体数据批量注入器
@@ -24,7 +24,7 @@ var _injection_stats: Dictionary = {}
 func _initialize():
 	_level = get_parent() as Level
 	if not _level:
-		_log_error("EntityDataInjecter 必须作为 Level 的子节点")
+		_log_error("LCEntityDataInjecter 必须作为 Level 的子节点")
 		return
 	# 根据不同时机连接信号
 	match _get_preferred_injection_timing():
@@ -207,10 +207,10 @@ func _show_injection_summary(results: Dictionary):
 ## 调试日志
 func _log_debug(message: String):
 	if enable_debug_logs:
-		print("[EntityDataInjecter] %s" % message)
+		print("[LCEntityDataInjecter] %s" % message)
 
 func _log_error(message: String):
-	print_rich("[color=red][EntityDataInjecter] 错误: %s[/color]" % message)
+	print_rich("[color=red][LCEntityDataInjecter] 错误: %s[/color]" % message)
 	injection_failed.emit(message)
 
 #endregion

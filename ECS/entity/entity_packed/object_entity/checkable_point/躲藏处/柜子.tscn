@@ -1,0 +1,46 @@
+[gd_scene load_steps=9 format=3 uid="uid://ds0pq0ys08tqx"]
+
+[ext_resource type="Script" uid="uid://cbjtgc2p6vwim" path="res://entity/entity_packed/object_entity/checkable_point/躲藏处/柜子.gd" id="1_kk5h3"]
+[ext_resource type="Script" uid="uid://ccf7auny2a0t1" path="res://entity/main_control_collision.gd" id="2_64gk2"]
+[ext_resource type="Texture2D" uid="uid://b5iyrvlaig8td" path="res://asset/tileset_self/border.png" id="2_fyyeu"]
+[ext_resource type="Script" uid="uid://c8ftf4u5vh624" path="res://component/c_interactable/c_interactable.gd" id="3_64gk2"]
+[ext_resource type="Script" uid="uid://d4k5mxylwgbae" path="res://component/c_interactable/interaction/interaction_action.gd" id="4_i5toa"]
+[ext_resource type="Script" uid="uid://bn3nxl4n4rsn6" path="res://component/c_action_trigger/action/trigger_action/interact_action/ia_躲藏.gd" id="5_kk5h3"]
+
+[sub_resource type="Resource" id="Resource_i5toa"]
+script = ExtResource("2_64gk2")
+group_name = "default"
+collision_layer = 3
+metadata/_custom_type_script = "uid://ccf7auny2a0t1"
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3gh7x"]
+size = Vector2(16, 16)
+
+[node name="柜子" type="Node2D" node_paths=PackedStringArray("c_interactable", "open_action")]
+script = ExtResource("1_kk5h3")
+c_interactable = NodePath("CInteractable")
+open_action = NodePath("InteractionAction/躲藏")
+collision_group_records = Dictionary[int, ExtResource("2_64gk2")]({
+99: SubResource("Resource_i5toa")
+})
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(0, -8)
+texture = ExtResource("2_fyyeu")
+region_enabled = true
+region_rect = Rect2(128, 144, 16, 16)
+
+[node name="CInteractable" type="Node2D" parent="."]
+script = ExtResource("3_64gk2")
+
+[node name="InteractionAction" type="Node" parent="." node_paths=PackedStringArray("target_node")]
+script = ExtResource("4_i5toa")
+action_ended_type = 1
+target_node = NodePath(".")
+
+[node name="躲藏" type="Node2D" parent="InteractionAction"]
+script = ExtResource("5_kk5h3")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -4)
+shape = SubResource("RectangleShape2D_3gh7x")

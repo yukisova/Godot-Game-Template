@@ -22,7 +22,6 @@ func _enter_tree() -> void:
 @abstract func _refresh()
 @abstract func _initialize()
 
-## 隐藏当前hud，并发送隐藏信号
 func try_hide():
 	hide()
 

@@ -13,12 +13,15 @@ func _get_hit_effects() -> Array[IHitEffect]:
 func _initialize():
 	binding_hitbox.binding_action = self
 
-func _trigger_update(...args):
+func _trigger_update(..._args)  -> bool:
 	if binding_hitbox:
 		binding_hitbox._release(move_strategy._get_current_direction())
 	await get_tree().create_timer(1).timeout
-	action_triggered_finished.emit(self)
+	_trigger_update_finish()
+	return true
 
 func _trigger_update_finish():
 	if binding_hitbox:
 		binding_hitbox._reset()
+	
+	action_triggered_finished.emit()

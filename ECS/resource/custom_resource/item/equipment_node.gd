@@ -33,5 +33,5 @@ func _trigger_effect_finished(..._args):
 	pass
 
 ## 装备的激活方法
-func _activated():
-	pass
+@abstract func _activated()
+@abstract func _deactivated()

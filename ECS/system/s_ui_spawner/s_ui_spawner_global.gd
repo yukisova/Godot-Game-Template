@@ -8,6 +8,10 @@ extends ISystem
 
 @export var game_over_ui_scene: PackedScene
 
+## 白板HUD的场景（这是一个很重要的容器型HUD，因此单独拎出来）
+@export var hud_whiteboard_scene: PackedScene
+var hud_whiteboard: HudWhiteboard
+
 @export var all_hud: Dictionary[StringName, HudInitSetting]
 
 var current_hud: Dictionary[StringName, UIHudController] = {}
@@ -23,6 +27,11 @@ func _setup():
 			current_hud[key] = hud as UIHudController
 			current_hud[key].hide()  # 初始状态隐藏
 	
+	# 预加载白板HUD
+	hud_whiteboard = hud_whiteboard_scene.instantiate()
+	Main.ui_view.add_child(hud_whiteboard)
+	hud_whiteboard.hide()
+
 	SSignalBus.game_loop_start.connect(func():
 		for hud: UIHudController in current_hud.values():
 			hud._initialize()
@@ -38,6 +47,8 @@ func _setup():
 
 func _resetup():
 	_hide_all_hud([])
+	hud_whiteboard.clear()
+
 
 func _spawn_ui(scene: PackedScene, context: Dictionary = {}, is_main_or_cutscene: bool = false) -> UIController:
 	if scene == null:

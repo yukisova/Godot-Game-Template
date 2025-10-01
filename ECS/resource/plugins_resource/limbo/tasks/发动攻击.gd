@@ -5,7 +5,7 @@ func _enter() -> void:
 	blackboard.set_var("is_attacking", true)
 	var attack_action: AttackAction = blackboard.get_var("attack_action", null)
 	if attack_action:
-		attack_action.action_triggered.emit(attack_action)
+		attack_action._trigger_update(blackboard.get_var("target_entity", null))
 	
 	await attack_action.action_triggered_finished
 	blackboard.set_var("is_attacking", false)

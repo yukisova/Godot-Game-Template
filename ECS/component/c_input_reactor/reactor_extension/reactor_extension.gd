@@ -16,4 +16,3 @@ var c_input_reactor: CInputReactor
 @abstract func _late_initialize()
 
 @abstract func _listen()
-

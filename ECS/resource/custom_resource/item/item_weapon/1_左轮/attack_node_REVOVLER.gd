@@ -8,7 +8,6 @@ extends WeaponNode
 ## 手枪发射的子弹实体预制体
 @export var limit_fire: bool = true
 
-
 @export var projectile_scene: PackedScene
 
 ## 子弹发射音频 wav格式
@@ -123,4 +122,9 @@ func _register_to_pool():
 	if projectile_scene:
 		SObjectPool.register_pool("projectile", projectile_scene, initial_pool_size)
 
+func _activated():
+	pass
+
+func _deactivated():
+	pass
 #endregion

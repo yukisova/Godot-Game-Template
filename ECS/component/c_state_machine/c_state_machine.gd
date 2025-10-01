@@ -6,6 +6,7 @@ extends IComponent
 @export var stack_states: Node
 @export var temp_states: Node
 
+var current_temp_state_exported = []
 var stack_state_dict: Dictionary[StringName, StatePda]
 
 func _enter_tree() -> void:

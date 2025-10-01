@@ -9,13 +9,13 @@ extends IEntity
 var is_entity_origin_exist: bool
 
 func _setup() -> void:
-    pass
+	pass
 
 func _update(_delta: float) -> void:
-    pass
+	pass
 
 func _fixed_update(_delta: float) -> void:
-    pass
+	pass
 
 func _initialize() -> void:
-    pass
+	pass

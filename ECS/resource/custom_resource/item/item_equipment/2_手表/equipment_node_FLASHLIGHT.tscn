@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://b3rlrb2kmdcfk"]
+
+[ext_resource type="Script" uid="uid://yhn3nb8cnh7q" path="res://resource/custom_resource/item/item_equipment/2_手表/equipment_node_WATCH.gd" id="1_yylrn"]
+[ext_resource type="PackedScene" uid="uid://dnkuw853toaig" path="res://resource/custom_resource/item/item_equipment/2_手表/表上的指南针.tscn" id="2_58e78"]
+
+[node name="手表" type="Node2D"]
+script = ExtResource("1_yylrn")
+factor_control = ExtResource("2_58e78")
+
+[node name="ControlNode" type="Node2D" parent="."]

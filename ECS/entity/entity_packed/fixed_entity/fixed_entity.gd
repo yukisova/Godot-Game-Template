@@ -19,6 +19,7 @@ var list_interface_components: Dictionary[int, IComponent] = {}
 func _setup():
 	## 1. entity_initialzable为true时，代表本实体是在游戏循环内创建的，可以不考虑等待信号，直接初始化
 	## 2. entity_initialzable为false时，代表本实体是在地图加载前创建的，需要等待地图加载完毕的信号，所以需要连接信号并进行等待
+	_init_collision()
 	if Main.entity_initialzable:
 		_initialize()
 	else:

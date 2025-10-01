@@ -11,6 +11,12 @@ enum BoxCollisionName {
 	SOUND,    ## 声音碰撞区域
 }
 var box_collision: Dictionary[BoxCollisionName, BoxCollision] = {}
+var all_disable: bool = false:
+	set(v):
+		all_disable = v
+		if all_disable:
+			for i: BoxCollision in box_collision.values():
+				i.monitorable = false
 
 enum BoxRayName {
 	INTERACT, ## 交互射线

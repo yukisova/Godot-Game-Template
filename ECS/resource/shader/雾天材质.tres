@@ -1,6 +1,6 @@
 [gd_resource type="ShaderMaterial" load_steps=5 format=3 uid="uid://djn7wamvcg7fl"]
 
-[ext_resource type="Shader" uid="uid://cx535xk828hiq" path="res://test/雾天着色器2.gdshader" id="1_ewwk5"]
+[ext_resource type="Shader" uid="uid://cx535xk828hiq" path="res://test/天气着色器/雾天着色器2.gdshader" id="1_ewwk5"]
 
 [sub_resource type="Gradient" id="Gradient_ht256"]
 

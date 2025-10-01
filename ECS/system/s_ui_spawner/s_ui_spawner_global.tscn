@@ -1,9 +1,10 @@
-[gd_scene load_steps=12 format=3 uid="uid://dwngxugx7dmav"]
+[gd_scene load_steps=13 format=3 uid="uid://dwngxugx7dmav"]
 
 [ext_resource type="Script" uid="uid://c2sd1paa8daua" path="res://system/s_ui_spawner/s_ui_spawner_global.gd" id="1_gywde"]
 [ext_resource type="PackedScene" uid="uid://qvegob1cp74r" path="res://ui/ui/ui_logo_transition/ui_logo_transition.tscn" id="2_v0jy8"]
 [ext_resource type="PackedScene" uid="uid://c8qw0qwk7xvms" path="res://ui/ui/ui_main/ui_main.tscn" id="3_v0jy8"]
 [ext_resource type="PackedScene" uid="uid://grdqlwahflib" path="res://ui/ui/ui_game_over/ui_game_over.tscn" id="4_uno6n"]
+[ext_resource type="PackedScene" uid="uid://dmfyj1ip8lo2r" path="res://ui/hud/hud_whiteboard/hud_whiteboard.tscn" id="5_ibpeg"]
 [ext_resource type="Script" uid="uid://bt5qlcyb68ufe" path="res://system/s_ui_spawner/hud_init_setting.gd" id="5_uno6n"]
 [ext_resource type="PackedScene" uid="uid://c7aapu28f0k58" path="res://ui/hud/hud_attribute/hud_attribute.tscn" id="6_ibpeg"]
 [ext_resource type="PackedScene" uid="uid://cdsw0hlt0fw4x" path="res://ui/hud/hud_dialogue/caption/hud_dialogue_caption.tscn" id="7_uno6n"]
@@ -32,6 +33,7 @@ script = ExtResource("1_gywde")
 logo_transition_scene = ExtResource("2_v0jy8")
 main_menu_scene = ExtResource("3_v0jy8")
 game_over_ui_scene = ExtResource("4_uno6n")
+hud_whiteboard_scene = ExtResource("5_ibpeg")
 all_hud = Dictionary[StringName, ExtResource("5_uno6n")]({
 &"": SubResource("Resource_uno6n"),
 &"caption": SubResource("Resource_6qq2n"),

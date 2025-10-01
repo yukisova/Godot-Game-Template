@@ -1,0 +1,39 @@
+[gd_scene load_steps=5 format=3 uid="uid://gvsvmy5ad0yv"]
+
+[ext_resource type="Script" uid="uid://b5sgvjiu4hn7h" path="res://entity/entity_packed/object_entity/checkable_point/躲藏处/床.gd" id="1_tovbm"]
+[ext_resource type="Texture2D" uid="uid://b5iyrvlaig8td" path="res://asset/tileset_self/border.png" id="2_wgxb4"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wgxb4"]
+size = Vector2(2, 2)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ry5io"]
+size = Vector2(14, 18)
+
+[node name="床" type="Node2D"]
+script = ExtResource("1_tovbm")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(0, -8)
+texture = ExtResource("2_wgxb4")
+region_enabled = true
+region_rect = Rect2(144, 128, 16, 32)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(6, -11)
+shape = SubResource("RectangleShape2D_wgxb4")
+
+[node name="CollisionShape2D4" type="CollisionShape2D" parent="."]
+position = Vector2(6, 5)
+shape = SubResource("RectangleShape2D_wgxb4")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="."]
+position = Vector2(-6, -11)
+shape = SubResource("RectangleShape2D_wgxb4")
+
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="."]
+position = Vector2(-6, 5)
+shape = SubResource("RectangleShape2D_wgxb4")
+
+[node name="CollisionShape2D5" type="CollisionShape2D" parent="."]
+position = Vector2(0, -3)
+shape = SubResource("RectangleShape2D_ry5io")

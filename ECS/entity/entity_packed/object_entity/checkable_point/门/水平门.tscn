@@ -1,0 +1,65 @@
+[gd_scene load_steps=9 format=3 uid="uid://bb7tcmx03rrou"]
+
+[ext_resource type="Texture2D" uid="uid://b5iyrvlaig8td" path="res://asset/tileset_self/border.png" id="2_ftxyq"]
+[ext_resource type="Script" uid="uid://d4k5mxylwgbae" path="res://component/c_interactable/interaction/interaction_action.gd" id="2_iyj7t"]
+[ext_resource type="Script" uid="uid://dlg7h6rn1e68x" path="res://entity/entity_packed/object_entity/checkable_point/门/door.gd" id="2_sqhhk"]
+[ext_resource type="Script" uid="uid://c8ftf4u5vh624" path="res://component/c_interactable/c_interactable.gd" id="3_sqhhk"]
+[ext_resource type="Script" uid="uid://obr8sa1ew3f4" path="res://component/c_action_trigger/action/trigger_action/interact_action/ia_开关门.gd" id="5_sqhhk"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_iyj7t"]
+size = Vector2(14, 4)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_iwqyi"]
+size = Vector2(16, 32)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_sqhhk"]
+size = Vector2(16, 16)
+
+[node name="水平门" type="Node2D" node_paths=PackedStringArray("room_trigger_1", "room_trigger_2", "c_interactable", "open_action")]
+script = ExtResource("2_sqhhk")
+room_trigger_1 = NodePath("RoomTriggerU")
+room_trigger_2 = NodePath("RoomTriggerD")
+c_interactable = NodePath("CInteractable")
+open_action = NodePath("InteractionAction/开关门")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+shape = SubResource("RectangleShape2D_iyj7t")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+y_sort_enabled = true
+position = Vector2(0, -14)
+texture = ExtResource("2_ftxyq")
+region_enabled = true
+region_rect = Rect2(80, 128, 16, 32)
+
+[node name="CInteractable" type="Node2D" parent="."]
+script = ExtResource("3_sqhhk")
+
+[node name="InteractionAction" type="Node" parent="." node_paths=PackedStringArray("target_node")]
+script = ExtResource("2_iyj7t")
+action_ended_type = 1
+time_limit = 3.0
+target_node = NodePath(".")
+
+[node name="开关门" type="Node2D" parent="InteractionAction" node_paths=PackedStringArray("exclude", "binding_collision", "binding_sprite")]
+script = ExtResource("5_sqhhk")
+exclude = [NodePath("../../RoomTriggerU"), NodePath("../../RoomTriggerD")]
+binding_collision = NodePath("../../StaticBody2D/CollisionShape2D")
+binding_sprite = NodePath("../../Sprite2D")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_iwqyi")
+
+[node name="RoomTriggerU" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RoomTriggerU"]
+position = Vector2(0, -8)
+shape = SubResource("RectangleShape2D_sqhhk")
+
+[node name="RoomTriggerD" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RoomTriggerD"]
+position = Vector2(0, 8)
+shape = SubResource("RectangleShape2D_sqhhk")

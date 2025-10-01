@@ -1,39 +1,25 @@
-## 向量移动策略 - 基于2D向量的实体移动实现
-## 该策略实现了基于向量的移动系统，支持输入控制和AI控制两种模式
-## 输入控制：通过玩家输入组件获取移动向量，AI控制：通过代码直接设置移动向量
-## 移动特性：支持平滑的速度过渡、自动朝向计算、智能移动状态识别
-## 适用场景：玩家角色控制、NPC移动、敌人AI移动、简单的物体推动
-## 架构设计：继承自 [IUpdateAction] 基类，与 [CInputReactor] 组件集成
-## [br][b]编辑者:[/b] Sora
 class_name MoveStrategyVector
 extends MoveStrategy
 
-## 输入响应组件引用
-## 如果设置，将从该组件获取移动输入；如果为null，则需要手动设置move_vector
 @export var movement_input: REMovementInput = null
 
-## 是否基于移动方向控制角色朝向(由外部控制)
 var toward_control_by_move: bool = true:
 	set(v):
 		toward_control_by_move = v
 
-## 由外界设置的特殊移动方案，在某些情况下
 var fixed_move_callable: Callable
 var fixed_move_callable_setted: bool = false
-
-## 移动向量
-## 控制实体的移动方向和强度，自动处理输入控制和AI控制两种模式
 
 func _get_move_vector() -> Vector2:
 	if c_action.component_body is CharacterBody2D:
 		if movement_input:
 			# 输入控制模式：从输入组件获取移动向量
 			var input_vector = movement_input.input_vector_dict.move as Vector2
-			if toward_control_by_move:
+			if toward_control_by_move and !input_vector.is_zero_approx():
 				_set_target_direction(self, input_vector.normalized())
-			return input_vector
+			return input_vector.normalized()
 		else:
-			return move_vector
+			return move_vector.normalized()
 	else:
 		push_error("向量移动策略: 目标实体不支持移动，请使用其他移动方案")
 		return Vector2.ZERO
@@ -132,6 +118,7 @@ func _update(_delta: float):
 	
 	## 2. 更新朝向方向
 	if !toward_direction_target.is_equal_approx(toward_direction_current):
+		print("更新朝向", toward_direction_current)
 		var rotate_lerp_angle = lerp_angle(toward_direction_current.angle(), toward_direction_target.angle(), _delta * 10)
 		toward_direction_current = Vector2.RIGHT.rotated(rotate_lerp_angle)
 

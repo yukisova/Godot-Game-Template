@@ -52,6 +52,7 @@ func _on_map_registered(map_scene: PackedScene, _data: SavedDataFile = null):
 	if _data == null:
 		var spawns: Array[PlayerSpawn] = map.player_spawns
 		if !spawns.is_empty():
+
 			current_level = spawns[0].current_level
 			current_level.enable_all_collision_navigation()
 			var _context = {
@@ -69,12 +70,6 @@ func _on_map_registered(map_scene: PackedScene, _data: SavedDataFile = null):
 				_context.merge(new_record)
 			
 			SMainController.player_located.emit.call_deferred(current_level, _context)
-			
-			for spawn in spawns:
-				if spawn != null:
-					spawn.queue_free()
-			spawns.clear()
-			
 		else:
 			push_warning("地图数据: 未检测到玩家出生点，请检查地图配置")
 	else:
@@ -113,6 +108,7 @@ func _on_level_changed(operate_entity: FixedEntity, new_level: Level, point: Vec
 	
 	operate_entity.reparent(new_level)
 	new_level._process_all_collision_navigation_recursive(operate_entity, true)
+
 func _on_map_changed(map: PackedScene, located_info: Dictionary):
 	var player_statics = SMainController.player_static
 

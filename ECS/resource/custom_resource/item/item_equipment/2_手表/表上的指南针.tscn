@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://dnkuw853toaig"]
+
+[node name="表上的指南针" type="CenterContainer"]
+
+[node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 2
+
+[node name="Line2D" type="Line2D" parent="."]
+points = PackedVector2Array(0, 0, 30, 0)
+width = 5.0

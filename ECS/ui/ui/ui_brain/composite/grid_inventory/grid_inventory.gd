@@ -207,12 +207,21 @@ func _ready() -> void:
 
 func _initialize_info(_context: Dictionary):
 	var equipment: EquipmentExtension = _context["equipment"]
+	var inventory: InventoryExtension = _context["inventory"]
 	# 2. 加载装备数据
 	if equipment:
 		if equipment.current_weapon and equipment.current_weapon.equipment_control:
 			equipment_control = equipment.current_weapon.equipment_control.instantiate()
 			equipment_control.binding_equipment = equipment.current_weapon
 			equipment_control._initialize()
+	
+	if inventory:
+		for consumable in inventory.inventory_array_consumable:
+			if consumable != null:
+				add_item(consumable)
+
+	
+	
 
 #endregion
 

@@ -1,13 +1,24 @@
 class_name RERayInteractConfirm
 extends ReactorExtension
 ## 是否控制朝向瞄准鼠标方向
-@export var toward_control_by_mouse: bool = false
+@export var toward_control_by_mouse: bool = false:
+	set(v):
+		toward_control_by_mouse = v
+		
+		if not Engine.is_editor_hint() and is_node_ready():
+			var c_action_trigger: CActionTrigger= c_input_reactor.get_other_component(IComponent.ComponentName.C_ACTION_TRIGGER)
+			var move_strategy = c_action_trigger.move_strategy
+			if !move_strategy.is_empty():
+				var move_strategy_vector = move_strategy[0] as MoveStrategyVector
+				if move_strategy_vector:
+					move_strategy_vector.toward_control_by_move = false if toward_control_by_mouse else true
 
 ## 交互射线组件
 @export var interact_ray: InteractRay
 
 ## 状态组件，用于访问装备系统
 @export var c_status: CStatusList
+@export var movement_input: REMovementInput
 
 func _late_initialize():
 	if toward_control_by_mouse:
@@ -45,8 +56,7 @@ func _listen():
 		if c_texture_controller and c_texture_controller.packed_sprite:
 			c_texture_controller.packed_sprite.texture_toward = vector
 	else:
-		# vector = c_input_reactor.input_vector_dict.get("toward", Vector2.ZERO)
-		pass
+		vector = movement_input.get_toward_vector()
 
 	# 如果方向向量足够长，设置射线朝向
 	if vector.length() > 0.1: # 避免零向量

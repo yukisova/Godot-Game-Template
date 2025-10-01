@@ -5,7 +5,7 @@ extends ICutscene
 func _start():
 	await get_tree().process_frame
 	
-	var entity_state_manager : EntityStateManager = SMapData.current_level.entity_state_manager
+	var entity_state_manager : LCEntityStates = SMapData.current_level.entity_state_manager
 	var player: IEntity = SMainController._get_player_info_by_index(0)
 	entity_state_manager.set_all_entity_visible([player], false)
 	entity_state_manager.set_all_tilemap_layer_visible([], false)

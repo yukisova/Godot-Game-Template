@@ -16,3 +16,9 @@ func _ready() -> void:
 	flashlight_texture = ImageTexture.create_from_image(Image.create(1, 1, false, Image.FORMAT_RGBA8))
 	point_light.flash_light_mode = flashlight_mode
 	point_light.c_status = c_status
+
+func _activated():
+	pass
+
+func _deactivated():
+	pass
