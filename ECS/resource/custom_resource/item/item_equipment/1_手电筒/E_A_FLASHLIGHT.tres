@@ -15,6 +15,7 @@ atlas = SubResource("AtlasTexture_q3qe3")
 script = ExtResource("3_5asop")
 equipment_node = ExtResource("1_q3qe3")
 item_texture = SubResource("AtlasTexture_kjjik")
+item_description = "外观看起来陈旧的手电筒，光线有些昏暗，但似乎这个昏暗的光是有原因的。"
 item_nick_name = "flash light"
 item_name = "手电筒"
 metadata/_custom_type_script = "uid://cmado4p2ovl2q"

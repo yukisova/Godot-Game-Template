@@ -19,3 +19,6 @@ extends UIView
 @export var d_container: MarginContainer
 ## 居中的容器
 @export var c_container: MarginContainer
+
+func clear():
+	pass

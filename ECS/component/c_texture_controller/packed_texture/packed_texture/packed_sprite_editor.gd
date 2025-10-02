@@ -7,7 +7,7 @@ extends Node
 @export var control_parts: Dictionary[StringName, Node2D]
 @export var animation_player: AnimationPlayer
 ## 拼接纹理的父节点，用于控制纹理的着色器与幅度并不大的位移
-@export var texture_lib: TextureLib
+@export var texture_lib: MainSprite
 var texture_switch_command: Dictionary[StringName, Callable]
 
 func _initialize():

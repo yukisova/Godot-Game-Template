@@ -21,6 +21,7 @@ func _on_cutscene_started() -> void:
 	elif current_state is not GamingStateCutscene:
 		push_error("过场剧情只能在正常游戏状态或过场剧情状态中启动, 目前状态为: ", current_state)
 		return
+	await SMapData.current_level.level_component_initialized
 	await _start()
 	await get_tree().process_frame
 	cutscene_ended.emit.call_deferred()

@@ -19,9 +19,6 @@ var split_type: SViewportManager.LayoutType
 ## 在分割中的位置索引 (0-3)
 var split_index: int = 0
 
-# 用于调试的变量
-var _debug_show_conversion: bool = false
-
 func _ready():
 	# 监听主视口大小变化
 	get_viewport().size_changed.connect(_on_main_viewport_size_changed)
@@ -157,18 +154,7 @@ func get_viewport_mouse_position() -> Vector2:
 			
 			# 得到修正后的位置
 			viewport_pos = viewport_center + offset_from_center
-	
-	# 调试输出
-	if _debug_show_conversion and Engine.get_frames_drawn() % 30 == 0:
-		print("------------------")
-		print("容器位置: ", container_rect)
-		print("主视口鼠标位置: ", main_mouse_position)
-		print("相对位置系数: (", relative_x, ", ", relative_y, ")")
-		if camera and is_instance_valid(camera):
-			print("相机缩放: ", camera.zoom)
-		print("子视口鼠标位置: ", viewport_pos)
-		print("------------------")
-	
+		
 	# 如果鼠标在容器范围外，将位置限制在视口内
 	if not container_rect.has_point(main_mouse_position):
 		viewport_pos.x = clamp(viewport_pos.x, 0, viewport.size.x)
@@ -244,89 +230,6 @@ func get_local_camera_position(world_pos: Vector2) -> Vector2:
 	if camera and is_instance_valid(camera):
 		return world_pos - camera.get_screen_center_position()
 	return world_pos
-
-## 开关调试输出
-func toggle_debug_output(enabled: bool = true):
-	_debug_show_conversion = enabled
-
-## 测试不同zoom值下的鼠标位置映射准确性
-## 这个方法可用于验证zoom缩放修复是否正确工作
-func test_zoom_position_mapping():
-	if not camera or not is_instance_valid(camera):
-		print("CameraViewport: 无法进行测试，相机引用无效")
-		return
-	
-	print("=== 相机zoom缩放鼠标位置映射测试 ===")
-	
-	# 保存当前zoom值
-	var original_zoom = camera.zoom
-	
-	# 测试几个不同的zoom值
-	var test_zoom_values = [
-		Vector2(0.5, 0.5),   # 相机拉远，显示更大范围
-		Vector2(1.0, 1.0),   # 标准缩放
-		Vector2(2.0, 2.0),   # 相机拉近，显示更小范围
-		Vector2(1.5, 1.5)    # 中等缩放
-	]
-	
-	# 测试点（视口中心点）
-	var test_points = [
-		viewport.size * 0.5,    # 视口中心
-		Vector2(0, 0),          # 视口左上角
-		viewport.size,          # 视口右下角
-		Vector2(viewport.size.x * 0.25, viewport.size.y * 0.75)  # 随机点
-	]
-	
-	print("视口尺寸: ", viewport.size)
-	
-	for zoom_value in test_zoom_values:
-		camera.zoom = zoom_value
-		print("\n--- 测试zoom = ", zoom_value, " ---")
-		
-		for i in range(test_points.size()):
-			var test_point = test_points[i]
-			
-			# 正向转换：子视口坐标 -> 主视口坐标
-			var main_pos = subviewport_to_main_coords(test_point)
-			# 反向转换：主视口坐标 -> 子视口坐标
-			var converted_back = main_to_subviewport_coords(main_pos)
-			
-			# 计算转换误差
-			var error = converted_back.distance_to(test_point)
-			
-			print("  测试点 ", i + 1, ": ", test_point)
-			print("    -> 主视口: ", main_pos)
-			print("    -> 转换回: ", converted_back)
-			print("    误差: ", error, (", 精度: " + ("良好" if error < 1.0 else "待改进")))
-	
-	# 恢复原始zoom值
-	camera.zoom = original_zoom
-	print("\n测试完成，已恢复原始zoom值: ", original_zoom)
-	print("=============================")
-
-## 获取当前相机zoom缩放信息（调试用）
-func get_camera_zoom_info() -> Dictionary:
-	if not camera or not is_instance_valid(camera):
-		return {"error": "无效的相机引用"}
-	
-	var viewport_size: Vector2 = Vector2.ZERO
-	if viewport:
-		viewport_size = viewport.size
-	
-	return {
-		"zoom": camera.zoom,
-		"zoom_description": _get_zoom_description(camera.zoom),
-		"viewport_size": viewport_size
-	}
-
-## 获取zoom值的描述文本（调试用）
-func _get_zoom_description(zoom: Vector2) -> String:
-	if zoom.x < 1.0:
-		return "拉远视角（显示更大范围）"
-	elif zoom.x > 1.0:
-		return "拉近视角（显示更小范围）"
-	else:
-		return "标准视角"
 
 func _physics_process(_delta: float) -> void:
 	if camera_target:

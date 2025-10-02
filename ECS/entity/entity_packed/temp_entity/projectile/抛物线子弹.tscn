@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://s3kgafr5scpa"]
+[gd_scene load_steps=12 format=3 uid="uid://s3kgafr5scpa"]
 
 [ext_resource type="PackedScene" uid="uid://co817hl4s2rr7" path="res://entity/entity_packed/temp_entity/temp_entity.tscn" id="1_fsy7s"]
 [ext_resource type="PackedScene" uid="uid://cq0u8u1qie88t" path="res://entity/entity_packed/entity_template/character_body.tscn" id="2_4fax5"]
@@ -6,36 +6,17 @@
 [ext_resource type="PackedScene" uid="uid://cmjo6u4q6ax71" path="res://component/c_texture_controller/packed_texture/packed_texture/projectile/packed_texture_projectile.tscn" id="4_4fax5"]
 [ext_resource type="PackedScene" uid="uid://cps21xspaovit" path="res://component/c_collision_box/c_collision_box.tscn" id="4_30y1a"]
 [ext_resource type="Script" uid="uid://dneeiueh1hgr2" path="res://component/c_collision_box/box_collision/hit_box/hit_box_range/hit_box_range.gd" id="5_s0s4f"]
-[ext_resource type="Script" uid="uid://56igfb3mcaca" path="res://component/c_collision_box/box_collision/hit_box/hit_effect/i_hit_effect.gd" id="6_w4hos"]
-[ext_resource type="Script" uid="uid://dprng288c4b2f" path="res://component/c_collision_box/box_collision/hit_box/hit_effect/status_effect.gd" id="7_mgtaq"]
+[ext_resource type="Texture2D" uid="uid://bxs15lp1ye2kj" path="res://asset/sightlight_gj/火焰球/Firebolt SpriteSheet.png" id="6_fsy7s"]
 [ext_resource type="PackedScene" uid="uid://b3vbfhugiqyva" path="res://component/c_action_trigger/c_action_trigger.tscn" id="8_vmhx7"]
 [ext_resource type="Script" uid="uid://cxvnftaawgynr" path="res://component/c_action_trigger/action/update_action/move_strategy/move_cubic.gd" id="9_fsy7s"]
-
-[sub_resource type="Resource" id="Resource_l5x8v"]
-script = ExtResource("7_mgtaq")
-status_effect_value = -20
-metadata/_custom_type_script = "uid://dprng288c4b2f"
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_4fax5"]
 radius = 4.5
 height = 25.0
 
-[sub_resource type="Gradient" id="Gradient_30y1a"]
-offsets = PackedFloat32Array(0.6712963, 1)
-colors = PackedColorArray(1, 0, 0, 1, 1, 0, 0, 0)
-
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_s0s4f"]
-gradient = SubResource("Gradient_30y1a")
-width = 32
-height = 32
-fill = 1
-fill_from = Vector2(0.5, 0.5)
-fill_to = Vector2(0.8, 0.2)
-metadata/_snap_enabled = true
-
-[sub_resource type="Curve2D" id="Curve2D_fsy7s"]
+[sub_resource type="Curve2D" id="Curve2D_4fax5"]
 _data = {
-"points": PackedVector2Array(-195.42564, 73.04531, 195.42564, -73.04531, 0, 0, 1.7979927, -39.76129, -1.7979927, 39.76129, 233, 1)
+"points": PackedVector2Array(-195.42564, 73.04531, 0, 0, 0, -8, 0, 0, -1.7979927, 39.76129, 200, -8)
 }
 point_count = 2
 
@@ -50,13 +31,11 @@ component_container = NodePath("CharacterBody/ComponentContainer")
 
 [node name="PackedTextureProjectile" parent="CharacterBody/ComponentContainer/CTextureController" index="0" instance=ExtResource("4_4fax5")]
 
-[node name="HitboxRange" type="Area2D" parent="CharacterBody/ComponentContainer/CTextureController/PackedTextureProjectile/OnFloor" index="0" node_paths=PackedStringArray("move_strategy", "c_collision")]
+[node name="HitboxRange" type="Area2D" parent="CharacterBody/ComponentContainer/CTextureController/PackedTextureProjectile/OnFloor" index="0" node_paths=PackedStringArray("c_collision")]
 collision_layer = 4
 collision_mask = 5
 script = ExtResource("5_s0s4f")
 max_hit_height = 27.0
-move_strategy = NodePath("../../../../CActionTrigger/MoveStrategyCubic")
-hit_effects = Array[ExtResource("6_w4hos")]([SubResource("Resource_l5x8v")])
 c_collision = NodePath("../../../../CCollisionBox")
 metadata/_custom_type_script = "uid://dneeiueh1hgr2"
 
@@ -68,13 +47,13 @@ shape = SubResource("CapsuleShape2D_4fax5")
 position = Vector2(0, -13)
 
 [node name="Body" parent="CharacterBody/ComponentContainer/CTextureController/PackedTextureProjectile/Whole" index="0"]
-position = Vector2(0, 1)
-texture = SubResource("GradientTexture2D_s0s4f")
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("6_fsy7s")
+region_enabled = true
+region_rect = Rect2(0, 16, 48, 32)
 
 [node name="PSEditorProjectile" parent="CharacterBody/ComponentContainer/CTextureController/PackedTextureProjectile" index="2" node_paths=PackedStringArray("control_parts")]
-current_range_ratio = 1.0
 fixed_body_y = -13
-path_node = SubResource("Curve2D_fsy7s")
 control_parts = {
 &"Main": NodePath("../Whole/Body")
 }
@@ -83,13 +62,11 @@ control_parts = {
 
 [node name="CActionTrigger" parent="CharacterBody/ComponentContainer" index="2" instance=ExtResource("8_vmhx7")]
 
-[node name="MoveStrategyCubic" type="Node2D" parent="CharacterBody/ComponentContainer/CActionTrigger" index="0" node_paths=PackedStringArray("blackboard")]
+[node name="MoveStrategyCurve" type="Node2D" parent="CharacterBody/ComponentContainer/CActionTrigger" index="0"]
 script = ExtResource("9_fsy7s")
-curve = SubResource("Curve2D_fsy7s")
-blackboard = NodePath("../..")
 
-[node name="Path2D" type="Path2D" parent="CharacterBody/ComponentContainer/CActionTrigger/MoveStrategyCubic" index="0"]
-curve = SubResource("Curve2D_fsy7s")
+[node name="Path2D" type="Path2D" parent="CharacterBody/ComponentContainer/CActionTrigger/MoveStrategyCurve" index="0"]
+curve = SubResource("Curve2D_4fax5")
 
 [editable path="CharacterBody"]
 [editable path="CharacterBody/ComponentContainer/CTextureController/PackedTextureProjectile"]

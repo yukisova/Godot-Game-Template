@@ -27,7 +27,7 @@ enum HandMoveType {
 		notify_property_list_changed()
 
 ## 拼接纹理的父节点，用于控制纹理的着色器与幅度并不大的位移
-@export var whole_node: TextureLib
+@export var whole_node: MainSprite
 
 #region 工具按钮
 @export var fixed_head_y: int:

@@ -27,9 +27,10 @@ func _initialize():
 
 # 绑定Model和View
 func _bind_model_view():
-	ui_model.health_changed.connect(ui_view._on_health_changed)
-	ui_model.sound_changed.connect(ui_view._on_sound_changed)
-	ui_model.fitness_changed.connect(ui_view._on_fitness_changed)
-	ui_model.weapon_changed.connect(ui_view._on_weapon_changed)
-	ui_model.equipment_changed.connect(ui_view._on_equipment_changed)
-	ui_model.seek_state_changed.connect(ui_view._on_seek_state_changed)
+	if not ui_model.has_connections("health_changed"):
+		ui_model.health_changed.connect(ui_view._on_health_changed)
+		ui_model.sound_changed.connect(ui_view._on_sound_changed)
+		ui_model.fitness_changed.connect(ui_view._on_fitness_changed)
+		ui_model.weapon_changed.connect(ui_view._on_weapon_changed)
+		ui_model.equipment_changed.connect(ui_view._on_equipment_changed)
+		ui_model.seek_state_changed.connect(ui_view._on_seek_state_changed)

@@ -3,6 +3,7 @@ extends Node2D
 
 signal level_fully_loaded
 signal level_entity_fully_initialize
+signal level_component_initialized
 
 @export var is_need_fog: bool
 @export_range(0, 1) var time: float:
@@ -78,6 +79,7 @@ func _late_initialize():
 	var timeloop = SBlackboard.get_sub_system(ISubSystem.SubSystemType.TIME_LOOP) as SSTimeLoop
 	timeloop.time_updated.connect(time_change_filter)
 	time_change_filter(timeloop.real_time)
+	level_component_initialized.emit()
 
 func get_camera_limit() -> Dictionary:
 	var limit_dict = {}

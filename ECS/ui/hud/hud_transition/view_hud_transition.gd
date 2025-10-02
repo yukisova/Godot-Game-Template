@@ -13,7 +13,7 @@ func fade_in():
 	
 	print("过渡HUD: 开始淡入效果")
 	var tween = get_tree().create_tween()
-	tween.tween_property(pure_black_rect, "modulate", Color(0, 0, 0, 0), 1.5)
+	tween.tween_property(pure_black_rect, "modulate", Color.TRANSPARENT, 1.5)
 	await tween.finished
 	print("过渡HUD: 淡入效果完成")
 
@@ -27,7 +27,7 @@ func fade_out():
 	
 	print("过渡HUD: 开始淡出效果")
 	var tween = get_tree().create_tween()
-	tween.tween_property(pure_black_rect, "modulate", Color(0, 0, 0, 1), 1.5)
+	tween.tween_property(pure_black_rect, "modulate", Color.BLACK, 1.5)
 	await tween.finished
 	print("过渡HUD: 淡出效果完成")
 #endregion

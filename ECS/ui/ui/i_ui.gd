@@ -19,15 +19,17 @@ signal _unspawned
 var ui_view: UIView
 var ui_model: UIModel
 
-func _enter_tree() -> void:
+func _ready() -> void:
 	for i in get_children():
 		if i is UIView:
 			ui_view = i
 		elif i is UIModel:
 			ui_model = i
+	ui_view.controller = self
+	ui_view.ui_model = ui_model
+	ui_model.controller = self
+	ui_model.ui_view = ui_view
 
-## 根据运行环境选择不同的初始化流程
-func _ready() -> void:
 	if get_tree().current_scene != self:
 		_main_setup()  # 主游戏运行时的初始化
 	else:

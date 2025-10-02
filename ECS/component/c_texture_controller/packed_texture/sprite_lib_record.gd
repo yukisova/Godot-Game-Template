@@ -1,5 +1,5 @@
 # 贴图资源库
-class_name TextureLibRecord
+class_name SpriteLibRecord
 extends Resource
 
 @export var belong_node: NodePath

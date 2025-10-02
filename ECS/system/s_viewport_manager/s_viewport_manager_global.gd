@@ -393,7 +393,6 @@ func _setup_viewports_for_play_type():
 func _refresh_viewports():
 	_refresh_players_viewport()
 
-#region 要改造的方法2, 用一个方法囊括所有可能的多人同屏游玩
 func _refresh_players_viewport(is_first: bool = false):
 	var play_type = SMainController.play_type
 	match play_type:
@@ -421,7 +420,6 @@ func _refresh_players_viewport(is_first: bool = false):
 		if camera_viewport.camera_target == null:
 			print("出现问题，索引",i,"对应的player不存在")
 		camera_viewport.viewport.world_2d = SMapData.current_level.get_parent().world_2d
-#endregion
 
 ## 动态切换视口布局（可在运行时调用）
 ## [param layout]: 新的布局类型
@@ -437,14 +435,24 @@ func get_viewport_container(node: Node2D) -> CameraViewport:
 
 #region 相机的效果(镜头抖动)
 var camera_tween: Tween
-## 相机抖动
-func camera_shake(camera_target: Node2D, effect_strength: float = 1.0, effect_time: float = 0.5):
+## 过场剧情所可能使用的临时镜头
+## 如果存在了临时镜头，则当前主镜头会被替换为临时镜头。
+var temp_camera_2d: Camera2D:
+	set(v):
+		temp_camera_2d = v
+
+func get_main_camera(camera_target: Node2D) -> Camera2D:
 	var camera_viewport = get_viewport_container(camera_target)
 	var camera_2d: Camera2D
 	if camera_viewport:
 		camera_2d = camera_viewport.camera
 	else:
-		print("未找到相机节点")
+		return null
+	return camera_2d
+## 相机抖动
+func camera_shake(camera_target: Node2D, effect_strength: float = 1.0, effect_time: float = 0.5):
+	var camera_2d: Camera2D = get_main_camera(camera_target)
+	if not camera_2d:
 		return
 	if camera_tween: camera_tween.kill()
 	
@@ -457,6 +465,27 @@ func camera_shake(camera_target: Node2D, effect_strength: float = 1.0, effect_ti
 		camera_tween.play()
 		await camera_tween.finished
 		camera_2d.offset = Vector2.ZERO
+
+func camera_zoom_change_immediately(camera_target: Node2D, zoom: Vector2):
+	var camera_viewport = get_viewport_container(camera_target)
+	var camera_2d: Camera2D
+	if camera_viewport:
+		camera_2d = camera_viewport.camera
+	else:
+		print("未找到相机节点")
+		return
+	camera_2d.zoom = zoom
+
+func camera_zoom_change_gradually(camera_target: Node2D, zoom: Vector2, duration: float):
+	var camera_2d: Camera2D = get_main_camera(camera_target)
+	if not camera_2d:
+		return
+
+	if camera_tween: camera_tween.kill()
+	
+	camera_tween = camera_target.get_tree().create_tween()
+	camera_tween.set_pause_mode(Tween.TWEEN_PAUSE_PROCESS)
+	camera_tween.tween_property(camera_2d, "zoom", zoom, duration)
 
 func set_camera_limit(limit_dict: Dictionary):
 	for viewport in camera_viewports:

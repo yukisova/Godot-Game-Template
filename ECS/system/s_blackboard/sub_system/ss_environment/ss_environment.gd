@@ -16,11 +16,12 @@ var current_player: IEntity = null
 
 func _enter_tree() -> void:
 	keyword = SubSystemType.ENVIRONMENT
+	
+	enemy_notice_player.connect(_on_enemy_notice_player)
+	enemy_lost_player.connect(_on_enemy_lost_player)
 
 func _setup():
 	current_player = SMainController._get_player_info_by_index(0)
-	enemy_notice_player.connect(_on_enemy_notice_player)
-	enemy_lost_player.connect(_on_enemy_lost_player)
 
 func _update(_delta: float) -> void:
 	pass

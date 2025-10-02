@@ -52,7 +52,6 @@ func _on_map_registered(map_scene: PackedScene, _data: SavedDataFile = null):
 	if _data == null:
 		var spawns: Array[PlayerSpawn] = map.player_spawns
 		if !spawns.is_empty():
-
 			current_level = spawns[0].current_level
 			current_level.enable_all_collision_navigation()
 			var _context = {

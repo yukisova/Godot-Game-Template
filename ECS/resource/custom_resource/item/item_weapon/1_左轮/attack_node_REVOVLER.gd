@@ -98,6 +98,7 @@ func _shoot_effect():
 	_shoot_spread_effect()
 
 	var direction: Vector2 = Vector2.RIGHT
+	var fire_offset = 10
 	var collision_box : CCollisionBox = c_status.get_other_component(IComponent.ComponentName.C_COLLISION_BOX) as CCollisionBox
 	var interact_ray:InteractRay = collision_box.box_rays.get(CCollisionBox.BoxRayName.INTERACT)
 	if interact_ray:
@@ -107,12 +108,13 @@ func _shoot_effect():
 	
 	var hand_offset_y = c_status.get_other_component(IComponent.ComponentName.C_TEXTURE_CONTROLLER).packed_sprite.packed_sprite_editor.hand_offset_y
 	for i in rand_num:
+		var start_position = c_status.component_body.global_position + direction * fire_offset
 		var rand_angle = randf_range(-角度偏移区间, 角度偏移区间)
 		var rand_range = randf_range(随机距离范围区间.x, 随机距离范围区间.y)
 		var context = {"start_direction": direction.rotated(deg_to_rad(rand_angle)), "target_range": rand_range }
-		SObjectPool._spawn("projectile", projectile_scene, context, fire_point.global_position - Vector2(0, hand_offset_y))
+		SObjectPool._spawn("projectile", projectile_scene, context, start_position)
 
-func _fhoot_failed():
+func _shoot_failed():
 	_shoot_audio("failed")
 #endregion
 

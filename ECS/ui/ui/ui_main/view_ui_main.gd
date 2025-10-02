@@ -20,13 +20,11 @@ func _initialize(_context: Dictionary):
 	quit_game_button.pressed.connect(_on_quit_game_button_pressed.bind(quit_game_button.args))
 
 	# 设置淡入动画效果
-	var control = get_child(0) as Control
-	control.modulate.a = 0
+	modulate.a = 0
 	var tween: Tween = get_tree().create_tween()
 	tween.set_ease(Tween.EASE_IN)
 	tween.set_trans(Tween.TRANS_CUBIC)
-	tween.tween_property(control, "modulate:a", 1.0, 1.0)
-	
+	tween.tween_property(self, "modulate:a", 1.0, 1.0)
 
 func _on_continue_game_button_pressed(_args):
 	pass

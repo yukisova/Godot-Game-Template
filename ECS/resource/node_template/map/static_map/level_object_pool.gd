@@ -128,7 +128,7 @@ func _disable_node(obj: Node) -> void:
 ## [param _position]: 新的位置，类型为 [Vector2]
 func _reset_node(obj: TempEntity, _context: Dictionary, _position: Vector2) -> void:
 	obj.main_control.global_position = _position
-	obj.reset(_context)
+	obj.reset({IComponent.ComponentName.NONE : _context})
 	obj.process_mode = Node.PROCESS_MODE_INHERIT
 	obj.show()
 

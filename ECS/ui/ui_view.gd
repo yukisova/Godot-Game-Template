@@ -5,6 +5,7 @@ class_name UIView
 extends Control
 
 var ui_model: UIModel
+var controller: CanvasLayer
 
 func _initialize(_context: Dictionary):
 	pass

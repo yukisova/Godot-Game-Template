@@ -16,6 +16,7 @@ extends Item
 ## 武器装备时的UI，用于显示武器装备信息
 @export var equipment_control: PackedScene
 @export var item_texture: Texture2D
+@export_multiline var item_description: String
 
 ## 击中效果列表
 ## 武器造成伤害时的各种击中效果，类型为 [Array] of [IHitEffect]

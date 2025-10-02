@@ -12,8 +12,9 @@ var hud_controller: UIHudController
 func _initialize(_context: Dictionary):
 	hud_controller = _context["hud_controller"]
 	
-	hud_controller.caption_ended.connect(_on_caption_ended)
-	hud_controller.caption_changed.connect(_on_caption_changed)
+	if not hud_controller.has_connections("caption_ended"):
+		hud_controller.caption_ended.connect(_on_caption_ended)
+		hud_controller.caption_changed.connect(_on_caption_changed)
 
 func _on_caption_ended():
 	current_dialogue_resource = null

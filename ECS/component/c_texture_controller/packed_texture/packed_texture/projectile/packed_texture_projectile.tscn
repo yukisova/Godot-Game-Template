@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://cmjo6u4q6ax71"]
+[gd_scene load_steps=6 format=3 uid="uid://cmjo6u4q6ax71"]
 
 [ext_resource type="Script" uid="uid://bnbrmwrcswq0q" path="res://component/c_texture_controller/packed_texture/packed_texture/projectile/packed_texture_projectile.gd" id="1_tuh6x"]
 [ext_resource type="Script" uid="uid://di6mu1cfjyfir" path="res://component/c_texture_controller/packed_texture/packed_texture/projectile/ps_editor_projectile.gd" id="2_2wxhe"]
+[ext_resource type="Script" uid="uid://clawe2mmb85cx" path="res://component/c_texture_controller/packed_texture/main_sprite.gd" id="2_qlc3o"]
 
 [sub_resource type="Gradient" id="Gradient_dq6ar"]
 offsets = PackedFloat32Array(0.7268519, 0.875)
@@ -26,18 +27,21 @@ height_top_marker = NodePath("Whole/Body/HeightTopMarker")
 texture = SubResource("GradientTexture2D_0ojem")
 
 [node name="Whole" type="Node2D" parent="."]
+script = ExtResource("2_qlc3o")
+lib = null
 
 [node name="Body" type="Sprite2D" parent="Whole"]
 
 [node name="HeightTopMarker" type="Marker2D" parent="Whole/Body"]
 
-[node name="PSEditorProjectile" type="Node" parent="." node_paths=PackedStringArray("main_part", "control_parts", "animation_player")]
+[node name="PSEditorProjectile" type="Node" parent="." node_paths=PackedStringArray("main_part", "control_parts", "animation_player", "texture_lib")]
 script = ExtResource("2_2wxhe")
 main_part = NodePath("..")
 control_parts = {
 &"Main": NodePath("../Whole/Body")
 }
 animation_player = NodePath("../AnimationPlayer")
+texture_lib = NodePath("../Whole")
 metadata/_custom_type_script = "uid://bkarxlrkjktqy"
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]

@@ -1,9 +1,9 @@
-[gd_scene load_steps=21 format=4 uid="uid://c67o831rrvqb"]
+[gd_scene load_steps=22 format=4 uid="uid://c67o831rrvqb"]
 
 [ext_resource type="PackedScene" uid="uid://dx8lfcn7h43ea" path="res://resource/node_template/map/static_map/static_map.tscn" id="1_4xkv8"]
 [ext_resource type="AudioStream" uid="uid://cshvyslspontd" path="res://asset/audio/旖旎飞雪 - 02 Walking.ogg" id="2_g56lq"]
 [ext_resource type="PackedScene" uid="uid://6dpqakv78nkp" path="res://resource/node_template/map/static_map/level.tscn" id="3_iouo2"]
-[ext_resource type="PackedScene" uid="uid://bpgehe2mpq46i" path="res://resource/node_template/map/static_map/room_tile.tscn" id="4_xaq3n"]
+[ext_resource type="PackedScene" uid="uid://bpgehe2mpq46i" path="res://resource/node_template/map/static_map/room.tscn" id="4_xaq3n"]
 [ext_resource type="PackedScene" uid="uid://bb7tcmx03rrou" path="res://entity/entity_packed/object_entity/checkable_point/门/水平门.tscn" id="5_oj12n"]
 [ext_resource type="Texture2D" uid="uid://b5iyrvlaig8td" path="res://asset/tileset_self/border.png" id="5_rum8l"]
 [ext_resource type="PackedScene" uid="uid://8b4sly2aux7p" path="res://entity/entity_packed/object_entity/checkable_point/门/垂直门.tscn" id="6_xaq3n"]
@@ -15,6 +15,7 @@
 [ext_resource type="Script" uid="uid://do0gml5gi6jl8" path="res://resource/custom_resource/item/item_consumable/item_consumable.gd" id="14_0nlo7"]
 [ext_resource type="PackedScene" uid="uid://ds0pq0ys08tqx" path="res://entity/entity_packed/object_entity/checkable_point/躲藏处/柜子.tscn" id="14_mwxg0"]
 [ext_resource type="Resource" uid="uid://beo0dmy38xpw6" path="res://resource/custom_resource/item/item_equipment/1_手电筒/E_A_FLASHLIGHT.tres" id="14_rum8l"]
+[ext_resource type="Resource" uid="uid://f8x8v2iu6h6e" path="res://resource/custom_resource/item/item_weapon/1_左轮/W_A_REVOVLER.tres" id="15_mwxg0"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_0nlo7"]
 texture = ExtResource("5_rum8l")
@@ -590,6 +591,16 @@ room_trigger_2_room = NodePath("../LCRooms/RoomTile")
 
 [node name="柜子" parent="Levels/Level" index="13" instance=ExtResource("14_mwxg0")]
 position = Vector2(809, -349)
+
+[node name="CheckablePoint5" parent="Levels/Level" index="14" instance=ExtResource("10_xaq3n")]
+position = Vector2(366, -148)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Levels/Level/CheckablePoint5" index="1"]
+shape = SubResource("RectangleShape2D_xaq3n")
+
+[node name="InteractionCollect" type="Node" parent="Levels/Level/CheckablePoint5" index="2"]
+script = ExtResource("13_mwxg0")
+binding_item = ExtResource("15_mwxg0")
 
 [node name="测试用过场_介绍规则" type="Node" parent="AutoLoadCutscene" index="0"]
 script = ExtResource("13_xaq3n")

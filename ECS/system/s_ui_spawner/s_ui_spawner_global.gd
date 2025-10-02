@@ -38,11 +38,11 @@ func _setup():
 	)
 	
 	SSignalBus.game_loop_continue.connect(func():
-		_hide_all_hud([""])
+		_hide_all_hud(["", "transition"])
 	)
 	
 	SSignalBus.game_loop_paused.connect(func():
-		_hide_all_hud([])
+		_hide_all_hud(["transition"])
 	)
 
 func _resetup():
@@ -69,13 +69,11 @@ func _spawn_ui(scene: PackedScene, context: Dictionary = {}, is_main_or_cutscene
 			return
 		
 		# 设置新UI
-		await get_tree().process_frame
 		current_ui = canvas
-		canvas._initilize_info(context)
 		Main.ui_view.add_child(current_ui)
+		canvas._initilize_info(context)
 		current_ui._unspawned.connect(_unspawn_ui)
 		
-		print("UI生成器: 成功生成UI -> ", scene.resource_path.get_file())
 		return canvas
 	else:
 		# 不是有效的UI，清理并返回null

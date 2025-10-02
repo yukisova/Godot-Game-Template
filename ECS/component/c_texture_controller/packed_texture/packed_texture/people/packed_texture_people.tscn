@@ -3,7 +3,7 @@
 [ext_resource type="Shader" uid="uid://ybp62d200rx5" path="res://resource/shader/纹理闪烁.gdshader" id="1_e4yeb"]
 [ext_resource type="Script" uid="uid://bpx3sbnjyivcx" path="res://component/c_texture_controller/packed_texture/packed_texture/people/packed_texture_people.gd" id="1_q1wl7"]
 [ext_resource type="Texture2D" uid="uid://b7owcyhft6c20" path="res://asset/char_set/测试用角色.png" id="2_e4yeb"]
-[ext_resource type="Script" uid="uid://clawe2mmb85cx" path="res://component/c_texture_controller/packed_texture/texture_lib.gd" id="3_jgvai"]
+[ext_resource type="Script" uid="uid://clawe2mmb85cx" path="res://component/c_texture_controller/packed_texture/main_sprite.gd" id="3_jgvai"]
 [ext_resource type="Script" uid="uid://borj824dr1kti" path="res://component/c_texture_controller/packed_texture/packed_texture/packed_part.gd" id="3_q7rp6"]
 [ext_resource type="Script" uid="uid://b22bewae7u4dq" path="res://component/c_texture_controller/packed_texture/packed_texture/people/ps_editor_people.gd" id="4_jgvai"]
 

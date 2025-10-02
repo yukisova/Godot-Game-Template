@@ -32,8 +32,6 @@ extends UIController
 ## 主菜单设置
 ## 初始化音频、动画和按钮事件绑定
 func _initilize_info(_context: Dictionary) -> void:
-	await ready
-
 	ui_model._initialize({})
 	ui_view._initialize({
 		"ui_controller": self

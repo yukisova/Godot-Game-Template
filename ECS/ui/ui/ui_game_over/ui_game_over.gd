@@ -4,8 +4,6 @@ extends UIController
 @export var label: Label
 
 func _initilize_info(_context: Dictionary) -> void:
-	await ready
-
 	var type = _context["type"]
 	match type:
 		0:

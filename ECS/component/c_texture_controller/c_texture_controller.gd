@@ -17,6 +17,10 @@ var packed_sprite: IPackedSprite
 			unwatchable = v
 			SMapData.current_level.entity_state_manager.hidding_entities.append(component_owner)
 
+## 当前高度，用于辅助碰撞
+var current_height: float = 16
+
+
 func _enter_tree() -> void:
 	component_name = ComponentName.C_TEXTURE_CONTROLLER
 
@@ -41,7 +45,8 @@ func _update(_delta: float):
 		packed_sprite._update(_delta)
 
 func _reset():
-	packed_sprite._reset()
+	if packed_sprite:
+		packed_sprite._reset()
 
 #region :存档系统:
 func _save() -> Dictionary:

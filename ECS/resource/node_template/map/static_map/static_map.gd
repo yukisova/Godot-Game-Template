@@ -76,7 +76,6 @@ func _enter_tree() -> void:
 		SSignalBus.game_loop_start.connect(_on_game_loop_start)
 
 func _on_game_loop_start():
-	SUiSpawner._get_hud("transition").fade_in()
 	## 初始化所有层级的后期组件—确保迷雾和房间系统正确初始化
 	for level in levels_array:
 		level._late_initialize()
@@ -91,7 +90,8 @@ func _on_game_loop_start():
 	if decal_path:
 		var decal_scene: PackedScene = load(decal_path)
 		SObjectPool.register_pool("decal", decal_scene, 10)
-
+	SUiSpawner._get_hud("transition").try_show()
+	SUiSpawner._get_hud("transition").fade_in()
 
 func _on_level_fully_loaded():
 	level_loaded_count += 1

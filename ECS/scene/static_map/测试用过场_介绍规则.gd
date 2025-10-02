@@ -5,18 +5,15 @@ extends ICutscene
 func _start():
 	await get_tree().process_frame
 	
-	var entity_state_manager : LCEntityStates = SMapData.current_level.entity_state_manager
+	var rooms: LCRooms = SMapData.current_level.rooms
 	var player: IEntity = SMainController._get_player_info_by_index(0)
-	entity_state_manager.set_all_entity_visible([player], false)
-	entity_state_manager.set_all_tilemap_layer_visible([], false)
+	rooms.current_room.is_room_visible = false
 	
 	SUiSpawner._hide_all_hud([])
 	await start_dialogue(load(dialogue_resource), "talk_start_prototype", {})
-	SUiSpawner._hide_all_hud([""])
-	entity_state_manager.set_all_entity_visible([], true)
-	entity_state_manager.set_all_tilemap_layer_visible([], true)
+	SUiSpawner._hide_all_hud(["", "transition"])
 
-
+	rooms.current_room.is_room_visible = true
 
 func _finished():
 	pass

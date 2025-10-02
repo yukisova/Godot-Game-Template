@@ -4,8 +4,8 @@
 [ext_resource type="Script" uid="uid://ilvu417xg56w" path="res://component/c_texture_controller/packed_texture/packed_texture/ball/ps_editor_ball.gd" id="2_a4vqd"]
 [ext_resource type="Texture2D" uid="uid://bm3u42eopcqca" path="res://asset/sightlight_21gj/原型_小圆球.png" id="2_jj7oq"]
 [ext_resource type="Script" uid="uid://borj824dr1kti" path="res://component/c_texture_controller/packed_texture/packed_texture/packed_part.gd" id="2_tguvx"]
-[ext_resource type="Script" uid="uid://clawe2mmb85cx" path="res://component/c_texture_controller/packed_texture/texture_lib.gd" id="2_wyr4q"]
-[ext_resource type="Script" uid="uid://bckovp82ds7j5" path="res://component/c_texture_controller/packed_texture/texture_lib_record.gd" id="3_70hgh"]
+[ext_resource type="Script" uid="uid://clawe2mmb85cx" path="res://component/c_texture_controller/packed_texture/main_sprite.gd" id="2_wyr4q"]
+[ext_resource type="Script" uid="uid://bckovp82ds7j5" path="res://component/c_texture_controller/packed_texture/sprite_lib_record.gd" id="3_70hgh"]
 
 [sub_resource type="Gradient" id="Gradient_tuh6x"]
 offsets = PackedFloat32Array(0.7268519, 0.875)

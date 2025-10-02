@@ -118,7 +118,6 @@ func _update(_delta: float):
 	
 	## 2. 更新朝向方向
 	if !toward_direction_target.is_equal_approx(toward_direction_current):
-		print("更新朝向", toward_direction_current)
 		var rotate_lerp_angle = lerp_angle(toward_direction_current.angle(), toward_direction_target.angle(), _delta * 10)
 		toward_direction_current = Vector2.RIGHT.rotated(rotate_lerp_angle)
 

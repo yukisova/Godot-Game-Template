@@ -11,7 +11,7 @@ projectile_scene = ExtResource("2_lv1lq")
 "随机散射数量" = Vector2i(3, 8)
 "随机距离范围区间" = Vector2(100, 400)
 "角度偏移区间" = 30.0
-fire_point = NodePath("ControlNode/FirePoint")
+fire_point = NodePath("")
 texture = NodePath("ControlNode/Sprite2D")
 
 [node name="ControlNode" type="Node2D" parent="."]
@@ -20,6 +20,3 @@ scale = Vector2(0.5, 0.5)
 
 [node name="Sprite2D" type="Sprite2D" parent="ControlNode"]
 texture = ExtResource("4_cb1wa")
-
-[node name="FirePoint" type="Marker2D" parent="ControlNode"]
-position = Vector2(8, 0)

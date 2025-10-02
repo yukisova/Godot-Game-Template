@@ -35,6 +35,9 @@ func __interact_begin(_target_entity: IEntity):
 	
 	# 尝试添加物品到背包
 	var success = inventory_extension.auto_add_inventory(binding_item.duplicate(true))
+	if binding_item is ItemEquipment or binding_item is ItemWeapon:
+		var scene = load("res://ui/ui/ui_tip/ui_tip.tscn")
+		SUiSpawner._spawn_ui(scene, {"tip_type": 0, "item": binding_item.duplicate(true)})
 	
 	if success:
 		print("拾取交互: 成功拾取物品 -> ", binding_item.item_name)

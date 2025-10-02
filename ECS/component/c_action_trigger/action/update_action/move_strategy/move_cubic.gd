@@ -1,10 +1,4 @@
-## 抛物线移动策略 - 实现抛物线移动的移动策略
-## 具有自动销毁机制，当到达目标位置或超时时会自动删除实体
-## 移动特性：抛物线移动、基于目标位置的自动导航、超时自动销毁机制
-## 适用场景：子弹飞行、投掷物移动、魔法弹道、临时特效对象
-## 架构设计：继承自 [IUpdateAction] 基类，与 [TempEntity] 的生命周期集成
-## [br][b]编辑者:[/b] Sora
-class_name MoveStrategyCubic
+class_name MoveStrategyCurve
 extends MoveStrategy
 
 ## 移动方向向量
@@ -18,11 +12,15 @@ var target_range: float
 ## 当前的已经发射的距离
 var current_range: float = 0.0
 
-## 抛物线曲线，用于计算子弹在特定时间点的高度
-@export var curve: Curve2D
+var path: Path2D
 
 ## 距离阈值，用于判断实体是否到达目标位置
 @export var range_threshold: float = 10.0
+
+func _ready() -> void:
+	for i in get_children():
+		if i is Path2D:
+			path = i
 
 ## 验证实体类型，在落地的时候进行销毁
 func _initialize():
@@ -32,7 +30,11 @@ func _initialize():
 	# 验证实体类型兼容性
 	direction = c_action.get_value("start_direction", Vector2.RIGHT)
 	target_range = c_action.get_value("target_range", 200.0)
-
+	
+	var c_texture_controller = c_action.get_other_component(IComponent.ComponentName.C_TEXTURE_CONTROLLER)
+	var new_height = path.curve.sample(0, 0).y
+	c_texture_controller.current_height = new_height
+	
 	## 初始位置为实体位置
 	current_range = 0.0
 
@@ -50,16 +52,19 @@ func _initialize():
 ## [param _delta]: 帧时间间隔
 func _update(_delta: float):
 	# 应用高速直线移动
-	c_action.component_body.velocity = direction * 10000 * _delta
+	c_action.component_body.velocity = direction * 50000 * _delta
 
-	current_range += 10000 * _delta * _delta
+	current_range += 50000 * _delta * _delta
 	
 	# 检测移动状态变化
 	_detect_state()
 	
 	var c_texture_controller = c_action.get_other_component(IComponent.ComponentName.C_TEXTURE_CONTROLLER)
+	
+	## 更新当前的高度以及当前的
 	if c_texture_controller:
-		c_texture_controller.packed_sprite.packed_sprite_editor.current_range_ratio = current_range/target_range
+		var new_height = path.curve.sample(0, current_range/target_range).y
+		c_texture_controller.current_height = new_height
 
 	# 检查生命周期
 	if current_range > target_range - range_threshold:
@@ -88,10 +93,6 @@ func get_current_speed() -> float:
 	if c_action.component_body is CharacterBody2D:
 		return c_action.component_body.velocity.length()
 	return 0.0
-
-func get_current_height() -> float:
-	var result = abs(curve.sample(0, current_range/target_range).y)
-	return result
 	
 func _detect_state():
 	var should_be_moving = current_range > target_range - range_threshold

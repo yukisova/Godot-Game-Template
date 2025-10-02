@@ -110,6 +110,8 @@ func _initialize():
 	ui_model._initialize({
 		"hud_controller": self
 	})
+	
+	
 
 func _ready() -> void:
 	balloon.hide()

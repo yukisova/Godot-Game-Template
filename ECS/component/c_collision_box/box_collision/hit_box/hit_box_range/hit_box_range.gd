@@ -2,12 +2,11 @@
 class_name HitboxRange
 extends IHitbox
 
-## 最大命中高度，超过该高度则不进行命中判定，该参数用于处理抛物线移动的子弹，
 @export var max_hit_height: float = 0.0
-@export var move_strategy: IUpdateAction
 
 func _update(_delta: float):
-	if move_strategy.get_current_height() > max_hit_height:
+	var c_texture_controller: CTextureController = c_collision.get_other_component(IComponent.ComponentName.C_TEXTURE_CONTROLLER)
+	if c_texture_controller.get_current_height() > max_hit_height:
 		monitorable = false
 		monitoring = false
 		for i in get_children():

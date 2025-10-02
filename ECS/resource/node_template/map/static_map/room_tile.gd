@@ -11,10 +11,18 @@ extends Node2D
 			factor_modulate = Color.WHITE
 		else:
 			factor_modulate = Color.TRANSPARENT
- 
+var tween: Tween 
+
+
 var factor_modulate: Color = Color.WHITE:
-	set(v):
+	set(v): 
 		factor_modulate = v
-		for i in belongs_entities:
-			i.modulate = factor_modulate
-		modulate = factor_modulate
+		if is_node_ready():
+			tween = get_tree().create_tween()
+			tween.tween_property(self, "modulate", factor_modulate, 0.5)
+			for i in belongs_entities:
+				tween.set_parallel(true).tween_property(i, "modulate", factor_modulate, 0.5)
+		else:
+			modulate = factor_modulate
+			for i in belongs_entities:
+				i.modulate = factor_modulate
