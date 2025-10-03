@@ -19,6 +19,9 @@ signal entity_initialize_started
 ## 实体初始化完毕，已经可以正常开始游戏
 signal game_data_loaded_compelete
 
+@warning_ignore("unused_signal")
+signal game_data_preloaded
+
 ## 游戏循环开始信号
 ## 标志着游戏主循环的正式启动
 @warning_ignore("unused_signal")
@@ -60,10 +63,6 @@ func _setup():
 				current_state.update_trigger = true
 			else:
 				printerr("信号总线错误: gameloaded触发后应该在GameStartTransition状态，当前状态: ", current_state.name)
-		
-		# TODO: 处理切换地图的情况
-		#elif current_state is GamingChildStateMachine:
-		#	...
 		)
 
 	game_overed.connect(func(type: int):

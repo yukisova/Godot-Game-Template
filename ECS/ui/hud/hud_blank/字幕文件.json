@@ -1,0 +1,18 @@
+{
+	"醒来吧，孩子。": {
+		"x": 100,
+		"y": 100,
+		"start_duration": 1,
+		"keep_duration": 1,
+		"end_duration": 1,
+		"font_size": 32
+	},
+	"索拉工作室出品": {
+		"x": 100,
+		"y": 100,
+		"start_duration": 1,
+		"keep_duration": 1,
+		"end_duration": 1,
+		"font_size": 32
+	}
+}

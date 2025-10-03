@@ -28,11 +28,13 @@ func _ready():
 	if viewport:
 		viewport.handle_input_locally = false # 输入由主视口处理
 
-func _process(_delta: float) -> void:
+func _physics_process(_delta: float) -> void:
 	if temp_target:
 		camera.position = temp_target.global_position
 	elif camera_strategy:
 		camera_strategy._strategy(self, _delta)
+	if camera_target:
+		camera.get_parent().global_position = camera_target.global_position
 
 ## 设置视口分割配置
 ## [param type]: 分割类型
@@ -230,7 +232,3 @@ func get_local_camera_position(world_pos: Vector2) -> Vector2:
 	if camera and is_instance_valid(camera):
 		return world_pos - camera.get_screen_center_position()
 	return world_pos
-
-func _physics_process(_delta: float) -> void:
-	if camera_target:
-		camera.get_parent().global_position = camera_target.global_position

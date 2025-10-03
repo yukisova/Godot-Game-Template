@@ -1,0 +1,30 @@
+[gd_scene load_steps=6 format=3 uid="uid://xv0vin6hq3vv"]
+
+[ext_resource type="PackedScene" uid="uid://bavog73s6cd1p" path="res://ui/ui_controller.tscn" id="1_auyrg"]
+[ext_resource type="Script" uid="uid://cpymc0eknem0l" path="res://ui/hud/hud_blank/hud_blank.gd" id="2_p31jv"]
+[ext_resource type="Shader" uid="uid://40dwo8p5cul0" path="res://resource/shader/模糊.gdshader" id="3_pu27b"]
+[ext_resource type="Script" uid="uid://dc4xsiygpleso" path="res://ui/hud/hud_blank/view_hud_blank.gd" id="3_ssdlc"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_rjfww"]
+shader = ExtResource("3_pu27b")
+shader_parameter/lod = 0.0
+
+[node name="HudBlank" instance=ExtResource("1_auyrg")]
+script = ExtResource("2_p31jv")
+
+[node name="View" parent="." index="0" node_paths=PackedStringArray("text_prototype")]
+script = ExtResource("3_ssdlc")
+text_prototype = NodePath("Control/TextPrototype")
+
+[node name="Control" type="Control" parent="View" index="0"]
+visible = false
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="TextPrototype" type="Label" parent="View/Control" index="0"]
+material = SubResource("ShaderMaterial_rjfww")
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+text = "你好"

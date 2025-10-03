@@ -13,9 +13,20 @@ signal level_component_initialized
 
 @export_group("依赖")
 @export var camera_limit: Control						# 相机限制
-@export var rooms: LCRooms								# 房间
-@export var entity_state_manager: LCEntityStates		# 层级对象池(同时也是实体状态管理器)
-@export var entity_data_injecter: LCEntityDataInjecter	# 实体数据注入器
+@export var rooms: LCRooms:								# 房间
+	set(v):
+		rooms = v
+		rooms.belongs_level = self
+
+@export var entity_state_manager: LCEntityStates:		# 层级对象池(同时也是实体状态管理器)
+	set(v):
+		entity_state_manager = v
+		entity_state_manager.belongs_level = self
+
+@export var entity_data_injecter: LCEntityDataInjecter:	# 实体数据注入器
+	set(v):
+		entity_data_injecter = v
+		entity_data_injecter.belongs_level = self
 
 @export var level_fog: Fog								# 迷雾
 @export var paint_floors: PaintFloor					# 血迹地板
@@ -62,7 +73,6 @@ func _on_entity_initialize():
 func _check_all_layers_loaded():
 	if layers_loaded_count == layers_count:
 		level_fully_loaded.emit()
-
 
 func _check_all_entity_initialize():
 	if entity_loaded_count == entity_count:

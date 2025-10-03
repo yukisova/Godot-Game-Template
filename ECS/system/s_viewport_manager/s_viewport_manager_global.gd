@@ -15,7 +15,6 @@ enum MouseMode {
 @export var is_horizontal_split_viewport: bool
 @export var camera_viewport_scene: PackedScene
 @export var game_viewport_grid: GridContainer
-@export var camera_follow_strategy: Array[CameraFollowStrategy]
 
 var _mouse_locked: bool = false
 var _last_mouse_position: Vector2 = Vector2.ZERO
@@ -31,7 +30,7 @@ func _setup():
 	get_viewport().size_changed.connect(_on_main_viewport_resized)
 	## 监听输入事件
 	get_viewport().gui_focus_changed.connect(_on_gui_focus_changed) ## 完成游戏数据加载之后，会正式开始
-	SSignalBus.game_loop_start.connect(_setup_viewports_for_play_type)
+	SSignalBus.game_data_preloaded.connect(_setup_viewports_for_play_type)
 
 func _resetup():
 	clear_all_viewports()
@@ -384,10 +383,7 @@ func _on_gui_focus_changed(_control: Control):
 func _setup_viewports_for_play_type():
 	_refresh_players_viewport(true)
 	for i in camera_viewports.size():
-		if camera_follow_strategy.size() > i:
-			camera_viewports[i].camera_strategy = camera_follow_strategy[i]
-		else:
-			break
+		camera_viewports[i].camera_strategy = CFSAttachPlayer.new()
 
 ## 刷新viewport(将camera_target重新进行绑定)
 func _refresh_viewports():
@@ -466,13 +462,17 @@ func camera_shake(camera_target: Node2D, effect_strength: float = 1.0, effect_ti
 		await camera_tween.finished
 		camera_2d.offset = Vector2.ZERO
 
+func camera_strategy_change(camera_target: Node2D, strategy: CameraFollowStrategy):
+	var camera_viewport = get_viewport_container(camera_target)
+	if camera_viewport:
+		camera_viewport.camera_strategy = strategy
+
 func camera_zoom_change_immediately(camera_target: Node2D, zoom: Vector2):
 	var camera_viewport = get_viewport_container(camera_target)
 	var camera_2d: Camera2D
 	if camera_viewport:
 		camera_2d = camera_viewport.camera
 	else:
-		print("未找到相机节点")
 		return
 	camera_2d.zoom = zoom
 

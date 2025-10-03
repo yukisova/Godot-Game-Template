@@ -3,6 +3,7 @@ class_name Room
 extends Node2D
 
 ## 位于本层的实体
+var rooms: LCRooms
 @export var belongs_entities: Array[IEntity]
 @export var is_room_visible: bool:
 	set(v):
@@ -26,3 +27,6 @@ var factor_modulate: Color = Color.WHITE:
 			modulate = factor_modulate
 			for i in belongs_entities:
 				i.modulate = factor_modulate
+
+func get_belongs_level() -> Level:
+	return rooms.belongs_level

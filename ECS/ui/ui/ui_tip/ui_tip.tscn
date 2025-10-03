@@ -1,6 +1,6 @@
 [gd_scene load_steps=8 format=3 uid="uid://ggnh1gsw6fql"]
 
-[ext_resource type="PackedScene" uid="uid://bavog73s6cd1p" path="res://ui/i_ui.tscn" id="1_8dljo"]
+[ext_resource type="PackedScene" uid="uid://bavog73s6cd1p" path="res://ui/ui_controller.tscn" id="1_8dljo"]
 [ext_resource type="Script" uid="uid://2uar6rfhd1w1" path="res://ui/ui/ui_tip/ui_tip.gd" id="2_a6t5l"]
 [ext_resource type="Script" uid="uid://4x68gohit6ym" path="res://ui/ui/ui_tip/view_ui_tip.gd" id="3_2dwen"]
 [ext_resource type="Shader" uid="uid://40dwo8p5cul0" path="res://resource/shader/模糊.gdshader" id="4_s6hky"]

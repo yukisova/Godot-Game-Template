@@ -66,7 +66,7 @@ func _enter_tree() -> void:
 			level_count += 1
 	
 	# 确保所有level的后期初始化始终被执行（修复迷雾系统bug）
-	SMapData.map_register_finished.connect(_initialize_all_levels)
+	SMapData.map_regist_finished.connect(_initialize_all_levels)
 	
 	if cutscene_enable:
 		for cutscene in autoload_cutscene.get_children():

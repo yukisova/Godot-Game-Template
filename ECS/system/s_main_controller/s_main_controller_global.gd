@@ -63,33 +63,28 @@ func _get_player_info_by_name(player_name: String) -> IEntity:
 			return player_static[i]
 	return null
 
+## 加载玩家的出生点信息
 func _on_player_located(target_level: Level, _context: Dictionary):
 	match _context.get("type", "Initialize"):
 		"Initialize":
-			if (!player_static.is_empty()):
-				var index: int = 0
-				for player: IEntity in player_static.values():
-					player.reparent(target_level)
-					player.global_position = _context[index]["start_position"]
-					player.main_control.global_position = _context[index]["current_position"]
-			else:
-				for i in play_type + 1:
-					var player_context = _context.get(i, null)
-					if player_context != null:
-						var player_scene_path = player_context.get("scene_file_path",null)
-						var player_record_info = PlayerRecordInfo.new(i)
-						if player_scene_path != null:
-							player_scene[i] = load(player_scene_path)
-						player_static[player_record_info] = player_scene[i].instantiate()
-						player_static[player_record_info].global_position = _context[i]["start_position"]
-						player_static[player_record_info].main_control.global_position = _context[i]["current_position"]
-						target_level.add_child(player_static[player_record_info])
-						target_level.entity_count += 1
-						
-						player_static[player_record_info].initialize_complete.connect(func():
-							target_level._on_entity_initialize()
-							SUiSpawner.current_hud[&""].binding_entitys.append(player_static[player_record_info])
-						)
+			var spawn_info = _context.get("spawn_info", {})
+			for i in play_type + 1:
+				var player_context = spawn_info.get(i, null)
+				if player_context != null:
+					var player_scene_path = player_context.get("player_scene_path")
+					var player_record_info = PlayerRecordInfo.new(i)
+					if player_scene_path != null:
+						player_scene[i] = load(player_scene_path)
+					player_static[player_record_info] = player_scene[i].instantiate()
+					player_static[player_record_info].global_position = player_context["start_position"]
+					player_static[player_record_info].main_control.global_position = player_context["current_position"]
+					target_level.add_child(player_static[player_record_info])
+					target_level.entity_count += 1
+					
+					player_static[player_record_info].initialize_complete.connect(func():
+						target_level._on_entity_initialize()
+						# SUiSpawner.current_hud[&""].binding_entitys.append(player_static[player_record_info])
+					)
 		"Transport":
 			if !player_static.is_empty():
 				var target_point: TransportPoint = _context["target_point"]
@@ -105,8 +100,9 @@ func _on_player_located(target_level: Level, _context: Dictionary):
 		_:
 			push_error("未知的玩家初始化信息类型: %s" % _context.get("type", "Initialize"))
 	
+	## 这里会重新设计，在主菜单中获取了允许开始游戏的信号后，才会开始游戏
 	SSignalBus.entity_initialize_started.emit()
-	Main.entity_initialzable = true
+	# Main.entity_initialzable = true
 
 func get_input_target(entity: IEntity) -> SoraConstant.InputTarget:
 	if entity == _get_player_info_by_index(0):

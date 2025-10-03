@@ -11,16 +11,17 @@ var current_room: Room:
 		current_room = v
 		current_room.is_room_visible = true
 
-
 func _enter_tree():
 	room_changed.connect(_on_room_changed)
 
-func _initialize():
+func _ready() -> void:
 	for room in get_children():
 		if room is Room:
 			room_list.append(room)
 			room.is_room_visible = false
-		
+			room.rooms = self
+
+func _initialize():
 	if SMapData.current_map.player_spawns[0].current_room in room_list:
 		current_room = SMapData.current_map.player_spawns[0].current_room
 

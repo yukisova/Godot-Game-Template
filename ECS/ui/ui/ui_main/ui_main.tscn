@@ -1,9 +1,8 @@
-[gd_scene load_steps=10 format=3 uid="uid://c8qw0qwk7xvms"]
+[gd_scene load_steps=9 format=3 uid="uid://c8qw0qwk7xvms"]
 
-[ext_resource type="PackedScene" uid="uid://bavog73s6cd1p" path="res://ui/i_ui.tscn" id="1_4fbp4"]
+[ext_resource type="PackedScene" uid="uid://bavog73s6cd1p" path="res://ui/ui_controller.tscn" id="1_4fbp4"]
 [ext_resource type="Script" uid="uid://fqkh2lkuaxp4" path="res://ui/ui/ui_main/ui_main.gd" id="1_8moro"]
 [ext_resource type="Theme" uid="uid://cbvflgkah1pwb" path="res://resource/resource_template/basic_theme.tres" id="2_1q3r7"]
-[ext_resource type="Texture2D" uid="uid://lepubibq4jmd" path="res://asset/sightlight_gj/索拉的世界-logo.png" id="2_mqo0q"]
 [ext_resource type="Script" uid="uid://b77vti74tgrbe" path="res://ui/ui_c/func_button.gd" id="3_3ko51"]
 [ext_resource type="Script" uid="uid://jmm3rxvhbstb" path="res://ui/ui/ui_main/view_ui_main.gd" id="3_xlgux"]
 [ext_resource type="Script" uid="uid://22228lam2w6p" path="res://ui/ui_c/link_button.gd" id="5_63x8v"]
@@ -30,19 +29,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="TextureRect" type="TextureRect" parent="View/Control" index="0"]
-layout_mode = 1
-anchors_preset = 4
-anchor_top = 0.5
-anchor_bottom = 0.5
-offset_top = -202.0
-offset_right = 800.0
-offset_bottom = -2.0
-grow_vertical = 2
-texture = ExtResource("2_mqo0q")
-stretch_mode = 2
-
-[node name="MarginContainer" type="MarginContainer" parent="View/Control" index="1"]
+[node name="MarginContainer" type="MarginContainer" parent="View/Control" index="0"]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 1.0
@@ -74,7 +61,7 @@ custom_minimum_size = Vector2(300, 80)
 layout_mode = 2
 text = "测试游戏"
 script = ExtResource("3_3ko51")
-args = ["res://scene/static_map/m_03_医院.tscn"]
+args = ["res://scene/static_map/m_00_家.tscn"]
 
 [node name="StartGame" type="Button" parent="View/Control/MarginContainer/VBoxContainer" index="2"]
 custom_minimum_size = Vector2(300, 80)

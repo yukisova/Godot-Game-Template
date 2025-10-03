@@ -8,11 +8,13 @@ extends CameraFollowStrategy
 
 ## 平滑度参数
 ## 控制相机移动的平滑程度，值越小移动越平滑但响应越慢
-@export_range(0.0, 1.0, 0.01) var smoothing: float = 0.1
-
+var smoothing: float
 ## 静态区域半径
 ## 鼠标在此区域内时相机不会移动，避免微小的鼠标移动造成相机抖动
 const STATIC_ZONE = 20.0
+
+func _init(_smoothing: float = 0.1) -> void:
+	smoothing = _smoothing
 
 ## 执行鼠标跟随策略，根据鼠标相对于实体的位置计算相机偏移，并应用平滑过渡
 ## [param c_camera]: 相机组件

@@ -1,17 +1,16 @@
 [gd_scene load_steps=4 format=3 uid="uid://bnl0vt21ig8ew"]
 
 [ext_resource type="Script" uid="uid://c7e6fjp3n5sh0" path="res://resource/custom_resource/item/item_weapon/1_左轮/attack_node_REVOVLER.gd" id="1_sukg7"]
-[ext_resource type="PackedScene" uid="uid://s3kgafr5scpa" path="res://entity/entity_packed/temp_entity/projectile/抛物线子弹.tscn" id="2_lv1lq"]
+[ext_resource type="PackedScene" uid="uid://s3kgafr5scpa" path="res://entity/entity_packed/temp_entity/projectile/直线飞行子弹.tscn" id="2_lv1lq"]
 [ext_resource type="Texture2D" uid="uid://basdlbyaxh5fp" path="res://asset/item_texture/Desert Eagle.png" id="4_cb1wa"]
 
-[node name="左轮" type="Node2D" node_paths=PackedStringArray("fire_point", "texture")]
+[node name="左轮" type="Node2D" node_paths=PackedStringArray("texture")]
 script = ExtResource("1_sukg7")
 limit_fire = false
 projectile_scene = ExtResource("2_lv1lq")
 "随机散射数量" = Vector2i(3, 8)
 "随机距离范围区间" = Vector2(100, 400)
 "角度偏移区间" = 30.0
-fire_point = NodePath("")
 texture = NodePath("ControlNode/Sprite2D")
 
 [node name="ControlNode" type="Node2D" parent="."]

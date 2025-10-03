@@ -69,7 +69,7 @@ script = ExtResource("4_thopi")
 y_sort_enabled = true
 script = ExtResource("7_dcwe8")
 
-[node name="LCEntityDataInjecter" type="Node" parent="."]
+[node name="LCEntityDataInjecter" type="Node2D" parent="."]
 script = ExtResource("7_xxvuh")
 
 [node name="MapFilter" type="CanvasModulate" parent="."]

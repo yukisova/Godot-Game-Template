@@ -1,5 +1,5 @@
 class_name LCEntityDataInjecter
-extends Node
+extends LevelComponent
 
 ## 实体数据批量注入器
 ## 负责在地图加载时批量给指定实体注入初始化数据
