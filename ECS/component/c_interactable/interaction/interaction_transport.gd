@@ -6,15 +6,28 @@
 class_name InteractionTransport
 extends IInteraction
 
-@export var target_level_index: int = -1 ## 目标传送层级索引，-1表示不使用
-@export var target_level_name: StringName = &"" ## 目标传送层级名称，空串表示不使用
-@export var target_key: String ## 目标传送点的标识键
-
 ## 如果为空的话，则是基于当前场景进行传送
 @export_group("选填参数")
 @export_file_path("*.tscn") var target_map_path: String = "" ## 目标地图路径
+@export var target_key: String ## 目标传送点的标识键
+@export var target_node: Node2D
+
+var temp_disable: bool = false:
+	set(value):
+		if value:
+			temp_disable = true
+			await get_tree().create_timer(1.0).timeout
+			temp_disable = false
 
 func __interact_begin(interactor: IEntity) -> void:
+
+	while temp_disable and _check_collision():
+		await get_tree().create_timer(1).timeout
+	
+	### 有可能经过循环延迟后，物体已经离开碰撞区域，因此需要进行再次检查
+	#if ! _check_collision():
+		#return
+
 	var map_to_load: PackedScene 
 	
 	# 如果没有直接引用但有路径，则动态加载
@@ -23,23 +36,16 @@ func __interact_begin(interactor: IEntity) -> void:
 	
 	if map_to_load != null:
 		SMapData.map_changed.emit(map_to_load, {
-			"target_level_name": target_level_name,
-			"target_level_index": target_level_index,
 			"target_key": target_key
 		})
 	else:
-		var target_level: Level
-		if target_level_index != -1:
-			target_level = SMapData.current_map.get_level_by_index(target_level_index)
-		elif target_level_name != &"":
-			target_level = SMapData.current_map.get_level_by_name(target_level_name)
-		else:
-			target_level = SMapData.current_level
-
-		if target_level != null:
-			SMapData.level_changed.emit(interactor, target_level, binding_entity.global_position)
+		if target_node != null:
+			SMapData.level_changed.emit(interactor, target_node)
 		else:
 			push_error("传送时未检测到目标楼层，请检查传送点配置")
 
 func __interact_reset() -> void:
 	pass
+
+func _check_collision() -> bool:
+	return false

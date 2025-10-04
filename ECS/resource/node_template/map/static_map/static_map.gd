@@ -57,16 +57,13 @@ func _enter_tree() -> void:
 			# 创建一个子视口，用于隔离level的渲染
 			var viewport = SubViewport.new()
 			levels.add_child(viewport)
-			level.reparent(viewport)
+			level.reparent.call_deferred(viewport)
 			levels_array.append(level)
 
 			level.level_fully_loaded.connect(_on_level_fully_loaded)
 			level.level_entity_fully_initialize.connect(_on_level_entity_fully_loaded)
 			level.static_map = self
 			level_count += 1
-	
-	# 确保所有level的后期初始化始终被执行（修复迷雾系统bug）
-	SMapData.map_regist_finished.connect(_initialize_all_levels)
 	
 	if cutscene_enable:
 		for cutscene in autoload_cutscene.get_children():
@@ -110,58 +107,4 @@ func _save(data: SavedDataFile):
 		map_result.merge(level._save_as(data))
 	
 	data.level_info = map_result
-#endregion
-
-## 工具方法
-func get_level_by_name(_name: StringName) -> Level:
-	for level in levels.get_children():
-		if level is Level and level.name == _name:
-			return level
-	return null
-
-func get_level_by_index(_index: int) -> Level:
-	var i = 0
-	for level in levels.get_children():
-		if level is Level:
-			if i == _index:
-				return level
-			i += 1
-	return null
-
-#region :楼层碰撞导航统一管理:
-
-func disable_all_levels_collision_navigation():
-	for level in levels.get_children():
-		if level is Level:
-			level.disable_all_collision_navigation()
-	print("静态地图: 已禁用所有楼层的碰撞导航")
-
-func enable_level_collision_navigation_only(target_level: Level):
-	# 先禁用所有楼层
-	disable_all_levels_collision_navigation()
-	# 然后只启用指定楼层
-	if target_level and target_level.get_parent() == levels:
-		target_level.enable_all_collision_navigation()
-		print("静态地图: 仅楼层 ", target_level.level_id, " 的碰撞导航已启用")
-	else:
-		push_warning("静态地图: 无效的目标楼层，无法启用碰撞导航")
-
-func get_collision_navigation_enabled_levels() -> Array[Level]:
-	var enabled_levels: Array[Level] = []
-	for level in levels.get_children():
-		if level is Level and level.is_collision_navigation_enabled():
-			enabled_levels.append(level)
-	return enabled_levels
-
-func is_single_level_collision_navigation_enabled() -> bool:
-	var enabled_count = get_collision_navigation_enabled_levels().size()
-	return enabled_count == 1
-
-func _initialize_all_levels():
-	print("静态地图: 开始初始化所有层级的后期组件...")
-	for level in levels.get_children():
-		if level is Level:
-			level._late_initialize()
-			print("静态地图: 层级 %s 后期初始化完成" % level.name)
-
 #endregion

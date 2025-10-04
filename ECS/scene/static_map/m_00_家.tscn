@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=4 uid="uid://bb3uay1kkcy8r"]
+[gd_scene load_steps=9 format=4 uid="uid://bb3uay1kkcy8r"]
 
 [ext_resource type="PackedScene" uid="uid://dx8lfcn7h43ea" path="res://resource/node_template/map/static_map/static_map.tscn" id="1_2ftsl"]
 [ext_resource type="AudioStream" uid="uid://cshvyslspontd" path="res://asset/audio/旖旎飞雪 - 02 Walking.ogg" id="2_unjh2"]
@@ -6,6 +6,10 @@
 [ext_resource type="PackedScene" uid="uid://bpgehe2mpq46i" path="res://resource/node_template/map/static_map/room.tscn" id="4_2ftsl"]
 [ext_resource type="PackedScene" uid="uid://de3o6pll5kxdx" path="res://resource/node_template/map/static_map/player_spawn.tscn" id="5_byjdj"]
 [ext_resource type="PackedScene" uid="uid://bb7tcmx03rrou" path="res://entity/entity_packed/object_entity/checkable_point/门/水平门.tscn" id="6_unjh2"]
+[ext_resource type="PackedScene" uid="uid://dofu8tj40v5it" path="res://entity/entity_packed/object_entity/transport_point/transport_point.tscn" id="7_h2vp5"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_h2vp5"]
+size = Vector2(32, 8)
 
 [node name="m_家里" node_paths=PackedStringArray("player_spawns") instance=ExtResource("1_2ftsl")]
 bg_music = ExtResource("2_unjh2")
@@ -16,7 +20,6 @@ cutscene_enable = false
 [node name="Level" parent="Levels" index="0" instance=ExtResource("3_h2vp5")]
 is_need_fog = false
 time = 0.0
-level_id = 0
 
 [node name="CameraLimit" parent="Levels/Level" index="0"]
 anchors_preset = -1
@@ -51,21 +54,56 @@ tile_map_data = PackedByteArray("AAAGAPn/AQABAAgAAAAHAPn/AQABAAgAAAAIAPn/AQABAAg
 [node name="天花板" parent="Levels/Level/LCRooms/RoomTile2" index="3"]
 tile_map_data = PackedByteArray("AAAPAPj/AQABAAMAAAAOAPj/AQABAAMAAAANAPj/AQABAAMAAAAMAPj/AQABAAMAAAALAPj/AQABAAMAAAAKAPj/AQABAAMAAAAJAPj/AQABAAMAAAAIAPj/AQABAAMAAAAHAPj/AQABAAMAAAAGAPj/AQABAAMAAAAFAPj/AQABAAMAAAAQAPz/AQADAAEAAAAQAPv/AQADAAEAAAAQAPr/AQADAAEAAAAQAPn/AQADAAEAAAAQAPj/AQAHAAAAAAAQAP7/AQADAAIAAAAQAP3/AQADAAEAAAANAPv/AQAHAAAAAAAMAPv/AQABAAMAAAALAPv/AQABAAMAAAAKAPv/AQABAAMAAAAJAPv/AQABAAMAAAAIAPv/AQABAAMAAAAHAPv/AQABAAMAAAAGAPv/AQABAAMAAAAFAPv/AQABAAMAAAANAP7/AQADAAIAAAANAP3/AQADAAEAAAANAPz/AQADAAEAAAADAPv/AQAEAAMAAAADAPr/AQADAAEAAAADAPn/AQADAAEAAAADAPj/AQAEAAAAAAAEAPj/AQABAAMAAAAEAPv/AQABAAMAAAA=")
 
-[node name="PlayerSpawn" parent="Levels/Level" index="2" node_paths=PackedStringArray("current_room") instance=ExtResource("5_byjdj")]
-position = Vector2(135, -13)
-current_room = NodePath("../LCRooms/RoomTile")
-
-[node name="PlayerSpawn2" parent="Levels/Level" index="3" instance=ExtResource("5_byjdj")]
-position = Vector2(161, -14)
-
-[node name="水平门" parent="Levels/Level" index="6" node_paths=PackedStringArray("room_trigger_1_room", "room_trigger_2_room") instance=ExtResource("6_unjh2")]
+[node name="水平门" parent="Levels/Level" index="4" node_paths=PackedStringArray("room_trigger_1_room", "room_trigger_2_room") instance=ExtResource("6_unjh2")]
 modulate = Color(1, 1, 1, 0)
 position = Vector2(136, -50)
 room_trigger_1_room = NodePath("../LCRooms/RoomTile2")
 room_trigger_2_room = NodePath("../LCRooms/RoomTile")
+
+[node name="PlayerSpawn" parent="Levels/Level" index="5" node_paths=PackedStringArray("current_room") instance=ExtResource("5_byjdj")]
+position = Vector2(138, -87)
+current_room = NodePath("../LCRooms/RoomTile2")
+
+[node name="TransportPoint" parent="Levels/Level" index="6" node_paths=PackedStringArray("current_room", "target_level_transport") instance=ExtResource("7_h2vp5")]
+position = Vector2(240, 15)
+current_room = NodePath("../LCRooms/RoomTile2")
+target_level_transport = NodePath("../../Level2/PlayerSpawn2")
+interact_is_passive = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Levels/Level/TransportPoint" index="1"]
+shape = SubResource("RectangleShape2D_h2vp5")
+
+[node name="Level2" parent="Levels" index="1" instance=ExtResource("3_h2vp5")]
+is_need_fog = false
+time = 0.0
+
+[node name="CameraLimit" parent="Levels/Level2" index="0"]
+anchors_preset = -1
+offset_left = -352.0
+offset_top = -218.0
+offset_right = 370.0
+offset_bottom = 378.0
+
+[node name="RoomTile" parent="Levels/Level2/LCRooms" index="0" instance=ExtResource("4_2ftsl")]
+modulate = Color(1, 1, 1, 0)
+
+[node name="地板" parent="Levels/Level2/LCRooms/RoomTile" index="0"]
+tile_map_data = PackedByteArray("AAALAAMAAQAFAAcAAAALAAQAAQAFAAcAAAALAAUAAQAFAAcAAAALAAYAAQAFAAcAAAAMAAMAAQAGAAcAAAAMAAQAAQAGAAcAAAAMAAUAAQAGAAcAAAAMAAYAAQAGAAcAAAANAAMAAQAGAAcAAAANAAQAAQAGAAcAAAANAAUAAQAGAAcAAAANAAYAAQAGAAcAAAAOAAMAAQAGAAcAAAAOAAQAAQAGAAcAAAAOAAUAAQAGAAcAAAAOAAYAAQAGAAcAAAAPAAMAAQAGAAcAAAAPAAQAAQAGAAcAAAAPAAUAAQAGAAcAAAAPAAYAAQAGAAcAAAAQAAMAAQAGAAcAAAAQAAQAAQAGAAcAAAAQAAUAAQAGAAcAAAAQAAYAAQAGAAcAAAARAAMAAQAGAAcAAAARAAQAAQAGAAcAAAARAAUAAQAGAAcAAAARAAYAAQAGAAcAAAASAAMAAQAGAAcAAAASAAQAAQAGAAcAAAASAAUAAQAGAAcAAAASAAYAAQAGAAcAAAATAAMAAQAHAAcAAAATAAQAAQAHAAcAAAATAAUAAQAHAAcAAAATAAYAAQAHAAcAAAALAAcAAQAFAAcAAAALAAgAAQAFAAcAAAAMAAcAAQAGAAcAAAAMAAgAAQAGAAcAAAANAAcAAQAGAAcAAAANAAgAAQAGAAcAAAAOAAcAAQAGAAcAAAAOAAgAAQAGAAcAAAAPAAcAAQAGAAcAAAAPAAgAAQAGAAcAAAAQAAcAAQAGAAcAAAAQAAgAAQAGAAcAAAARAAcAAQAGAAcAAAARAAgAAQAGAAcAAAASAAcAAQAGAAcAAAASAAgAAQAGAAcAAAATAAcAAQAHAAcAAAATAAgAAQAHAAcAAAANAAIAAQAGAAcAAAAOAAIAAQAGAAcAAAAPAAIAAQAGAAcAAAAQAAIAAQAGAAcAAAAOAAEAAQALAAcAAAAPAAEAAQAMAAcAAAA=")
+
+[node name="墙壁" parent="Levels/Level2/LCRooms/RoomTile" index="1"]
+tile_map_data = PackedByteArray("AAALAAIAAQAAAAoAAAALAAkAAQAAAAgAAAAMAAIAAQABAAgAAAAMAAkAAQABAAgAAAANAAkAAQABAAgAAAAOAAkAAQABAAgAAAAPAAkAAQABAAgAAAAQAAIAAQAAAAgAAAAQAAkAAQABAAgAAAARAAIAAQABAAgAAAARAAkAAQABAAgAAAASAAIAAQABAAgAAAASAAkAAQABAAgAAAATAAIAAQACAAoAAAATAAkAAQACAAgAAAANAAIAAQACAAgAAAA=")
+
+[node name="天花板" parent="Levels/Level2/LCRooms/RoomTile" index="3"]
+tile_map_data = PackedByteArray("AAALAAIAAQADAAEAAAALAAEAAQAEAAAAAAALAAMAAQADAAEAAAALAAQAAQADAAEAAAALAAUAAQADAAEAAAALAAYAAQADAAEAAAALAAcAAQADAAEAAAALAAgAAQAEAAMAAAAMAAEAAQABAAMAAAAMAAgAAQABAAMAAAANAAgAAQABAAMAAAAOAAgAAQABAAMAAAAPAAgAAQABAAMAAAAQAAEAAQAAAAMAAAAQAAgAAQABAAMAAAARAAEAAQABAAMAAAARAAgAAQABAAMAAAASAAEAAQABAAMAAAASAAgAAQABAAMAAAATAAEAAQAHAAAAAAATAAIAAQADAAEAAAATAAMAAQADAAEAAAATAAQAAQADAAEAAAATAAUAAQADAAEAAAATAAYAAQADAAEAAAATAAcAAQADAAEAAAATAAgAAQAHAAMAAAANAAEAAQACAAMAAAA=")
+
+[node name="PlayerSpawn2" parent="Levels/Level2" index="4" node_paths=PackedStringArray("current_room") instance=ExtResource("5_byjdj")]
+position = Vector2(240, 26)
+current_room = NodePath("../LCRooms/RoomTile")
 
 [node name="地铁开场" type="Node" parent="AutoLoadCutscene" index="0"]
 
 [editable path="Levels/Level"]
 [editable path="Levels/Level/LCRooms/RoomTile"]
 [editable path="Levels/Level/LCRooms/RoomTile2"]
+[editable path="Levels/Level2"]
+[editable path="Levels/Level2/LCRooms/RoomTile"]

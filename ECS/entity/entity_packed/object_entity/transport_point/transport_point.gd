@@ -10,10 +10,11 @@
 class_name TransportPoint
 extends ObjectEntity
 
+signal transported
+
 ## 传送点类型枚举
 ## 定义传送点支持的三种传送方式
 enum TransportPointType {
-	ROOM,  ## 基于房间的传送
 	LEVEL, ## 基于层级的传送
 	MAP,   ## 基于地图的传送
 }
@@ -25,6 +26,8 @@ enum TransportPointType {
 		transport_point_type = value
 		notify_property_list_changed()
 
+@export var current_room: Room
+
 ## 目标地图路径
 ## 目标地图的路径字符串（避免循环引用）
 @export_file_path("*.tscn") var target_map_path: String = "":
@@ -32,26 +35,17 @@ enum TransportPointType {
 		target_map_path = value
 		notify_property_list_changed()
 
-## 目标层级索引
-## 目标传送层级的数字索引（-1表示使用名称）
-@export_range(-1, 10, 1, "or_greater") var target_level_index: int = -1:
-	set(value):
-		target_level_index = value
-		notify_property_list_changed()
+@export var target_level_transport: Node2D:
+	set(v):
+		if v is PlayerSpawn or v is TransportPoint:
+			target_level_transport = v
 
-## 目标层级名称
-## 目标传送层级的名称标识符
-@export var target_level_name: StringName = &"":
-	set(value):
-		target_level_name = value
-		notify_property_list_changed()
-
-## 传送点标识符
-## 当前传送点的唯一标识符
+## 传送点标识符 : 用于进行地图间传送
+## 当前传送点的static_map内唯一标识符
 @export var transport_point_key: String
 
 ## 目标传送点标识符
-## 目标传送点的唯一标识符
+## 目标传送点的static_map唯一标识符
 @export var target_transport_point_key: String
 
 ## 传送偏移量
@@ -63,51 +57,44 @@ enum TransportPointType {
 @export var interact_is_passive: bool = false
 
 ## 传送禁用状态
-## 是否禁用传送功能，true时无法被其他传送点传送到此处
+## 是否禁用传送功能，true时无法完成传送，从其他传送点传至本传送点的时候，会在角色离开当前
 @export var transport_disable: bool = false
 
-## 地图导出启用
-## 是否将传送点导出到地图系统，true时可被其他地图直接引用
-@export var enable_export_to_map: bool = false
-
-
-@export_group("传送点的依赖")
-
+@export_group("依赖")
 ## 交互组件
 ## 负责处理玩家与传送点的交互
 @export var c_interactable: CInteractable
-
 ## 传送交互
 ## 具体的传送交互逻辑实现
 @export var interaction_transport: InteractionTransport
 
 ## 传送点设置—初始化传送点的碰撞组件和交互系统
 func _setup() -> void:
+	main_control = InteractBox.new()
+	add_child(main_control)
 	for i in get_children():
 		if i is CollisionShape2D or i is CollisionPolygon2D:
 			i.reparent(main_control)
+	transported.connect(_on_transported)
 	_initialize()
 
 ## 传送点初始化—配置传送交互和相关组件的设置
 func _initialize() -> void:
 	# 如果传送点被禁用，则不进行传送
 	var type: InteractionRecord.InteractType = InteractionRecord.InteractType.BodyEntered
-	if transport_disable:
-		type = InteractionRecord.InteractType.Null
+
 	# 动态加入传送交互
 	c_interactable.interactions_resources.append(InteractionRecord.new(type, interact_is_passive, main_control.get_path(), interaction_transport.get_path()))
 
 	await c_interactable._initialize(self)
 	# interaction_transport的数据信息设置
 
-	interaction_transport.target_map_path = target_map_path if transport_point_type == TransportPointType.MAP else ""
-	if transport_point_type == TransportPointType.LEVEL:
-		interaction_transport.target_level_index = target_level_index
-		interaction_transport.target_level_name = target_level_name
-	else:
-		interaction_transport.target_level_index = -1
-		interaction_transport.target_level_name = &""
-	interaction_transport.target_key = target_transport_point_key
+	match transport_point_type:
+		TransportPointType.MAP:
+			interaction_transport.target_map_path = target_map_path
+			interaction_transport.target_key = target_transport_point_key
+		TransportPointType.LEVEL:
+			interaction_transport.target_node = target_level_transport
 
 	initialize_complete.emit()
 
@@ -121,18 +108,18 @@ func _update(_delta: float) -> void:
 func _fixed_update(_delta: float) -> void:
 	pass
 
+func _on_transported() -> void:
+	interaction_transport.temp_disable = true
+
 ## 属性验证—根据传送点类型动态控制编辑器中显示的属性
 ## [param property]: 属性信息字典
 func _validate_property(property: Dictionary) -> void:
 	if property.name == "component_container":
 		property.usage = PROPERTY_USAGE_NO_EDITOR
-	if transport_point_type == TransportPointType.LEVEL:
-		if property.name == "transport_map" or property.name == "target_map_path":
-			property.usage = PROPERTY_USAGE_NO_EDITOR
-		if target_level_index != -1 and property.name == "target_level_name":
-			property.usage = PROPERTY_USAGE_NO_EDITOR
-		if target_level_name != &"" and property.name == "target_level_index":
-			property.usage = PROPERTY_USAGE_NO_EDITOR
-	if transport_point_type == TransportPointType.ROOM:
-		if property.name == "transport_map" or property.name == "target_map_path" or property.name == "target_level_name" or property.name == "target_level_index" or property.name == "target_level_enum":
-			property.usage = PROPERTY_USAGE_NO_EDITOR
+	match transport_point_type:
+		TransportPointType.LEVEL:
+			if property.name == "target_transport_point_key" or property.name == "target_map_path":
+				property.usage = PROPERTY_USAGE_NO_EDITOR
+		TransportPointType.MAP:
+			if property.name == "target_level_transport":
+				property.usage = PROPERTY_USAGE_NO_EDITOR

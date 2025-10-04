@@ -4,7 +4,7 @@ signal map_registered(map: PackedScene, data: SavedDataFile)
 signal map_regist_finished
 signal map_changed(map: PackedScene, located_info: Dictionary)
 signal map_changed_finished
-signal level_changed(operate_entity: FixedEntity, new_level: Level, point: Vector2)
+signal level_changed(operate_entity: FixedEntity, target_point: Node2D)
 signal level_changed_finished_for_player()
 
 var current_map: StaticMap
@@ -58,27 +58,31 @@ func _on_map_registered(_data: SavedDataFile):
 
 	map_regist_finished.emit()
 
-func _on_level_changed(operate_entity: FixedEntity, new_level: Level, point: Vector2):
-	if new_level == current_level:
-		operate_entity.global_position = point
-		operate_entity.main_control.global_position = point
+func _on_level_changed(operate_entity: FixedEntity, target_point: Node2D):
+	var target_level = target_point.get_parent()
+
+	operate_entity.global_position = target_point.global_position
+	operate_entity.main_control.global_position = target_point.global_position
+
+	if target_point is TransportPoint:
+		operate_entity.global_position += target_point.tranported_offset
+		operate_entity.main_control.global_position += target_point.tranported_offset
+		target_point.transported.emit()
+
+	if target_level == current_level:
 		return
+
 	if operate_entity.main_control.is_in_group("player"):
-		current_level.disable_all_collision_navigation()
 		SObjectPool.level_pool_cleared.emit(current_level)
-
-		operate_entity.global_position = point
-		operate_entity.main_control.global_position = point
-
-		SViewportManager.set_camera_limit(new_level.get_camera_limit())
-		
-		new_level.enable_all_collision_navigation()
-		current_level = new_level
+		SViewportManager.set_camera_limit(target_level.get_camera_limit())
+		current_level = target_level
+		var camera_viewport = SViewportManager.get_viewport_container(operate_entity.main_control)
+		camera_viewport.change_world(SMapData.current_level.get_parent().world_2d)
+		current_level.rooms.room_changed.emit.call_deferred(target_point.current_room)
 		level_changed_finished_for_player.emit.call_deferred()
 	
-	operate_entity.reparent(new_level)
-	new_level._process_all_collision_navigation_recursive(operate_entity, true)
-
+	operate_entity.reparent.call_deferred(target_level)
+	
 func map_info_preload(map_scene: PackedScene) -> Dictionary:
 	await get_tree().process_frame
 
@@ -94,12 +98,6 @@ func map_info_preload(map_scene: PackedScene) -> Dictionary:
 	Main.game_view.add_child(current_map)
 
 	await SSignalBus.map_info_loaded
-
-	## 暂时禁用所有的层级碰撞导航，避免在加载玩家出生点的时候，出现矛盾问题
-	for level in current_map.levels.get_children():
-		if level is Level:
-			level.initialize_collision_navigation_states()
-			level.disable_all_collision_navigation()
 
 	var spawns: Array[PlayerSpawn] = current_map.player_spawns
 
@@ -119,13 +117,11 @@ func map_info_preload(map_scene: PackedScene) -> Dictionary:
 			spawn_info.merge(new_record)
 		player_info["spawn_info"] = spawn_info
 		## 根据存档中的数据，获取玩家当前所在的层级
-		current_level = current_map.get_node(player_info["spawn_info"][0]["current_level"] as NodePath)
+		current_level = current_map.get_node(spawn_info[0]["current_level"] as NodePath)
 		SMainController.player_located.emit.call_deferred(current_level, player_info)
 	else:
 		push_error("地图数据: 未检测到玩家出生点，请检查地图配置")
 
-	# 启用当前层的碰撞和导航
-	current_level.enable_all_collision_navigation()
 	map_regist_finished.emit()
 	
 	return {
@@ -146,30 +142,22 @@ func _on_map_changed(target_map: PackedScene, located_info: Dictionary):
 		Main.game_view.add_child(current_map)
 		await SSignalBus.map_info_loaded
 			
-		for level in current_map.levels.get_children():
-			if level is Level:
-				level.initialize_collision_navigation_states()
-				level.disable_all_collision_navigation()
-
-		var target_point: TransportPoint
-		if located_info.get("target_level_name", &"") != &"" or located_info.get("target_level_index", -1) != -1:
-			current_level = current_map.get_level_by_name(located_info["target_level_name"])
-			current_level = current_map.get_level_by_index(located_info["target_level_index"])
-			if current_level:
-				target_point = current_level.transport_point_list.get(located_info.get("target_key", &""), null)
-			else:
-				push_warning("地图数据: 未检测到目标楼层，请检查地图配置")
-				return
-		else:
-			target_point = current_map.exported_transport_points.get(located_info.get("target_key", &""), null)
-			if target_point:
-				current_level = target_point.get_parent() as Level
-			else:
-				push_warning("地图数据: 未检测到传送点，请检查地图配置")
-				return
+		await SSignalBus.game_data_loaded_compelete
 		
-		current_level.enable_all_collision_navigation()
-
+		var target_point: TransportPoint
+		
+		target_point = current_map.exported_transport_points.get(located_info.get("target_key", &""), null)
+		if target_point:
+			current_level = target_point.get_parent() as Level
+		else:
+			push_warning("地图数据: 未检测到传送点，将默认传送至第一个传送点，请检查地图配置")
+			# TODO
+			#if current_map.exported_transport_points.is_empty():
+				#if current
+			#else:
+				#pass
+			return
+		
 		SMainController.player_located.emit.call_deferred(current_level, {
 			"type": "Transport",
 			"target_level": current_level,

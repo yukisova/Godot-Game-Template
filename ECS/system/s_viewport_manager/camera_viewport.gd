@@ -28,6 +28,9 @@ func _ready():
 	if viewport:
 		viewport.handle_input_locally = false # 输入由主视口处理
 
+func change_world(world: World2D):
+	viewport.world_2d = world 
+
 func _physics_process(_delta: float) -> void:
 	if temp_target:
 		camera.position = temp_target.global_position

@@ -48,7 +48,7 @@ func preload_game_in_ui_main():
 	var save_file = get_latest_save_file()
 	if save_file == null:
 		save_file = await create_and_load_new_game()
-	await SSignalBus.game_data_loaded_compelete
+	await SSignalBus.entity_initialize_started
 	SSignalBus.game_data_preloaded.emit()
 
 func create_and_load_new_game():

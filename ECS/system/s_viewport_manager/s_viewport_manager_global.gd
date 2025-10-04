@@ -379,13 +379,11 @@ func _on_gui_focus_changed(_control: Control):
 	pass
 #endregion
 
-## 初始化viewport
 func _setup_viewports_for_play_type():
 	_refresh_players_viewport(true)
 	for i in camera_viewports.size():
 		camera_viewports[i].camera_strategy = CFSAttachPlayer.new()
 
-## 刷新viewport(将camera_target重新进行绑定)
 func _refresh_viewports():
 	_refresh_players_viewport()
 
@@ -415,7 +413,8 @@ func _refresh_players_viewport(is_first: bool = false):
 		camera_viewport.camera_target = SMainController._get_player_info_by_index(i).main_control
 		if camera_viewport.camera_target == null:
 			print("出现问题，索引",i,"对应的player不存在")
-		camera_viewport.viewport.world_2d = SMapData.current_level.get_parent().world_2d
+		
+		camera_viewport.change_world(SMapData.current_level.get_parent().world_2d)
 
 ## 动态切换视口布局（可在运行时调用）
 ## [param layout]: 新的布局类型

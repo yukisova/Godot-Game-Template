@@ -36,8 +36,6 @@ signal level_component_initialized
 
 var static_map: StaticMap
 
-var transport_point_list: Dictionary[StringName, TransportPoint] = {}
-
 var layers_count = 0
 var layers_loaded_count = 0
 
@@ -53,14 +51,17 @@ func _enter_tree() -> void:
 			element.initialize_complete.connect(_on_entity_initialize)
 			element.is_entity_origin_exist = true
 			entity_count += 1
-		elif element is TransportPoint:
-			if element.enable_export_to_map:
-				static_map.exported_transport_points[element.transport_point_key] = element
-			transport_point_list[element.transport_point_key] = element
-			element.initialize_complete.connect(_on_entity_initialize)
+		elif element is ObjectEntity:
+			if element is TransportPoint:
+				if element.transport_point_key != "":
+					static_map.exported_transport_points[element.transport_point_key] = element
+			if not element.initialize_complete.is_connected(_on_entity_initialize):
+				element.initialize_complete.connect(_on_entity_initialize)
 			element.is_entity_origin_exist = true
 			entity_count += 1
 	_check_all_layers_loaded()
+	await level_fully_loaded
+	_check_all_entity_initialize()
 
 func _on_layer_ready():
 	layers_loaded_count += 1
@@ -117,129 +118,6 @@ func _update_filter(time_value: float):
 	if directional_light and filter_gradient:
 		directional_light.color = filter_gradient.gradient.sample(time_value)
 
-
-#region :层级碰撞导航统一管理:
-
-@export var level_id: int = 0
-
-var collision_navigation_enabled: bool = true
-
-## 简化版本：不保存状态，只标记已初始化
-func initialize_collision_navigation_states():
-	collision_navigation_enabled = true
-
-func enable_all_collision_navigation():
-	_process_all_collision_navigation_recursive(self, true)
-	collision_navigation_enabled = true
-
-func disable_all_collision_navigation():
-	_process_all_collision_navigation_recursive(self, false)
-	collision_navigation_enabled = false
-
-func is_collision_navigation_enabled() -> bool:
-	return collision_navigation_enabled
-
-
-func _process_all_collision_navigation_recursive(node: Node, enabled: bool):
-	var action = "启用" if enabled else "禁用"
-	
-	# 跳过Level节点本身，只处理子节点
-	if node != self:
-		# 处理物理碰撞体
-		if node is CharacterBody2D or node is RigidBody2D or node is StaticBody2D:
-			_process_physics_body(node, enabled)
-		# 处理Area2D
-		elif node is Area2D:
-			_process_area2d(node, enabled)
-		# 处理碰撞形状
-		elif node is CollisionShape2D or node is CollisionPolygon2D:
-			_process_collision_shape(node, enabled)
-		
-		# 处理瓦片地图层
-		elif node is TileMapLayer:
-			_process_tilemap_layer(node, enabled)
-		
-		# 处理导航组件
-		elif node is NavigationRegion2D:
-			_process_navigation_region(node, enabled)
-		elif node is NavigationAgent2D:
-			_process_navigation_agent(node, enabled)
-		elif node is NavigationObstacle2D:
-			_process_navigation_obstacle(node, enabled)
-		else:
-			# 如果不是目标类型，简单记录
-			if node.get_child_count() == 0:  # 只记录叶子节点，避免太多输出
-				pass
-	for child in node.get_children():
-		_process_all_collision_navigation_recursive(child, enabled)
-
-func _process_physics_body(node: Node, enabled: bool):
-	if node is CharacterBody2D or node is RigidBody2D or node is StaticBody2D:
-		for child in node.get_children():
-			if child is CollisionShape2D or child is CollisionPolygon2D:
-				child.disabled = !enabled
-				if enabled:
-					print("启用物理体碰撞形状: ", node.name, "/", child.name)
-				else:
-					print("禁用物理体碰撞形状: ", node.name, "/", child.name)
-
-func _process_area2d(area: Area2D, enabled: bool):
-	if enabled:
-		area.monitoring = true
-		area.monitorable = true
-	else:
-		area.monitoring = false
-		area.monitorable = false
-
-func _process_collision_shape(shape: Node, enabled: bool):
-	if shape is CollisionShape2D or shape is CollisionPolygon2D:
-		shape.disabled = !enabled
-		if enabled:
-			pass
-		else:
-			pass
-
-func _process_tilemap_layer(tilemap: TileMapLayer, enabled: bool):
-	tilemap.enabled = enabled
-	if enabled:
-		pass
-	else:
-		pass
-
-func _process_navigation_region(region: NavigationRegion2D, enabled: bool):
-	region.enabled = enabled
-	if enabled:
-		pass
-	else:
-		pass
-
-func _process_navigation_agent(agent: NavigationAgent2D, enabled: bool):
-	if enabled:
-		agent.process_mode = Node.PROCESS_MODE_INHERIT
-		agent.avoidance_enabled = true
-	else:
-		agent.process_mode = Node.PROCESS_MODE_DISABLED
-		agent.avoidance_enabled = false
-		var parent_node = agent.get_parent()
-		if parent_node is Node2D:
-			agent.target_position = parent_node.global_position
-
-func _process_navigation_obstacle(obstacle: NavigationObstacle2D, enabled: bool):
-	if enabled:
-		obstacle.process_mode = Node.PROCESS_MODE_INHERIT
-		obstacle.avoidance_enabled = true
-		pass
-	else:
-		obstacle.process_mode = Node.PROCESS_MODE_DISABLED
-		obstacle.avoidance_enabled = false
-		pass
-
-func get_collision_navigation_info() -> Dictionary:
-	return {
-		"level_id": level_id,
-		"collision_enabled": collision_navigation_enabled
-	}
-#endregion
 
 #region decal - 优化版本
 # 批处理相关变量

@@ -12,7 +12,8 @@ var current_room: Room:
 		current_room.is_room_visible = true
 
 func _enter_tree():
-	room_changed.connect(_on_room_changed)
+	if not room_changed.is_connected(_on_room_changed):
+		room_changed.connect(_on_room_changed)
 
 func _ready() -> void:
 	for room in get_children():
