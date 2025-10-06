@@ -73,7 +73,8 @@ func _shoot_audio(_name: String):
 
 ## 播放发射子弹的动画_tween
 func _shoot_animation():
-	SViewportManager.camera_shake(c_status.component_body, 3)
+	var camera_viewport = SViewportManager.get_viewport_container(c_status.component_body)
+	SViewportManager.camera_shake(camera_viewport, 3)
 	var tween: Tween = get_tree().create_tween()
 	var rotation_var = -20
 	var position_var = Vector2(0, -2)

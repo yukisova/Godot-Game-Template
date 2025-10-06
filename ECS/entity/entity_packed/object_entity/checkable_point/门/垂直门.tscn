@@ -17,9 +17,6 @@ size = Vector2(16, 16)
 
 [node name="垂直门" type="Node2D" node_paths=PackedStringArray("room_trigger_1", "room_trigger_2", "c_interactable", "open_action")]
 script = ExtResource("2_806he")
-has_lock = null
-is_passive = null
-lock_key_nick_name = null
 room_trigger_1 = NodePath("RoomTriggerL")
 room_trigger_2 = NodePath("RoomTriggerR")
 c_interactable = NodePath("CInteractable")
@@ -28,6 +25,7 @@ open_action = NodePath("InteractionAction/开与关")
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(0, 1)
 shape = SubResource("RectangleShape2D_iyj7t")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
@@ -51,15 +49,18 @@ binding_collision = NodePath("../../StaticBody2D/CollisionShape2D")
 binding_sprite = NodePath("../../Sprite2D")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 1)
 shape = SubResource("RectangleShape2D_iwqyi")
 
 [node name="RoomTriggerL" type="Area2D" parent="."]
+position = Vector2(0, 1)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="RoomTriggerL"]
 position = Vector2(-8, 0)
 shape = SubResource("RectangleShape2D_g8d67")
 
 [node name="RoomTriggerR" type="Area2D" parent="."]
+position = Vector2(0, 1)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="RoomTriggerR"]
 position = Vector2(8, 0)

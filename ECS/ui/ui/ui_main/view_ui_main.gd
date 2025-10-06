@@ -18,6 +18,9 @@ func _initialize(_context: Dictionary):
 	game_setting_button.pressed.connect(_on_game_setting_button_pressed)
 	quit_game_button.pressed.connect(_on_quit_game_button_pressed.bind(quit_game_button.args))
 
+	## 会预先加载游戏场景，并等待玩家按下游戏开始
+	_preload_game_scene()
+
 	# 设置淡入动画效果
 	modulate.a = 0
 	var tween: Tween = get_tree().create_tween()
@@ -25,15 +28,20 @@ func _initialize(_context: Dictionary):
 	tween.set_trans(Tween.TRANS_CUBIC)
 	tween.tween_property(self, "modulate:a", 1.0, 1.0)
 
-	## 会预先加载游戏场景，并等待玩家按下游戏开始
-	_preload_game_scene()
-
 func _preload_game_scene():
 	await SLoadAndSave.preload_game_in_ui_main()
 
-	SViewportManager.camera_zoom_change_immediately(SMainController._get_player_info_by_index(0).main_control, Vector2(7,7))
-	SViewportManager.camera_strategy_change(SMainController._get_player_info_by_index(0).main_control, CFSAttachPlayer.new(Vector2(30, -10)))
-	SUiSpawner.current_hud["transition"].try_hide()
+	SUiSpawner._get_hud("transition").fade_in()
+
+	var player = SMainController._get_player_info_by_index(0)
+	player.modulate.a = 0
+	var tween = get_tree().create_tween()
+	tween.tween_property(player, "modulate:a", 1.0, 1)
+
+	var current_viewport = SViewportManager.get_first_viewport()
+	current_viewport.camera_strategy = CFSAttachPlayer.new(Vector2(30, -10))
+	SViewportManager.camera_zoom_change_immediately(current_viewport, Vector2(7,7))
+
 
 func _on_continue_game_button_pressed(_args):
 	pass

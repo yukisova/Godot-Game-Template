@@ -9,8 +9,8 @@ extends ObjectEntity
 
 @export var is_passive: bool = false
 
-@export var room_trigger_1_room: Node2D
-@export var room_trigger_2_room: Node2D
+@export var room_trigger_u_l_room: Room
+@export var room_trigger_d_r_room: Room
 
 @export_group("门在有锁的情况下的设置")
 ## 锁对应的钥匙的item_nick_name
@@ -93,6 +93,6 @@ func try_update_room():
 		return
 	match current_enter[0]:
 		0:
-			SMapData.current_level.rooms.room_changed.emit(room_trigger_1_room)
+			SMapData.current_level.rooms.room_changed.emit(room_trigger_u_l_room)
 		1:
-			SMapData.current_level.rooms.room_changed.emit(room_trigger_2_room)
+			SMapData.current_level.rooms.room_changed.emit(room_trigger_d_r_room)

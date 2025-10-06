@@ -31,6 +31,9 @@ func _ready():
 func change_world(world: World2D):
 	viewport.world_2d = world 
 
+func change_strategy(strategy: CameraFollowStrategy):
+	camera_strategy = strategy
+
 func _physics_process(_delta: float) -> void:
 	if temp_target:
 		camera.position = temp_target.global_position

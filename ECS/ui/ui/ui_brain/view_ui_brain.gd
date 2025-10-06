@@ -11,6 +11,22 @@ extends UIView
 
 @export var tab_container: TabContainer
 
+@onready var document_check: HBoxContainer = %DocumentCheck
+
+var current_document_vision: DocumentVision = null:
+	set(v):
+		current_document_vision = v
+		if current_document_vision != null:
+			document_title.text = current_document_vision.title
+			document_info.text = current_document_vision.get_current_con()
+		else:
+			document_title.text = ""
+			document_info.text = ""
+		if current_document_vision == null or current_document_vision.content.size() <= 1:
+			document_check.visible = false
+		else:
+			document_check.visible = true
+
 func _initialize(_context: Dictionary):
 	var inventory: InventoryExtension = _context["inventory"]
 	var equipment: EquipmentExtension = _context["equipment"]
@@ -41,6 +57,8 @@ func _initialize(_context: Dictionary):
 	grid_inventory._initialize_info(_context)
 	
 	list_document.document_selected.connect(_on_document_selected)
+	document_check.get_node("LastPage").pressed.connect(_on_last_page_pressed)
+	document_check.get_node("NextPage").pressed.connect(_on_next_page_pressed)
 
 func _on_equipment_node_changed(item_equipment: ItemEquipment):
 	pass
@@ -50,9 +68,37 @@ func _on_attack_node_changed(item_weapon: ItemWeapon):
 	grid_inventory.equipment_control.binding_equipment = item_weapon
 	grid_inventory.equipment_control._initialize()
 
+class DocumentVision:
+	var title: String
+	var content: PackedStringArray
+	var current_index: int = 0:
+		set(v):
+			current_index = v
+			current_index = clamp(current_index, 0, content.size()-1)
+
+	func get_current_con() -> String:
+		if content.size() == 0:
+			return ""
+		return content[current_index]
+
+	func _init(_document: ItemDocument):
+		title = _document.item_name
+		content = _document.document_content
+		current_index = 0
+
+
 func _on_document_selected(document: ItemDocument):
-	document_title.text = document.item_name
-	document_info.text = document.document_content
+	current_document_vision = DocumentVision.new(document)
+	
+func _on_next_page_pressed():
+	if current_document_vision != null:
+		current_document_vision.current_index += 1
+		document_info.text = current_document_vision.get_current_con()
+
+func _on_last_page_pressed():
+	if current_document_vision != null:
+		current_document_vision.current_index -= 1
+		document_info.text = current_document_vision.get_current_con()
 
 func _process(delta: float) -> void:
 	if Input.is_action_just_pressed("ui_right"):

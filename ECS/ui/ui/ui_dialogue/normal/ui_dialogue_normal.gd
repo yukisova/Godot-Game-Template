@@ -121,7 +121,6 @@ func _notification(what: int) -> void:
 		if visible_ratio < 1:
 			dialogue_label.skip_typing()
 
-
 ## 开始对话
 ## 
 ## 启动指定的对话资源，开始对话流程。
@@ -198,6 +197,8 @@ func _on_mutation_cooldown_timeout() -> void:
 	if will_hide_balloon:
 		will_hide_balloon = false
 		balloon.hide()
+	elif not balloon.visible:
+		balloon.show()
 
 
 func _on_mutated(_mutation: Dictionary) -> void:

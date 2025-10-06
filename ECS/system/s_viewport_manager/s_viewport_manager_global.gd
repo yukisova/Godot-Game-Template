@@ -436,22 +436,12 @@ var temp_camera_2d: Camera2D:
 	set(v):
 		temp_camera_2d = v
 
-func get_main_camera(camera_target: Node2D) -> Camera2D:
-	var camera_viewport = get_viewport_container(camera_target)
-	var camera_2d: Camera2D
-	if camera_viewport:
-		camera_2d = camera_viewport.camera
-	else:
-		return null
-	return camera_2d
 ## 相机抖动
-func camera_shake(camera_target: Node2D, effect_strength: float = 1.0, effect_time: float = 0.5):
-	var camera_2d: Camera2D = get_main_camera(camera_target)
-	if not camera_2d:
-		return
+func camera_shake(camera_viewport: CameraViewport, effect_strength: float = 1.0, effect_time: float = 0.5):
+	var camera_2d: Camera2D = camera_viewport.camera
+
 	if camera_tween: camera_tween.kill()
-	
-	camera_tween = camera_target.get_tree().create_tween()
+	camera_tween = camera_viewport.get_tree().create_tween()
 	camera_tween.set_pause_mode(Tween.TWEEN_PAUSE_PROCESS)
 	for i in effect_strength:
 		var offset_strength = Vector2(randf_range(-effect_strength, effect_strength), randf_range(-effect_strength, effect_strength))
@@ -461,28 +451,15 @@ func camera_shake(camera_target: Node2D, effect_strength: float = 1.0, effect_ti
 		await camera_tween.finished
 		camera_2d.offset = Vector2.ZERO
 
-func camera_strategy_change(camera_target: Node2D, strategy: CameraFollowStrategy):
-	var camera_viewport = get_viewport_container(camera_target)
-	if camera_viewport:
-		camera_viewport.camera_strategy = strategy
-
-func camera_zoom_change_immediately(camera_target: Node2D, zoom: Vector2):
-	var camera_viewport = get_viewport_container(camera_target)
-	var camera_2d: Camera2D
-	if camera_viewport:
-		camera_2d = camera_viewport.camera
-	else:
-		return
+func camera_zoom_change_immediately(camera_viewport: CameraViewport, zoom: Vector2):
+	var camera_2d: Camera2D = camera_viewport.camera
 	camera_2d.zoom = zoom
 
-func camera_zoom_change_gradually(camera_target: Node2D, zoom: Vector2, duration: float):
-	var camera_2d: Camera2D = get_main_camera(camera_target)
-	if not camera_2d:
-		return
-
+func camera_zoom_change_gradually(camera_viewport: CameraViewport, zoom: Vector2, duration: float):
+	var camera_2d: Camera2D = camera_viewport.camera
 	if camera_tween: camera_tween.kill()
 	
-	camera_tween = camera_target.get_tree().create_tween()
+	camera_tween = camera_viewport.get_tree().create_tween()
 	camera_tween.set_pause_mode(Tween.TWEEN_PAUSE_PROCESS)
 	camera_tween.tween_property(camera_2d, "zoom", zoom, duration)
 

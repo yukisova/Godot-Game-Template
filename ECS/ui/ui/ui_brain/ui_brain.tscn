@@ -124,8 +124,40 @@ theme_override_font_sizes/font_size = 32
 
 [node name="Content" type="RichTextLabel" parent="View/Control/TabContainer/Document/HSplitContainer/MarginContainer/VBoxContainer" index="1"]
 layout_mode = 2
+size_flags_vertical = 3
 bbcode_enabled = true
 fit_content = true
+
+[node name="DocumentCheck" type="HBoxContainer" parent="View/Control/TabContainer/Document/HSplitContainer/MarginContainer/VBoxContainer" index="2"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+alignment = 1
+
+[node name="LastPage" type="Button" parent="View/Control/TabContainer/Document/HSplitContainer/MarginContainer/VBoxContainer/DocumentCheck" index="0"]
+custom_minimum_size = Vector2(100, 50)
+layout_mode = 2
+text = "<==="
+
+[node name="NextPage" type="Button" parent="View/Control/TabContainer/Document/HSplitContainer/MarginContainer/VBoxContainer/DocumentCheck" index="1"]
+custom_minimum_size = Vector2(100, 50)
+layout_mode = 2
+text = "===>"
+
+[node name="MarginContainer" type="MarginContainer" parent="View/Control" index="1"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+grow_vertical = 0
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+
+[node name="Label" type="Label" parent="View/Control/MarginContainer" index="0"]
+layout_mode = 2
+text = "Tab: 切换至文档"
 
 [node name="Control2" type="Control" parent="View" index="1"]
 visible = false
