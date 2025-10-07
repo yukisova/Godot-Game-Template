@@ -1,14 +1,16 @@
-[gd_scene load_steps=2 format=3 uid="uid://dx8lfcn7h43ea"]
+[gd_scene load_steps=3 format=3 uid="uid://dx8lfcn7h43ea"]
 
 [ext_resource type="Script" uid="uid://btod27rj3wlyo" path="res://resource/node_template/map/static_map/static_map.gd" id="1_fy625"]
+[ext_resource type="Script" uid="uid://cl5n2t44pbcu4" path="res://scene/static_map/cutscene/autoload_cutscenes.gd" id="2_c0sfn"]
 
-[node name="StaticMap" type="Node" node_paths=PackedStringArray("player_spawns", "levels", "autoload_cutscene")]
+[node name="StaticMap" type="Node" node_paths=PackedStringArray("player_spawns", "levels", "autoload_cutscenes")]
 script = ExtResource("1_fy625")
 decal_path = "res://entity/entity_packed/temp_entity/decal/decal.tscn"
 player_spawns = [null, null]
 levels = NodePath("Levels")
-autoload_cutscene = NodePath("AutoLoadCutscene")
+autoload_cutscenes = NodePath("AutoLoadCutscene")
 
 [node name="Levels" type="Node2D" parent="."]
 
 [node name="AutoLoadCutscene" type="Node" parent="."]
+script = ExtResource("2_c0sfn")

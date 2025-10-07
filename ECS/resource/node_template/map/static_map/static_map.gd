@@ -24,7 +24,7 @@ extends Node
 
 var levels_array: Array[Level]
 
-@export var autoload_cutscene: Node
+@export var autoload_cutscenes: AutoLoadCutscenes
 
 @export var cutscene_enable: bool = true
 
@@ -66,8 +66,7 @@ func _enter_tree() -> void:
 			level_count += 1
 	
 	if cutscene_enable:
-		for cutscene in autoload_cutscene.get_children():
-			SSignalBus.game_loop_start.connect(func(): cutscene.cutscene_started.emit())
+		SSignalBus.game_loop_start.connect(autoload_cutscenes._initialize)
 		SSignalBus.game_loop_start.connect(_on_game_loop_start)
 	else:
 		SSignalBus.game_loop_start.connect(_on_game_loop_start)

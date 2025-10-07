@@ -1,17 +1,16 @@
 ## 过场剧情触发器
-
+class_name InteractionCutscene
 extends IInteraction
 
-var cutscenes: Array[ICutscene]
+@export var cutscene: CutsceneNode
 
 func _ready() -> void:
-	for cutscene in get_children():
-		if cutscene is ICutscene:
-			cutscenes.append(cutscene)
+	cutscene.cutscene_output.connect(func(output: Dictionary) -> void:
+		interact_output.emit(output)
+	)
 
 func __interact_begin(interactor: IEntity) -> void:
-	for cutscene in cutscenes:
-		cutscene.start()
+	cutscene.cutscene_started.emit()
 
-func _on_interact_deactivated() -> void:
+func __interact_reset() -> void:
 	pass

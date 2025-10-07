@@ -1,4 +1,4 @@
-extends ICutscene
+extends CutsceneNode
 
 @export_file_path("*.dialogue") var dialogue_resource
 
@@ -15,5 +15,5 @@ func _start():
 
 	rooms.current_room.is_room_visible = true
 
-func _finished():
+func _return():
 	pass

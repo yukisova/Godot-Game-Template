@@ -4,9 +4,6 @@ extends Resource
 #region 玩家数据
 
 @export var player_info = {}
-
-## global_position
-
 #endregion
 
 #region 实体数据

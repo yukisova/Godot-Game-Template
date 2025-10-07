@@ -18,6 +18,10 @@ signal interact_activated(target_entity: IEntity)
 ## 当交互完成时触发
 signal interact_finished()
 
+## 交互输出信号
+## 用于传递交互结果或状态信息，主要用于CInteractable组件的反馈处理，使交互对象可以实现更加复杂的反馈行为
+signal interact_output(output: Dictionary)
+
 ## 交互取消激活信号
 ## 当交互条件不再满足时触发，用于清理或回滚操作
 signal interact_deactivated
