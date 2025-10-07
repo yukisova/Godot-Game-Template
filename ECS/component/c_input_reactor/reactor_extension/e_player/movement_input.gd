@@ -9,8 +9,16 @@ enum MoveMode {
 	MOUSE, ## 鼠标长按
 	MOUSE_CLICK, ## MOBA
 }
+enum TowardMode {
+	MOVE, ## 跟随移动方向
+	MOUSE, ## 面向鼠标方向
+}
 
 @export var award_mode: MoveMode = MoveMode.FOUR_DIRECTION
+@export var toward_mode: TowardMode = TowardMode.MOVE:
+	set(v):
+		toward_mode = v
+
 @export_flags("向量监听") var disable_flag: int:
 	set(v):
 		disable_flag = v
@@ -20,6 +28,9 @@ var input_vector_dict: Dictionary[String, Vector2] = {
 	"move" : Vector2.ZERO,
 	"toward" : Vector2.ZERO
 }
+
+func _enter_tree() -> void:
+	extention_type = REType.MOVEMENT_INPUT
 
 func get_move_vector() -> Vector2:
 	return input_vector_dict.move

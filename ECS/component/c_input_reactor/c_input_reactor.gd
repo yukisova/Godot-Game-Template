@@ -4,15 +4,7 @@
 class_name CInputReactor
 extends IComponent
 
-
-var reactor_extension: Array[ReactorExtension] = []
-var interact_obj: IInteraction = null:
-	set(v):
-		if v == null:
-			print("交互对象重置")
-		else:
-			print("交互对象更新: ", v.binding_entity.name)
-		interact_obj = v
+var reactor_extensions: Dictionary[ReactorExtension.REType, ReactorExtension] = {}
 
 func _enter_tree() -> void:
 	component_name = ComponentName.C_INPUT_REACTOR
@@ -25,14 +17,17 @@ func _initialize(_owner: IEntity, _load_data: Dictionary = {}):
 	
 	for i in get_children():
 		if i is ReactorExtension:
-			reactor_extension.append(i)
+			reactor_extensions.set(i.extention_type, i)
 			i.c_input_reactor = self
 	
 	initialize_completed.emit()
 
 func _late_initialize():
-	for i in reactor_extension:
+	for i in reactor_extensions.values():
 		i._late_initialize()
+
+func get_other_extension(type: ReactorExtension.REType) -> ReactorExtension:
+	return reactor_extensions.get(type, null)
 
 func validate_control(basic_key: StringName, control_mode: SoraConstant.InputType = SoraConstant.InputType.JUST_PRESSED, is_common: bool = false) -> bool:
 	if (SGlobalConfig.is_initialized):
@@ -44,11 +39,7 @@ func validate_control(basic_key: StringName, control_mode: SoraConstant.InputTyp
 
 #region 游戏内输入处理
 func _avaliable_in_gaming():
-	if validate_control("interact", SoraConstant.InputType.JUST_PRESSED):
-		if interact_obj != null:
-			interact_obj.interact_activated.emit(component_owner)
-
-	for extension in reactor_extension:
+	for extension in reactor_extensions.values():
 		if !extension.disabled:
 			extension._listen()
 #endregion

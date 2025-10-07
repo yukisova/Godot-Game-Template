@@ -9,6 +9,15 @@ extends Node
 ## 扩展通过此组件访问输入状态
 var c_input_reactor: CInputReactor
 
+var extention_type: REType
+
+enum REType {
+    ACTION_INPUT,
+    UI_PANEL_OPEN,
+    MOVEMENT_INPUT,
+    INTERACT_CONFIRM,
+}
+
 ## 
 @export var disabled: bool = false
 

@@ -8,8 +8,6 @@
 
 [node name="HudDialogueCaption" instance=ExtResource("1_b356v")]
 script = ExtResource("2_avsye")
-next_action = null
-skip_action = null
 
 [node name="Balloon" type="Control" parent="View" index="0"]
 unique_name_in_owner = true

@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=4 uid="uid://bb3uay1kkcy8r"]
+[gd_scene load_steps=22 format=4 uid="uid://bb3uay1kkcy8r"]
 
 [ext_resource type="PackedScene" uid="uid://dx8lfcn7h43ea" path="res://resource/node_template/map/static_map/static_map.tscn" id="1_2ftsl"]
 [ext_resource type="AudioStream" uid="uid://cshvyslspontd" path="res://asset/audio/旖旎飞雪 - 02 Walking.ogg" id="2_unjh2"]
@@ -12,6 +12,24 @@
 [ext_resource type="Script" uid="uid://c0a6kv3f28u74" path="res://scene/static_map/第一章_在家里_意识到.gd" id="9_byjdj"]
 [ext_resource type="Script" uid="uid://dyicjmjyi8vve" path="res://component/c_interactable/interaction/interaction_collect.gd" id="9_jorim"]
 [ext_resource type="Script" uid="uid://cd0f3sf5ku01w" path="res://resource/custom_resource/item/document.gd" id="10_jorim"]
+[ext_resource type="PackedScene" uid="uid://cu1h6uu5gld01" path="res://entity/entity_packed/object_entity/checkable_point/灯/light.tscn" id="12_wven7"]
+[ext_resource type="Resource" uid="uid://qmi1oj36w1qj" path="res://resource/plugins_resource/dialogue/第一章测试用文本.dialogue" id="14_pyq1c"]
+[ext_resource type="Script" uid="uid://bexy7ey1jnpvf" path="res://scene/static_map/第一章_利用紫色灯光_发现地址.gd" id="15_gkr75"]
+
+[sub_resource type="Gradient" id="Gradient_pyq1c"]
+offsets = PackedFloat32Array(0.12643678, 0.6896552)
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_gkr75"]
+gradient = SubResource("Gradient_pyq1c")
+width = 128
+height = 128
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+metadata/_snap_enabled = true
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_pyq1c"]
+size = Vector2(16, 16)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_h2vp5"]
 size = Vector2(32, 8)
@@ -23,14 +41,6 @@ script = ExtResource("10_jorim")
 item_nick_name = "mom_note_0"
 item_name = "妈妈的信"
 metadata/_custom_type_script = "uid://cd0f3sf5ku01w"
-
-[sub_resource type="Gradient" id="Gradient_jorim"]
-
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_wven7"]
-gradient = SubResource("Gradient_jorim")
-fill = 1
-fill_from = Vector2(0.48290598, 0.4871795)
-fill_to = Vector2(0.48290598, 0.55128205)
 
 [node name="m_家里" node_paths=PackedStringArray("player_spawns") instance=ExtResource("1_2ftsl")]
 bg_music = ExtResource("2_unjh2")
@@ -48,22 +58,22 @@ offset_top = -218.0
 offset_right = 370.0
 offset_bottom = 378.0
 
-[node name="黑川的房间" parent="Levels/Level/LCRooms" index="0" node_paths=PackedStringArray("belongs_entities") instance=ExtResource("4_2ftsl")]
+[node name="Kulo的房间" parent="Levels/Level/LCRooms" index="0" node_paths=PackedStringArray("belongs_entities") instance=ExtResource("4_2ftsl")]
 modulate = Color(1, 1, 1, 0)
 belongs_entities = [NodePath("../../水平门")]
 
-[node name="地板" parent="Levels/Level/LCRooms/黑川的房间" index="0"]
+[node name="地板" parent="Levels/Level/LCRooms/Kulo的房间" index="0"]
 tile_map_data = PackedByteArray("AAANAP3/AQAHAAcAAAANAP7/AQAHAAcAAAANAP//AQAHAAcAAAANAAAAAQAHAAcAAAANAAEAAQAHAAcAAAANAAIAAQAHAAcAAAAFAP3/AQAFAAcAAAAFAP7/AQAFAAcAAAAFAP//AQAFAAcAAAAFAAAAAQAFAAcAAAAFAAEAAQAFAAcAAAAFAAIAAQAFAAcAAAAGAP3/AQAGAAcAAAAGAP7/AQAGAAcAAAAGAP//AQAGAAcAAAAGAAAAAQAGAAcAAAAGAAEAAQAGAAcAAAAGAAIAAQAGAAcAAAAHAP3/AQAGAAcAAAAHAP7/AQAGAAcAAAAHAP//AQAGAAcAAAAHAAAAAQAGAAcAAAAHAAEAAQAGAAcAAAAHAAIAAQAGAAcAAAAIAP3/AQAGAAcAAAAIAP7/AQAGAAcAAAAIAP//AQAGAAcAAAAIAAAAAQAGAAcAAAAIAAEAAQAGAAcAAAAIAAIAAQAGAAcAAAAJAP3/AQAGAAcAAAAJAP7/AQAGAAcAAAAJAP//AQAGAAcAAAAJAAAAAQAGAAcAAAAJAAEAAQAGAAcAAAAJAAIAAQAGAAcAAAAKAP3/AQAGAAcAAAAKAP7/AQAGAAcAAAAKAP//AQAGAAcAAAAKAAAAAQAGAAcAAAAKAAEAAQAGAAcAAAAKAAIAAQAGAAcAAAALAP3/AQAGAAcAAAALAP7/AQAGAAcAAAALAP//AQAGAAcAAAALAAAAAQAGAAcAAAALAAEAAQAGAAcAAAALAAIAAQAGAAcAAAAMAP3/AQAGAAcAAAAMAP7/AQAGAAcAAAAMAP//AQAGAAcAAAAMAAAAAQAGAAcAAAAMAAEAAQAGAAcAAAAMAAIAAQAGAAcAAAAIAPz/AQAGAAcAAAA=")
 
-[node name="墙壁" parent="Levels/Level/LCRooms/黑川的房间" index="3"]
+[node name="墙壁" parent="Levels/Level/LCRooms/Kulo的房间" index="3"]
 tile_map_data = PackedByteArray("AAAFAAMAAQAAAAgAAAANAAMAAQACAAgAAAAGAAMAAQABAAgAAAAHAAMAAQABAAgAAAAIAAMAAQABAAgAAAAJAAMAAQABAAgAAAAKAAMAAQABAAgAAAALAAMAAQABAAgAAAAMAAMAAQABAAgAAAAGAPz/AQABAAgAAAAHAPz/AQABAAgAAAAIAPz/AQADAAgAAAAJAPz/AQABAAgAAAAKAPz/AQABAAgAAAALAPz/AQABAAgAAAAMAPz/AQABAAgAAAANAPz/AQACAAoAAAAFAPz/AQAAAAoAAAA=")
 
-[node name="天花板" parent="Levels/Level/LCRooms/黑川的房间" index="5"]
+[node name="天花板" parent="Levels/Level/LCRooms/Kulo的房间" index="5"]
 tile_map_data = PackedByteArray("AAANAAAAAQADAAEAAAANAP//AQADAAEAAAANAP7/AQADAAEAAAANAP3/AQADAAEAAAANAPz/AQADAAEAAAANAPv/AQAHAAAAAAAMAPv/AQABAAMAAAALAPv/AQABAAMAAAAKAPv/AQABAAMAAAAJAPv/AQABAAMAAAAIAPv/AQABAAMAAAAHAPv/AQABAAMAAAAGAPv/AQABAAMAAAAFAPv/AQAEAAAAAAAFAP//AQADAAEAAAAFAP7/AQADAAEAAAAFAP3/AQADAAEAAAAFAPz/AQADAAEAAAANAAEAAQADAAEAAAAFAAAAAQADAAEAAAANAAIAAQAHAAMAAAAMAAIAAQABAAMAAAALAAIAAQABAAMAAAAKAAIAAQABAAMAAAAJAAIAAQABAAMAAAAIAAIAAQABAAMAAAAHAAIAAQABAAMAAAAGAAIAAQABAAMAAAAFAAIAAQAEAAMAAAAFAAEAAQADAAEAAAA=")
 
 [node name="楼道" parent="Levels/Level/LCRooms" index="1" node_paths=PackedStringArray("belongs_entities") instance=ExtResource("4_2ftsl")]
+modulate = Color(1, 1, 1, 0)
 belongs_entities = [NodePath("../../水平门"), NodePath("../../水平门2")]
-is_room_visible = true
 
 [node name="地板" parent="Levels/Level/LCRooms/楼道" index="0"]
 tile_map_data = PackedByteArray("AAAEAPr/AQAGAAcAAAAEAPv/AQAGAAcAAAAFAPr/AQAGAAcAAAAFAPv/AQAGAAcAAAAGAPr/AQAGAAcAAAAGAPv/AQAGAAcAAAAHAPr/AQAGAAcAAAAHAPv/AQAGAAcAAAAIAPr/AQAGAAcAAAAIAPv/AQAGAAcAAAAJAPr/AQAGAAcAAAAJAPv/AQAGAAcAAAAKAPr/AQAGAAcAAAAKAPv/AQAGAAcAAAALAPr/AQAGAAcAAAALAPv/AQAGAAcAAAAMAPr/AQAGAAcAAAAMAPv/AQAGAAcAAAANAPr/AQAGAAcAAAANAPv/AQAGAAcAAAAOAPr/AQAGAAcAAAAOAPv/AQAGAAcAAAAOAPz/AQAGAAcAAAAOAP3/AQAGAAcAAAAOAP7/AQAGAAcAAAAPAPv/AQAGAAcAAAAPAPz/AQAGAAcAAAAPAP3/AQAGAAcAAAAPAP7/AQAGAAcAAAAPAPr/AQAGAAcAAAANAPz/AQAFAAcAAAANAP3/AQAFAAcAAAAQAPr/AQAHAAcAAAAQAPv/AQAHAAcAAAAQAPz/AQAHAAcAAAAQAP3/AQAHAAcAAAANAP7/AQAFAAcAAAAQAP7/AQAHAAcAAAAOAP//AQALAAcAAAAPAP//AQAMAAcAAAAOAAAAAQALAAcAAAAPAAAAAQAMAAcAAAADAPr/AQAFAAcAAAADAPv/AQAFAAcAAAAIAPz/AQAGAAcAAAAIAP3/AQAGAAcAAAALAPn/AQAGAAcAAAA=")
@@ -88,20 +98,30 @@ tile_map_data = PackedByteArray("AAAFAPP/AQABAAgAAAAGAPP/AQABAAgAAAAHAPP/AQABAAg
 tile_map_data = PackedByteArray("AAAPAPj/AQAHAAMAAAAPAPf/AQADAAEAAAAPAPb/AQADAAEAAAAPAPX/AQADAAEAAAAPAPT/AQADAAEAAAAPAPP/AQAHAAAAAAAOAPj/AQABAAMAAAANAPj/AQABAAMAAAANAPL/AQABAAMAAAAMAPj/AQABAAMAAAAMAPL/AQABAAMAAAALAPj/AQABAAMAAAALAPL/AQABAAMAAAAKAPj/AQABAAMAAAAKAPL/AQABAAMAAAAJAPj/AQABAAMAAAAJAPL/AQABAAMAAAAIAPj/AQABAAMAAAAIAPL/AQABAAMAAAAHAPj/AQABAAMAAAAHAPL/AQABAAMAAAAGAPj/AQABAAMAAAAGAPL/AQABAAMAAAAFAPj/AQABAAMAAAAFAPL/AQABAAMAAAAEAPj/AQAEAAMAAAAEAPf/AQADAAEAAAAEAPb/AQADAAEAAAAEAPX/AQADAAEAAAAEAPT/AQADAAEAAAAEAPP/AQADAAEAAAAEAPL/AQAEAAAAAAAOAPP/AQAEAAMAAAAOAPL/AQAHAAAAAAA=")
 
 [node name="水平门" parent="Levels/Level" index="4" node_paths=PackedStringArray("room_trigger_u_l_room", "room_trigger_d_r_room") instance=ExtResource("6_unjh2")]
+modulate = Color(1, 1, 1, 0)
 position = Vector2(136, -50)
 room_trigger_u_l_room = NodePath("../LCRooms/楼道")
-room_trigger_d_r_room = NodePath("../LCRooms/黑川的房间")
+room_trigger_d_r_room = NodePath("../LCRooms/Kulo的房间")
 
 [node name="水平门2" parent="Levels/Level" index="5" node_paths=PackedStringArray("room_trigger_u_l_room", "room_trigger_d_r_room") instance=ExtResource("6_unjh2")]
+modulate = Color(1, 1, 1, 0)
 position = Vector2(184, -98)
 room_trigger_u_l_room = NodePath("../LCRooms/无法打开的房间")
 room_trigger_d_r_room = NodePath("../LCRooms/楼道")
 
-[node name="PlayerSpawn" parent="Levels/Level" index="6" node_paths=PackedStringArray("current_room") instance=ExtResource("5_byjdj")]
-position = Vector2(138, -87)
-current_room = NodePath("../LCRooms/楼道")
+[node name="Light" parent="Levels/Level" index="6" instance=ExtResource("12_wven7")]
+position = Vector2(139, 2)
+default_lights = SubResource("GradientTexture2D_gkr75")
 
-[node name="TransportPoint" parent="Levels/Level" index="7" node_paths=PackedStringArray("current_room", "target_level_transport") instance=ExtResource("7_h2vp5")]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Levels/Level/Light" index="2"]
+position = Vector2(67, -43)
+shape = SubResource("RectangleShape2D_pyq1c")
+
+[node name="PlayerSpawn" parent="Levels/Level" index="7" node_paths=PackedStringArray("current_room") instance=ExtResource("5_byjdj")]
+position = Vector2(100, 10)
+current_room = NodePath("../LCRooms/Kulo的房间")
+
+[node name="TransportPoint" parent="Levels/Level" index="8" node_paths=PackedStringArray("current_room", "target_level_transport") instance=ExtResource("7_h2vp5")]
 position = Vector2(240, 15)
 current_room = NodePath("../LCRooms/楼道")
 target_level_transport = NodePath("../../Level2/PlayerSpawn2")
@@ -110,7 +130,7 @@ interact_is_passive = true
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Levels/Level/TransportPoint" index="1"]
 shape = SubResource("RectangleShape2D_h2vp5")
 
-[node name="CheckablePoint" parent="Levels/Level" index="8" instance=ExtResource("8_yl3jv")]
+[node name="CheckablePoint" parent="Levels/Level" index="9" instance=ExtResource("8_yl3jv")]
 position = Vector2(69, -86)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Levels/Level/CheckablePoint" index="1"]
@@ -119,10 +139,6 @@ shape = SubResource("RectangleShape2D_wven7")
 [node name="InteractCollect" type="Node" parent="Levels/Level/CheckablePoint" index="2"]
 script = ExtResource("9_jorim")
 binding_item = SubResource("Resource_wven7")
-
-[node name="PointLight2D" type="PointLight2D" parent="Levels/Level" index="11"]
-position = Vector2(136, -82)
-texture = SubResource("GradientTexture2D_wven7")
 
 [node name="Level2" parent="Levels" index="1" instance=ExtResource("3_h2vp5")]
 is_need_fog = false
@@ -214,9 +230,13 @@ room_trigger_d_r_room = NodePath("../LCRooms/楼梯走廊")
 
 [node name="第一章_在家里_意识到" type="Node" parent="AutoLoadCutscene" index="0"]
 script = ExtResource("9_byjdj")
+dialogue_resource = ExtResource("14_pyq1c")
+
+[node name="第一章_利用紫色灯光" type="Node" parent="AutoLoadCutscene" index="1"]
+script = ExtResource("15_gkr75")
 
 [editable path="Levels/Level"]
-[editable path="Levels/Level/LCRooms/黑川的房间"]
+[editable path="Levels/Level/LCRooms/Kulo的房间"]
 [editable path="Levels/Level/LCRooms/楼道"]
 [editable path="Levels/Level/LCRooms/无法打开的房间"]
 [editable path="Levels/Level2"]

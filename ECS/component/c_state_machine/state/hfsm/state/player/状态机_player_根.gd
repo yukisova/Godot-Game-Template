@@ -9,8 +9,8 @@
 @tool
 extends StateMachine
 
-## 关联的ActionInput组件，用于处理玩家的输入操作，类型为 [ActionInput]。
-@export var action_input: ActionInput
+## 关联的ActionInput组件，用于处理玩家的输入操作，类型为 [REActionInput]。
+@export var action_input: REActionInput
 @export var c_texture_controller: CTextureController
 @export var c_state_machine: CStateMachine
 

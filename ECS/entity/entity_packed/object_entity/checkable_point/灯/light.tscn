@@ -1,0 +1,15 @@
+[gd_scene load_steps=4 format=3 uid="uid://cu1h6uu5gld01"]
+
+[ext_resource type="Script" uid="uid://cc6oyoo0f0lmp" path="res://entity/entity_packed/object_entity/checkable_point/灯/light.gd" id="1_yeldp"]
+[ext_resource type="PackedScene" uid="uid://dbswip03t13sy" path="res://component/c_interactable/c_interactable.tscn" id="2_d2clc"]
+[ext_resource type="Script" uid="uid://bski3tgstsx14" path="res://component/c_interactable/interaction/interaction_switch.gd" id="3_etq0l"]
+
+[node name="Light" type="Node2D" node_paths=PackedStringArray("c_interactable", "interaction")]
+script = ExtResource("1_yeldp")
+c_interactable = NodePath("CInteractable")
+interaction = NodePath("InteractionSwitch")
+
+[node name="CInteractable" parent="." instance=ExtResource("2_d2clc")]
+
+[node name="InteractionSwitch" type="Node" parent="."]
+script = ExtResource("3_etq0l")

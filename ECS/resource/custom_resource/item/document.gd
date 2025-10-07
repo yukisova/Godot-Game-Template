@@ -5,6 +5,17 @@ extends Item
 ## 显示文档时使用的背景图片，用于营造不同文档类型的视觉效果
 @export var document_background: Texture2D
 @export var document_tag: String = "文档"
+## 文档中的所有信息是否都可以被看见
+@export var hide_info_disable: bool = false:
+	set(v):
+		if Engine.is_editor_hint():
+			hide_info_disable = v
+		else:
+			if hide_info_disable:
+				return
+			else:
+				hide_info_disable = v
+				refresh_content()
 
 ## JSON文件路径
 ## 存储文档内容数据的JSON文件路径
@@ -24,7 +35,6 @@ var document_content: PackedStringArray:
 		if not _cache_dirty and not _cached_content.is_empty():
 			return _cached_content
 		
-		# 重新加载和解析JSON数据
 		_cached_content = _load_document_content()
 		_cache_dirty = false
 		return _cached_content
@@ -78,7 +88,11 @@ func _load_document_content() -> PackedStringArray:
 	
 	# 提取文档文本内容
 	if document_data.has("text"):
-		return PackedStringArray(document_data["text"])
+		var result = PackedStringArray(document_data["text"])
+		if hide_info_disable:
+			var hide_info = document_data.get("hide_info", [])
+			result.append_array(hide_info)
+		return result
 	else:
 		push_warning("Document ID '" + item_nick_name + "' has no 'text' field")
 		return ["[警告] 文档内容为空"]

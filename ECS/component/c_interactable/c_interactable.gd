@@ -58,17 +58,24 @@ func confirm_interact_callable(interaction_info: InteractionRecordInfo):
 						interaction_info.interaction.interact_activated.emit(_body.get_parent())
 					else:
 						var entity = _body.owner as IEntity
+						## 目前的想法是敌人也可以进行交互，但是交互逻辑还是在ActionTrigger中处理比较好，而玩家则在CInputReactor中处理
+
 						var c_input_reactor: CInputReactor = entity.get_other_component(IComponent.ComponentName.C_INPUT_REACTOR)
-						if c_input_reactor:
-							c_input_reactor.interact_obj = interaction_info.interaction )
+						var re_interaction_confirm: REInteractConfirm = c_input_reactor.get_other_extension(ReactorExtension.REType.INTERACT_CONFIRM) if c_input_reactor else null
+						if re_interaction_confirm:
+							re_interaction_confirm.area_entry_interaction.push_front(interaction_info.interaction) ) 
+
 			interaction_info.callable_deactived = Callable(func(_body: Node2D):
 				if _body.is_in_group("player"):
 					interaction_info.interaction.interact_deactivated.emit()
 					if not interaction_info.is_passive:
 						var entity = _body.owner as IEntity
+
 						var c_input_reactor: CInputReactor = entity.get_other_component(IComponent.ComponentName.C_INPUT_REACTOR)
-						if c_input_reactor:
-							c_input_reactor.interact_obj = null )
+						var re_interaction_confirm: REInteractConfirm = c_input_reactor.get_other_extension(ReactorExtension.REType.INTERACT_CONFIRM) if c_input_reactor else null
+						if re_interaction_confirm:
+							re_interaction_confirm.area_entry_interaction.erase(interaction_info.interaction) )
+
 		#InteractionRecord.InteractType.AreaEntered:
 			#interaction_info.callable_actived = Callable(func(_area: Area2D):
 				#if _area is SeekBox:
@@ -96,13 +103,14 @@ func register_inteactable_area(interaction_info: InteractionRecordInfo):
 			final_body.body_entered.connect(interaction_info.callable_actived)
 			final_body.body_exited.connect(interaction_info.callable_deactived)
 		InteractionRecord.InteractType.AreaEntered:
-			final_body.area_entered.connect(interaction_info.callable_actived)
-			final_body.area_exited.connect(interaction_info.callable_deactived)
+			# final_body.area_entered.connect(interaction_info.callable_actived)
+			# final_body.area_exited.connect(interaction_info.callable_deactived)
+			pass
 		InteractionRecord.InteractType.RayCasted:
 			if final_body is not InteractBox:
 				component_owner.entity_ray_interact.connect(interaction_info.callable_actived)
 			else:
-				component_owner.entity_ray_interact.connect(interaction_info.callable_deactived)
+				component_owner.entity_ray_interact_lose.connect(interaction_info.callable_deactived)
 		InteractionRecord.InteractType.Null:
 			print("该交互记录已经被禁用")
 

@@ -3,10 +3,6 @@ extends MoveStrategy
 
 @export var movement_input: REMovementInput = null
 
-var toward_control_by_move: bool = true:
-	set(v):
-		toward_control_by_move = v
-
 var fixed_move_callable: Callable
 var fixed_move_callable_setted: bool = false
 
@@ -15,8 +11,17 @@ func _get_move_vector() -> Vector2:
 		if movement_input:
 			# 输入控制模式：从输入组件获取移动向量
 			var input_vector = movement_input.input_vector_dict.move as Vector2
-			if toward_control_by_move and !input_vector.is_zero_approx():
-				_set_target_direction(self, input_vector.normalized())
+			if movement_input.toward_mode == movement_input.TowardMode.MOVE:
+				# 跟随移动方向
+				# 如果当前没有输入，则保持原有朝向
+				if !input_vector.is_zero_approx():
+					_set_target_direction(self, input_vector.normalized())
+			elif movement_input.toward_mode == movement_input.TowardMode.MOUSE:
+				# 面向鼠标方向
+				var toward_vector = movement_input.input_vector_dict.toward as Vector2
+				if toward_vector.is_zero_approx():
+					toward_vector = _get_current_direction()
+				_set_target_direction(self, toward_vector.normalized()) 
 			return input_vector.normalized()
 		else:
 			return move_vector.normalized()
@@ -27,7 +32,9 @@ func _get_move_vector() -> Vector2:
 func _set_move_vector(vector: Vector2):
 	move_vector = vector
 	if !move_vector.is_zero_approx():
-		if toward_control_by_move:
+		if movement_input and movement_input.toward_mode != movement_input.TowardMode.MOVE:
+			pass
+		else:
 			_set_target_direction(self, move_vector.normalized())
 
 ## 移动速度
@@ -59,6 +66,10 @@ var toward_direction_current: Vector2:
 var toward_direction_target: Vector2
 		
 func _set_target_direction(source: Node2D, vector: Vector2):
+	var toward_control_by_move = true
+	if movement_input:
+		toward_control_by_move = movement_input.toward_mode == movement_input.TowardMode.MOVE
+
 	if source == self and toward_control_by_move:
 		toward_direction_target = vector
 	

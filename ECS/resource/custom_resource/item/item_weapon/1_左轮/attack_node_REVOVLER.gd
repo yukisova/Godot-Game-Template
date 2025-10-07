@@ -101,9 +101,10 @@ func _shoot_effect():
 	var direction: Vector2 = Vector2.RIGHT
 	var fire_offset = 10
 	var collision_box : CCollisionBox = c_status.get_other_component(IComponent.ComponentName.C_COLLISION_BOX) as CCollisionBox
-	var interact_ray:InteractRay = collision_box.box_rays.get(CCollisionBox.BoxRayName.INTERACT)
-	if interact_ray:
-		direction = direction.rotated(interact_ray.rotation)
+	
+	#var interact_ray:InteractRay = collision_box.box_rays.get(CCollisionBox.BoxRayName.INTERACT)
+	#if interact_ray:
+		#direction = direction.rotated(interact_ray.rotation)
 	
 	var rand_num = randi_range(随机散射数量.x, 随机散射数量.y)
 	

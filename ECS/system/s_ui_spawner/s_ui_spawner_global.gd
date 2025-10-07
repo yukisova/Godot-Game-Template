@@ -38,7 +38,8 @@ func _setup():
 	)
 	
 	SSignalBus.game_loop_continue.connect(func():
-		_hide_all_hud(["", "transition"])
+		#_hide_all_hud(["", "transition"])
+		pass
 	)
 	
 	SSignalBus.game_loop_paused.connect(func():

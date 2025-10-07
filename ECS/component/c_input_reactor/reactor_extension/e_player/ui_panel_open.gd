@@ -2,7 +2,7 @@
 ## 监听按键输入打开对应UI界面，支持游戏内和游戏外UI
 ## 包括思维界面（装备背包）和暂停界面（设置退出）
 ## [br][b]编辑者:[/b] Sora
-class_name UIPanelOpenExtension
+class_name REUiPanelOpen
 extends ReactorExtension
 
 ## 思维界面场景
@@ -16,6 +16,9 @@ extends ReactorExtension
 ## 暂停界面场景
 ## 包含游戏设置、退出游戏等界面
 @export var pause_ui: PackedScene
+
+func _enter_tree() -> void:
+	extention_type = REType.UI_PANEL_OPEN
 
 func _late_initialize():
 	if c_input_reactor.component_owner in SMainController.player_static.values():

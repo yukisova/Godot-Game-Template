@@ -1,4 +1,4 @@
-[gd_scene load_steps=54 format=3 uid="uid://dq753g4b1nmk8"]
+[gd_scene load_steps=53 format=3 uid="uid://dq753g4b1nmk8"]
 
 [ext_resource type="PackedScene" uid="uid://6jpwo3n27sj2" path="res://entity/entity_packed/fixed_entity/fixed_entity.tscn" id="1_fojvx"]
 [ext_resource type="Script" uid="uid://815l8mjrysw1" path="res://entity/entity_packed/fixed_entity/player/i_player.gd" id="2_dwa3q"]
@@ -23,7 +23,6 @@
 [ext_resource type="Script" uid="uid://dn605ggguvjqo" path="res://component/c_state_machine/state/hfsm/state/player/状态_temp_固定.gd" id="20_x5pf7"]
 [ext_resource type="Script" uid="uid://dhx2hakp6ogox" path="res://component/c_collision_box/box_marker/dialogue_marker/dialogue_marker.gd" id="21_0fo6k"]
 [ext_resource type="PackedScene" uid="uid://cps21xspaovit" path="res://component/c_collision_box/c_collision_box.tscn" id="21_g7054"]
-[ext_resource type="Script" uid="uid://3c3x3bgxinnw" path="res://component/c_collision_box/box_ray/interact_ray/interact_ray.gd" id="22_i270p"]
 [ext_resource type="PackedScene" uid="uid://lu3gu1tfxdey" path="res://component/c_input_reactor/c_input_reactor.tscn" id="23_0eqlr"]
 [ext_resource type="Script" uid="uid://g2h7s2qmcn31" path="res://component/c_collision_box/box_collision/hurt_box/hurt_box.gd" id="23_ey2ar"]
 [ext_resource type="Script" uid="uid://bj5wq8iankhmq" path="res://component/c_input_reactor/reactor_extension/e_player/test_check_info.gd" id="24_mptg6"]
@@ -150,11 +149,11 @@ texture = SubResource("AtlasTexture_15urw")
 
 [node name="Right" parent="CharacterBody/ComponentContainer/CTextureController/PackedManSe/Whole" index="1" node_paths=PackedStringArray("sprite")]
 default_texture = SubResource("AtlasTexture_5lqkq")
-sprite = NodePath("@Sprite2D@24005")
+sprite = NodePath("@Sprite2D@54900")
 
 [node name="Left" parent="CharacterBody/ComponentContainer/CTextureController/PackedManSe/Whole" index="2" node_paths=PackedStringArray("sprite")]
 default_texture = SubResource("AtlasTexture_5lqkq")
-sprite = NodePath("@Sprite2D@24006")
+sprite = NodePath("@Sprite2D@54901")
 
 [node name="PackedSpriteEditor" parent="CharacterBody/ComponentContainer/CTextureController/PackedManSe" index="2" node_paths=PackedStringArray("control_parts")]
 rotation_angle = -0.5
@@ -185,7 +184,7 @@ root_state_machine = NodePath("PlayerSM")
 
 [node name="PlayerSM" type="Node" parent="CharacterBody/ComponentContainer/CStateMachine" index="0" node_paths=PackedStringArray("action_input", "c_texture_controller", "c_state_machine", "vector_move", "collision_shape", "movement_input", "state_tag_map")]
 script = ExtResource("17_fx8n5")
-action_input = NodePath("../../CInputReactor/ActionInput")
+action_input = NodePath("../../CInputReactor/REActionInput")
 c_texture_controller = NodePath("../../CTextureController")
 c_state_machine = NodePath("..")
 vector_move = NodePath("../../CActionTrigger/VectorMove")
@@ -240,21 +239,16 @@ player = NodePath("../../../..")
 
 [node name="固定" type="Node" parent="CharacterBody/ComponentContainer/CStateMachine/TempStates" index="5" node_paths=PackedStringArray("ray_interact_confirm", "movement_input")]
 script = ExtResource("20_x5pf7")
-ray_interact_confirm = NodePath("../../../CInputReactor/RayInteractConfirm")
+ray_interact_confirm = NodePath("../../../CInputReactor/REInteractConfirm")
 movement_input = NodePath("../../../CInputReactor/REMovementInput")
 
 [node name="CCollisionBox" parent="CharacterBody/ComponentContainer" index="3" instance=ExtResource("21_g7054")]
 
-[node name="InteractRay" type="RayCast2D" parent="CharacterBody/ComponentContainer/CCollisionBox" index="0"]
-target_position = Vector2(30, 0)
-collision_mask = 2
-script = ExtResource("22_i270p")
-
-[node name="DialogueMarker" type="Marker2D" parent="CharacterBody/ComponentContainer/CCollisionBox" index="1"]
+[node name="DialogueMarker" type="Marker2D" parent="CharacterBody/ComponentContainer/CCollisionBox" index="0"]
 script = ExtResource("21_0fo6k")
 character_name = "Nathan"
 
-[node name="Hurtbox" type="Area2D" parent="CharacterBody/ComponentContainer/CCollisionBox" index="2"]
+[node name="Hurtbox" type="Area2D" parent="CharacterBody/ComponentContainer/CCollisionBox" index="1"]
 collision_layer = 4
 collision_mask = 4
 script = ExtResource("23_ey2ar")
@@ -269,19 +263,18 @@ shape = SubResource("RectangleShape2D_x5pf7")
 [node name="TestCheckInfo" type="Node" parent="CharacterBody/ComponentContainer/CInputReactor" index="0"]
 script = ExtResource("24_mptg6")
 
-[node name="RayInteractConfirm" type="Node" parent="CharacterBody/ComponentContainer/CInputReactor" index="1" node_paths=PackedStringArray("interact_ray", "c_status", "movement_input")]
+[node name="REInteractConfirm" type="Node" parent="CharacterBody/ComponentContainer/CInputReactor" index="1" node_paths=PackedStringArray("c_status", "movement_input")]
 script = ExtResource("25_dqk21")
-interact_ray = NodePath("../../CCollisionBox/InteractRay")
 c_status = NodePath("../../CStatusList")
 movement_input = NodePath("../REMovementInput")
 
-[node name="UiPanelOpen" type="Node" parent="CharacterBody/ComponentContainer/CInputReactor" index="2" node_paths=PackedStringArray("c_status")]
+[node name="REUiPanelOpen" type="Node" parent="CharacterBody/ComponentContainer/CInputReactor" index="2" node_paths=PackedStringArray("c_status")]
 script = ExtResource("26_bsgyj")
 brain_ui = ExtResource("27_02yqn")
 c_status = NodePath("../../CStatusList")
 pause_ui = ExtResource("28_hqspv")
 
-[node name="ActionInput" type="Node" parent="CharacterBody/ComponentContainer/CInputReactor" index="3"]
+[node name="REActionInput" type="Node" parent="CharacterBody/ComponentContainer/CInputReactor" index="3"]
 script = ExtResource("29_rgjey")
 input_parameter = Array[ExtResource("30_byc33")]([SubResource("Resource_hn80f"), SubResource("Resource_s1eqv"), SubResource("Resource_2yrpb"), SubResource("Resource_7ry0g"), SubResource("Resource_0mlm6"), SubResource("Resource_tnsi2"), SubResource("Resource_ajxtt"), SubResource("Resource_mlq86")])
 

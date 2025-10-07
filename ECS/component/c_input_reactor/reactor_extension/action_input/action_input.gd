@@ -1,4 +1,4 @@
-class_name ActionInput
+class_name REActionInput
 extends ReactorExtension
 
 ## 输入参数，用于与
@@ -15,6 +15,9 @@ class ActionInputRecordState:
 	func _init(_input_input_action: ActionInputRecord, _input_state: bool):
 		input_input_action = _input_input_action
 		input_state = _input_state
+
+func _enter_tree() -> void:
+	extention_type = REType.ACTION_INPUT
 
 ## 每帧调用的输入监听逻辑
 func _late_initialize():

@@ -14,6 +14,8 @@ func _ready() -> void:
 @abstract func _finished()
 
 func _on_cutscene_started() -> void:
+	await SMapData.current_level.level_component_initialized
+	await get_tree().process_frame
 	var current_state = SGameState.state_machine.get_leaf_state()
 	if current_state is GamingStateNormal:
 		current_state.game_cutscene_started.emit()
@@ -21,11 +23,9 @@ func _on_cutscene_started() -> void:
 	elif current_state is not GamingStateCutscene:
 		push_error("过场剧情只能在正常游戏状态或过场剧情状态中启动, 目前状态为: ", current_state)
 		return
-	await SMapData.current_level.level_component_initialized
 	await _start()
 	await get_tree().process_frame
 	cutscene_ended.emit.call_deferred()
-
 
 func _on_cutscene_ended() -> void:
 	var current_state = SGameState.state_machine.get_leaf_state()
@@ -47,4 +47,10 @@ func start_dialogue(dialogue_resource: DialogueResource, label: String, info: Di
 	DialogueManager._start_balloon(dialogue_ui, dialogue_resource, label, [fixed_info])
 	await DialogueManager.dialogue_ended
 
+func start_caption(dialogue_resource: DialogueResource, label: String, info: Dictionary):
+	var fixed_info = SoraEvent.fixed_dictionary(self, info)
+	var dialogue_caption: UIHudController = SUiSpawner._get_hud("caption")
+	dialogue_caption.caption_changed.emit(dialogue_resource)
+	await dialogue_caption.caption_ended
+	return
 #endregion

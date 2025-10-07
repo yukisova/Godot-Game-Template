@@ -5,6 +5,7 @@ extends Node2D
 
 ## 射线交互的信号，用于射线交互组件的交互
 signal entity_ray_interact(interact_source: IEntity)
+signal entity_ray_interact_lose(interact_source: IEntity)
 
 ## 实体初始化完成信号
 ## 当所有基础组件初始化完毕后触发，标志着实体已准备好接受游戏逻辑处理
@@ -69,9 +70,9 @@ func _ready() -> void:
 		component_container.binding_entity = self
 	_setup()
 
-func _init_collision():
+func _init_collision(default_collision_layer: int = 1) -> void:
 	if collision_group_records.is_empty():
-		current_collision_group = CollisionGroup.new(main_control, 1, collsion_list)
+		current_collision_group = CollisionGroup.new(main_control, default_collision_layer, collsion_list)
 		return
 
 	var sorted_keys = collision_group_records.keys()

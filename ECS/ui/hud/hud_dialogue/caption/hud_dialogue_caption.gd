@@ -98,12 +98,13 @@ var mutation_cooldown: Timer = Timer.new()
 
 func _refresh():
 	var caption_resource: DialogueResource = SMapData.get_map_cache("caption_resource", null)
-	if caption_resource:
-		start(caption_resource, "")
-		SMapData.set_map_cache("caption_resource", null)
-	else:
-		print("字幕缓存资源为空")
-		try_hide()
+	#if caption_resource:
+		#start(caption_resource, "")
+		#SMapData.set_map_cache("caption_resource", null)
+	#else:
+		#print("字幕缓存资源为空")
+		#try_hide()
+	pass
 
 func _initialize():
 	ui_view._initialize({})

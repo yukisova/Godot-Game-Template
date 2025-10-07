@@ -4,8 +4,6 @@ extends UIModel
 var current_dialogue_resource: DialogueResource:
 	set(value):
 		current_dialogue_resource = value
-		if current_dialogue_resource:
-			hud_controller.start(current_dialogue_resource, "caption_test")
 
 var hud_controller: UIHudController
 
@@ -20,5 +18,11 @@ func _on_caption_ended():
 	current_dialogue_resource = null
 	hud_controller.try_hide()
 
-func _on_caption_changed(new_caption: DialogueResource):
+func _on_caption_changed(new_caption: DialogueResource, label: String):
+	hud_controller.try_show()
 	current_dialogue_resource = new_caption
+	start_resource(label)
+
+func start_resource(label: String):
+	if current_dialogue_resource:
+		hud_controller.start(current_dialogue_resource, label)
