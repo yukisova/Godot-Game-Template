@@ -51,9 +51,9 @@ func _validate_property(property: Dictionary) -> void:
 	if property.name in hide_array:
 		property.usage = PROPERTY_USAGE_NO_EDITOR
 
-func __interact_begin(_target_entity: IEntity):
+func __interact_begin(_target_entity: IEntity) -> bool:
 	current_action_index %= begin_action.size()
-	if begin_action[current_action_index].is_running: return
+	if begin_action[current_action_index].is_running: return false
 	match action_ended_type:
 		ActionEndedType.TIME_LIMIT:
 			var index = current_action_index
@@ -76,6 +76,7 @@ func __interact_begin(_target_entity: IEntity):
 		#ActionEndedType.SIGNAL_WAIT:
 			#begin_action[current_action_index].action_triggered.emit(_target_entity)
 			#await target_node.get_signal_list()
+	return true
 
 func __interact_reset():
 	pass

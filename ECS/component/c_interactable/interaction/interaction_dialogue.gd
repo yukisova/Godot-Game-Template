@@ -30,7 +30,7 @@ var is_caption: bool = true
 
 ## 交互激活处理—当对话交互被触发时启动对话系统
 ## [param _target_entity]: 触发交互的目标实体（通常是玩家）
-func __interact_begin(_target_entity: IEntity):
+func __interact_begin(_target_entity: IEntity) -> bool:
 	# 生成对话UI界面
 	
 	# 准备对话上下文数据
@@ -50,6 +50,7 @@ func __interact_begin(_target_entity: IEntity):
 		DialogueManager._start_balloon(dialogue_ui, test_dialogue, test_dialogue_label, context_data)
 	
 	print("对话交互: 开始对话 -> ", test_dialogue_label)
+	return true
 
 func __interact_reset() -> void:
 	print("对话交互: 结束对话 -> ", test_dialogue_label)

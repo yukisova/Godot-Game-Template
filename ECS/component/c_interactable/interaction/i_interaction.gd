@@ -18,10 +18,6 @@ signal interact_activated(target_entity: IEntity)
 ## 当交互完成时触发
 signal interact_finished()
 
-## 交互输出信号
-## 用于传递交互结果或状态信息，主要用于CInteractable组件的反馈处理，使交互对象可以实现更加复杂的反馈行为
-signal interact_output(output: Dictionary)
-
 ## 交互取消激活信号
 ## 当交互条件不再满足时触发，用于清理或回滚操作
 signal interact_deactivated
@@ -36,14 +32,14 @@ func _enter_tree() -> void:
 
 ## 交互激活处理—当交互被激活时的具体逻辑实现，子类需要重写此方法
 ## [param target_entity]: 触发交互的目标实体（通常是玩家）
-@abstract func __interact_begin(target_entity: IEntity)
+@abstract func __interact_begin(target_entity: IEntity) -> bool
 
 ## 交互重置处理—当交互被重置时的具体逻辑实现，子类需要重写此方法
 @abstract func __interact_reset() -> void
 
 func _on_interact_activated(_target_entity: IEntity) -> void:
-	await __interact_begin(_target_entity)
-	interact_finished.emit()
+	if await __interact_begin(_target_entity):
+		interact_finished.emit()
 
 ## 交互取消激活处理—当交互被取消时的清理逻辑实现，子类需要重写此方法
 func _on_interact_deactivated() -> void:

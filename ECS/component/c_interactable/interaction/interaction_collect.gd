@@ -15,23 +15,23 @@ extends IInteraction
 
 ## 交互激活处理—当拾取交互被触发时尝试将物品添加到目标实体的背包
 ## [param _target_entity]: 触发拾取的实体（通常是玩家）
-func __interact_begin(_target_entity: IEntity):
+func __interact_begin(_target_entity: IEntity) -> bool:
 	# 验证物品是否有效
 	if not binding_item:
 		push_error("拾取交互: 未配置绑定物品")
-		return
+		return false
 	
 	# 获取目标实体的状态组件
 	var status_component: CStatusList = _target_entity.get_other_component(IComponent.ComponentName.C_STATUS_LIST)
 	if status_component == null:
 		push_warning("拾取交互: 目标实体没有状态组件，无法拾取物品")
-		return
+		return false
 	
 	# 获取背包扩展组件
 	var inventory_extension: InventoryExtension = status_component.status_extension.get(StatusExtension.ExtensionType.INVENTORY)
 	if inventory_extension == null:
 		push_warning("拾取交互: 目标实体没有背包系统，无法存储物品")
-		return
+		return false
 	
 	# 尝试添加物品到背包
 	var success = inventory_extension.auto_add_inventory(binding_item.duplicate(true))
@@ -46,9 +46,11 @@ func __interact_begin(_target_entity: IEntity):
 		
 		# 拾取成功后可以销毁这个拾取对象
 		_handle_successful_pickup()
+		return true
 	else:
 		print("拾取交互: 拾取失败，可能是背包已满 -> ", binding_item.item_name)
 		# TODO: 显示背包已满的提示
+		return false
 
 func __interact_reset() -> void: pass
 

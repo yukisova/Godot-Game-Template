@@ -18,7 +18,7 @@ extends IInteraction
 
 ## 交互激活处理—创建伙伴实体并执行招募流程
 ## [param _interactor]: 触发交互的实体
-func __interact_begin(_interactor: IEntity):
+func __interact_begin(_interactor: IEntity) -> bool:
 	var partner: IEntity = partner_scene.instantiate()
 	for i in partner_copy_list:
 		var duplicate_component = i.duplicate()
@@ -31,5 +31,6 @@ func __interact_begin(_interactor: IEntity):
 	SMainController.partner_joined.emit(partner)
 	
 	binding_entity.queue_free()
+	return true
 
 func __interact_reset() -> void: pass

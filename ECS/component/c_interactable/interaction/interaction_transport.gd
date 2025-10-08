@@ -19,7 +19,7 @@ var temp_disable: bool = false:
 			await get_tree().create_timer(1.0).timeout
 			temp_disable = false
 
-func __interact_begin(interactor: IEntity) -> void:
+func __interact_begin(interactor: IEntity) -> bool:
 
 	while temp_disable and _check_collision():
 		await get_tree().create_timer(1).timeout
@@ -43,6 +43,8 @@ func __interact_begin(interactor: IEntity) -> void:
 			SMapData.level_changed.emit(interactor, target_node)
 		else:
 			push_error("传送时未检测到目标楼层，请检查传送点配置")
+	
+	return true
 
 func __interact_reset() -> void:
 	pass

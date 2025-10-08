@@ -16,8 +16,9 @@ var current_state: bool:
 func _ready() -> void:
 	current_state = false
 
-func __interact_begin(_target_entity: IEntity):
+func __interact_begin(_target_entity: IEntity) -> bool:
 	current_state = !current_state
+	return true
 
 func __interact_reset():
 	pass
