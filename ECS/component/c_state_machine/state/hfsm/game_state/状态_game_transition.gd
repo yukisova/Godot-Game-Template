@@ -58,6 +58,13 @@ func _exit():
 	update_trigger = false
 	Main.entity_initialzable = true
 	
+	await belong_state_machine.state_transition_finished
+	
+	var current_viewport = SViewportManager.get_first_viewport()
+	current_viewport.camera_strategy = CFSAttachPlayer.new(Vector2(30, -10))
+	var tween = get_tree().create_tween()
+	await current_viewport.camera_strategy.tween_offset(Vector2(0, 0), 1.5, tween)
+	await SViewportManager.camera_zoom_change_gradually(current_viewport, Vector2(4,4), 1.5)
 	SSignalBus.game_loop_start.emit()
 
 func _fixed_update(_delta: float) -> void:

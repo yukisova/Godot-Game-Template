@@ -18,21 +18,18 @@ func _trigger_update_finish():
 	pass
 
 func _primary_action():
-
 	var equipment_extension: EquipmentExtension = c_status.get_status_extension(StatusExtension.ExtensionType.EQUIPMENT)
+	var vector_move: MoveStrategyVector = c_status.get_other_component(IComponent.ComponentName.C_ACTION_TRIGGER).move_strategy[0]
 	if equipment_extension:
 		if equipment_extension.current_attack_node:
-			equipment_extension.current_attack_node._trigger_effect()
+			equipment_extension.current_attack_node._trigger_effect_run(vector_move._get_current_direction())
 		else:
 			print("没有当前攻击节点")
 		print("你好")
 
 func _secondary_action():
-	var c_sound_emitter: CSoundEmitter = c_status.get_other_component(IComponent.ComponentName.C_SOUND_EMITTER)
-	if c_sound_emitter:
-		print("播放测试用的声音区域")
-		c_sound_emitter.play_sound_static("footstep", 10, 70, 100, 1)
-
+	pass
+	
 func _special_action():
 	pass
 

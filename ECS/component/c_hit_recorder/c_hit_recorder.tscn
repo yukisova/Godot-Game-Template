@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://dq26ydxb676yg"]
+
+[ext_resource type="Script" uid="uid://c4oq1lxk6auub" path="res://component/c_hit_recorder/c_hit_recorder.gd" id="1_4algc"]
+
+[node name="CAttacker" type="Node2D"]
+script = ExtResource("1_4algc")

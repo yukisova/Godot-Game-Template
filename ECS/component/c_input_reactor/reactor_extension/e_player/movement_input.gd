@@ -15,9 +15,7 @@ enum TowardMode {
 }
 
 @export var award_mode: MoveMode = MoveMode.FOUR_DIRECTION
-@export var toward_mode: TowardMode = TowardMode.MOVE:
-	set(v):
-		toward_mode = v
+@export var toward_mode: TowardMode = TowardMode.MOVE
 
 @export_flags("向量监听") var disable_flag: int:
 	set(v):

@@ -86,14 +86,23 @@ func _on_player_located(target_level: Level, _context: Dictionary):
 						# SUiSpawner.current_hud[&""].binding_entitys.append(player_static[player_record_info])
 					)
 		"Transport":
+			var current_level = SMapData.current_level
+
 			if !player_static.is_empty():
-				var target_point: TransportPoint = _context["target_point"]
+				var target_point: Node2D = _context["target_point"]
 				var start_position: Vector2 = target_point.global_position
-				for player:IEntity in player_static.values():
-					_context["target_level"].add_child(player)
+				if target_point is TransportPoint:
 					start_position += target_point.tranported_offset
+
+				for player:IEntity in player_static.values():
+					current_level.add_child(player)
 					player.global_position = start_position
 					player.main_control.global_position = start_position
+
+				var camera_viewport = SViewportManager.get_viewport_container(_get_player_info_by_index(0).main_control)
+				camera_viewport.change_world(current_level.get_parent().world_2d)
+				current_level.rooms.room_changed.emit.call_deferred(target_point.current_room)
+
 			else:
 				push_error("传送时未检测到玩家，请检查玩家配置")
 				return

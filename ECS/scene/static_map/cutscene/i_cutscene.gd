@@ -10,6 +10,9 @@ signal cutscene_ended(start_node: CutsceneNode)
 ## 当前过场剧情节点为起始节点的时候，当过场剧情结束时会输出该信号
 signal cutscene_output(output: Dictionary)
 
+## 需要通过外部注入的信息，一般是配合InteractionCutscene使用
+var cutscene_context: Dictionary
+
 func _ready() -> void:
 	cutscene_started.connect(_on_cutscene_started)
 	cutscene_ended.connect(_on_cutscene_ended)
@@ -71,7 +74,7 @@ func start_dialogue(dialogue_resource: DialogueResource, label: String, info: Di
 func start_caption(dialogue_resource: DialogueResource, label: String, info: Dictionary):
 	var fixed_info = SoraEvent.fixed_dictionary(self, info)
 	var dialogue_caption: UIHudController = SUiSpawner._get_hud("caption")
-	dialogue_caption.caption_changed.emit(dialogue_resource, "caption_test")
+	dialogue_caption.caption_changed.emit(dialogue_resource, label)
 	await dialogue_caption.caption_ended
 	return
 #endregion

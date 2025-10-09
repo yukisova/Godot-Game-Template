@@ -13,7 +13,8 @@ func _ready() -> void:
 				i.branch_cutscenes[""] = cutscenes[cutscenes.size() - 2]
 	
 func _initialize() -> void: 
-	await SMapData.current_level.level_component_initialized
-	await get_tree().process_frame
+	#await SMapData.current_level.level_component_initialized
+	#await get_tree().process_frame
+	if cutscenes.is_empty(): return
 	cutscenes[0].cutscene_started.emit()
 	

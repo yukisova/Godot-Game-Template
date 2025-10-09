@@ -5,7 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://6dpqakv78nkp" path="res://resource/node_template/map/static_map/level.tscn" id="3_iouo2"]
 [ext_resource type="PackedScene" uid="uid://bpgehe2mpq46i" path="res://resource/node_template/map/static_map/room.tscn" id="4_xaq3n"]
 [ext_resource type="PackedScene" uid="uid://bb7tcmx03rrou" path="res://entity/entity_packed/object_entity/checkable_point/门/水平门.tscn" id="5_oj12n"]
-[ext_resource type="Texture2D" uid="uid://b5iyrvlaig8td" path="res://asset/tileset_self/border.png" id="5_rum8l"]
+[ext_resource type="Texture2D" uid="uid://b5iyrvlaig8td" path="res://asset/tileset_self/border_32.png" id="5_rum8l"]
 [ext_resource type="PackedScene" uid="uid://8b4sly2aux7p" path="res://entity/entity_packed/object_entity/checkable_point/门/垂直门.tscn" id="6_xaq3n"]
 [ext_resource type="PackedScene" uid="uid://de3o6pll5kxdx" path="res://resource/node_template/map/static_map/player_spawn.tscn" id="9_ar0lj"]
 [ext_resource type="PackedScene" uid="uid://bx7h1bisdrdgb" path="res://entity/entity_packed/object_entity/checkable_point/checkable_point.tscn" id="10_xaq3n"]

@@ -49,7 +49,7 @@ var current_equipment: ItemEquipment:
 
 ## 当前装备的装备节点
 ## 设置时自动清理旧节点
-var current_equipment_node: Node2D:
+var current_equipment_node: EquipmentNode:
 	set(v):
 		if current_equipment_node:
 			current_equipment_node._deactivated()
@@ -84,7 +84,7 @@ func _effect():
 func _on_attack_node_changed(item_weapon: ItemWeapon):
 	if item_weapon:
 		current_weapon = item_weapon
-		current_attack_node = item_weapon.weapon_node.instantiate()
+		current_attack_node = item_weapon.equipment_node.instantiate()
 		current_attack_node.c_status = c_status
 		current_attack_node.set_hit_effect(item_weapon.hit_effect_list.duplicate_deep())
 

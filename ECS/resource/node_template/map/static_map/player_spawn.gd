@@ -8,3 +8,7 @@ extends Marker2D
 		if current_room == null:
 			push_error("玩家出生点: 未关联到房间,会出现读取错误")
 		return current_room
+
+## 传送点标识符 : 用于进行地图间传送
+## 当前传送点的static_map内唯一标识符
+@export var transport_point_key: String

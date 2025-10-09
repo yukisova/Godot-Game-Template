@@ -18,7 +18,7 @@ var current_level: Level:
 			current_level = null
 
 func _enter_tree() -> void:
-	map_registered.connect(_on_map_registered)
+	# map_registered.connect(_on_map_registered)
 	level_changed.connect(_on_level_changed)
 	map_changed.connect(_on_map_changed)
 
@@ -32,32 +32,33 @@ func _resetup():
 ## 地图注册，用于初始化地图的数据
 ## FIXME 1. 当存在多个层级的时候，会导致无法正确显示目标层级
 ## 2. 
-func _on_map_registered(_data: SavedDataFile):
-	await get_tree().process_frame
+# func _on_map_registered(_data: SavedDataFile):
+# 	await get_tree().process_frame
 
-	var map_scene = ResourceLoader.load(_data.map_cache["current_map"]) as PackedScene
-	var map = map_scene.instantiate() as StaticMap
+# 	var map_scene = ResourceLoader.load(_data.map_cache["current_map"]) as PackedScene
+# 	var map = map_scene.instantiate() as StaticMap
 
-	current_map = map
+# 	current_map = map
 
-	SUiSpawner._hide_all_hud(["transition"])
-	Main.game_view.add_child(map)
-	## 等待地图数据完成加载
-	await SSignalBus.map_info_loaded
-	## 暂时禁用所有的层级碰撞导航，避免在加载玩家出生点的时候，出现矛盾问题
-	for level in map.levels.get_children():
-		if level is Level:
-			level.initialize_collision_navigation_states()
-			level.disable_all_collision_navigation()
+# 	SUiSpawner._hide_all_hud(["transition"])
+# 	Main.game_view.add_child(map)
+# 	## 等待地图数据完成加载
+# 	await SSignalBus.map_info_loaded
+# 	## 暂时禁用所有的层级碰撞导航，避免在加载玩家出生点的时候，出现矛盾问题
+# 	for level in map.levels.get_children():
+# 		if level is Level:
+# 			level.initialize_collision_navigation_states()
+# 			level.disable_all_collision_navigation()
 	
-	## 根据存档中的数据，获取玩家当前所在的层级
-	current_level = current_map.get_node(_data.map_cache["current_level"] as NodePath)
-	# 启用当前层的碰撞和导航
-	current_level.enable_all_collision_navigation()
-	SMainController.player_located.emit.call_deferred(current_level, _data.player_info)
+# 	## 根据存档中的数据，获取玩家当前所在的层级
+# 	current_level = current_map.get_node(_data.map_cache["current_level"] as NodePath)
+# 	# 启用当前层的碰撞和导航
+# 	current_level.enable_all_collision_navigation()
+# 	SMainController.player_located.emit.call_deferred(current_level, _data.player_info)
 
-	map_regist_finished.emit()
+# 	map_regist_finished.emit()
 
+## 目前无问题
 func _on_level_changed(operate_entity: FixedEntity, target_point: Node2D):
 	var target_level = target_point.get_parent()
 
@@ -82,7 +83,8 @@ func _on_level_changed(operate_entity: FixedEntity, target_point: Node2D):
 		level_changed_finished_for_player.emit.call_deferred()
 	
 	operate_entity.reparent.call_deferred(target_level)
-	
+
+## 目前无问题	
 func map_info_preload(map_scene: PackedScene) -> Dictionary:
 	await get_tree().process_frame
 
@@ -129,6 +131,7 @@ func map_info_preload(map_scene: PackedScene) -> Dictionary:
 		"map_cache": map_cache,
 	}
 
+## 老旧代码，无法适配重构后的代码
 func _on_map_changed(target_map: PackedScene, located_info: Dictionary):
 	var player_statics = SMainController.player_static
 
@@ -140,27 +143,22 @@ func _on_map_changed(target_map: PackedScene, located_info: Dictionary):
 		current_map.queue_free()
 		current_map = target_map.instantiate()
 		Main.game_view.add_child(current_map)
+
 		await SSignalBus.map_info_loaded
 			
 		await SSignalBus.game_data_loaded_compelete
 		
-		var target_point: TransportPoint
+		var target_point: Node2D
 		
 		target_point = current_map.exported_transport_points.get(located_info.get("target_key", &""), null)
 		if target_point:
 			current_level = target_point.get_parent() as Level
 		else:
-			push_warning("地图数据: 未检测到传送点，将默认传送至第一个传送点，请检查地图配置")
-			# TODO
-			#if current_map.exported_transport_points.is_empty():
-				#if current
-			#else:
-				#pass
+			push_error("地图切换: 未找到目标传送点,请检查传送点配置")
 			return
 		
 		SMainController.player_located.emit.call_deferred(current_level, {
 			"type": "Transport",
-			"target_level": current_level,
 			"target_point": target_point,
 		})
 

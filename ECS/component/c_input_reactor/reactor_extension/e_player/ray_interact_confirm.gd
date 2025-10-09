@@ -13,6 +13,8 @@ var box_special_interaction: Dictionary[BoxCollision , IInteraction] = {}
 ## 状态组件，用于访问装备系统
 @export var c_status: CStatusList
 @export var movement_input: REMovementInput
+@export var movement_vector: MoveStrategyVector
+
 
 func _enter_tree() -> void:
 	extention_type = REType.INTERACT_CONFIRM
@@ -30,31 +32,8 @@ func _listen():
 		movement_input.TowardMode.MOVE:
 			ray_vector = movement_input.get_toward_vector()
 		movement_input.TowardMode.MOUSE:
-			var mouse_info = SoraEvent.fixed_camera_position(c_input_reactor.component_owner.main_control)
-			if !mouse_info.is_empty():
-				# 获取视口中的鼠标位置
-				var mouse_pos = mouse_info["viewport_mouse_pos"]
-				# 获取玩家在世界中的位置
-				var player_pos = mouse_info["player_pos"]
-				# 计算鼠标相对于相机的位置
-				var camera_center = mouse_info["camera_center"]
-				# 获取视口大小
-				var viewport_size = mouse_info["viewport_size"]
+			ray_vector = movement_vector._get_current_direction()	
 
-				# 计算从玩家位置到鼠标位置的方向向量
-				# 这里的关键是：鼠标位置是视口相对坐标，需要转换为世界坐标
-				ray_vector = ((mouse_pos - viewport_size/2.0) + (player_pos - camera_center)).normalized()
-			else:
-				ray_vector = Vector2.RIGHT # 默认方向
-			# 设置武器攻击节点的朝向
-			var c_texture_controller: CTextureController = c_status.component_owner.list_base_components[IComponent.ComponentName.C_TEXTURE_CONTROLLER]
-			if c_texture_controller and c_texture_controller.packed_sprite:
-				c_texture_controller.packed_sprite.texture_toward = ray_vector
-
-	# 如果方向向量足够长，设置射线朝向
-	if ray_vector.length() <= 0.1: # 避免零向量
-		ray_vector = Vector2.RIGHT # 默认方向
-	
 	update_ray_query(ray_vector)
 
 	if c_input_reactor.validate_control("interact", SoraConstant.InputType.JUST_PRESSED):

@@ -1,4 +1,4 @@
-[gd_scene load_steps=53 format=3 uid="uid://dq753g4b1nmk8"]
+[gd_scene load_steps=55 format=3 uid="uid://dq753g4b1nmk8"]
 
 [ext_resource type="PackedScene" uid="uid://6jpwo3n27sj2" path="res://entity/entity_packed/fixed_entity/fixed_entity.tscn" id="1_fojvx"]
 [ext_resource type="Script" uid="uid://815l8mjrysw1" path="res://entity/entity_packed/fixed_entity/player/i_player.gd" id="2_dwa3q"]
@@ -16,6 +16,7 @@
 [ext_resource type="Script" uid="uid://dx4vgvy76wkm4" path="res://component/c_state_machine/state/hfsm/state/player/状态_temp_蹲下.gd" id="17_xq8il"]
 [ext_resource type="Script" uid="uid://d37uw5d4hcm8y" path="res://component/c_state_machine/state/hfsm/state/player/状态_temp_趴下.gd" id="18_ey2ar"]
 [ext_resource type="Script" uid="uid://b3dlfvhs4o6ii" path="res://component/c_state_machine/state/hfsm/state/player/状态_hfsm_正常.gd" id="18_hwwe4"]
+[ext_resource type="Script" uid="uid://l5g0t43re3el" path="res://component/c_state_machine/state/hfsm/state/player/状态_temp_瞄准.gd" id="19_15urw"]
 [ext_resource type="Script" uid="uid://gqqa50hcj824" path="res://component/c_state_machine/state/hfsm/state/player/状态_temp_屏息.gd" id="19_x5pf7"]
 [ext_resource type="Script" uid="uid://rehgfy8s2irr" path="res://component/c_state_machine/state/hfsm/state/player/状态_temp_贴墙.gd" id="19_xq8il"]
 [ext_resource type="Script" uid="uid://cpdkw72ahtbjj" path="res://component/c_state_machine/transition_record.gd" id="19_xt4na"]
@@ -27,6 +28,7 @@
 [ext_resource type="Script" uid="uid://g2h7s2qmcn31" path="res://component/c_collision_box/box_collision/hurt_box/hurt_box.gd" id="23_ey2ar"]
 [ext_resource type="Script" uid="uid://bj5wq8iankhmq" path="res://component/c_input_reactor/reactor_extension/e_player/test_check_info.gd" id="24_mptg6"]
 [ext_resource type="Script" uid="uid://cd4xrbwgqs7p0" path="res://component/c_input_reactor/reactor_extension/e_player/ray_interact_confirm.gd" id="25_dqk21"]
+[ext_resource type="Script" uid="uid://clmv0727mcds3" path="res://component/c_collision_box/box_collision/hit_box/hit_box_melee/hit_box_melee.gd" id="26_5lqkq"]
 [ext_resource type="Script" uid="uid://ceknbpsdqqm6d" path="res://component/c_input_reactor/reactor_extension/e_player/ui_panel_open.gd" id="26_bsgyj"]
 [ext_resource type="PackedScene" uid="uid://lmqfqbo0hts8" path="res://ui/ui/ui_brain/ui_brain.tscn" id="27_02yqn"]
 [ext_resource type="PackedScene" uid="uid://mfy1sd1we68u" path="res://ui/ui/ui_pause/ui_pause.tscn" id="28_hqspv"]
@@ -74,7 +76,6 @@ metadata/_custom_type_script = "uid://05a7wc4gf3hk"
 [sub_resource type="Resource" id="Resource_s1eqv"]
 script = ExtResource("30_byc33")
 input_name = "secondary_action"
-input_type = 2
 linkage_node = NodePath("../../CActionTrigger/ActionInputMap")
 input_parameter = Array[int]([1])
 metadata/_custom_type_script = "uid://05a7wc4gf3hk"
@@ -149,11 +150,11 @@ texture = SubResource("AtlasTexture_15urw")
 
 [node name="Right" parent="CharacterBody/ComponentContainer/CTextureController/PackedManSe/Whole" index="1" node_paths=PackedStringArray("sprite")]
 default_texture = SubResource("AtlasTexture_5lqkq")
-sprite = NodePath("@Sprite2D@54900")
+sprite = NodePath("@Sprite2D@24006")
 
 [node name="Left" parent="CharacterBody/ComponentContainer/CTextureController/PackedManSe/Whole" index="2" node_paths=PackedStringArray("sprite")]
 default_texture = SubResource("AtlasTexture_5lqkq")
-sprite = NodePath("@Sprite2D@54901")
+sprite = NodePath("@Sprite2D@24007")
 
 [node name="PackedSpriteEditor" parent="CharacterBody/ComponentContainer/CTextureController/PackedManSe" index="2" node_paths=PackedStringArray("control_parts")]
 rotation_angle = -0.5
@@ -191,6 +192,7 @@ vector_move = NodePath("../../CActionTrigger/VectorMove")
 collision_shape = NodePath("../../../CollisionShape2D")
 movement_input = NodePath("../../CInputReactor/REMovementInput")
 state_tag_map = {
+"secondary_action": NodePath("../TempStates/瞄准"),
 "state_0": NodePath("../TempStates/奔跑"),
 "state_4": NodePath("../TempStates/贴墙"),
 "state_attach": NodePath("../TempStates/固定")
@@ -228,16 +230,21 @@ script = ExtResource("17_xq8il")
 [node name="趴下" type="Node" parent="CharacterBody/ComponentContainer/CStateMachine/TempStates" index="2"]
 script = ExtResource("18_ey2ar")
 
-[node name="屏息" type="Node" parent="CharacterBody/ComponentContainer/CStateMachine/TempStates" index="3"]
+[node name="瞄准" type="Node" parent="CharacterBody/ComponentContainer/CStateMachine/TempStates" index="3" node_paths=PackedStringArray("movement_input", "equipment")]
+script = ExtResource("19_15urw")
+movement_input = NodePath("../../../CInputReactor/REMovementInput")
+equipment = NodePath("../../../CStatusList/Equipment")
+
+[node name="屏息" type="Node" parent="CharacterBody/ComponentContainer/CStateMachine/TempStates" index="4"]
 script = ExtResource("19_x5pf7")
 
-[node name="贴墙" type="Node" parent="CharacterBody/ComponentContainer/CStateMachine/TempStates" index="4" node_paths=PackedStringArray("vector_move", "movement_input", "player")]
+[node name="贴墙" type="Node" parent="CharacterBody/ComponentContainer/CStateMachine/TempStates" index="5" node_paths=PackedStringArray("vector_move", "movement_input", "player")]
 script = ExtResource("19_xq8il")
 vector_move = NodePath("../../../CActionTrigger/VectorMove")
 movement_input = NodePath("../../../CInputReactor/REMovementInput")
 player = NodePath("../../../..")
 
-[node name="固定" type="Node" parent="CharacterBody/ComponentContainer/CStateMachine/TempStates" index="5" node_paths=PackedStringArray("ray_interact_confirm", "movement_input")]
+[node name="固定" type="Node" parent="CharacterBody/ComponentContainer/CStateMachine/TempStates" index="6" node_paths=PackedStringArray("ray_interact_confirm", "movement_input")]
 script = ExtResource("20_x5pf7")
 ray_interact_confirm = NodePath("../../../CInputReactor/REInteractConfirm")
 movement_input = NodePath("../../../CInputReactor/REMovementInput")
@@ -258,15 +265,24 @@ metadata/_custom_type_script = "uid://g2h7s2qmcn31"
 position = Vector2(0, -12)
 shape = SubResource("RectangleShape2D_x5pf7")
 
+[node name="HitboxMelee" type="Area2D" parent="CharacterBody/ComponentContainer/CCollisionBox" index="2"]
+process_mode = 4
+visible = false
+collision_layer = 4
+collision_mask = 5
+script = ExtResource("26_5lqkq")
+metadata/_custom_type_script = "uid://clmv0727mcds3"
+
 [node name="CInputReactor" parent="CharacterBody/ComponentContainer" index="4" instance=ExtResource("23_0eqlr")]
 
 [node name="TestCheckInfo" type="Node" parent="CharacterBody/ComponentContainer/CInputReactor" index="0"]
 script = ExtResource("24_mptg6")
 
-[node name="REInteractConfirm" type="Node" parent="CharacterBody/ComponentContainer/CInputReactor" index="1" node_paths=PackedStringArray("c_status", "movement_input")]
+[node name="REInteractConfirm" type="Node" parent="CharacterBody/ComponentContainer/CInputReactor" index="1" node_paths=PackedStringArray("c_status", "movement_input", "movement_vector")]
 script = ExtResource("25_dqk21")
 c_status = NodePath("../../CStatusList")
 movement_input = NodePath("../REMovementInput")
+movement_vector = NodePath("../../CActionTrigger/VectorMove")
 
 [node name="REUiPanelOpen" type="Node" parent="CharacterBody/ComponentContainer/CInputReactor" index="2" node_paths=PackedStringArray("c_status")]
 script = ExtResource("26_bsgyj")

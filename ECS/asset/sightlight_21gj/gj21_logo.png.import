@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b5iyrvlaig8td"
-path="res://.godot/imported/border.png-4c86f221808ec522412854c719fba659.ctex"
+uid="uid://cuvv4rgpk28ap"
+path="res://.godot/imported/gj21_logo.png-1cef42097f1192ec416ae9cb70544ae7.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://asset/tileset_self/border.png"
-dest_files=["res://.godot/imported/border.png-4c86f221808ec522412854c719fba659.ctex"]
+source_file="res://asset/sightlight_21gj/gj21_logo.png"
+dest_files=["res://.godot/imported/gj21_logo.png-1cef42097f1192ec416ae9cb70544ae7.ctex"]
 
 [params]
 

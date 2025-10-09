@@ -149,4 +149,3 @@ func _validate_property(property: Dictionary) -> void:
 	elif property.name == "possible_pda_state_push":
 		if self is StateMachine:
 			property.usage = PROPERTY_USAGE_NO_EDITOR
-

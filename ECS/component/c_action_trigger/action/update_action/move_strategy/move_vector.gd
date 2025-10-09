@@ -16,12 +16,6 @@ func _get_move_vector() -> Vector2:
 				# 如果当前没有输入，则保持原有朝向
 				if !input_vector.is_zero_approx():
 					_set_target_direction(self, input_vector.normalized())
-			elif movement_input.toward_mode == movement_input.TowardMode.MOUSE:
-				# 面向鼠标方向
-				var toward_vector = movement_input.input_vector_dict.toward as Vector2
-				if toward_vector.is_zero_approx():
-					toward_vector = _get_current_direction()
-				_set_target_direction(self, toward_vector.normalized()) 
 			return input_vector.normalized()
 		else:
 			return move_vector.normalized()
@@ -35,7 +29,7 @@ func _set_move_vector(vector: Vector2):
 		if movement_input and movement_input.toward_mode != movement_input.TowardMode.MOVE:
 			pass
 		else:
-			_set_target_direction(self, move_vector.normalized())
+			_set_target_direction(null, move_vector.normalized())
 
 ## 移动速度
 ## 控制实体移动的速度倍数
@@ -57,7 +51,6 @@ var toward_direction_current: Vector2:
 			for rotate_enable_marker in c_collision_box.box_markers.values().filter(func(box_marker: BoxMarker): return box_marker.enable_rotate_by_award):
 				rotate_enable_marker.rotation = v.angle()
 
-
 		var c_texture_controller: CTextureController = c_action.get_other_component(IComponent.ComponentName.C_TEXTURE_CONTROLLER)
 		if c_texture_controller:
 			c_texture_controller.packed_sprite.texture_toward = v
@@ -70,11 +63,33 @@ func _set_target_direction(source: Node2D, vector: Vector2):
 	if movement_input:
 		toward_control_by_move = movement_input.toward_mode == movement_input.TowardMode.MOVE
 
-	if source == self and toward_control_by_move:
+	if source == self:
 		toward_direction_target = vector
 	
 	elif source != self and !toward_control_by_move:
 		toward_direction_target = vector
+
+func _set_target_direction_by_mouse():
+	var mouse_vector: Vector2
+	var mouse_info = SoraEvent.fixed_camera_position(c_action.component_owner.main_control)
+	if !mouse_info.is_empty():
+		# 获取视口中的鼠标位置
+		var mouse_pos = mouse_info["viewport_mouse_pos"]
+		# 获取玩家在世界中的位置
+		var player_pos = mouse_info["player_pos"]
+		# 计算鼠标相对于相机的位置
+		var camera_center = mouse_info["camera_center"]
+		# 获取视口大小
+		var viewport_size = mouse_info["viewport_size"]
+
+		# 计算从玩家位置到鼠标位置的方向向量
+		# 这里的关键是：鼠标位置是视口相对坐标，需要转换为世界坐标
+		mouse_vector = ((mouse_pos - viewport_size/2.0) + (player_pos - camera_center)).normalized()
+	else:
+		mouse_vector = Vector2.RIGHT # 默认方向
+	# 设置武器攻击节点的朝向
+	_set_target_direction(self, mouse_vector)
+	
 
 func _get_current_direction() -> Vector2:
 	return toward_direction_current
@@ -126,11 +141,16 @@ func _update(_delta: float):
 				body.velocity = body.velocity.lerp(Vector2.ZERO, _delta * 10)
 			# 应用物理移动
 			body.move_and_slide()
-	
+		if movement_input.toward_mode == movement_input.TowardMode.MOUSE:
+			_set_target_direction_by_mouse()
+
 	## 2. 更新朝向方向
 	if !toward_direction_target.is_equal_approx(toward_direction_current):
-		var rotate_lerp_angle = lerp_angle(toward_direction_current.angle(), toward_direction_target.angle(), _delta * 10)
+		var rotate_lerp_angle = lerp_angle(toward_direction_current.angle(), toward_direction_target.angle(), 0.2)
 		toward_direction_current = Vector2.RIGHT.rotated(rotate_lerp_angle)
+		var c_texture_controller: CTextureController = c_action.get_other_component(IComponent.ComponentName.C_TEXTURE_CONTROLLER)
+		if c_texture_controller and c_texture_controller.packed_sprite:
+			c_texture_controller.packed_sprite.texture_toward = _get_current_direction()
 
 	# 检测移动状态变化
 	_detect_state()
@@ -169,3 +189,5 @@ func _validate_property(property: Dictionary) -> void:
 	if movement_input:
 		if property.name == "move_speed":
 			property.usage = PROPERTY_USAGE_NO_EDITOR
+
+	

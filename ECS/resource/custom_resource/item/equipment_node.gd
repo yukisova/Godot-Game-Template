@@ -24,14 +24,18 @@ func fixed_flip_v(is_flip: bool):
 		texture.flip_v = is_flip
 		texture.position = flip_h_offset_false if not is_flip else flip_h_offset_true
 
-## 装备触发效果的方法，可以被子类重写
-func _trigger_effect(..._args):
-	pass
-
-## 装备的触发效果关闭的方法
-func _trigger_effect_finished(..._args):
-	pass
-
 ## 装备的激活方法
 @abstract func _activated()
 @abstract func _deactivated()
+
+## 装备触发效果的方法，可以被子类重写
+@abstract func _trigger_effect_run(..._args) -> bool
+@abstract func _trigger_effect_finish(..._args)
+
+## 装备在普通状态下的状态
+func set_normal_type():
+	pass
+
+## 装备在玩家处于瞄准状态下的状态
+func set_aim_type():
+	pass

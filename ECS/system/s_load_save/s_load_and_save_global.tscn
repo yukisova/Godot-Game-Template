@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://b68fm1cipbvf5"]
 
 [ext_resource type="Script" uid="uid://dx6ujfgf1uaec" path="res://system/s_load_save/s_load_and_save_global.gd" id="1_3naj5"]
-[ext_resource type="PackedScene" uid="uid://bb3uay1kkcy8r" path="res://scene/static_map/m_00_家.tscn" id="2_yax8y"]
+[ext_resource type="PackedScene" uid="uid://cvjrtngojy2yg" path="res://scene/static_map/m_0a_战斗.tscn" id="2_yax8y"]
 [ext_resource type="PackedScene" uid="uid://c67o831rrvqb" path="res://scene/static_map/m_03_医院.tscn" id="3_mwh4y"]
 
 [node name="S_LoadAndSave" type="Node"]

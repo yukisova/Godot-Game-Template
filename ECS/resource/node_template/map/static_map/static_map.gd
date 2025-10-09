@@ -28,7 +28,7 @@ var levels_array: Array[Level]
 
 @export var cutscene_enable: bool = true
 
-var exported_transport_points: Dictionary[StringName, TransportPoint] = {}
+var exported_transport_points: Dictionary[StringName, Node2D] = {}
 
 #endregion
 
@@ -65,11 +65,7 @@ func _enter_tree() -> void:
 			level.static_map = self
 			level_count += 1
 	
-	if cutscene_enable:
-		SSignalBus.game_loop_start.connect(autoload_cutscenes._initialize)
-		SSignalBus.game_loop_start.connect(_on_game_loop_start)
-	else:
-		SSignalBus.game_loop_start.connect(_on_game_loop_start)
+	SSignalBus.game_loop_start.connect(_on_game_loop_start)
 
 func _on_game_loop_start():
 	## 初始化所有层级的后期组件—确保迷雾和房间系统正确初始化
@@ -88,6 +84,9 @@ func _on_game_loop_start():
 		SObjectPool.register_pool("decal", decal_scene, 10)
 	SUiSpawner._get_hud("transition").try_show()
 	SUiSpawner._get_hud("transition").fade_in()
+
+	if cutscene_enable:
+		autoload_cutscenes._initialize()
 
 func _on_level_fully_loaded():
 	level_loaded_count += 1

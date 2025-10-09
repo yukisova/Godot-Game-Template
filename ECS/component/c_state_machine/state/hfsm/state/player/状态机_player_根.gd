@@ -29,6 +29,8 @@ func _blur_update(_delta: float) -> void:
 	var export = 检测外部传入()
 	if export != "":
 		state_temp_updated.emit(state_tag_map[export])
+	elif action_input.check_input_state("secondary_action"):
+		state_temp_updated.emit(state_tag_map["secondary_action"])
 	elif 检测贴墙状态(_delta):
 		state_temp_updated.emit(state_tag_map["state_4"])
 	elif action_input.check_input_state("state_0"):
@@ -41,7 +43,8 @@ func _blur_update(_delta: float) -> void:
 		state_temp_updated.emit(null)
 
 func _temp_state_all_exit():
-	c_texture_controller.packed_sprite.packed_sprite_editor.try_switch_texture("Normal")
+	pass
+	# c_texture_controller.packed_sprite.packed_sprite_editor.try_switch_texture("Normal")
 
 func 检测外部传入() -> String:
 	var result = c_state_machine.current_temp_state_exported

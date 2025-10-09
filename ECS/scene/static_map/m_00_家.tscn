@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=4 uid="uid://bb3uay1kkcy8r"]
+[gd_scene load_steps=24 format=4 uid="uid://bb3uay1kkcy8r"]
 
 [ext_resource type="PackedScene" uid="uid://dx8lfcn7h43ea" path="res://resource/node_template/map/static_map/static_map.tscn" id="1_2ftsl"]
 [ext_resource type="AudioStream" uid="uid://cshvyslspontd" path="res://asset/audio/旖旎飞雪 - 02 Walking.ogg" id="2_unjh2"]
@@ -16,6 +16,7 @@
 [ext_resource type="PackedScene" uid="uid://cu1h6uu5gld01" path="res://entity/entity_packed/object_entity/checkable_point/灯/light.tscn" id="12_wven7"]
 [ext_resource type="Resource" uid="uid://qmi1oj36w1qj" path="res://resource/plugins_resource/dialogue/第一章测试用文本.dialogue" id="14_pyq1c"]
 [ext_resource type="Script" uid="uid://bexy7ey1jnpvf" path="res://scene/static_map/第一章_利用紫色灯光_发现地址.gd" id="15_gkr75"]
+[ext_resource type="Script" uid="uid://bd68nk7t7petg" path="res://component/c_interactable/interaction/interaction_transport.gd" id="15_t31yi"]
 
 [sub_resource type="Gradient" id="Gradient_pyq1c"]
 offsets = PackedFloat32Array(0.12643678, 0.6896552)
@@ -33,7 +34,7 @@ metadata/_snap_enabled = true
 size = Vector2(16, 16)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_h2vp5"]
-size = Vector2(32, 8)
+size = Vector2(64, 8)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_wven7"]
 
@@ -54,10 +55,10 @@ time = 0.0
 
 [node name="CameraLimit" parent="Levels/Level" index="0"]
 anchors_preset = -1
-offset_left = -352.0
-offset_top = -218.0
-offset_right = 370.0
-offset_bottom = 378.0
+offset_left = 96.0
+offset_top = -459.0
+offset_right = 541.0
+offset_bottom = 141.0
 
 [node name="Kulo的房间" parent="Levels/Level/LCRooms" index="0" node_paths=PackedStringArray("belongs_entities") instance=ExtResource("4_2ftsl")]
 modulate = Color(1, 1, 1, 0)
@@ -67,10 +68,10 @@ belongs_entities = [NodePath("../../水平门")]
 tile_map_data = PackedByteArray("AAANAP3/AQAHAAcAAAANAP7/AQAHAAcAAAANAP//AQAHAAcAAAANAAAAAQAHAAcAAAANAAEAAQAHAAcAAAANAAIAAQAHAAcAAAAFAP3/AQAFAAcAAAAFAP7/AQAFAAcAAAAFAP//AQAFAAcAAAAFAAAAAQAFAAcAAAAFAAEAAQAFAAcAAAAFAAIAAQAFAAcAAAAGAP3/AQAGAAcAAAAGAP7/AQAGAAcAAAAGAP//AQAGAAcAAAAGAAAAAQAGAAcAAAAGAAEAAQAGAAcAAAAGAAIAAQAGAAcAAAAHAP3/AQAGAAcAAAAHAP7/AQAGAAcAAAAHAP//AQAGAAcAAAAHAAAAAQAGAAcAAAAHAAEAAQAGAAcAAAAHAAIAAQAGAAcAAAAIAP3/AQAGAAcAAAAIAP7/AQAGAAcAAAAIAP//AQAGAAcAAAAIAAAAAQAGAAcAAAAIAAEAAQAGAAcAAAAIAAIAAQAGAAcAAAAJAP3/AQAGAAcAAAAJAP7/AQAGAAcAAAAJAP//AQAGAAcAAAAJAAAAAQAGAAcAAAAJAAEAAQAGAAcAAAAJAAIAAQAGAAcAAAAKAP3/AQAGAAcAAAAKAP7/AQAGAAcAAAAKAP//AQAGAAcAAAAKAAAAAQAGAAcAAAAKAAEAAQAGAAcAAAAKAAIAAQAGAAcAAAALAP3/AQAGAAcAAAALAP7/AQAGAAcAAAALAP//AQAGAAcAAAALAAAAAQAGAAcAAAALAAEAAQAGAAcAAAALAAIAAQAGAAcAAAAMAP3/AQAGAAcAAAAMAP7/AQAGAAcAAAAMAP//AQAGAAcAAAAMAAAAAQAGAAcAAAAMAAEAAQAGAAcAAAAMAAIAAQAGAAcAAAAIAPz/AQAGAAcAAAA=")
 
 [node name="墙壁" parent="Levels/Level/LCRooms/Kulo的房间" index="3"]
-tile_map_data = PackedByteArray("AAAFAAMAAQAAAAgAAAANAAMAAQACAAgAAAAGAAMAAQABAAgAAAAHAAMAAQABAAgAAAAIAAMAAQABAAgAAAAJAAMAAQABAAgAAAAKAAMAAQABAAgAAAALAAMAAQABAAgAAAAMAAMAAQABAAgAAAAGAPz/AQABAAgAAAAHAPz/AQABAAgAAAAIAPz/AQADAAgAAAAJAPz/AQABAAgAAAAKAPz/AQABAAgAAAALAPz/AQABAAgAAAAMAPz/AQABAAgAAAANAPz/AQACAAoAAAAFAPz/AQAAAAoAAAA=")
+tile_map_data = PackedByteArray("AAAGAPz/AQABAAgAAAAHAPz/AQABAAgAAAAJAPz/AQABAAgAAAAKAPz/AQABAAgAAAALAPz/AQABAAgAAAAMAPz/AQABAAgAAAANAPz/AQACAAoAAAAFAPz/AQAAAAoAAAAGAAMAAQABAAgAAAAHAAMAAQABAAgAAAAIAAMAAQABAAgAAAAJAAMAAQABAAgAAAAKAAMAAQABAAgAAAALAAMAAQABAAgAAAAMAAMAAQABAAgAAAANAAMAAQACAAgAAAAFAAMAAQAAAAgAAAAIAPz/AQADAAgAAAA=")
 
 [node name="天花板" parent="Levels/Level/LCRooms/Kulo的房间" index="5"]
-tile_map_data = PackedByteArray("AAANAAAAAQADAAEAAAANAP//AQADAAEAAAANAP7/AQADAAEAAAANAP3/AQADAAEAAAANAPz/AQADAAEAAAANAPv/AQAHAAAAAAAMAPv/AQABAAMAAAALAPv/AQABAAMAAAAKAPv/AQABAAMAAAAJAPv/AQABAAMAAAAIAPv/AQABAAMAAAAHAPv/AQABAAMAAAAGAPv/AQABAAMAAAAFAPv/AQAEAAAAAAAFAP//AQADAAEAAAAFAP7/AQADAAEAAAAFAP3/AQADAAEAAAAFAPz/AQADAAEAAAANAAEAAQADAAEAAAAFAAAAAQADAAEAAAANAAIAAQAHAAMAAAAMAAIAAQABAAMAAAALAAIAAQABAAMAAAAKAAIAAQABAAMAAAAJAAIAAQABAAMAAAAIAAIAAQABAAMAAAAHAAIAAQABAAMAAAAGAAIAAQABAAMAAAAFAAIAAQAEAAMAAAAFAAEAAQADAAEAAAA=")
+tile_map_data = PackedByteArray("AAANAAAAAQADAAEAAAANAP//AQADAAEAAAANAP7/AQADAAEAAAANAP3/AQADAAEAAAANAPz/AQADAAEAAAAFAP//AQADAAEAAAAFAP7/AQADAAEAAAAFAP3/AQADAAEAAAAFAPz/AQADAAEAAAANAAEAAQADAAEAAAAFAAAAAQADAAEAAAANAAIAAQAHAAMAAAAMAAIAAQABAAMAAAALAAIAAQABAAMAAAAKAAIAAQABAAMAAAAJAAIAAQABAAMAAAAIAAIAAQABAAMAAAAHAAIAAQABAAMAAAAGAAIAAQABAAMAAAAFAAIAAQAEAAMAAAAFAAEAAQADAAEAAAANAPv/AQAHAAAAAAAMAPv/AQABAAMAAAALAPv/AQABAAMAAAAKAPv/AQABAAMAAAAJAPv/AQABAAMAAAAIAPv/AQABAAMAAAAHAPv/AQABAAMAAAAGAPv/AQABAAMAAAAFAPv/AQAEAAAAAAA=")
 
 [node name="楼道" parent="Levels/Level/LCRooms" index="1" node_paths=PackedStringArray("belongs_entities") instance=ExtResource("4_2ftsl")]
 modulate = Color(1, 1, 1, 0)
@@ -80,10 +81,10 @@ belongs_entities = [NodePath("../../水平门"), NodePath("../../水平门2")]
 tile_map_data = PackedByteArray("AAAEAPr/AQAGAAcAAAAEAPv/AQAGAAcAAAAFAPr/AQAGAAcAAAAFAPv/AQAGAAcAAAAGAPr/AQAGAAcAAAAGAPv/AQAGAAcAAAAHAPr/AQAGAAcAAAAHAPv/AQAGAAcAAAAIAPr/AQAGAAcAAAAIAPv/AQAGAAcAAAAJAPr/AQAGAAcAAAAJAPv/AQAGAAcAAAAKAPr/AQAGAAcAAAAKAPv/AQAGAAcAAAALAPr/AQAGAAcAAAALAPv/AQAGAAcAAAAMAPr/AQAGAAcAAAAMAPv/AQAGAAcAAAANAPr/AQAGAAcAAAANAPv/AQAGAAcAAAAOAPr/AQAGAAcAAAAOAPv/AQAGAAcAAAAOAPz/AQAGAAcAAAAOAP3/AQAGAAcAAAAOAP7/AQAGAAcAAAAPAPv/AQAGAAcAAAAPAPz/AQAGAAcAAAAPAP3/AQAGAAcAAAAPAP7/AQAGAAcAAAAPAPr/AQAGAAcAAAANAPz/AQAFAAcAAAANAP3/AQAFAAcAAAAQAPr/AQAHAAcAAAAQAPv/AQAHAAcAAAAQAPz/AQAHAAcAAAAQAP3/AQAHAAcAAAANAP7/AQAFAAcAAAAQAP7/AQAHAAcAAAAOAP//AQALAAcAAAAPAP//AQAMAAcAAAAOAAAAAQALAAcAAAAPAAAAAQAMAAcAAAADAPr/AQAFAAcAAAADAPv/AQAFAAcAAAAIAPz/AQAGAAcAAAAIAP3/AQAGAAcAAAALAPn/AQAGAAcAAAA=")
 
 [node name="墙壁" parent="Levels/Level/LCRooms/楼道" index="3"]
-tile_map_data = PackedByteArray("AAAGAPn/AQABAAgAAAAHAPn/AQABAAgAAAAIAPn/AQABAAgAAAAJAPn/AQABAAgAAAAKAPn/AQABAAgAAAALAPn/AQADAAgAAAAMAPn/AQABAAgAAAANAPn/AQABAAgAAAAOAPn/AQABAAgAAAANAPz/AQACAAoAAAAPAPn/AQABAAgAAAAQAPn/AQACAAoAAAANAP//AQACAAYAAAAQAP//AQACAAYAAAALAPz/AQABAAgAAAAMAPz/AQABAAgAAAAIAPz/AQADAAgAAAAJAPz/AQABAAgAAAAKAPz/AQABAAgAAAAHAPz/AQABAAgAAAAEAPz/AQABAAgAAAAFAPz/AQABAAgAAAAGAPz/AQABAAgAAAAEAPn/AQABAAgAAAAFAPn/AQABAAgAAAADAPn/AQAAAAoAAAADAPz/AQAAAAgAAAA=")
+tile_map_data = PackedByteArray("AAAGAPn/AQABAAgAAAAHAPn/AQABAAgAAAAIAPn/AQABAAgAAAAJAPn/AQABAAgAAAAKAPn/AQABAAgAAAAMAPn/AQABAAgAAAANAPn/AQABAAgAAAAOAPn/AQABAAgAAAANAPz/AQACAAoAAAAPAPn/AQABAAgAAAAQAPn/AQACAAoAAAALAPz/AQABAAgAAAAMAPz/AQABAAgAAAAIAPz/AQADAAgAAAAJAPz/AQABAAgAAAAKAPz/AQABAAgAAAAHAPz/AQABAAgAAAAEAPz/AQABAAgAAAAFAPz/AQABAAgAAAAGAPz/AQABAAgAAAAEAPn/AQABAAgAAAAFAPn/AQABAAgAAAADAPn/AQAAAAoAAAADAPz/AQAAAAgAAAAQAP//AQACAAYAAAANAP//AQACAAYAAAALAPn/AQADAAgAAAA=")
 
 [node name="天花板" parent="Levels/Level/LCRooms/楼道" index="5"]
-tile_map_data = PackedByteArray("AAAPAPj/AQABAAMAAAAOAPj/AQABAAMAAAANAPj/AQABAAMAAAAMAPj/AQABAAMAAAALAPj/AQABAAMAAAAKAPj/AQABAAMAAAAJAPj/AQABAAMAAAAIAPj/AQABAAMAAAAHAPj/AQABAAMAAAAGAPj/AQABAAMAAAAFAPj/AQABAAMAAAAQAPz/AQADAAEAAAAQAPv/AQADAAEAAAAQAPr/AQADAAEAAAAQAPn/AQADAAEAAAAQAPj/AQAHAAAAAAAQAP7/AQADAAIAAAAQAP3/AQADAAEAAAANAPv/AQAHAAAAAAAMAPv/AQABAAMAAAALAPv/AQABAAMAAAAKAPv/AQABAAMAAAAJAPv/AQABAAMAAAAIAPv/AQABAAMAAAAHAPv/AQABAAMAAAAGAPv/AQABAAMAAAAFAPv/AQABAAMAAAANAP7/AQADAAIAAAANAP3/AQADAAEAAAANAPz/AQADAAEAAAADAPv/AQAEAAMAAAADAPr/AQADAAEAAAADAPn/AQADAAEAAAADAPj/AQAEAAAAAAAEAPj/AQABAAMAAAAEAPv/AQABAAMAAAA=")
+tile_map_data = PackedByteArray("AAAQAPz/AQADAAEAAAAQAPv/AQADAAEAAAAQAPr/AQADAAEAAAAQAPn/AQADAAEAAAAQAP7/AQADAAIAAAAQAP3/AQADAAEAAAANAP7/AQADAAIAAAANAP3/AQADAAEAAAANAPz/AQADAAEAAAADAPr/AQADAAEAAAADAPn/AQADAAEAAAADAPj/AQAEAAAAAAAEAPj/AQABAAMAAAAFAPj/AQABAAMAAAAGAPj/AQABAAMAAAAHAPj/AQABAAMAAAAIAPj/AQABAAMAAAAJAPj/AQABAAMAAAAKAPj/AQABAAMAAAALAPj/AQABAAMAAAAMAPj/AQABAAMAAAANAPj/AQABAAMAAAAOAPj/AQABAAMAAAAPAPj/AQABAAMAAAAQAPj/AQAHAAAAAAADAPv/AQAEAAMAAAAEAPv/AQABAAMAAAAFAPv/AQABAAMAAAAGAPv/AQABAAMAAAAHAPv/AQABAAMAAAAIAPv/AQABAAMAAAAJAPv/AQABAAMAAAAKAPv/AQABAAMAAAALAPv/AQABAAMAAAAMAPv/AQABAAMAAAANAPv/AQAHAAAAAAA=")
 
 [node name="无法打开的房间" parent="Levels/Level/LCRooms" index="2" node_paths=PackedStringArray("belongs_entities") instance=ExtResource("4_2ftsl")]
 modulate = Color(1, 1, 1, 0)
@@ -100,13 +101,13 @@ tile_map_data = PackedByteArray("AAAPAPj/AQAHAAMAAAAPAPf/AQADAAEAAAAPAPb/AQADAAE
 
 [node name="水平门" parent="Levels/Level" index="4" node_paths=PackedStringArray("room_trigger_u_l_room", "room_trigger_d_r_room") instance=ExtResource("6_unjh2")]
 modulate = Color(1, 1, 1, 0)
-position = Vector2(136, -50)
+position = Vector2(272, -106)
 room_trigger_u_l_room = NodePath("../LCRooms/楼道")
 room_trigger_d_r_room = NodePath("../LCRooms/Kulo的房间")
 
 [node name="水平门2" parent="Levels/Level" index="5" node_paths=PackedStringArray("room_trigger_u_l_room", "room_trigger_d_r_room") instance=ExtResource("6_unjh2")]
 modulate = Color(1, 1, 1, 0)
-position = Vector2(184, -98)
+position = Vector2(369, -202)
 room_trigger_u_l_room = NodePath("../LCRooms/无法打开的房间")
 room_trigger_d_r_room = NodePath("../LCRooms/楼道")
 
@@ -119,20 +120,21 @@ position = Vector2(67, -43)
 shape = SubResource("RectangleShape2D_pyq1c")
 
 [node name="PlayerSpawn" parent="Levels/Level" index="7" node_paths=PackedStringArray("current_room") instance=ExtResource("5_byjdj")]
-position = Vector2(100, 10)
+position = Vector2(226, -71)
 current_room = NodePath("../LCRooms/Kulo的房间")
 
 [node name="TransportPoint" parent="Levels/Level" index="8" node_paths=PackedStringArray("current_room", "target_level_transport") instance=ExtResource("7_h2vp5")]
-position = Vector2(240, 15)
+position = Vector2(467, 28)
 current_room = NodePath("../LCRooms/楼道")
 target_level_transport = NodePath("../../Level2/PlayerSpawn2")
 interact_is_passive = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Levels/Level/TransportPoint" index="1"]
+position = Vector2(13, 0)
 shape = SubResource("RectangleShape2D_h2vp5")
 
 [node name="CheckablePoint" parent="Levels/Level" index="9" instance=ExtResource("8_yl3jv")]
-position = Vector2(69, -86)
+position = Vector2(129, -181)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Levels/Level/CheckablePoint" index="1"]
 shape = SubResource("RectangleShape2D_wven7")
@@ -146,11 +148,15 @@ is_need_fog = false
 time = 0.0
 
 [node name="CameraLimit" parent="Levels/Level2" index="0"]
-anchors_preset = -1
-offset_left = -352.0
-offset_top = -218.0
-offset_right = 370.0
-offset_bottom = 378.0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -25.0
+offset_top = -315.0
+offset_right = 843.0
+offset_bottom = 356.0
+grow_horizontal = 2
+grow_vertical = 2
 
 [node name="楼梯走廊" parent="Levels/Level2/LCRooms" index="0" node_paths=PackedStringArray("belongs_entities") instance=ExtResource("4_2ftsl")]
 modulate = Color(1, 1, 1, 0)
@@ -182,8 +188,8 @@ tile_map_data = PackedByteArray("AAASAAQAAQAAAAgAAAATAAQAAQABAAgAAAAVAAQAAQABAAg
 tile_map_data = PackedByteArray("AAAYAAMAAQABAAMAAAAXAAMAAQABAAMAAAAWAAMAAQABAAMAAAAVAAMAAQABAAMAAAAUAAMAAQABAAMAAAATAAMAAQABAAMAAAASAAMAAQAEAAMAAAASAAIAAQADAAEAAAASAAEAAQADAAEAAAAZAAMAAQAHAAMAAAAZAAIAAQADAAEAAAAZAAEAAQADAAEAAAAZAAAAAQAHAAAAAAAYAAAAAQABAAMAAAAXAAAAAQABAAMAAAAWAAAAAQABAAMAAAAVAAAAAQABAAMAAAAUAAAAAQABAAMAAAATAAAAAQABAAMAAAASAAAAAQAEAAAAAAA=")
 
 [node name="妈妈的房间" parent="Levels/Level2/LCRooms" index="2" node_paths=PackedStringArray("belongs_entities") instance=ExtResource("4_2ftsl")]
+modulate = Color(1, 1, 1, 0)
 belongs_entities = [NodePath("../../垂直门")]
-is_room_visible = true
 
 [node name="地板" parent="Levels/Level2/LCRooms/妈妈的房间" index="0"]
 tile_map_data = PackedByteArray("AAANAAMAAQAGAAcAAAAIAAEAAQAGAAcAAAAIAAIAAQAGAAcAAAAIAAMAAQAGAAcAAAAJAAEAAQAGAAcAAAAJAAIAAQAGAAcAAAAJAAMAAQAGAAcAAAAKAAEAAQAGAAcAAAAKAAIAAQAGAAcAAAAKAAMAAQAGAAcAAAALAAEAAQAGAAcAAAALAAIAAQAGAAcAAAALAAMAAQAGAAcAAAAMAAEAAQAGAAcAAAAMAAIAAQAGAAcAAAAMAAMAAQAGAAcAAAADAAEAAQAGAAcAAAADAAIAAQAGAAcAAAADAAMAAQAGAAcAAAADAAQAAQAGAAcAAAADAAUAAQAGAAcAAAADAAYAAQAGAAcAAAAEAAEAAQAGAAcAAAAEAAIAAQAGAAcAAAAEAAMAAQAGAAcAAAAEAAQAAQAGAAcAAAAEAAUAAQAGAAcAAAAEAAYAAQAGAAcAAAAFAAEAAQAGAAcAAAAFAAIAAQAGAAcAAAAFAAMAAQAGAAcAAAAFAAQAAQAGAAcAAAAFAAUAAQAGAAcAAAAFAAYAAQAGAAcAAAAGAAEAAQAGAAcAAAAGAAIAAQAGAAcAAAAGAAMAAQAGAAcAAAAGAAQAAQAGAAcAAAAGAAUAAQAGAAcAAAAGAAYAAQAGAAcAAAAHAAEAAQAGAAcAAAAHAAIAAQAGAAcAAAAHAAMAAQAGAAcAAAAHAAQAAQAGAAcAAAAHAAUAAQAGAAcAAAAHAAYAAQAGAAcAAAAJAAQAAQAGAAcAAAAJAAUAAQAGAAcAAAAJAAYAAQAGAAcAAAAKAAQAAQAGAAcAAAAKAAUAAQAGAAcAAAAKAAYAAQAGAAcAAAALAAQAAQAGAAcAAAALAAUAAQAGAAcAAAALAAYAAQAGAAcAAAAMAAQAAQAGAAcAAAAMAAUAAQAGAAcAAAAMAAYAAQAGAAcAAAAIAAQAAQAGAAcAAAAIAAUAAQAGAAcAAAAIAAYAAQAGAAcAAAADAAcAAQAGAAcAAAAEAAcAAQAGAAcAAAAFAAcAAQAGAAcAAAAGAAcAAQAGAAcAAAAHAAcAAQAGAAcAAAAIAAcAAQAGAAcAAAAJAAcAAQAGAAcAAAAKAAcAAQAGAAcAAAALAAcAAQAGAAcAAAAMAAcAAQAGAAcAAAACAAEAAQAGAAcAAAACAAIAAQAGAAcAAAACAAMAAQAGAAcAAAACAAQAAQAGAAcAAAACAAUAAQAGAAcAAAACAAYAAQAGAAcAAAACAAcAAQAGAAcAAAANAAEAAQAHAAcAAAANAAIAAQAHAAcAAAANAAQAAQAHAAcAAAANAAUAAQAHAAcAAAANAAYAAQAHAAcAAAANAAcAAQAHAAcAAAABAAEAAQAFAAcAAAABAAIAAQAFAAcAAAABAAMAAQAFAAcAAAABAAQAAQAFAAcAAAABAAUAAQAFAAcAAAABAAYAAQAFAAcAAAABAAcAAQAFAAcAAAA=")
@@ -208,34 +214,46 @@ tile_map_data = PackedByteArray("AAAFAPf/AQABAAgAAAAGAPf/AQABAAgAAAAHAPf/AQABAAg
 tile_map_data = PackedByteArray("AAAZAP3/AQAHAAMAAAAZAPz/AQADAAEAAAAZAPv/AQADAAEAAAAZAPr/AQADAAEAAAAZAPn/AQADAAEAAAAZAPj/AQADAAEAAAAZAPf/AQADAAEAAAAZAPb/AQAHAAAAAAAYAP3/AQABAAMAAAAYAPb/AQABAAMAAAAXAP3/AQABAAMAAAAXAPb/AQABAAMAAAAWAP3/AQABAAMAAAAWAPb/AQABAAMAAAAVAP3/AQABAAMAAAAUAP3/AQABAAMAAAAUAPb/AQABAAMAAAATAP3/AQABAAMAAAATAPb/AQABAAMAAAASAP3/AQABAAMAAAASAPb/AQABAAMAAAARAP3/AQABAAMAAAARAPb/AQABAAMAAAAQAP3/AQABAAMAAAAQAPb/AQABAAMAAAAPAP3/AQABAAMAAAAPAPb/AQABAAMAAAAOAP3/AQABAAMAAAAOAPb/AQABAAMAAAANAP3/AQABAAMAAAANAPb/AQABAAMAAAAMAP3/AQABAAMAAAAMAPb/AQABAAMAAAALAP3/AQABAAMAAAALAPb/AQABAAMAAAAKAP3/AQABAAMAAAAKAPb/AQABAAMAAAAJAP3/AQABAAMAAAAJAPb/AQABAAMAAAAIAP3/AQABAAMAAAAIAPb/AQABAAMAAAAHAP3/AQABAAMAAAAHAPb/AQABAAMAAAAGAP3/AQABAAMAAAAGAPb/AQABAAMAAAAFAP3/AQABAAMAAAAFAPb/AQABAAMAAAAEAP3/AQAEAAMAAAAEAPz/AQADAAEAAAAEAPv/AQADAAEAAAAEAPr/AQADAAEAAAAEAPn/AQADAAEAAAAEAPj/AQADAAEAAAAEAPf/AQADAAEAAAAEAPb/AQAEAAAAAAAVAPv/AQADAAIAAAAVAPr/AQADAAEAAAAVAPn/AQADAAEAAAAVAPj/AQADAAEAAAAVAPf/AQADAAEAAAAVAPb/AQAIAAAAAAA=")
 
 [node name="PlayerSpawn2" parent="Levels/Level2" index="4" node_paths=PackedStringArray("current_room") instance=ExtResource("5_byjdj")]
-position = Vector2(240, 26)
+position = Vector2(480, 28)
 current_room = NodePath("../LCRooms/楼梯走廊")
 
 [node name="CheckablePoint" parent="Levels/Level2" index="5" instance=ExtResource("8_yl3jv")]
+position = Vector2(62, 41)
 
 [node name="InteractionCutscene" type="Node" parent="Levels/Level2/CheckablePoint" index="1" node_paths=PackedStringArray("cutscene")]
 script = ExtResource("12_bsxpq")
 cutscene = NodePath("第一章_利用紫色灯光")
 metadata/_custom_type_script = "uid://djx1pahaq3nwa"
 
-[node name="第一章_利用紫色灯光" type="Node" parent="Levels/Level2/CheckablePoint/InteractionCutscene" index="0"]
+[node name="第一章_利用紫色灯光" type="Node" parent="Levels/Level2/CheckablePoint/InteractionCutscene" index="0" node_paths=PackedStringArray("interaction_transport")]
 script = ExtResource("15_gkr75")
 dialogue_resource = ExtResource("14_pyq1c")
+interaction_transport = NodePath("InteractionTransport")
+
+[node name="InteractionTransport" type="Node" parent="Levels/Level2/CheckablePoint/InteractionCutscene/第一章_利用紫色灯光" index="0"]
+script = ExtResource("15_t31yi")
+target_map_path = "res://scene/static_map/m_01_地铁.tscn"
+target_key = "default"
+metadata/_custom_type_script = "uid://bd68nk7t7petg"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Levels/Level2/CheckablePoint" index="2"]
+shape = SubResource("RectangleShape2D_wven7")
 
 [node name="水平门" parent="Levels/Level2" index="6" node_paths=PackedStringArray("room_trigger_u_l_room", "room_trigger_d_r_room") instance=ExtResource("6_unjh2")]
 modulate = Color(1, 1, 1, 0)
-position = Vector2(264, -18)
+position = Vector2(528, -43)
 room_trigger_u_l_room = NodePath("../LCRooms/客厅")
 room_trigger_d_r_room = NodePath("../LCRooms/楼梯走廊")
 
 [node name="水平门2" parent="Levels/Level2" index="7" node_paths=PackedStringArray("room_trigger_u_l_room", "room_trigger_d_r_room") instance=ExtResource("6_unjh2")]
 modulate = Color(1, 1, 1, 0)
-position = Vector2(328, 78)
+position = Vector2(656, 150)
 room_trigger_u_l_room = NodePath("../LCRooms/卫生间")
 room_trigger_d_r_room = NodePath("../LCRooms/楼梯走廊")
 
 [node name="垂直门" parent="Levels/Level2" index="8" node_paths=PackedStringArray("room_trigger_u_l_room", "room_trigger_d_r_room") instance=ExtResource("8_kpjmv")]
-position = Vector2(216, 55)
+modulate = Color(1, 1, 1, 0)
+position = Vector2(432, 111)
 room_trigger_u_l_room = NodePath("../LCRooms/妈妈的房间")
 room_trigger_d_r_room = NodePath("../LCRooms/楼梯走廊")
 

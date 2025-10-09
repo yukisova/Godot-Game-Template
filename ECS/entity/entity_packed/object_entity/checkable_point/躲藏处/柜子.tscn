@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://cbjtgc2p6vwim" path="res://entity/entity_packed/object_entity/checkable_point/躲藏处/柜子.gd" id="1_kk5h3"]
 [ext_resource type="Script" uid="uid://ccf7auny2a0t1" path="res://entity/main_control_collision.gd" id="2_64gk2"]
-[ext_resource type="Texture2D" uid="uid://b5iyrvlaig8td" path="res://asset/tileset_self/border.png" id="2_fyyeu"]
+[ext_resource type="Texture2D" uid="uid://b5iyrvlaig8td" path="res://asset/tileset_self/border_32.png" id="2_fyyeu"]
 [ext_resource type="Script" uid="uid://c8ftf4u5vh624" path="res://component/c_interactable/c_interactable.gd" id="3_64gk2"]
 [ext_resource type="Script" uid="uid://d4k5mxylwgbae" path="res://component/c_interactable/interaction/interaction_action.gd" id="4_i5toa"]
 [ext_resource type="Script" uid="uid://bn3nxl4n4rsn6" path="res://component/c_action_trigger/action/trigger_action/interact_action/ia_躲藏.gd" id="5_kk5h3"]

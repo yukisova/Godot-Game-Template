@@ -20,9 +20,9 @@ func _refresh():
 	pass
 
 func fade_in():
-	ui_view.fade_in()
+	await ui_view.fade_in()
 
 func fade_out():
-	ui_view.fade_out()
+	await ui_view.fade_out()
 
 #endregion

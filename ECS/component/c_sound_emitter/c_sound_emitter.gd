@@ -24,8 +24,6 @@ func _initialize(_owner: IEntity, _load_data: Dictionary = {}):
 	initialize_completed.emit()
 
 func _update(_delta: float):
-	if Input.is_action_just_pressed("ui_accept"):
-		print(available_sound_areas)
 	pass
 
 ## [param sound_name]: 声音名称

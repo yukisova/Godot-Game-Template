@@ -59,6 +59,9 @@ func _enter_tree() -> void:
 				element.initialize_complete.connect(_on_entity_initialize)
 			element.is_entity_origin_exist = true
 			entity_count += 1
+		elif element is PlayerSpawn:
+			if element.transport_point_key != "":
+				static_map.exported_transport_points[element.transport_point_key] = element
 	_check_all_layers_loaded()
 	await level_fully_loaded
 	_check_all_entity_initialize()

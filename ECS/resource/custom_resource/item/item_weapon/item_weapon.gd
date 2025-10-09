@@ -11,7 +11,7 @@ extends Item
 
 ## 武器攻击节点场景
 ## 定义武器攻击行为的节点场景，装备时会被实例化并挂载到装备系统下
-@export var weapon_node: PackedScene
+@export var equipment_node: PackedScene
 ## 武器装备UI
 ## 武器装备时的UI，用于显示武器装备信息
 @export var equipment_control: PackedScene
@@ -26,6 +26,7 @@ extends Item
 ## 指示该武器当前是否已被装备
 var is_equipped: bool
 
+## @decrepted
 ## FIXME: 装备/卸下
 ## 根据武器装备状态返回不同的功能选项（装备/卸下）
 ## [br][br][b]返回:[/b] [Array] of [Dictionary] 包含功能信息的字典数组

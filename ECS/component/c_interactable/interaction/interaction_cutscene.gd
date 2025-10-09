@@ -3,7 +3,6 @@ class_name InteractionCutscene
 extends IInteraction
 
 @export var cutscene: CutsceneNode
-
 var info: Dictionary
 
 func _ready() -> void:
@@ -12,10 +11,14 @@ func _ready() -> void:
 	)
 
 func __interact_begin(interactor: IEntity) -> bool:
+	cutscene.cutscene_context.set("entity", interactor)
 	cutscene.cutscene_started.emit()
 	await cutscene.cutscene_output
 	await get_tree().process_frame
-	return true
+	if info.get("END", false):
+		return true
+	else:
+		return false
 
 func __interact_reset() -> void:
 	pass

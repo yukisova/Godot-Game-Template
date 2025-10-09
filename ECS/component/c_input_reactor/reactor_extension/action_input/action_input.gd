@@ -21,12 +21,26 @@ func _enter_tree() -> void:
 
 ## 每帧调用的输入监听逻辑
 func _late_initialize():
-	## 针对input_parameter中的输入，进行相关的特殊监听
+	refresh_input_record()
+
+func refresh_input_record(): 
+	input_record_action.clear()
+	input_record_states.clear()
 	for parameter in input_parameter:
 		if parameter.input_type == SoraConstant.InputType.PRESSED:
 			input_record_states.append(ActionInputRecordState.new(parameter, false))
 		else:
 			input_record_action.append(parameter)
+
+func change_input_record(record_name: String, to_type: SoraConstant.InputType):
+	var idx = input_parameter.find_custom(func(v): return v.input_name == record_name)
+	if idx == -1:
+		return
+	else:
+		var record = input_parameter[idx]
+		record.input_type = to_type
+		refresh_input_record()
+
 
 ## 监听输入
 func _listen():

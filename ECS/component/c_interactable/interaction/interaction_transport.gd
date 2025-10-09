@@ -51,3 +51,11 @@ func __interact_reset() -> void:
 
 func _check_collision() -> bool:
 	return false
+
+func _validate_property(property: Dictionary) -> void:
+	if target_map_path != null:
+		if property.name in ["target_node"]:
+			property.usage = PROPERTY_USAGE_NO_EDITOR
+	elif target_node != null:
+		if property.name in ["target_map_path", "target_key"]:
+			property.usage = PROPERTY_USAGE_NO_EDITOR
