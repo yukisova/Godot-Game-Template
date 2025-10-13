@@ -3,8 +3,8 @@
 [ext_resource type="PackedScene" uid="uid://40fhmpemku6m" path="res://resource/custom_resource/item/item_weapon/1_左轮/bullet_clip_REVOVLER.tscn" id="1_rfj1q"]
 [ext_resource type="Script" uid="uid://56igfb3mcaca" path="res://component/c_collision_box/box_collision/hit_box/hit_effect/i_hit_effect.gd" id="1_typor"]
 [ext_resource type="Script" uid="uid://dprng288c4b2f" path="res://component/c_collision_box/box_collision/hit_box/hit_effect/status_effect.gd" id="2_5mlhb"]
-[ext_resource type="PackedScene" uid="uid://bnl0vt21ig8ew" path="res://resource/custom_resource/item/item_weapon/1_左轮/attack_node_REVOVLER.tscn" id="2_rfj1q"]
 [ext_resource type="Texture2D" uid="uid://kbkgom7sc05c" path="res://asset/item_texture/ItemIcon.png" id="3_5mlhb"]
+[ext_resource type="PackedScene" uid="uid://bnl0vt21ig8ew" path="res://resource/custom_resource/item/item_weapon/1_左轮/attack_node_REVOVLER.tscn" id="4_7yqyf"]
 [ext_resource type="Script" uid="uid://gi2hfbg2j4s0" path="res://resource/custom_resource/item/item_weapon/1_左轮/w_a_revovler.gd" id="5_rfj1q"]
 
 [sub_resource type="Resource" id="Resource_p2mf1"]
@@ -20,7 +20,7 @@ region = Rect2(0, 0, 80, 80)
 script = ExtResource("5_rfj1q")
 bullet_clip = Array[int]([0, 0, 0, 0, 0, 0])
 bullet_clip_bullet_id = Array[int]([-1, -1, -1, -1, -1, -1])
-equipment_node = ExtResource("2_rfj1q")
+weapon_node = ExtResource("4_7yqyf")
 equipment_control = ExtResource("1_rfj1q")
 item_texture = SubResource("AtlasTexture_spbj0")
 item_description = "是雾城中的首要防身手段，为了给予雾行者最大限度的安全感设计为枪的模样，"

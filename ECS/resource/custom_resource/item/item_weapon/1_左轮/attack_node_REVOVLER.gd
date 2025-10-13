@@ -72,11 +72,7 @@ func _trigger_effect_run(..._args) -> bool:
 	print("当前弹巢索引", source_item.current_index)
 	source_item.current_index = next_index
 	return flag
-
-func _trigger_effect_finish(..._args):
-	pass
-
-
+	
 ## 播放发射子弹的音效
 func _shoot_audio(_name: String):
 	if shoot_audios.has(_name):
