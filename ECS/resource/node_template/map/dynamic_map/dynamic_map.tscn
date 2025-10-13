@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://e5q22d2h8arb"]
+
+[ext_resource type="Script" uid="uid://blmo5xdguhts2" path="res://resource/node_template/map/dynamic_map/dynamic_map.gd" id="1_sgh2u"]
+
+[node name="DynamicMap" type="Node"]
+script = ExtResource("1_sgh2u")
