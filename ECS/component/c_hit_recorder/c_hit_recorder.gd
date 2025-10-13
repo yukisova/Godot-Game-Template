@@ -7,6 +7,7 @@ var current_hit_effect: IHitEffect
 var active_melee_hitbox: Dictionary[String, HitboxMelee]
 
 var attack_trigger_callable: Callable
+var attack_trigger_finish_callable: Callable
 var attack_success_callable: Callable
 var attack_failure_callable: Callable
 

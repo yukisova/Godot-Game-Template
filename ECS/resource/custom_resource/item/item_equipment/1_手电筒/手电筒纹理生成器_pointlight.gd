@@ -16,8 +16,7 @@ enum FlashLightMode{
 var current_light_length: float = 100.0
 
 var mask_texture: Texture2D
-
-var c_status: CStatusList
+var flash_light: EquipmentNode
 
 func _process(_delta: float) -> void:
 	match flash_light_mode:
@@ -28,7 +27,7 @@ func _process(_delta: float) -> void:
 
 func _walk_mode_process(_delta: float) -> void:
 	if Engine.is_editor_hint(): return
-	var c_action_trigger: CActionTrigger = c_status.get_other_component(IComponent.ComponentName.C_ACTION_TRIGGER)
+	var c_action_trigger: CActionTrigger = flash_light.c_status.get_other_component(IComponent.ComponentName.C_ACTION_TRIGGER)
 	var move_strategy: MoveStrategy = c_action_trigger.move_strategy[0]
 	var direction = move_strategy._get_current_direction()
 
@@ -51,7 +50,9 @@ func _walk_mode_process(_delta: float) -> void:
 		Rect2i(Vector2.ZERO, start_light.get_size()), 
 		Vector2i(start_offset_x, start_offset_y)
 	)
-	
+	if flash_light.is_aiming_focus:
+		trapezoid_light = SoraEvent._set_image_color(trapezoid_light, lerp(Color.TRANSPARENT, Color.WHITE, 0.5))
+
 	# 将终点圆形纹理混合到梯形纹理上（在梯形的终点端，考虑padding偏移）
 	var end_offset_x = 0  # 终点圆形已经在正确位置（包含padding）
 	var end_offset_y = 0  # 终点圆形已经在正确位置
@@ -61,7 +62,8 @@ func _walk_mode_process(_delta: float) -> void:
 		Vector2i(end_offset_x, end_offset_y)
 	)
 
-	trapezoid_light = SoraEvent._set_image_color(trapezoid_light, lerp(Color.TRANSPARENT, Color.WHITE, 0.5))
+	if not flash_light.is_aiming_focus:
+		trapezoid_light = SoraEvent._set_image_color(trapezoid_light, lerp(Color.TRANSPARENT, Color.WHITE, 0.5))
 
 	texture.set_image(trapezoid_light)
 
@@ -71,11 +73,11 @@ func _shoot_mode_process(_delta: float) -> void:
 	if Engine.is_editor_hint():
 		mouse_pos = get_global_mouse_position()
 	else:
-		if !c_status:
+		if !flash_light.c_status:
 			return
-		mouse_pos = SoraEvent.fixed_camera_position(c_status.component_body)["world_mouse_pos"]
+		mouse_pos = SoraEvent.fixed_camera_position(flash_light.c_status.component_body)["world_mouse_pos"]
 
-	rotation = c_status.get_other_component(IComponent.ComponentName.C_ACTION_TRIGGER).move_strategy[0]._get_current_direction().angle()
+	rotation = flash_light.c_status.get_other_component(IComponent.ComponentName.C_ACTION_TRIGGER).move_strategy[0]._get_current_direction().angle()
 	
 	var mouse_target_length = global_position.distance_to(mouse_pos) + light_radius
 
@@ -97,7 +99,6 @@ func _shoot_mode_process(_delta: float) -> void:
 		Vector2i(start_offset_x, start_offset_y)
 	)
 
-	trapezoid_light = SoraEvent._set_image_color(trapezoid_light, lerp(Color.TRANSPARENT, Color.WHITE, 0.5))
 	
 	# 将终点圆形纹理混合到梯形纹理上（在梯形的终点端，考虑padding偏移）
 	var end_offset_x = 0  # 终点圆形已经在正确位置（包含padding）
@@ -107,6 +108,8 @@ func _shoot_mode_process(_delta: float) -> void:
 		Rect2i(Vector2i(end_offset_x, end_offset_y), spot_light.get_size()), 
 		Vector2i(end_offset_x, end_offset_y)
 	)
+
+	trapezoid_light = SoraEvent._set_image_color(trapezoid_light, lerp(Color.TRANSPARENT, Color.WHITE, 0.5))
 
 	texture.set_image(trapezoid_light)
 
